@@ -93,7 +93,7 @@ namespace GlslTutorials
 
 	    protected static float GetElapsedTime()
 	    {
-	    	return elapsedTime / 1000f;
+	    	return elapsedTime;
 	    }
 
 	    protected int[] vertexBufferObject = new int[1];

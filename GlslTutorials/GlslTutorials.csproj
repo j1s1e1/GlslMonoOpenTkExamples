@@ -49,6 +49,7 @@
     <Compile Include="Menu.cs" />
     <Compile Include="GL_Helpers\VBO_Tools.cs" />
     <Compile Include="Tutorials\Tut_03_CPU_Position_Offset.cs" />
+    <Compile Include="Tutorials\Tut_03_Shader_Calc_Offset.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />

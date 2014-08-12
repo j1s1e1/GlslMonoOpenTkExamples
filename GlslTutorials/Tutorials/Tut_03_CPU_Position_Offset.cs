@@ -60,7 +60,7 @@ namespace GlslTutorials
 	    static void ComputePositionOffsets()
 	    {
 	        float fLoopDuration = 5.0f;
-	        float fScale = 1000 * 3.14159f * 2.0f / fLoopDuration;
+	        float fScale = 3.14159f * 2.0f / fLoopDuration;
 	        float fElapsedTime = GetElapsedTime() / 1000f;
 	        float fCurrTimeThroughLoop = fElapsedTime % fLoopDuration;
 	        fXOffset = (float)Math.Cos(fCurrTimeThroughLoop * fScale) * 0.5f;
