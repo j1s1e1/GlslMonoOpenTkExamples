@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="3.5" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>9.0.21022</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{2C9BE22E-8C05-4B7B-BAD1-46D65304DF2C}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>GlslTutorials</RootNamespace>
+    <AssemblyName>GlslTutorials</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <DebugType>none</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <Compile Include="GlslTutorials.cs" />
+    <Compile Include="main.cs" />
+    <Compile Include="GlsTutorials.Designer.cs" />
+    <Compile Include="Tutorials\Tut_TiltBall.cs" />
+    <Compile Include="Tutorials\TutorialBase.cs" />
+    <Compile Include="Shapes\Shape.cs" />
+    <Compile Include="Shapes\LitMatrixBlock.cs" />
+    <Compile Include="Shapes\LitMatrixSphere.cs" />
+    <Compile Include="Colors.cs" />
+    <Compile Include="Tutorials\Tut_02_Vertex_Colors.cs" />
+    <Compile Include="GL_Helpers\VertexShaders.cs" />
+    <Compile Include="GL_Helpers\FragmentShaders.cs" />
+    <Compile Include="GL_Helpers\Shader.cs" />
+    <Compile Include="Menu.cs" />
+    <Compile Include="GL_Helpers\VBO_Tools.cs" />
+    <Compile Include="Tutorials\Tut_03_CPU_Position_Offset.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="OpenTK.Compatibility">
+      <HintPath>..\..\..\opentk\Binaries\OpenTK\Release\OpenTK.Compatibility.dll</HintPath>
+    </Reference>
+    <Reference Include="OpenTK">
+      <HintPath>..\..\..\opentk\Binaries\OpenTK\Release\OpenTK.dll</HintPath>
+    </Reference>
+    <Reference Include="OpenTK.GLControl">
+      <HintPath>..\..\..\opentk\Binaries\OpenTK\Release\OpenTK.GLControl.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Tutorials\" />
+    <Folder Include="Shapes\" />
+    <Folder Include="Geometry\" />
+    <Folder Include="GL_Helpers\" />
+  </ItemGroup>
+</Project>
