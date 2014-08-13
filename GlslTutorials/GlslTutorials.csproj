@@ -55,6 +55,7 @@
     <Compile Include="Tutorials\Tut_04_MatrixPerspective.cs" />
     <Compile Include="Tutorials\Tut_05_Depth_Buffering.cs" />
     <Compile Include="Tutorials\Tut_06_Rotations.cs" />
+    <Compile Include="Tutorials\Tut_06_Scale.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />

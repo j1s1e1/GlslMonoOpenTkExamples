@@ -11,16 +11,11 @@ namespace GlslTutorials
 		Tut_04_MatrixPerspective,
 		Tut_05_Depth_Buffering,
 		Tut_06_Rotations,
+		Tut_06_Scale,
 		Tut_TiltBall
 	}
 	public class MenuClass
 	{
-		public MenuClass ()
-		{
-		}
-		
-		
-		
 		public static List<string> FillTestlist()
 		{
 			List<string> TestList = new List<string>();
@@ -31,6 +26,7 @@ namespace GlslTutorials
 			TestList.Add(TutorialsEnum.Tut_04_MatrixPerspective.ToString());
 			TestList.Add(TutorialsEnum.Tut_05_Depth_Buffering.ToString());
 			TestList.Add(TutorialsEnum.Tut_06_Rotations.ToString());
+			TestList.Add(TutorialsEnum.Tut_06_Scale.ToString());
 			TestList.Add(TutorialsEnum.Tut_TiltBall.ToString());
 			return TestList;
 		}
@@ -45,6 +41,7 @@ namespace GlslTutorials
 				case TutorialsEnum.Tut_04_MatrixPerspective: currentTutorial = new Tut_04_MatrixPerspective(); break;
 				case TutorialsEnum.Tut_05_Depth_Buffering: currentTutorial = new Tut_05_Depth_Buffering(); break;
 				case TutorialsEnum.Tut_06_Rotations: currentTutorial = new Tut_06_Rotations(); break;
+				case TutorialsEnum.Tut_06_Scale: currentTutorial = new Tut_06_Scale(); break;
 				case TutorialsEnum.Tut_TiltBall: currentTutorial = new Tut_TiltBall(); break;
 			}
 		}
