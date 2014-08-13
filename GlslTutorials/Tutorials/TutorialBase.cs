@@ -1,9 +1,9 @@
-using OpenTK;
-using OpenTK.Graphics.OpenGL;
 using System;
 using System.Diagnostics;
 using System.Text;
 using System.Windows.Forms;
+using OpenTK;
+using OpenTK.Graphics.OpenGL;
 
 namespace GlslTutorials
 {
@@ -22,8 +22,6 @@ namespace GlslTutorials
 	    protected static int POSITION_STRIDE = POSITION_DATA_SIZE_IN_ELEMENTS * BYTES_PER_FLOAT;
 	    protected static int COLOR_STRIDE = COLOR_DATA_SIZE_IN_ELEMENTS * BYTES_PER_FLOAT;
 
-    	static long startTime;
-
     	protected Timer timer;
 
 	    // For single program tutorials
@@ -41,8 +39,8 @@ namespace GlslTutorials
 	    protected static int BYTES_PER_FLOAT = 4;
 	    protected static int BYTES_PER_SHORT = 2;
 	
-	    protected int width = 0;
-	    protected int height = 0;
+	    protected int width = 512;
+	    protected int height = 512;
 		
 		protected int fzFar;
 		
@@ -83,8 +81,7 @@ namespace GlslTutorials
 	        }
 	        catch (Exception ex)
 	        {
-	            int debug = 0;
-	            debug++;
+	            MessageBox.Show("Error " + ex.ToString());
 	        }
 	        reshape();
 	        messages.AppendLine("Tutorial Setup Complete");
@@ -124,7 +121,7 @@ namespace GlslTutorials
 
 	    //Called whenever the window is resized. The new window size is given, in pixels.
 	    //This is an opportunity to call glViewport or glScissor to keep up with the change in size.
-	    public void reshape()
+	    public virtual void reshape()
 	    {
 	        //GLES20.glViewport(0, 0, width, height);
 	    }

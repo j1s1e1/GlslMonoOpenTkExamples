@@ -50,6 +50,11 @@
     <Compile Include="GL_Helpers\VBO_Tools.cs" />
     <Compile Include="Tutorials\Tut_03_CPU_Position_Offset.cs" />
     <Compile Include="Tutorials\Tut_03_Shader_Calc_Offset.cs" />
+    <Compile Include="Shapes\MatrixSphere.cs" />
+    <Compile Include="Shapes\Icosahedron.cs" />
+    <Compile Include="Tutorials\Tut_04_MatrixPerspective.cs" />
+    <Compile Include="Tutorials\Tut_05_Depth_Buffering.cs" />
+    <Compile Include="Tutorials\Tut_06_Rotations.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />

@@ -21,6 +21,39 @@ namespace GlslTutorials
 	        return shader;
     	}
 		
+		public static int compileShader(ShaderType shaderType, String shaderSource)
+	    {
+	        int shaderHandle = GL.CreateShader(shaderType);
+	
+	        if (shaderHandle != 0)
+	        {
+	            // Pass in the shader source.
+	            GL.ShaderSource(shaderHandle, shaderSource);
+	
+	            // Compile the shader.
+	            GL.CompileShader(shaderHandle);
+	
+	            // Get the compilation status.
+	            int[] compileStatus = new int[1];
+	            GL.GetShader(shaderHandle,ShaderParameter.CompileStatus, compileStatus);
+	
+	            // If the compilation failed, delete the shader.
+	            if (compileStatus[0] == 0)
+	            {
+					MessageBox.Show("Error creating shader: " + GL.GetShaderInfoLog(shaderHandle));
+	                GL.DeleteShader(shaderHandle);
+	                shaderHandle = 0;
+	            }
+	        }
+	
+	        if (shaderHandle == 0)
+	        {
+				 MessageBox.Show("Error creating shader.");
+	        }
+	
+	        return shaderHandle;
+	    }
+		
 		public static int createAndLinkProgram(int vertexShaderHandle, int fragmentShaderHandle)
     	{
 	        int programHandle = GL.CreateProgram();
