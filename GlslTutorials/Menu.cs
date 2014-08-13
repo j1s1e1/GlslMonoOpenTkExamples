@@ -12,6 +12,7 @@ namespace GlslTutorials
 		Tut_05_Depth_Buffering,
 		Tut_06_Rotations,
 		Tut_06_Scale,
+		Tut_06_Translation,
 		Tut_TiltBall
 	}
 	public class MenuClass
@@ -27,6 +28,7 @@ namespace GlslTutorials
 			TestList.Add(TutorialsEnum.Tut_05_Depth_Buffering.ToString());
 			TestList.Add(TutorialsEnum.Tut_06_Rotations.ToString());
 			TestList.Add(TutorialsEnum.Tut_06_Scale.ToString());
+			TestList.Add(TutorialsEnum.Tut_06_Translation.ToString());
 			TestList.Add(TutorialsEnum.Tut_TiltBall.ToString());
 			return TestList;
 		}
@@ -42,6 +44,7 @@ namespace GlslTutorials
 				case TutorialsEnum.Tut_05_Depth_Buffering: currentTutorial = new Tut_05_Depth_Buffering(); break;
 				case TutorialsEnum.Tut_06_Rotations: currentTutorial = new Tut_06_Rotations(); break;
 				case TutorialsEnum.Tut_06_Scale: currentTutorial = new Tut_06_Scale(); break;
+				case TutorialsEnum.Tut_06_Translation: currentTutorial = new Tut_06_Translation(); break;
 				case TutorialsEnum.Tut_TiltBall: currentTutorial = new Tut_TiltBall(); break;
 			}
 		}
