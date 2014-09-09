@@ -110,8 +110,7 @@ namespace GlslTutorials
 	        GL.BindBuffer(BufferTarget.ArrayBuffer, vertexBufferObject[0]);
 	        GL.BufferData(BufferTarget.ArrayBuffer, (IntPtr)(vertexData.Length * BYTES_PER_FLOAT), 
 			              vertexData, BufferUsageHint.StaticDraw);
-	        GL.BindBuffer(BufferTarget.ArrayBuffer, 0);
-	        
+	        GL.BindBuffer(BufferTarget.ArrayBuffer, 0);  
 	    }
 
 	    //Called after the window and OpenGL are initialized. Called exactly once, before the main loop.

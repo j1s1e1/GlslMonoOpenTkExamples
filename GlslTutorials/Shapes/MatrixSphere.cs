@@ -1,6 +1,7 @@
 using System;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
+
 namespace GlslTutorials
 {
 	public class MatrixSphere : Shape  
@@ -87,7 +88,6 @@ namespace GlslTutorials
 	    }
 	
 	    float radius;
-	    float angle_step = (float)(Math.PI / 6.0);
 	
 	    private float[] GetCircleCoords(float radius) {
 	        float[] coords = Icosahedron.CloneTriangles();
@@ -125,28 +125,13 @@ namespace GlslTutorials
 	        vertexStride = vertexStride/2; // no normals here
 	    }
 	
-	    Vector3 axis = new Vector3(0f, 0f, 1f);
-	    float angle = 0;
-	
-	    public void UpdateAngle(float degrees)
-	    {
-	        angle = degrees;
-	    }
-	
-	    ///Applies a rotation matrix about the given axis, with the given angle in degrees.
-	    public Matrix4 Rotate(Matrix4 input, Vector3 axis, float angDegCCW)
-	    {
-	        Matrix4 rotation = Matrix4.Rotate(axis, (float)Math.PI / 180.0f * angDegCCW);
-	        return Matrix4.Mult(rotation, input);
-	    }
-	
 	    private void drawSub(int first_triangle, int last_triangle)
 	    {
 	        int newVertexCount = (last_triangle - first_triangle + 1) * 3 * 3 / COORDS_PER_VERTEX;
 	        // Add program to OpenGL environment
 	        GL.UseProgram(mProgram);
 	
-	        Matrix4 mm = Rotate(modelToWorld, axis,angle);
+	        Matrix4 mm = Rotate(modelToWorld, axis, angle);
 	
 	        GL.UniformMatrix4(cameraToClipMatrixUnif, false, ref cameraToClip);
 	        GL.UniformMatrix4(worldToCameraMatrixUnif, false, ref worldToCamera);
@@ -159,11 +144,11 @@ namespace GlslTutorials
 	        //vertexBuffer.position(first_triangle * 3 * 3);
 	
 	        // Prepare the triangle coordinate data
-	        //************ FIXME  GL.VertexAttribPointer(positionAttribute, COORDS_PER_VERTEX, 
-			//************ FIXME  VertexAttribPointerType.Float, false, vertexStride, vertexBuffer);
+	        GL.VertexAttribPointer(positionAttribute, COORDS_PER_VERTEX, 
+				VertexAttribPointerType.Float, false, vertexStride, (IntPtr)0);
 	
 	        // Draw the triangle
-	        //************ FIXME  GL.DrawArrays(PrimitiveType.Triangles, 0, newVertexCount);
+	        GL.DrawArrays(PrimitiveType.Triangles, 0, newVertexCount);
 	
 	        // Disable vertex array
 	        GL.DisableVertexAttribArray(positionAttribute);

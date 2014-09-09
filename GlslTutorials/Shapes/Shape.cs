@@ -1,10 +1,14 @@
 using System;
 using OpenTK;
+using OpenTK.Graphics.OpenGL;
 
 namespace GlslTutorials
 {
 	public class Shape
 	{
+		protected static int BYTES_PER_FLOAT = 4;
+	    protected static int BYTES_PER_SHORT = 2;
+		
  		public static float global_x_offset = 0;
         public static float global_y_offset = 0;
         public static float global_z_offset = 0;
@@ -34,7 +38,7 @@ namespace GlslTutorials
 
         protected int[] indicesVboData;
 
-        protected float[] color = new float[]{0.63671875f, 0.76953125f, 0.22265625f, 1.0f};
+        protected float[] color = Colors.RED_COLOR;
         protected int[] colorData = null;
         protected int colorBufferID;
         protected int bufferSize;
@@ -47,7 +51,7 @@ namespace GlslTutorials
         protected int COORDS_PER_VERTEX = 3;
         protected int vertexStride = 3 * 4 * 2; // bytes per vertex
         protected float[] vertexCoords;
-
+		
 
         protected void SetupVertexBuffer()
         {
@@ -67,6 +71,28 @@ namespace GlslTutorials
             vertexBuffer.position(0);
             */
         }
+		
+	    protected int[] vertexBufferObject = new int[1];
+	    protected int[] indexBufferObject = new int[1];
+		
+		protected float[] vertexData;
+		protected short[] indexData;
+	
+		protected void InitializeVertexBuffer()
+	    {
+	        GL.GenBuffers(1, vertexBufferObject);
+	        GL.GenBuffers(1, indexBufferObject);
+	
+	        GL.BindBuffer(BufferTarget.ElementArrayBuffer, indexBufferObject[0]);
+	        GL.BufferData(BufferTarget.ElementArrayBuffer, (IntPtr)(indexData.Length * BYTES_PER_SHORT), 
+			              indexData, BufferUsageHint.StaticDraw);
+	        GL.BindBuffer(BufferTarget.ElementArrayBuffer, 0);
+	
+	        GL.BindBuffer(BufferTarget.ArrayBuffer, vertexBufferObject[0]);
+	        GL.BufferData(BufferTarget.ArrayBuffer, (IntPtr)(vertexData.Length * BYTES_PER_FLOAT), 
+			              vertexData, BufferUsageHint.StaticDraw);
+	        GL.BindBuffer(BufferTarget.ArrayBuffer, 0);  
+	    }
 
         public Shape()
         {
@@ -253,6 +279,21 @@ namespace GlslTutorials
         GL.PopMatrix();
         */
     }
+		
+		protected Vector3 axis = new Vector3(0f, 0f, 1f);
+	    protected float angle = 0;
+		
+		public void UpdateAngle(float degrees)
+	    {
+	        angle = degrees;
+	    }
+		
+		///Applies a rotation matrix about the given axis, with the given angle in degrees.
+	    public Matrix4 Rotate(Matrix4 input, Vector3 axis, float angDegCCW)
+	    {
+	        Matrix4 rotation = Matrix4.Rotate(axis, (float)Math.PI / 180.0f * angDegCCW);
+	        return Matrix4.Mult(rotation, input);
+	    }
 	}
 }
 

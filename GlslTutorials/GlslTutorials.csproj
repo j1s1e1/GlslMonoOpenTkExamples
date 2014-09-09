@@ -57,6 +57,8 @@
     <Compile Include="Tutorials\Tut_06_Rotations.cs" />
     <Compile Include="Tutorials\Tut_06_Scale.cs" />
     <Compile Include="Tutorials\Tut_06_Translation.cs" />
+    <Compile Include="Tutorials\Tut_Spheres.cs" />
+    <Compile Include="Tutorials\Tut_Blocks.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
