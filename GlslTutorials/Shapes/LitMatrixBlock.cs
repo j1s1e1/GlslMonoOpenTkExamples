@@ -9,17 +9,16 @@ namespace GlslTutorials
 		public static int mProgram = -1;
 	    private int positionAttribute;
 	
-	    private int cameraToClipMatrixUnif;
+	    private static int cameraToClipMatrixUnif;
 	    private static int worldToCameraMatrixUnif;
-	    private int modelToWorldMatrixUnif;
-	    private int colorUnif;
+	    private static int modelToWorldMatrixUnif;
+	    private static int colorUnif;
 	
-	    static Matrix4 cameraToClip = Matrix4.Identity;
+	    Matrix4 cameraToClip = Matrix4.Identity;
 	    static Matrix4 worldToCamera = Matrix4.Identity;
 	    Matrix4 modelToWorld = Matrix4.Identity;
 		
 		Vector3 size;
-		Vector3 offset = new Vector3(0);
 		
 		//		  2-------3
 		//		 /|		 /|
@@ -61,6 +60,11 @@ namespace GlslTutorials
 		{
 			size = sizeIn;
 			color = colorIn;
+			cameraToClip.M11 = size.X;
+			cameraToClip.M22 = size.Y;
+			cameraToClip.M33 = size.Z;
+			
+			color = colorIn;
 			if (mProgram < 0)
 			{
 				int vertexShader = Shader.compileShader(ShaderType.VertexShader, VertexShaders.PosOnlyWorldTransform_vert);
@@ -89,17 +93,15 @@ namespace GlslTutorials
 			InitializeVertexBuffer();
 		}
 		
-		public void SetOffset(Vector3 offsetIn)
-		{
-			offset = offsetIn;
-		}
-		
-		public void Draw()
+		public override void Draw()
 		{
 	        // Add program to OpenGL environment
 	        GL.UseProgram(mProgram);
 	
 	        Matrix4 mm = Rotate(modelToWorld, axis, angle);
+			mm.M41 = offset.X;
+			mm.M42 = offset.Y;
+			mm.M43 = offset.Z;
 	
 	        GL.UniformMatrix4(cameraToClipMatrixUnif, false, ref cameraToClip);
 	        GL.UniformMatrix4(worldToCameraMatrixUnif, false, ref worldToCamera);

@@ -16,10 +16,6 @@ namespace GlslTutorials
         public static float global_y_rotate = 0;
         public static float global_z_rotate = 0;
 
-        protected float x_offset = 0;
-        protected float y_offset = 0;
-        protected float z_offset = 0;
-
         protected float x = 0;
         protected float y = 0;
         protected float z = 0;
@@ -104,24 +100,25 @@ namespace GlslTutorials
             y = y + y_add;
             z = z + z_add;
         }
+		
+		protected Vector3 offset = new Vector3(0);
 
-        public virtual void SetOffset (float x_in, float y_in, float z_in)
+        public virtual void SetOffset (Vector3 offsetIn)
         {
-            x_offset = x_in;
-            y_offset = y_in;
-            z_offset = z_in;
+			offset = offsetIn;
         }
+		
         public virtual void SetXOffset(float x_in)
         {
-            x_offset = x_in;
+            offset.X = x_in;
         }
         public virtual void SetYOffset(float y_in)
         {
-            y_offset = y_in;
+             offset.Y = y_in;
         }
         public virtual void SetZOffset(float z_in)
         {
-            z_offset = z_in;
+             offset.Z = z_in;
         }
         protected void SetupIndexBuffer()
         {
@@ -251,7 +248,7 @@ namespace GlslTutorials
             rotation3 = r3;
         }
 
-        public void Draw()
+        public virtual void Draw()
     {
         /*
         GL.PushMatrix();
@@ -281,6 +278,12 @@ namespace GlslTutorials
     }
 		
 		protected Vector3 axis = new Vector3(0f, 0f, 1f);
+		
+		public void SetAxis(Vector3 axisIn)
+		{
+			axis = axisIn;
+		}
+		
 	    protected float angle = 0;
 		
 		public void UpdateAngle(float degrees)

@@ -53,14 +53,6 @@ namespace GlslTutorials
 	        SetupVertexBuffer();
 	    }
 	
-	    public override void SetOffset (float x_in, float y_in, float z_in)
-	    {
-	        Move(x_in - x_offset, y_offset - y_in, z_offset - z_in );
-	        x_offset = x_in;
-	        y_offset = y_in;
-	        z_offset = z_in;
-	    }
-	
 	    public void Move(float[] coords)
 	    {
 	        Move(coords[0], coords[1], coords[2]);
