@@ -96,6 +96,18 @@ namespace GlslTutorials
 	    protected int[] vertexBufferObject = new int[1];
 	    protected int[] indexBufferObject = new int[1];
 	
+	    protected void InitializeVertexBuffer(float[] vertexData)
+	    {
+			
+	        GL.GenBuffers(1, vertexBufferObject);
+	        GL.GenBuffers(1, indexBufferObject);
+	
+	        GL.BindBuffer(BufferTarget.ArrayBuffer, vertexBufferObject[0]);
+	        GL.BufferData(BufferTarget.ArrayBuffer, (IntPtr)(vertexData.Length * BYTES_PER_FLOAT), 
+			              vertexData, BufferUsageHint.StaticDraw);
+	        GL.BindBuffer(BufferTarget.ArrayBuffer, 0);  
+	    }
+		
 	    protected void InitializeVertexBuffer(float[] vertexData, short[] indexData)
 	    {
 			

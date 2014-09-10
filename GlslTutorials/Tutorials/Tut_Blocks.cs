@@ -13,14 +13,30 @@ namespace GlslTutorials
 		
 		List<LitMatrixBlock> lmbs;
 		
+		private void AddBlock(Vector3 size, Vector3 offset, Vector3 axis, float[] color)
+		{
+			LitMatrixBlock lmb1 = new LitMatrixBlock(size, color);
+			lmb1.SetOffset(offset);
+			lmb1.SetAxis(axis);
+			lmbs.Add(lmb1);	
+		}
+		
 		
 		protected override void init()
 	    {
 			lmbs = new List<LitMatrixBlock>();
-			LitMatrixBlock lmb1 = new LitMatrixBlock(new Vector3(0.05f, 0.05f, 0.05f), Colors.BLUE_COLOR);
-			lmb1.SetOffset(new Vector3(5f, 0.25f, 0f));
-			lmbs.Add(lmb1);	
-			lmbs.Add(new LitMatrixBlock(new Vector3(0.15f, 0.15f, 0.15f), Colors.RED_COLOR));	
+			AddBlock(new Vector3(0.1f, 0.1f, 0.1f), new Vector3(5f, 0.25f, 0f),
+			         new Vector3(0f, 1f, 0f), Colors.BLUE_COLOR);
+
+			AddBlock(new Vector3(0.1f, 0.1f, 0.1f), new Vector3(-5f, -0.25f, 0f),
+			         new Vector3(1f, 0f, 0f), Colors.GREEN_COLOR);
+			
+			AddBlock(new Vector3(0.1f, 0.1f, 0.1f), new Vector3(-0.25f, -5f, 0f),
+			         new Vector3(0f, 0f, 1f), Colors.CYAN_COLOR);
+			
+			AddBlock(new Vector3(0.15f, 0.1f, 0.15f), new Vector3(-5f, -5f, 0f),
+			         new Vector3(0.2f, 0.2f, .2f), Colors.RED_COLOR);
+				
 			lmbs.Add(new LitMatrixBlock(new Vector3(0.25f, 0.25f, 0.25f), Colors.GREEN_COLOR));	
 		}
 		

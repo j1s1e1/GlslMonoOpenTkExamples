@@ -7,7 +7,7 @@ namespace GlslTutorials
 	public class LitMatrixBlock : Shape
 	{
 		public static int mProgram = -1;
-	    private int positionAttribute;
+	    private static int positionAttribute;
 	
 	    private static int cameraToClipMatrixUnif;
 	    private static int worldToCameraMatrixUnif;
@@ -29,13 +29,12 @@ namespace GlslTutorials
 		//
 		
 		
-		static short[] lmbIndexData = new short[] {	0, 1, 2, 1, 2, 3,
+		static short[] lmbIndexData = new short[] {	0, 1, 2, 1, 3, 2,
 													4, 6, 5, 5, 6, 7,
 													1, 3, 5, 5, 3, 7,
 													0, 4, 6, 0, 6, 2,
 													0, 4, 1, 1, 4, 5,
-													2, 6, 3, 3, 6, 7,
-													};
+													2, 6, 3, 3, 6, 7,};
 		
 		static float RIGHT_EXTENT = 0.5f;
 	    static float LEFT_EXTENT = -RIGHT_EXTENT;
@@ -118,10 +117,13 @@ namespace GlslTutorials
 				VertexAttribPointerType.Float, false, vertexStride, (IntPtr)0);
 			
 	        // Draw the triangle
-	        GL.DrawArrays(PrimitiveType.Triangles, 0, vertexCount);
-	
+	 		GL.DrawElements(PrimitiveType.Triangles, indexData.Length, DrawElementsType.UnsignedShort, 0);
+			
 	        // Disable vertex array
 	        GL.DisableVertexAttribArray(positionAttribute);
+			
+			GL.BindBuffer(BufferTarget.ArrayBuffer, 0);
+			GL.BindBuffer(BufferTarget.ElementArrayBuffer, 0);
 	        GL.UseProgram(0);
 		}
 	}

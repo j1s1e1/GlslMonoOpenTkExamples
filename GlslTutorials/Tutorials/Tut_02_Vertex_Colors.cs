@@ -42,7 +42,6 @@ namespace GlslTutorials
 		
 		private static int vertexCount = vertexData.Length / 2 / COORDS_PER_VERTEX;
 		private static int COLOR_START = vertexCount * POSITION_DATA_SIZE_IN_ELEMENTS * BYTES_PER_FLOAT;
-		static short[] indexData = new short[] { 0, 1, 2 };
 		
 		
 	    void InitializeProgram()
@@ -58,7 +57,7 @@ namespace GlslTutorials
 	    protected override void init()
 	    {
 	        InitializeProgram();
-	        InitializeVertexBuffer(vertexData, indexData);
+	        InitializeVertexBuffer(vertexData);
 	    }
 		
 	    //Called to update the display.
@@ -78,8 +77,7 @@ namespace GlslTutorials
 				                       false, POSITION_STRIDE, 0);
 	        GL.VertexAttribPointer(colorAttribute, COLOR_DATA_SIZE_IN_ELEMENTS, VertexAttribPointerType.Float, 
 				                       false, COLOR_STRIDE, COLOR_START);
-	        GL.BindBuffer(BufferTarget.ElementArrayBuffer, indexBufferObject[0]);
-	        GL.DrawArrays(BeginMode.Triangles, 0, 3);
+	        GL.DrawArrays(PrimitiveType.Triangles, 0, 3);
 	
 	        GL.DisableVertexAttribArray(positionAttribute);
 	        GL.DisableVertexAttribArray(colorAttribute);

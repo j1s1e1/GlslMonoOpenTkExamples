@@ -5,6 +5,7 @@ namespace GlslTutorials
 {
 	public enum TutorialsEnum
 	{
+		Tut_Blocks,
 		Tut_02_Vertex_Colors,
 		Tut_03_CPU_Position_Offset,
 		Tut_03_Shader_Calc_Offset,
@@ -15,7 +16,7 @@ namespace GlslTutorials
 		Tut_06_Translation,
 		Tut_TiltBall,
 		Tut_Spheres,
-		Tut_Blocks,
+		
 	}
 	public class MenuClass
 	{
