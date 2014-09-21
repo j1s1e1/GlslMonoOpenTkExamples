@@ -1,15 +1,17 @@
 ﻿<Properties GitUserInfo="UsingGIT">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="GlslTutorials/Tutorials/Tut_Blocks.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="GlslTutorials/Tutorials/Tut_CheckObjects.cs">
     <Files>
-      <File FileName="GlslTutorials/Tutorials/Tut_Blocks.cs" Line="37" Column="6" />
-      <File FileName="GlslTutorials/Shapes/LitMatrixBlock.cs" Line="18" Column="34" />
-      <File FileName="GlslTutorials/Tutorials/TutorialBase.cs" Line="111" Column="21" />
+      <File FileName="GlslTutorials/Tutorials/Tut_Blocks.cs" Line="3" Column="1" />
+      <File FileName="GlslTutorials/Tutorials/Tut_CheckObjects.cs" Line="19" Column="60" />
+      <File FileName="GlslTutorials/Shapes/LitMatrixBlock.cs" Line="7" Column="15" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
       <Breakpoint file="/home/jamie/repos/C#/GlslTutorials/GlslTutorials/Tutorials/Tut_TiltBall.cs" line="109" />
+      <Breakpoint file="/home/jamie/repos/C#/GlslTutorials/GlslTutorials/Shapes/LitMatrixSphere.cs" line="45" />
+      <Breakpoint file="/home/jamie/repos/C#/GlslTutorials/GlslTutorials/GL_Helpers/Shader.cs" line="92" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />

@@ -31,10 +31,10 @@ namespace GlslTutorials
 		
 		static short[] lmbIndexData = new short[] {	0, 1, 2, 1, 3, 2,
 													4, 6, 5, 5, 6, 7,
-													1, 3, 5, 5, 3, 7,
-													0, 4, 6, 0, 6, 2,
+													3, 1, 5, 3, 5, 7,
+													4, 0, 6, 6, 0, 2,
 													0, 4, 1, 1, 4, 5,
-													2, 6, 3, 3, 6, 7,};
+													6, 2, 3, 6, 3, 7,};
 		
 		static float RIGHT_EXTENT = 0.5f;
 	    static float LEFT_EXTENT = -RIGHT_EXTENT;
@@ -52,8 +52,6 @@ namespace GlslTutorials
 														-0.5f, -0.5f, -0.5f,
 														0.5f, -0.5f, -0.5f,
 													};
-		
-		
 		
 		public LitMatrixBlock (Vector3 sizeIn, float[] colorIn)
 		{

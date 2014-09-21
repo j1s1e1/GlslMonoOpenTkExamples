@@ -59,6 +59,8 @@
     <Compile Include="Tutorials\Tut_06_Translation.cs" />
     <Compile Include="Tutorials\Tut_Spheres.cs" />
     <Compile Include="Tutorials\Tut_Blocks.cs" />
+    <Compile Include="GL_Helpers\AnalysisTools.cs" />
+    <Compile Include="Tutorials\Tut_CheckObjects.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />

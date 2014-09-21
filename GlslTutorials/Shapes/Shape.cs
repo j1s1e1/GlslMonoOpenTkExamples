@@ -73,6 +73,25 @@ namespace GlslTutorials
 		
 		protected float[] vertexData;
 		protected short[] indexData;
+		
+		public string CheckRotations(Vector3 center)
+		{
+			return AnalysisTools.CheckRotations(vertexData, indexData, center);
+		}
+		
+		public string CheckExtents()
+		{
+			return AnalysisTools.CheckExtents(vertexData);
+		}
+		
+		protected void SetupSimpleIndexBuffer(int elementCount)
+		{
+			indexData = new short[vertexData.Length/elementCount];
+			for (short i = 0; i < indexData.Length; i++)
+			{
+				indexData[i] = i;
+			}
+		}
 	
 		protected void InitializeVertexBuffer()
 	    {

@@ -28,6 +28,7 @@ namespace GlslTutorials
 		protected override void init()
 		{		
 			ball = new LitMatrixSphere(0.1f);
+			ball.SetOffset(new Vector3(0f, 0f, -0.25f));
 			maze = new List<LitMatrixBlock>();
 			AddBlock(new Vector3(0.2f, 0.2f, 0.2f), new Vector3(0.5f, 0.5f, -0.5f), Colors.BLUE_COLOR);
 			AddBlock(new Vector3(0.2f, 0.2f, 0.2f), new Vector3(0.5f, -0.5f, -0.5f), Colors.RED_COLOR);
@@ -103,6 +104,7 @@ namespace GlslTutorials
 			MoveBall();
 			// Draw background color
 			GL.ClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+			GL.ClearDepth(1.0f);
 			GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 			ball.Draw();
 			foreach (LitMatrixBlock lmb in maze) {

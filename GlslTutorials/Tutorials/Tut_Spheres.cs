@@ -14,7 +14,7 @@ namespace GlslTutorials
 		
 		protected override void init()
 	    {
-			lms1 = new LitMatrixSphere(10f);	
+			lms1 = new LitMatrixSphere(0.2f);	
 		}
 		
 		public override void display()

@@ -33,6 +33,18 @@ namespace GlslTutorials
 	        "temp = worldToCameraMatrix * temp;" +
 	        "gl_Position = cameraToClipMatrix * temp;" +
 	    " }";
+		
+		public static string lms_vertexShaderCode =
+        "attribute vec4 a_Position;" +
+        //"attribute vec3 a_Normal;" +		// Per-vertex normal information we will pass in.
+        //"varying out vec3 v_Normal;" +		// This will be passed into the fragment shader.
+        //"varying out vec3 v_Position;" +		// This will be passed into the fragment shader.
+        "void main()" +
+		"{" +
+        	//"v_Position = vec3(a_Position);" +
+            //"v_Normal = a_Normal;" +
+            "gl_Position = a_Position;" +
+        "}";
 	}
 }
 
