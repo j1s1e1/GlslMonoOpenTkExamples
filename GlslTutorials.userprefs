@@ -1,17 +1,37 @@
 ﻿<Properties GitUserInfo="UsingGIT">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="GlslTutorials/Tutorials/Tut_CheckObjects.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="GlslTutorials/GL_Helpers/VertexShaders.cs">
     <Files>
-      <File FileName="GlslTutorials/Tutorials/Tut_Blocks.cs" Line="3" Column="1" />
-      <File FileName="GlslTutorials/Tutorials/Tut_CheckObjects.cs" Line="19" Column="60" />
-      <File FileName="GlslTutorials/Shapes/LitMatrixBlock.cs" Line="7" Column="15" />
+      <File FileName="GlslTutorials/Tutorials/Tut_SingleMeshItem.cs" Line="85" Column="72" />
+      <File FileName="GlslTutorials/Mesh/Mesh.cs" Line="194" Column="56" />
+      <File FileName="GlslTutorials/GL_Helpers/FragmentShaders.cs" Line="85" Column="48" />
+      <File FileName="GlslTutorials/GL_Helpers/VertexShaders.cs" Line="95" Column="1" />
+      <File FileName="GlslTutorials/Tutorials/Tut_06_Translation.cs" Line="21" Column="87" />
+      <File FileName="GlslTutorials/Attributes/Attribute.cs" Line="115" Column="1" />
     </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State expanded="True">
+          <Node name="GlslTutorials" expanded="True">
+            <Node name="Attributes" expanded="True" />
+            <Node name="GL_Helpers" expanded="True">
+              <Node name="VertexShaders.cs" selected="True" />
+            </Node>
+            <Node name="Mesh" expanded="True" />
+            <Node name="Shapes" expanded="True" />
+            <Node name="Tutorials" expanded="True" />
+          </Node>
+        </State>
+      </Pad>
+      <Pad Id="ClassPad">
+        <State expanded="True" selected="True" />
+      </Pad>
+    </Pads>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
-      <Breakpoint file="/home/jamie/repos/C#/GlslTutorials/GlslTutorials/Tutorials/Tut_TiltBall.cs" line="109" />
-      <Breakpoint file="/home/jamie/repos/C#/GlslTutorials/GlslTutorials/Shapes/LitMatrixSphere.cs" line="45" />
-      <Breakpoint file="/home/jamie/repos/C#/GlslTutorials/GlslTutorials/GL_Helpers/Shader.cs" line="92" />
+      <Breakpoint file="/home/jamie/repos/C#/GlslTutorials/GlslTutorials/Tutorials/Tut_TiltBall.cs" line="275" />
+      <Breakpoint file="/home/jamie/repos/C#/GlslTutorials/GlslTutorials/Mesh/Mesh.cs" line="365" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />

@@ -5,7 +5,7 @@ namespace GlslTutorials
 {
 	public enum TutorialsEnum
 	{
-		Tut_CheckObjects,
+		Tut_SingleMeshItem,
 		Tut_TiltBall,
 		Tut_02_Vertex_Colors,
 		Tut_03_CPU_Position_Offset,
@@ -15,7 +15,7 @@ namespace GlslTutorials
 		Tut_06_Rotations,
 		Tut_06_Scale,
 		Tut_06_Translation,
-
+		Tut_CheckObjects,
 		Tut_Spheres,
 		Tut_Blocks,
 
@@ -46,6 +46,7 @@ namespace GlslTutorials
 				case TutorialsEnum.Tut_Spheres: currentTutorial = new Tut_Spheres(); break;
 				case TutorialsEnum.Tut_Blocks: currentTutorial = new Tut_Blocks(); break;
 				case TutorialsEnum.Tut_CheckObjects: currentTutorial = new Tut_CheckObjects(); break;
+				case TutorialsEnum.Tut_SingleMeshItem: currentTutorial = new Tut_SingleMeshItem(); break;
 			}
 		}
 	}

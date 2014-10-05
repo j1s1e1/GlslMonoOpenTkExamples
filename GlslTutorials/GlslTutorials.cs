@@ -7,6 +7,8 @@ using System.Text;
 using System.Windows.Forms;
 using System.Threading;
 using System.Diagnostics;
+using System.IO;
+using System.Reflection;
 using OpenTK.Graphics.OpenGL;
 using OpenTK.Input;
 
@@ -14,8 +16,11 @@ namespace GlslTutorials
 {
 	public partial class GlsTutorialsClass : Form
 	{
+		static public string ProjectDirectory;
 		public GlsTutorialsClass()
 		{
+			ProjectDirectory =  Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName;
+			//ProjectDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().CodeBase);
 			InitializeComponent();
 			this.TestSelection.DataSource = MenuClass.FillTestlist();
 		}
@@ -95,7 +100,8 @@ namespace GlslTutorials
         {
 			if (currentTutorial != null)
 			{
-				currentTutorial.keypress(e.KeyCode, 0, 0);
+				messages.Clear();
+				AddMessage(currentTutorial.keypress(e.KeyCode, 0, 0));
 			}
         }
 
@@ -103,7 +109,7 @@ namespace GlslTutorials
         {
 			if (currentTutorial != null)
 			{
-				currentTutorial.keypress(e.KeyCode, 0, 0);
+				AddMessage(currentTutorial.keypress(e.KeyCode, 0, 0));
 			}
         }
 		

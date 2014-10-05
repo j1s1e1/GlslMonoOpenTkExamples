@@ -61,6 +61,24 @@
     <Compile Include="Tutorials\Tut_Blocks.cs" />
     <Compile Include="GL_Helpers\AnalysisTools.cs" />
     <Compile Include="Tutorials\Tut_CheckObjects.cs" />
+    <Compile Include="Tutorials\Tut_Pass_Data_To_Frag.cs" />
+    <Compile Include="Mesh\IndexData.cs" />
+    <Compile Include="Mesh\Mesh.cs" />
+    <Compile Include="Mesh\RenderCmd.cs" />
+    <Compile Include="Attributes\AttribData.cs" />
+    <Compile Include="Attributes\AttribType.cs" />
+    <Compile Include="Mesh\MeshData.cs" />
+    <Compile Include="Attributes\AttributeCollection.cs" />
+    <Compile Include="Mesh\VAOMap.cs" />
+    <Compile Include="Mesh\NamedVaoData.cs" />
+    <Compile Include="Attributes\AttributesClass.cs" />
+    <Compile Include="Attributes\AttribIndexMap.cs" />
+    <Compile Include="Attributes\Attribute.cs" />
+    <Compile Include="Mesh\MeshPrimitiveType.cs" />
+    <Compile Include="Tutorials\Tut_SingleMeshItem.cs" />
+    <Compile Include="GL_Helpers\PushStack.cs" />
+    <Compile Include="GL_Helpers\MatrixStack.cs" />
+    <Compile Include="Camera.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -77,11 +95,29 @@
     <Reference Include="OpenTK.GLControl">
       <HintPath>..\..\..\opentk\Binaries\OpenTK\Release\OpenTK.GLControl.dll</HintPath>
     </Reference>
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Tutorials\" />
     <Folder Include="Shapes\" />
     <Folder Include="Geometry\" />
     <Folder Include="GL_Helpers\" />
+    <Folder Include="Mesh\" />
+    <Folder Include="Attributes\" />
+    <Folder Include="VAO\" />
+    <Folder Include="XmlFilesForMeshes\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="XmlFilesForMeshes\unitplane.xml" />
+    <None Include="XmlFilesForMeshes\unitcylindertint.xml" />
+    <None Include="XmlFilesForMeshes\unitcylinder.xml" />
+    <None Include="XmlFilesForMeshes\unitcubetint.xml" />
+    <None Include="XmlFilesForMeshes\unitcubecolor.xml" />
+    <None Include="XmlFilesForMeshes\unitconetint.xml" />
+    <None Include="XmlFilesForMeshes\smallgimbal.xml" />
+    <None Include="XmlFilesForMeshes\ship.xml" />
+    <None Include="XmlFilesForMeshes\mediumgimbal.xml" />
+    <None Include="XmlFilesForMeshes\largegimbal.xml" />
   </ItemGroup>
 </Project>

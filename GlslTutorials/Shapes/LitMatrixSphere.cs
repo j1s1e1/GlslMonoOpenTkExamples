@@ -7,21 +7,21 @@ namespace GlslTutorials
 	public class LitMatrixSphere : Shape
 	{
 		public static int mProgram = -1;
-    	private static int mPositionHandle;
-    	private static int mNormalHandle;
-    	private static int mColorHandle;
-    	private static int mLightPosHandle;
+		private static int positionAttribute;
 	
 	    private int cameraToClipMatrixUnif;
 	    private static int worldToCameraMatrixUnif;
 	    private int modelToWorldMatrixUnif;
 	    private int colorUnif;
 	
-	    static Matrix4 cameraToClip = new Matrix4();
-	    static Matrix4 worldToCamera = new Matrix4();
-	    Matrix4 modelToWorld = new Matrix4();
+	    Matrix4 cameraToClip = Matrix4.Identity;
+	    static Matrix4 worldToCamera = Matrix4.Identity;
+	    Matrix4 modelToWorld = Matrix4.Identity;
 		
 		float radius;
+		
+		string VertexShader = VertexShaders.PosOnlyWorldTransform_vert;
+		string FragmentShader = FragmentShaders.ColorUniform_frag;
 		
 		public LitMatrixSphere (float radius_in)
 		{
@@ -38,17 +38,20 @@ namespace GlslTutorials
 	        {
 	            // prepare shaders and OpenGL program
 	            int vertexShader = Shader.loadShader(ShaderType.VertexShader,
-	                    VertexShaders.lms_vertexShaderCode);
+	                    VertexShader);
 	            int fragmentShader = Shader.loadShader(ShaderType.FragmentShader,
-	                    FragmentShaders.lms_fragmentShaderCode);
+	                    FragmentShader);
 	
-	            mProgram = Shader.createAndLinkProgram(vertexShader, fragmentShader);
-	
+	            mProgram = Shader.createAndLinkProgram(vertexShader, fragmentShader,
+	                    new String[] {"a_Position", "a_Normal"});
 	
 	            // get handle to vertex shader's vPosition member
-	            mPositionHandle = GL.GetAttribLocation(mProgram, "a_Position");
-	            mNormalHandle = GL.GetAttribLocation(mProgram, "a_Normal");
-	            mLightPosHandle = GL.GetUniformLocation(mProgram, "u_LightPos");
+	            positionAttribute = GL.GetAttribLocation(mProgram, "position");
+	
+	            cameraToClipMatrixUnif = GL.GetUniformLocation(mProgram, "cameraToClipMatrix");
+	            worldToCameraMatrixUnif = GL.GetUniformLocation(mProgram, "worldToCameraMatrix");
+	            modelToWorldMatrixUnif = GL.GetUniformLocation(mProgram, "modelToWorldMatrix");
+	            colorUnif = GL.GetUniformLocation(mProgram, "baseColor");
 	        }
 		}
 		
@@ -77,51 +80,43 @@ namespace GlslTutorials
 	        return coords_with_normals;
     	}
 		
-		public void SetOffset(Vector3 offset)
-		{
-		}
-		
 	    private void DrawSub(int first_triangle, int last_triangle)
 	    {
 	        int newVertexCount = (last_triangle - first_triangle + 1) * 3 * 3 / COORDS_PER_VERTEX;
 	        // Add program to OpenGL environment
 	        GL.UseProgram(mProgram);
 			
+		 	Matrix4 mm = Rotate(modelToWorld, axis, angle);
+			mm.M41 = offset.X;
+			mm.M42 = offset.Y;
+			mm.M43 = offset.Z;
+	
+	        GL.UniformMatrix4(cameraToClipMatrixUnif, false, ref cameraToClip);
+	        GL.UniformMatrix4(worldToCameraMatrixUnif, false, ref worldToCamera);
+	        GL.UniformMatrix4(modelToWorldMatrixUnif, false, ref mm);
+	        GL.Uniform4(colorUnif, 1, color);
+			
+			 // Enable a handle to the triangle vertices
+	        
 			GL.BindBuffer(BufferTarget.ArrayBuffer, vertexBufferObject[0]);
 			GL.BindBuffer(BufferTarget.ElementArrayBuffer, indexBufferObject[0]);
-	
-	        // Enable a handle to the triangle vertices
-	        GL.EnableVertexAttribArray(mPositionHandle);
-	
+			GL.EnableVertexAttribArray(positionAttribute);
 	        // Prepare the triangle coordinate data
-	        GL.VertexAttribPointer(mPositionHandle, COORDS_PER_VERTEX, VertexAttribPointerType.Float, false,
-	                vertexStride, (IntPtr)0);
-	
-	        // Pass in the normal information
-	        GL.EnableVertexAttribArray(mNormalHandle);
-	        GL.VertexAttribPointer(mNormalHandle, COORDS_PER_VERTEX, VertexAttribPointerType.Float, false,
-	                vertexStride, (IntPtr)0);
-	
-	        // Pass in the light position in eye space.
-	        GL.Uniform3(mLightPosHandle, 0.75f, 0.75f, 0.75f);
-	
-	
-	        // get handle to fragment shader's vColor member
-	        mColorHandle = GL.GetUniformLocation(mProgram, "u_Color");
-	
-	        // Set color for drawing the triangle
-	        GL.Uniform4(mColorHandle, 1, color);
-	
+	        GL.VertexAttribPointer(positionAttribute, COORDS_PER_VERTEX, 
+				VertexAttribPointerType.Float, false, vertexStride, (IntPtr)0);
+			
+	        // Draw the triangle
 	 		GL.DrawElements(PrimitiveType.Triangles, indexData.Length, DrawElementsType.UnsignedShort, 0);
 			
-	        GL.DisableVertexAttribArray(mPositionHandle);
+	        // Disable vertex array
+	        GL.DisableVertexAttribArray(positionAttribute);
+			
 			GL.BindBuffer(BufferTarget.ArrayBuffer, 0);
 			GL.BindBuffer(BufferTarget.ElementArrayBuffer, 0);
-	
-	        GL.UseProgram(0);
+	        GL.UseProgram(0);				
 	    }
 	
-	    public void Draw() {
+	    public override void Draw() {
 	        DrawSub(0, 19);
 	    }
 	

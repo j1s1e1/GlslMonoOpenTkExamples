@@ -30,43 +30,12 @@ namespace GlslTutorials
 			ball = new LitMatrixSphere(0.1f);
 			ball.SetOffset(new Vector3(0f, 0f, -0.25f));
 			maze = new List<LitMatrixBlock>();
-			AddBlock(new Vector3(0.2f, 0.2f, 0.2f), new Vector3(0.5f, 0.5f, -0.5f), Colors.BLUE_COLOR);
-			AddBlock(new Vector3(0.2f, 0.2f, 0.2f), new Vector3(0.5f, -0.5f, -0.5f), Colors.RED_COLOR);
-			AddBlock(new Vector3(0.8f, 0.8f, 0.8f), new Vector3(-0.5f, 0.5f, -0.5f), Colors.GREEN_COLOR);
-			AddBlock(new Vector3(0.8f, 0.8f, 0.8f), new Vector3(-0.5f, -0.5f, -0.5f), Colors.YELLOW_COLOR);
+			AddBlock(new Vector3(2.0f, 2.0f, 0.1f), new Vector3(0.0f, 0.0f, 0.9f), Colors.BLUE_COLOR);
+			AddBlock(new Vector3(0.2f, 2.0f, 0.1f), new Vector3(-4.1f, 0.0f, 0.8f), Colors.RED_COLOR);
+			AddBlock(new Vector3(0.2f, 2.0f, 0.1f), new Vector3(4.1f, 0.0f, 0.8f), Colors.RED_COLOR);
+			AddBlock(new Vector3(2.0f, 0.2f, 0.1f), new Vector3(0.0f, -4.1f, 0.8f), Colors.RED_COLOR);
+			AddBlock(new Vector3(2.0f, 0.2f, 0.1f), new Vector3(0.0f, 4.1f, 0.8f), Colors.RED_COLOR);
 		
-		
-			AddBlock(new Vector3(0.4f, 0.4f, 0.4f), 
-					new Vector3(0.0f, 0.0f, -1f), 
-					Colors.GREEN_COLOR);
-					
-			AddBlock(new Vector3(0.3f, 0.3f, 0.1f), 
-					new Vector3(0.3f, 0.0f, -0.2f), 
-					Colors.CYAN_COLOR);
-		
-			AddBlock(new Vector3(0.3f, 0.3f, 0.1f), 
-					new Vector3(0.3f, 0.0f, 0f), 
-					Colors.CYAN_COLOR);
-					
-			AddBlock(new Vector3(0.3f, 0.3f, 0.1f), 
-					new Vector3(0.3f, 0.0f, 0.2f), 
-					Colors.CYAN_COLOR);
-
-			AddBlock(new Vector3(0.3f, 0.3f, 0.1f), 
-					new Vector3(0.3f, 0.0f, 0.4f), 
-					Colors.RED_COLOR);
-					
-			AddBlock(new Vector3(0.3f, 0.3f, 0.1f), 
-					new Vector3(0.3f, 0.0f, 0.6f), 
-					Colors.CYAN_COLOR);													
-			
-			AddBlock(new Vector3(0.3f, 0.3f, 0.1f), 
-					new Vector3(0.3f, 0.0f, 0.8f), 
-					Colors.RED_COLOR);
-					
-			AddBlock(new Vector3(0.3f, 0.3f, 0.1f), 
-					new Vector3(0.3f, 0.0f, 1f), 
-					Colors.CYAN_COLOR);				
 				
 			GL.Enable(EnableCap.CullFace);
 			GL.CullFace(CullFaceMode.Back);
@@ -173,7 +142,7 @@ namespace GlslTutorials
 			case System.Windows.Forms.Keys.Right:			
 			case System.Windows.Forms.Keys.NumPad6:
 				{
-					if (xAngle < -45) xAngle++;
+					if (xAngle < 45) xAngle++;
 					break;
 				}
 			case System.Windows.Forms.Keys.Left:
@@ -190,7 +159,9 @@ namespace GlslTutorials
 			}
 			result.AppendLine(
 				"xAngle = " + xAngle.ToString() + 
-				"\nyAngle = " + yAngle.ToString());
+				"\nyAngle = " + yAngle.ToString() + 
+				"Offset = " + ballPosition.ToString()
+				);
 			return result.ToString();
 		}
 	}
