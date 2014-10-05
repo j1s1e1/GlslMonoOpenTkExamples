@@ -5,6 +5,7 @@ namespace GlslTutorials
 {
 	public enum TutorialsEnum
 	{
+		Tut_07_World_Scene,
 		Tut_SingleMeshItem,
 		Tut_TiltBall,
 		Tut_02_Vertex_Colors,
@@ -47,6 +48,7 @@ namespace GlslTutorials
 				case TutorialsEnum.Tut_Blocks: currentTutorial = new Tut_Blocks(); break;
 				case TutorialsEnum.Tut_CheckObjects: currentTutorial = new Tut_CheckObjects(); break;
 				case TutorialsEnum.Tut_SingleMeshItem: currentTutorial = new Tut_SingleMeshItem(); break;
+				case TutorialsEnum.Tut_07_World_Scene: currentTutorial = new Tut_07_World_Scene(); break;
 			}
 		}
 	}

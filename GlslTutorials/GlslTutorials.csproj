@@ -79,6 +79,8 @@
     <Compile Include="GL_Helpers\PushStack.cs" />
     <Compile Include="GL_Helpers\MatrixStack.cs" />
     <Compile Include="Camera.cs" />
+    <Compile Include="Tutorials\Tut_07_World_Scene.cs" />
+    <Compile Include="TreeData.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
