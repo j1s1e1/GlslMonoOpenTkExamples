@@ -47,9 +47,9 @@ namespace GlslTutorials
         "}";
 		
 		 public static string DirAmbVertexLighting_PN_vert =
-	    "attribute vec3 position;" +			
+	    "attribute vec3 position;" +
+		"attribute vec4 color;" + // added to make normal 2
 	    "attribute vec3 normal;" +
-
 	
 	    "uniform vec3 dirToLight;" +
 	    "uniform vec4 lightIntensity;" +
@@ -76,7 +76,7 @@ namespace GlslTutorials
 	        "float cosAngIncidence = dot(normCamSpace, dirToLight);" +
 	        "cosAngIncidence = clamp(cosAngIncidence, 0.0, 1.0);" +
 	
-	        "theColor = (lightIntensity * cosAngIncidence) + ambientIntensity;" +
+	        "theColor = (lightIntensity * cosAngIncidence) + ambientIntensity + 0.01 * color;" +
 	    "}";
 		
 	    public string positionNormal =

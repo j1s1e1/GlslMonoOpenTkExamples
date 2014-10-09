@@ -1,19 +1,22 @@
 ﻿<Properties GitUserInfo="UsingGIT">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="GlslTutorials/Menu.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="GlslTutorials/Tutorials/Tut_08_Gimbal_Lock.cs">
     <Files>
-      <File FileName="GlslTutorials/Menu.cs" Line="1" Column="1" />
+      <File FileName="GlslTutorials/Tutorials/Tut_SingleMeshItem.cs" Line="167" Column="20" />
+      <File FileName="GlslTutorials/GL_Helpers/FragmentShaders.cs" Line="85" Column="25" />
+      <File FileName="GlslTutorials/Mesh/Mesh.cs" Line="171" Column="71" />
+      <File FileName="GlslTutorials/Camera.cs" Line="31" Column="25" />
+      <File FileName="GlslTutorials/GL_Helpers/VertexShaders.cs" Line="53" Column="2" />
+      <File FileName="GlslTutorials/Tutorials/Tut_08_Gimbal_Lock.cs" Line="179" Column="88" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State expanded="True">
           <Node name="GlslTutorials" expanded="True">
-            <Node name="Attributes" expanded="True" />
-            <Node name="GL_Helpers" expanded="True" />
-            <Node name="Mesh" expanded="True" />
-            <Node name="Shapes" expanded="True" />
-            <Node name="Tutorials" expanded="True" />
-            <Node name="Menu.cs" selected="True" />
+            <Node name="Tutorials" expanded="True">
+              <Node name="Tut_08_Gimbal_Lock.cs" selected="True" />
+            </Node>
+            <Node name="XmlFilesForMeshes" expanded="True" />
           </Node>
         </State>
       </Pad>
@@ -26,6 +29,7 @@
     <BreakpointStore>
       <Breakpoint file="/home/jamie/repos/C#/GlslTutorials/GlslTutorials/Tutorials/Tut_TiltBall.cs" line="275" />
       <Breakpoint file="/home/jamie/repos/C#/GlslTutorials/GlslTutorials/Mesh/Mesh.cs" line="365" />
+      <Breakpoint file="/home/jamie/repos/C#/GlslTutorials/GlslTutorials/Mesh/Mesh.cs" line="187" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />

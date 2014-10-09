@@ -303,7 +303,7 @@ namespace GlslTutorials
 	                    GL.BindVertexArray(0);
 	                    GL.BindBuffer(BufferTarget.ElementArrayBuffer, 0);
 	                } else {
-	                    throw new Exception("Empty Index Buffer for VAO");
+	                    //throw new Exception("Empty Index Buffer for VAO");
 	                }
 	            }
 	        }

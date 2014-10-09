@@ -47,7 +47,7 @@ namespace GlslTutorials
 			}
 	    };
 	
-	    static float g_fzNear = 1.0f;
+	    static float g_fzNear = 10.0f;
 	    static float g_fzFar = 1000.0f;
 	
 	    static ProgramData UniformColor;
@@ -89,6 +89,10 @@ namespace GlslTutorials
 	        data.modelToWorldMatrixUnif = GL.GetUniformLocation(data.theProgram, "modelToWorldMatrix");
 	        data.worldToCameraMatrixUnif = GL.GetUniformLocation(data.theProgram, "worldToCameraMatrix");
 	        data.cameraToClipMatrixUnif = GL.GetUniformLocation(data.theProgram, "cameraToClipMatrix");
+			if (data.cameraToClipMatrixUnif == -1)
+			{
+				data.cameraToClipMatrixUnif = GL.GetUniformLocation(data.theProgram, "Projection.cameraToClipMatrix");
+			}
 	        data.baseColorUnif = GL.GetUniformLocation(data.theProgram, "baseColor");
 	
 	        data.modelToCameraMatrixUnif = GL.GetUniformLocation(data.theProgram, "modelToCameraMatrix");
@@ -99,21 +103,7 @@ namespace GlslTutorials
 	        data.ambientIntensityUnif = GL.GetUniformLocation(data.theProgram, "ambientIntensity");
 	        data.normalAttribute = GL.GetAttribLocation(data.theProgram, "normal");
 	
-	        if (data.normalAttribute != -1)
-	        {
-	            AssignNormals(data);
-	            //throw new Exception("Normals needed");
-	        }
-	
 	        return data;
-	    }
-	
-	    static void AssignNormals(ProgramData program)
-	    {
-	        GL.UseProgram(program.theProgram);
-			
-	
-	        GL.UseProgram(0);
 	    }
 	
 	    void InitializeProgram()
@@ -172,6 +162,8 @@ namespace GlslTutorials
 	        GL.DepthMask(true);
 	        GL.DepthFunc(DepthFunction.Lequal);
 	        GL.DepthRange(0.0f, 1.0f);
+			Camera.Move(0f, 0f, 0f);
+	        Camera.MoveTarget(0f, 0f, 0.0f);
 	        reshape();
 	        current_mesh = g_pCubeColorMesh;
 	    }
@@ -189,7 +181,7 @@ namespace GlslTutorials
                 using (PushStack pushstack = new PushStack(modelMatrix)) 
 				{
                     modelMatrix.Translate(Camera.g_camTarget);
-                    modelMatrix.Translate(50f, 50f, 0f);
+                    modelMatrix.Translate(0f, 0f, 0f);
                     modelMatrix.Scale(15.0f, 15.0f, 15.0f);
                     modelMatrix.Rotate(axis, angle);
                     angle = angle + 1f;
@@ -234,12 +226,13 @@ namespace GlslTutorials
 	        cm = camMatrix.Top();
 	
 	        MatrixStack persMatrix = new MatrixStack();
-	        persMatrix.Perspective(45.0f, (width / (float)height), g_fzNear, g_fzFar);
+	        persMatrix.Perspective(60.0f, (width / (float)height), g_fzNear, g_fzFar);
 	        pm = persMatrix.Top();
-	
+
 	        SetGlobalMatrices(currentProgram);
 	
 	        GL.Viewport(0, 0, width, height);
+
 	    }
 	
 	    static bool noWorldMatrix = false;
@@ -282,6 +275,22 @@ namespace GlslTutorials
 	                currentProgram = g_WhiteDiffuseColor;
 	                noWorldMatrix = true;
 	                break;
+				case Keys.I:
+	                result.AppendLine("I Decrease g_camTarget.X");
+	                Camera.MoveTarget(-4.0f, 0, 0);
+	                break;
+	            case Keys.M:
+	                result.AppendLine("M Increase g_camTarget.X");
+	                Camera.MoveTarget(4.0f, 0, 0);
+	                break;
+	            case Keys.J:				
+					result.AppendLine("J Increase g_camTarget.Z");
+	                Camera.MoveTarget(0, 0, 4.0f);
+					break;				
+	            case Keys.K:				
+					result.AppendLine("K Decrease g_camTarget.Z");
+	                Camera.MoveTarget(0, 0, -4.0f);
+					break;
 	            case Keys.Escape:
 	                //timer.Enabled = false;
 	                break;
