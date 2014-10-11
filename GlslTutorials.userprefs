@@ -1,22 +1,24 @@
 ﻿<Properties GitUserInfo="UsingGIT">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="GlslTutorials/Tutorials/Tut_08_Gimbal_Lock.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="GlslTutorials/Shapes/LitMatrixSphere2.cs">
     <Files>
-      <File FileName="GlslTutorials/Tutorials/Tut_SingleMeshItem.cs" Line="167" Column="20" />
-      <File FileName="GlslTutorials/GL_Helpers/FragmentShaders.cs" Line="85" Column="25" />
-      <File FileName="GlslTutorials/Mesh/Mesh.cs" Line="171" Column="71" />
-      <File FileName="GlslTutorials/Camera.cs" Line="31" Column="25" />
-      <File FileName="GlslTutorials/GL_Helpers/VertexShaders.cs" Line="53" Column="2" />
-      <File FileName="GlslTutorials/Tutorials/Tut_08_Gimbal_Lock.cs" Line="179" Column="88" />
+      <File FileName="GlslTutorials/Tutorials/Tut_Camera.cs" Line="53" Column="40" />
+      <File FileName="GlslTutorials/Menu.cs" Line="57" Column="78" />
+      <File FileName="GlslTutorials/Tutorials/Tut_SingleMeshItem.cs" Line="202" Column="6" />
+      <File FileName="GlslTutorials/Shapes/LitMatrixSphere2.cs" Line="9" Column="1" />
+      <File FileName="GlslTutorials/ProgramData/ProgramData.cs" Line="76" Column="3" />
+      <File FileName="GlslTutorials/Shapes/LitMatrixBlock2.cs" Line="9" Column="2" />
+      <File FileName="GlslTutorials/Shapes/Shape.cs" Line="19" Column="3" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State expanded="True">
           <Node name="GlslTutorials" expanded="True">
-            <Node name="Tutorials" expanded="True">
-              <Node name="Tut_08_Gimbal_Lock.cs" selected="True" />
+            <Node name="ProgramData" expanded="True" />
+            <Node name="Shapes" expanded="True">
+              <Node name="LitMatrixSphere2.cs" selected="True" />
             </Node>
-            <Node name="XmlFilesForMeshes" expanded="True" />
+            <Node name="Tutorials" expanded="True" />
           </Node>
         </State>
       </Pad>
@@ -28,8 +30,8 @@
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
       <Breakpoint file="/home/jamie/repos/C#/GlslTutorials/GlslTutorials/Tutorials/Tut_TiltBall.cs" line="275" />
-      <Breakpoint file="/home/jamie/repos/C#/GlslTutorials/GlslTutorials/Mesh/Mesh.cs" line="365" />
-      <Breakpoint file="/home/jamie/repos/C#/GlslTutorials/GlslTutorials/Mesh/Mesh.cs" line="187" />
+      <Breakpoint file="/home/jamie/repos/C#/GlslTutorials/GlslTutorials/Tutorials/Tut_08_Gimbal_Lock.cs" line="165" />
+      <Breakpoint file="/home/jamie/repos/C#/GlslTutorials/GlslTutorials/Tutorials/Tut_09_Ambient_Lighting.cs" line="583" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />

@@ -394,8 +394,12 @@ namespace GlslTutorials
 	        NamedVaoData namedVaoData = m_pData.namedVaoData[strMeshName];
 	
 	        GL.BindBuffer(BufferTarget.ArrayBuffer, m_pData.oAttribArraysBuffer[0]);
-	        if ( m_pData.oIndexBuffer[0] != 0) GL.BindBuffer(BufferTarget.ElementArrayBuffer, m_pData.oIndexBuffer[0]);
-	        GL.BindBuffer(BufferTarget.ElementArrayBuffer, namedVaoData.oIndexBuffer[0]);
+			// Check This
+			if ( m_pData.oIndexBuffer[0] != 0)
+			{
+				GL.BindBuffer(BufferTarget.ElementArrayBuffer, m_pData.oIndexBuffer[0]);
+			}
+	        //GL.BindBuffer(BufferTarget.ElementArrayBuffer, namedVaoData.oIndexBuffer[0]);
 	        if (namedVaoData.positionAttribute != -1)
 	        {
 	            GL.EnableVertexAttribArray(namedVaoData.positionAttribute);

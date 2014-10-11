@@ -119,9 +119,9 @@ namespace GlslTutorials
 	        GL.UseProgram(0);
 	
 	        g_WhiteDiffuseColor = LoadProgram(VertexShaders.PosColorLocalTransform_vert, FragmentShaders.ColorPassthrough_frag);
-	
 	        g_WhiteAmbDiffuseColor = LoadProgram(VertexShaders.DirAmbVertexLighting_PN_vert, FragmentShaders.ColorPassthrough_frag);
-	        GL.UseProgram(g_WhiteAmbDiffuseColor.theProgram);
+	        
+			GL.UseProgram(g_WhiteAmbDiffuseColor.theProgram);
 	        Vector3 light_direction = new Vector3(10f, 10f, 0f);
 	        Vector4 light_intensity = new Vector4(0.5f, 0.5f, 0.5f, 0.5f);
 	        Vector4  ambient_intensity = new Vector4(0.3f, 0.0f, 0.3f, 0.6f);
@@ -138,6 +138,7 @@ namespace GlslTutorials
 	    static Mesh current_mesh;
 	    static Mesh g_pCubeColorMesh;
 	    static Mesh g_pCylinderMesh;
+		static Mesh g_pPlaneMesh;
 	
 	    //Called after the window and OpenGL are initialized. Called exactly once, before the main loop.
 	    protected override void init()
@@ -151,6 +152,10 @@ namespace GlslTutorials
 				g_pCubeColorMesh = new Mesh(UnitCubeColor);
 	            Stream UnitCylinder =File.OpenRead(XmlFilesDirectory + @"/unitcylinder.xml");
 	            g_pCylinderMesh = new Mesh(UnitCylinder);
+				
+				Stream unitplane = File.OpenRead(XmlFilesDirectory + @"/unitplane.xml");
+	            g_pPlaneMesh = new Mesh(unitplane);
+				
 	        } catch (Exception ex) {
 	            throw new Exception("Error " + ex.ToString());
 	        }
@@ -189,10 +194,12 @@ namespace GlslTutorials
                     GL.UseProgram(currentProgram.theProgram);
                     Matrix4 mm = modelMatrix.Top();
 
-                    if (noWorldMatrix) {
+                    if (noWorldMatrix) 
+					{
                         Matrix4 cm2 = Matrix4.Mult(mm, cm);
                         GL.UniformMatrix4(currentProgram.modelToCameraMatrixUnif, false, ref cm2);
-                    } else 
+                    } 
+					else 
 					{
                         GL.UniformMatrix4(currentProgram.modelToWorldMatrixUnif, false, ref mm);
                     }
@@ -245,36 +252,40 @@ namespace GlslTutorials
 	    {
 	        StringBuilder result = new StringBuilder();
 	        switch (keyCode) {
-	            case Keys.A:
-	                currentProgram = g_WhiteAmbDiffuseColor;
-	                noWorldMatrix = true;
-	                break;
-	            case Keys.B:
-	                current_mesh = g_pCylinderMesh;
-	                break;
-	            case Keys.C:
-	                current_mesh = g_pCubeColorMesh;
-	                break;
-	            case Keys.D:
-	                currentProgram = g_WhiteDiffuseColor;
-	                noWorldMatrix = true;
-	                break;		
-	            case Keys.O:
+
+	            case Keys.D1:
 	                currentProgram = ObjectColor;
 	                noWorldMatrix = false;
-	                break;
-	            case Keys.U:
+	                break;	
+	            case Keys.D2:
 	                currentProgram = UniformColor;
 	                noWorldMatrix = false;
-	                break;
-	            case Keys.T:
+	                break;		
+	            case Keys.D3:
 	                currentProgram = UniformColorTint;
 	                noWorldMatrix = false;
-	                break;
-	            case Keys.W:
+	                break;				
+	            case Keys.D4:
 	                currentProgram = g_WhiteDiffuseColor;
 	                noWorldMatrix = true;
+	                break;	
+	            case Keys.D5:
+	                currentProgram = g_WhiteAmbDiffuseColor;
+	                noWorldMatrix = true;
+	                break;				
+				
+	            case Keys.A:
+	                current_mesh = g_pCylinderMesh;
 	                break;
+	            case Keys.B:
+	                current_mesh = g_pCubeColorMesh;
+	                break;
+				case Keys.C:
+					current_mesh = g_pPlaneMesh;
+					break;
+
+
+
 				case Keys.I:
 	                result.AppendLine("I Decrease g_camTarget.X");
 	                Camera.MoveTarget(-4.0f, 0, 0);

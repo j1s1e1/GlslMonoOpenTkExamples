@@ -4,7 +4,7 @@ namespace GlslTutorials
 {
 	public class VertexShaders
 	{
-	 	public static String PosColorLocalTransform_vert =
+	 	public static String PosColorLocalTransform_vert =	// Working Single Mesh Item
 		"attribute vec4 position;" +
 	    "attribute vec4 color;" +
 	
@@ -20,7 +20,7 @@ namespace GlslTutorials
 	        "theColor = color;" +
 	    "}";
 		
-		 public static String PosOnlyWorldTransform_vert =
+		 public static String PosOnlyWorldTransform_vert =	// Working Single Mesh Item
 	    "attribute vec4 position;" +
 	
 	    "uniform mat4 cameraToClipMatrix;" +
@@ -46,8 +46,8 @@ namespace GlslTutorials
             "gl_Position = a_Position;" +
         "}";
 		
-		 public static string DirAmbVertexLighting_PN_vert =
-	    "attribute vec3 position;" +
+		 public static string DirAmbVertexLighting_PN_vert =	// Working Single Mesh Item
+	    "attribute vec3 position;" +							// ?? Ambient lighting
 		"attribute vec4 color;" + // added to make normal 2
 	    "attribute vec3 normal;" +
 	
@@ -90,7 +90,7 @@ namespace GlslTutorials
             "gl_Position = a_Position;" +
         "}";
 		
-		public static string PosColorWorldTransform_vert =
+		public static string PosColorWorldTransform_vert =	// Working Single Mesh Item
 		"attribute vec4 position;" +
 	    "attribute vec4 color;" +
 	    
@@ -106,6 +106,103 @@ namespace GlslTutorials
 	        "temp = worldToCameraMatrix * temp;" +
 	        "gl_Position = cameraToClipMatrix * temp;" +
 	        "theColor = color;" +
+	    "}";
+		
+		public static string DirVertexLighting_PN_vert =	// ?? Ambient Lighting
+		"attribute vec3 position;" +
+		"attribute vec4 color;" +		// added for spacing
+	    "attribute vec3 normal;" +
+	    
+	
+	    "uniform vec3 dirToLight;" +
+	    "uniform vec4 lightIntensity;" +
+	
+	    "uniform mat4 modelToCameraMatrix;" +
+	    "uniform mat3 normalModelToCameraMatrix;" +
+	
+	    "struct UniformBlock" +
+	    "{" +
+	        "mat4 cameraToClipMatrix;" +
+	    "};" +
+	
+	    "uniform UniformBlock Projection;" +
+	
+	    "varying vec4 theColor;" +
+	
+	    "void main()" +
+	    "{" +
+	        "gl_Position = Projection.cameraToClipMatrix * (modelToCameraMatrix * vec4(position, 1.0));" +
+	
+	        "vec3 normCamSpace = normalize(normalModelToCameraMatrix * normal);" +
+	
+	        "float cosAngIncidence = dot(normCamSpace, dirToLight);" +
+	        "cosAngIncidence = clamp(cosAngIncidence, 0.0, 1.0);" +
+	
+	        "theColor = lightIntensity * cosAngIncidence + 0.01 * color;" +
+	    "}";
+		
+		 public static string DirVertexLighting_PCN_vert =	// ?? Ambient Lighting
+		"attribute vec3 position;" +
+		"attribute vec4 diffuseColor;" +
+	    "attribute vec3 normal;" +
+	
+	    "uniform vec3 dirToLight;" +
+	    "uniform vec4 lightIntensity;" +
+	
+	    "uniform mat4 modelToCameraMatrix;" +
+	    "uniform mat3 normalModelToCameraMatrix;" +
+	
+	    "struct UniformBlock" +
+	    "{" +
+	        "mat4 cameraToClipMatrix;" +
+	    "};" +
+		
+		"uniform UniformBlock Projection;" +
+
+	    "varying vec4 theColor;" +
+	
+	    "void main()" +
+	    "{" +
+	        "gl_Position = Projection.cameraToClipMatrix * (modelToCameraMatrix * vec4(position, 1.0));" +
+	
+	        "vec3 normCamSpace = normalize(normalModelToCameraMatrix * normal);" +
+	
+	        "float cosAngIncidence = dot(normCamSpace, dirToLight);" +
+	        "cosAngIncidence = clamp(cosAngIncidence, 0.0, 1.0);" +
+	
+	        "theColor = lightIntensity * diffuseColor * cosAngIncidence;" +
+	    "}";
+		
+		public static string DirAmbVertexLighting_PCN_vert =	// ?? Ambient Lighting
+		"attribute vec3 position;" +
+		"attribute vec4 diffuseColor;" +
+    	"attribute vec3 normal;" +
+	
+	    "uniform vec3 dirToLight;" +
+	    "uniform vec4 lightIntensity;" +
+	
+	    "uniform mat4 modelToCameraMatrix;" +
+	    "uniform mat3 normalModelToCameraMatrix;" +
+	
+	    "struct UniformBlock" +
+	    "{" +
+	        "mat4 cameraToClipMatrix;" +
+	    "};" +
+	
+	    "uniform UniformBlock Projection;" +
+	
+	    "varying vec4 theColor;" +
+	
+	    "void main()" +
+	    "{" +
+	        "gl_Position = Projection.cameraToClipMatrix * (modelToCameraMatrix * vec4(position, 1.0));" +
+	
+	        "vec3 normCamSpace = normalize(normalModelToCameraMatrix * normal);" +
+	
+	        "float cosAngIncidence = dot(normCamSpace, dirToLight);" +
+	        "cosAngIncidence = clamp(cosAngIncidence, 0.0, 1.0);" +
+	
+	        "theColor = lightIntensity * diffuseColor * cosAngIncidence;" +
 	    "}";
 
 	}

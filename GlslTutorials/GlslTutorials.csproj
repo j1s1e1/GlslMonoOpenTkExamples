@@ -82,6 +82,22 @@
     <Compile Include="Tutorials\Tut_07_World_Scene.cs" />
     <Compile Include="TreeData.cs" />
     <Compile Include="Tutorials\Tut_08_Gimbal_Lock.cs" />
+    <Compile Include="Tutorials\Tut_09_Ambient_Lighting.cs" />
+    <Compile Include="View\ViewData.cs" />
+    <Compile Include="View\ViewScale.cs" />
+    <Compile Include="View\ObjectData.cs" />
+    <Compile Include="View\ViewProvider.cs" />
+    <Compile Include="View\ViewPole.cs" />
+    <Compile Include="View\Pole.cs" />
+    <Compile Include="View\ObjectPole.cs" />
+    <Compile Include="View\ProjectionBlock.cs" />
+    <Compile Include="View\MouseButtons.cs" />
+    <Compile Include="View\Framework.cs" />
+    <Compile Include="Tutorials\Tut_Camera.cs" />
+    <Compile Include="ProgramData\ProgramData.cs" />
+    <Compile Include="ProgramData\Programs.cs" />
+    <Compile Include="Shapes\LitMatrixSphere2.cs" />
+    <Compile Include="Shapes\LitMatrixBlock2.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -110,6 +126,8 @@
     <Folder Include="Attributes\" />
     <Folder Include="VAO\" />
     <Folder Include="XmlFilesForMeshes\" />
+    <Folder Include="View\" />
+    <Folder Include="ProgramData\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="XmlFilesForMeshes\unitplane.xml" />

@@ -15,6 +15,8 @@ namespace GlslTutorials
         public static float global_x_rotate = 0;
         public static float global_y_rotate = 0;
         public static float global_z_rotate = 0;
+		
+		public static Matrix4 worldToCamera = Matrix4.Identity;
 
         protected float x = 0;
         protected float y = 0;

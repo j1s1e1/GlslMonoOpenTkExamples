@@ -109,7 +109,6 @@ namespace GlslTutorials
         {
 			if (currentTutorial != null)
 			{
-				AddMessage(currentTutorial.keypress(e.KeyCode, 0, 0));
 			}
         }
 		
