@@ -5,6 +5,7 @@ namespace GlslTutorials
 {
 	public enum TutorialsEnum
 	{
+		Tut_Blender,
 		Tut_Camera,
 		Tut_09_Ambient_Lighting,
 		Tut_08_Gimbal_Lock,
@@ -54,7 +55,8 @@ namespace GlslTutorials
 				case TutorialsEnum.Tut_07_World_Scene: currentTutorial = new Tut_07_World_Scene(); break;
 				case TutorialsEnum.Tut_08_Gimbal_Lock: currentTutorial = new Tut_08_Gimbal_Lock(); break;
 				case TutorialsEnum.Tut_09_Ambient_Lighting: currentTutorial = new Tut_09_Ambient_Lighting(); break;
-				case TutorialsEnum.Tut_Camera: currentTutorial = new Tut_Camera(); break;				
+				case TutorialsEnum.Tut_Camera: currentTutorial = new Tut_Camera(); break;		
+				case TutorialsEnum.Tut_Blender: currentTutorial = new Tut_Blender(); break;		
 			}
 		}
 	}

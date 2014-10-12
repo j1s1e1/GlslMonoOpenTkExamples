@@ -98,6 +98,9 @@
     <Compile Include="ProgramData\Programs.cs" />
     <Compile Include="Shapes\LitMatrixSphere2.cs" />
     <Compile Include="Shapes\LitMatrixBlock2.cs" />
+    <Compile Include="Tutorials\Tut_Blender.cs" />
+    <Compile Include="Blender\Blender.cs" />
+    <Compile Include="Blender\BlenderObject.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -128,6 +131,7 @@
     <Folder Include="XmlFilesForMeshes\" />
     <Folder Include="View\" />
     <Folder Include="ProgramData\" />
+    <Folder Include="Blender\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="XmlFilesForMeshes\unitplane.xml" />
@@ -140,5 +144,8 @@
     <None Include="XmlFilesForMeshes\ship.xml" />
     <None Include="XmlFilesForMeshes\mediumgimbal.xml" />
     <None Include="XmlFilesForMeshes\largegimbal.xml" />
+    <None Include="XmlFilesForMeshes\unitplaneworldscene.xml" />
+    <None Include="XmlFilesForMeshes\unitcubecolorworldscene.xml" />
+    <None Include="Blender\test.obj" />
   </ItemGroup>
 </Project>

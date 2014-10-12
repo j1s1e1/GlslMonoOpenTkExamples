@@ -36,7 +36,7 @@ namespace GlslTutorials
 
         protected int[] indicesVboData;
 
-        protected float[] color = Colors.RED_COLOR;
+        protected float[] color = new float[]{1f, 0f, 0f, 1f};
         protected int[] colorData = null;
         protected int colorBufferID;
         protected int bufferSize;
@@ -318,6 +318,12 @@ namespace GlslTutorials
 	        Matrix4 rotation = Matrix4.Rotate(axis, (float)Math.PI / 180.0f * angDegCCW);
 	        return Matrix4.Mult(rotation, input);
 	    }
+		
+		public static void RotateWorld(Vector3 axis, float angDegCCW)
+		{
+			Matrix4 rotation = Matrix4.Rotate(axis, (float)Math.PI / 180.0f * angDegCCW);
+			worldToCamera = Matrix4.Mult(worldToCamera, rotation);
+		}
 	}
 }
 

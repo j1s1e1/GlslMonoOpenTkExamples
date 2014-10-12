@@ -34,14 +34,14 @@ namespace GlslTutorials
 	    static float FRONT_EXTENT = 0.5f;
 	    static float REAR_EXTENT = -FRONT_EXTENT;
 		
-		static float[] lmbVertexData = new float[] { 	-0.5f, 0.5f, 0.5f,
-													 	0.5f, 0.5f, 0.5f,
-													 	-0.5f, 0.5f, -0.5f,
-														0.5f, 0.5f, -0.5f,
-														-0.5f, -0.5f, 0.5f,
-														0.5f, -0.5f, 0.5f,
-														-0.5f, -0.5f, -0.5f,
-														0.5f, -0.5f, -0.5f,
+		static float[] lmbVertexData = new float[] { 	LEFT_EXTENT, TOP_EXTENT, FRONT_EXTENT,
+													 	RIGHT_EXTENT, TOP_EXTENT, FRONT_EXTENT,
+													 	LEFT_EXTENT, TOP_EXTENT, REAR_EXTENT,
+														RIGHT_EXTENT, TOP_EXTENT, REAR_EXTENT,
+														LEFT_EXTENT, BOTTOM_EXTENT, FRONT_EXTENT,
+														RIGHT_EXTENT, BOTTOM_EXTENT, FRONT_EXTENT,
+														LEFT_EXTENT, BOTTOM_EXTENT, REAR_EXTENT,
+														RIGHT_EXTENT, BOTTOM_EXTENT, REAR_EXTENT,
 													};
 		
 		string VertexShader = VertexShaders.PosOnlyWorldTransform_vert;
@@ -53,6 +53,9 @@ namespace GlslTutorials
 		{
 			size = sizeIn;
 			color = colorIn;
+			modelToWorld.M11 = size.X;
+			modelToWorld.M22 = size.Y;
+			modelToWorld.M33 = size.Z;
 			
 			progarmNumber = Programs.AddProgram(VertexShader, FragmentShader);
 			
@@ -62,7 +65,7 @@ namespace GlslTutorials
 			indexData = lmbIndexData;
 			
 			// fill in vertex data
-			vertexData =  GetVertexData();
+			vertexData = lmbVertexData; //  GetVertexData();
 			
 			InitializeVertexBuffer();
 		}

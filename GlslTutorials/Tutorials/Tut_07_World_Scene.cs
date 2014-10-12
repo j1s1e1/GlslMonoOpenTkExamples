@@ -79,9 +79,9 @@ namespace GlslTutorials
 	            g_pCylinderMesh = new Mesh(UnitCylinderTint);
 	            Stream UnitCubeTint = File.OpenRead(XmlFilesDirectory + @"/unitcubetint.xml");
 	            g_pCubeTintMesh = new Mesh(UnitCubeTint);
-	            Stream UnitCubeColor = File.OpenRead(XmlFilesDirectory + @"/unitcubecolor.xml");
+	            Stream UnitCubeColor = File.OpenRead(XmlFilesDirectory + @"/unitcubecolorworldscene.xml");
 	            g_pCubeColorMesh = new Mesh(UnitCubeColor);
-	            Stream UnitPlane = File.OpenRead(XmlFilesDirectory + @"/unitplane.xml");
+	            Stream UnitPlane = File.OpenRead(XmlFilesDirectory + @"/unitplaneworldscene.xml");
 	            g_pPlaneMesh = new Mesh(UnitPlane);
 	        }
 	        catch (Exception ex)
@@ -211,14 +211,13 @@ namespace GlslTutorials
 	            modelMatrix.Translate(0.0f, 0.5f, 0.0f);
 	
 	            GL.UseProgram(UniformColorTint.theProgram);
-	            SetGlobalMatrices(UniformColorTint);
 	            Matrix4 mm = modelMatrix.Top();
 	            GL.UniformMatrix4(UniformColorTint.modelToWorldMatrixUnif, false, ref mm);
 	            GL.Uniform4(UniformColorTint.baseColorUnif, 0.9f, 0.9f, 0.9f, 0.9f);
 	            g_pCubeTintMesh.Render();
 	            GL.UseProgram(0);
 	        }
-	
+			
 	        //Draw top.
 	        using (PushStack pushstack = new PushStack(modelMatrix))
 	        {
