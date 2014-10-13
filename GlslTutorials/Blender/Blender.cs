@@ -42,8 +42,6 @@ namespace GlslTutorials
 						}
 						previousObjectVertexCount = vertexcount;
 						bo.Setup();
-						bo.Scale(new Vector3(0.1f, 0.1f, 0.1f));
-						bo.SetOffset(new Vector3(0.0f, 0.0f, 0.0f));
 						blenderObjects.Add(bo);
 					}
 					else
@@ -64,6 +62,22 @@ namespace GlslTutorials
 			foreach (BlenderObject bo in blenderObjects)
 			{
 				bo.Draw();
+			}
+		}
+		
+		public void Scale(Vector3 scale)
+		{
+			foreach (BlenderObject bo in blenderObjects)
+			{
+				bo.Scale(scale);
+			}
+		}
+		
+		public void SetOffset(Vector3 offset)
+		{
+			foreach (BlenderObject bo in blenderObjects)
+			{
+				bo.SetOffset(offset);
 			}
 		}
 	}
