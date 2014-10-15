@@ -157,6 +157,11 @@ namespace GlslTutorials
             color[1] = green;
             color[2] = blue;
         }
+		
+		public void SetColor(float[] new_color)
+		{
+			color = new_color;
+		}
 
         public void SolidColor(int color)
         {

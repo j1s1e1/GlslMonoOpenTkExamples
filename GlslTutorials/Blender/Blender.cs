@@ -80,6 +80,14 @@ namespace GlslTutorials
 				bo.SetOffset(offset);
 			}
 		}
+		
+		public void SetColor(float[] color)
+		{
+			foreach (BlenderObject bo in blenderObjects)
+			{
+				bo.SetColor(color);
+			}
+		}
 	}
 }
 

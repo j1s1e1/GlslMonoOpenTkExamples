@@ -23,6 +23,7 @@ namespace GlslTutorials
 			blender.Scale(new Vector3(0.05f, 0.05f, 0.05f));
 			blender2 = new Blender();
 			blender2.ReadFile(BlenderFilesDirectory + "test.obj");
+			blender2.SetColor(Colors.BLUE_COLOR);
 			blender2.Scale(new Vector3(0.07f, 0.05f, 0.05f));
 			//blender.ReadFile(BlenderFilesDirectory + "SingleSideClean.obj");
 			//blender.ReadFile(BlenderFilesDirectory + "SingleSideCleanFirst2.obj");
