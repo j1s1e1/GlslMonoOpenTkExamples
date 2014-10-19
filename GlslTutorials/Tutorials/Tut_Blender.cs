@@ -16,6 +16,10 @@ namespace GlslTutorials
 		Blender blender2;
 		Blender blender3;
 		
+		TextClass credit1;
+		TextClass credit2;
+		bool staticText = true;
+		
 		protected override void init()
 	    {
 			string BlenderFilesDirectory = GlsTutorialsClass.ProjectDirectory + @"/Blender/";
@@ -37,14 +41,13 @@ namespace GlslTutorials
 			//blender.ReadFile(BlenderFilesDirectory +  "benjob_tie.obj");
 			//blender.ReadFile(BlenderFilesDirectory +  "deathstarmesh.obj");
 			
-			GL.Enable(EnableCap.CullFace);
-	        GL.CullFace(CullFaceMode.Back);
-	        GL.FrontFace(FrontFaceDirection.Cw);
-	
-	        GL.Enable(EnableCap.DepthTest);
-	        GL.DepthMask(true);
-	        GL.DepthFunc(DepthFunction.Lequal);
-	        GL.DepthRange(0.0f, 1.0f);
+			credit1 = new TextClass("X-Wing Model based on Blender model by", 0.4f, 0.04f, staticText);
+        	credit1.SetOffset(new Vector3(-0.75f, -0.65f, 0.0f));
+
+			credit2 = new TextClass("Angel David Guzman of PixelOz Designs", 0.4f, 0.04f, staticText);
+        	credit2.SetOffset(new Vector3(-0.75f, -0.75f, 0.0f));
+			
+			SetupDepthAndCull();
 		}
 		
 		double anglehorizontal = 0;
@@ -56,9 +59,7 @@ namespace GlslTutorials
 		
 		public override void display()
 	    {
-	        GL.ClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-	        GL.ClearDepth(1.0f);
-	        GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
+	        ClearDisplay();
 			blender.Draw();
 			blender2.Draw();
 			blender3.Draw();
@@ -69,6 +70,8 @@ namespace GlslTutorials
 			blender2.SetOffset(new Vector3(-xoffset, yoffset, -zoffset));
 			anglehorizontal = anglehorizontal + 0.02f;
 			anglevertical = anglevertical + 0.01f;
+			credit1.Draw();
+			credit2.Draw();
 		}
 		
 	    public override String keyboard(Keys keyCode, int x, int y)

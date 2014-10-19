@@ -6,6 +6,14 @@ namespace GlslTutorials
 	public class Symbols
 	{
 		public static float[] Dash;
+		public static float[] Space;
+		
+		static Symbols()
+		{
+			AddDash();
+			AddSpace();
+		}
+		
 		
 		private static void AddVertex(float[] symbol, int vertexNumber, Vector3 vertex)
 		{
@@ -36,15 +44,15 @@ namespace GlslTutorials
 	        return rectangle;
 	    }
 		
-		static Symbols()
-		{
-			AddDash();
-		}
-		
 		private static void AddDash()
 	    {
 	        Dash = Rectangle(6f, 2f);
 	    }
+		
+		private static void AddSpace()
+		{
+			Space = new float[9]; // Zero Size Triangle
+		}
 	
 	}
 }

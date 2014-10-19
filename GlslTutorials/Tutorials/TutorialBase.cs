@@ -189,6 +189,25 @@ namespace GlslTutorials
 	    {
 	
 	    }
+		
+		protected void SetupDepthAndCull()
+		{
+			GL.Enable(EnableCap.CullFace);
+	        GL.CullFace(CullFaceMode.Back);
+	        GL.FrontFace(FrontFaceDirection.Cw);
+	
+	        GL.Enable(EnableCap.DepthTest);
+	        GL.DepthMask(true);
+	        GL.DepthFunc(DepthFunction.Lequal);
+	        GL.DepthRange(0.0f, 1.0f); 
+		}
+		
+		protected void ClearDisplay()
+		{
+			GL.ClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+	        GL.ClearDepth(1.0f);
+	        GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
+		}
 	}
 }
 

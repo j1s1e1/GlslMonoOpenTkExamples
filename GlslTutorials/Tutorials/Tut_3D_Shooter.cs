@@ -16,6 +16,10 @@ namespace GlslTutorials
 		Blender ship;
 		List<Missle> missles = new List<Missle>();
 	 	bool addMissle = false;
+		
+		TextClass credit1;
+		TextClass credit2;
+		bool staticText = true;
 				
 		protected override void init()
 	    {
@@ -24,31 +28,28 @@ namespace GlslTutorials
 			ship.ReadFile(BlenderFilesDirectory + "X_Wing3.obj");
 			ship.SetColor(Colors.WHITE_COLOR);
 			ship.Scale(new Vector3(0.1f, 0.1f, 0.1f));
+			
+			credit1 = new TextClass("X-Wing Model based on Blender model by", 0.4f, 0.04f, staticText);
+        	credit1.SetOffset(new Vector3(-0.75f, -0.65f, 0.0f));
 
-			GL.Enable(EnableCap.CullFace);
-	        GL.CullFace(CullFaceMode.Back);
-	        GL.FrontFace(FrontFaceDirection.Cw);
-	
-	        GL.Enable(EnableCap.DepthTest);
-	        GL.DepthMask(true);
-	        GL.DepthFunc(DepthFunction.Lequal);
-	        GL.DepthRange(0.0f, 1.0f);   
+			credit2 = new TextClass("Angel David Guzman of PixelOz Designs", 0.4f, 0.04f, staticText);
+        	credit2.SetOffset(new Vector3(-0.75f, -0.75f, 0.0f));
+			
+			SetupDepthAndCull();
 		}
 		
 		double anglehorizontal = 0;
 		double anglevertical = 0;
 		
 		Vector3 axis = new Vector3(0f, 0f, 1f);
-		Vector3 up = new Vector3(0f, 0.125f, 0f);
-		Vector3 right = new Vector3(0.25f, 0f,0f);
+		Vector3 up = new Vector3(0f, 0.07f, 0f);
+		Vector3 right = new Vector3(0.16f, 0f,0f);
 		
 		
 		public override void display()
 	    {
 			List<int> deadMissles = new List<int>();
-	        GL.ClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-	        GL.ClearDepth(1.0f);
-	        GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
+			ClearDisplay();
 			ship.Draw();
 			anglehorizontal = anglehorizontal + 0.02f;
 			anglevertical = anglevertical + 0.01f;
@@ -77,6 +78,8 @@ namespace GlslTutorials
  	            missles.Add(new Missle(axis, up, right));
 	            addMissle = false;
         	}
+			credit1.Draw();
+			credit2.Draw();
 		}
 		
 		private void Rotate(Vector3 rotationAxis, float angle)

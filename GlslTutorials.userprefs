@@ -1,13 +1,15 @@
 ﻿<Properties GitUserInfo="UsingGIT">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="GlslTutorials/Text/Symbols.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="GlslTutorials/Tutorials/Tut_3D_Shooter.cs">
     <Files>
-      <File FileName="GlslTutorials/Tutorials/Tut_Text.cs" Line="22" Column="50" />
-      <File FileName="GlslTutorials/Text/TextClass.cs" Line="180" Column="70" />
+      <File FileName="GlslTutorials/Tutorials/Tut_Text.cs" Line="33" Column="66" />
+      <File FileName="GlslTutorials/Text/TextClass.cs" Line="139" Column="51" />
       <File FileName="GlslTutorials/Shapes/Shape.cs" Line="52" Column="23" />
-      <File FileName="GlslTutorials/Text/Letters.cs" Line="129" Column="4" />
-      <File FileName="GlslTutorials/Text/Numbers.cs" Line="107" Column="1" />
-      <File FileName="GlslTutorials/Text/Symbols.cs" Line="38" Column="35" />
+      <File FileName="GlslTutorials/Text/Letters.cs" Line="826" Column="43" />
+      <File FileName="GlslTutorials/Tutorials/Tut_3D_Shooter.cs" Line="45" Column="36" />
+      <File FileName="GlslTutorials/Menu.cs" Line="28" Column="3" />
+      <File FileName="GlslTutorials/Text/Numbers.cs" Line="1" Column="1" />
+      <File FileName="GlslTutorials/Text/Symbols.cs" Line="54" Column="47" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -15,10 +17,10 @@
           <Node name="GlslTutorials" expanded="True">
             <Node name="GL_Helpers" expanded="True" />
             <Node name="Shapes" expanded="True" />
-            <Node name="Text" expanded="True">
-              <Node name="Symbols.cs" selected="True" />
+            <Node name="Text" expanded="True" />
+            <Node name="Tutorials" expanded="True">
+              <Node name="Tut_3D_Shooter.cs" selected="True" />
             </Node>
-            <Node name="Tutorials" expanded="True" />
             <Node name="View" expanded="True" />
           </Node>
         </State>

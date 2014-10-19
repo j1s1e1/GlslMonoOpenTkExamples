@@ -10,28 +10,31 @@ namespace GlslTutorials
 	public class Tut_Text : TutorialBase
 	{
  		static List<TextClass> text;
+		
+		bool staticText = true;
+		bool reverseRotation = true;
 	
 	    private void SetupText()
 	    {
+			TextClass new_text;
 	        text = new List<TextClass>();
 	        for (int i = 0; i < 2; i++)
 	        {
-	            TextClass new_text;
+
 	            if (i == 1)
 	            {
-	                new_text = new TextClass("ABC123", 1f, 0.1f);
+	                new_text = new TextClass("ABC123", 1f, 0.1f, staticText, reverseRotation);
 	            }
 	            else
 	            {
 	                new_text = new TextClass("56789", 0.5f, 0.2f);
 	            }
 	
-	            new_text.SetOffset(new Vector3(-0.5f, -0.5f+ i * 0.3f, 0.5f - i));
+	            new_text.SetOffset(new Vector3(-0.5f, -0.5f+ i * 0.4f, 0.5f - i));
 	            text.Add(new_text);
 	        }
 	        for (int i = 0; i < 2; i++)
 	        {
-	            TextClass new_text;
 	            if (i == 1)
 	            {
 	                new_text = new TextClass("867", 1f, 0.06f);
@@ -44,14 +47,20 @@ namespace GlslTutorials
 	            new_text.SetOffset(new Vector3(0f, -0.25f + i * 0.3f, 0.0f));
 	            text.Add(new_text);
 	        }
+			
+			new_text = new TextClass("ABCDEFGHIJKLM", 0.5f, 0.05f, staticText, reverseRotation);
+			new_text.SetOffset(new Vector3(0f, 0.5f, 0.0f));
+			text.Add(new_text);
+			
+			new_text = new TextClass("NOPQRSTUVWXYZ", 0.5f, 0.05f, staticText, reverseRotation);
+			new_text.SetOffset(new Vector3(0f, 0.4f, 0.0f));
+			text.Add(new_text);
 	    }
 	
-	
-	    //Called after the window and OpenGL are initialized. Called exactly once, before the main loop.
 	    protected override void init()
 	    {
-	        //InitializeProgram();
 	        SetupText();
+			SetupDepthAndCull();
 	    }
 	
 	    //Called to update the display.
@@ -59,8 +68,7 @@ namespace GlslTutorials
 	    //If you need continuous updates of the screen, call glutPostRedisplay() at the end of the function.
 	    public override void display()
 	    {
-	        GL.ClearColor(0.2f, 0.2f, 0.0f, 1.0f);
-	        GL.Clear(ClearBufferMask.ColorBufferBit);
+	        ClearDisplay();
 	        foreach (TextClass t in text )
 	        {
 	            t.Draw();

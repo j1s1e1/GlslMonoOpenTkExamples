@@ -5,15 +5,6 @@ namespace GlslTutorials
 {
 	public enum TutorialsEnum
 	{
-		Tut_Text,
-		Tut_3D_Shooter,
-		Tut_Blender,
-		Tut_Camera,
-		Tut_09_Ambient_Lighting,
-		Tut_08_Gimbal_Lock,
-		Tut_07_World_Scene,
-		Tut_SingleMeshItem,
-		Tut_TiltBall,
 		Tut_02_Vertex_Colors,
 		Tut_03_CPU_Position_Offset,
 		Tut_03_Shader_Calc_Offset,
@@ -22,11 +13,19 @@ namespace GlslTutorials
 		Tut_06_Rotations,
 		Tut_06_Scale,
 		Tut_06_Translation,
+		Tut_07_World_Scene,
+		Tut_08_Gimbal_Lock,
+		Tut_09_Ambient_Lighting,
 		Tut_CheckObjects,
 		Tut_Spheres,
 		Tut_Blocks,
 		Tut_Vectors,
-
+		Tut_Text,
+		Tut_SingleMeshItem,
+		Tut_TiltBall,
+		Tut_Blender,
+		Tut_Camera,
+		Tut_3D_Shooter,
 	}
 	public class MenuClass
 	{

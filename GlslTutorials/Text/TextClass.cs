@@ -16,6 +16,8 @@ namespace GlslTutorials
 	    float letter_offset;
 	    int current_letter;
 		
+		bool staticText = false;
+		
 	    private float[] SwapX(float[] input)
 	    {
 	        for (int i = 0; i < input.Length; i = i + 3)
@@ -134,6 +136,8 @@ namespace GlslTutorials
 	            case (char)'8': result = Numbers.Eight; break;
 	            case (char)'9': result = Numbers.Nine; break;
 				
+				case (char)' ': result = Symbols.Space; break;
+				
 	            default:  result = Symbols.Dash; break;
 	        }
 	        result = ScaleChar(result);
@@ -180,8 +184,10 @@ namespace GlslTutorials
 	        return new_text.ToArray();
 	    }
 	
-	    public TextClass(String text, float scaleFactorIn, float letterOffsetIn) 
+	    public TextClass(String text, float scaleFactorIn, float letterOffsetIn, 
+		                 bool staticTextIn = false, bool reverseRotation = true) 
 		{
+			staticText = staticTextIn;
 			text = text.ToUpper();
 	        current_letter = 0;
 	        scaleFactor = scaleFactorIn;
@@ -189,6 +195,10 @@ namespace GlslTutorials
 			vertexStride = 3 * 4; // bytes per vertex, no color
 			
 	        vertexData = GetCoordsFromText(text);
+			if (reverseRotation)
+			{
+				vertexData = ReverseRotation(vertexData);
+			}
 	        vertexCount = vertexData.Length / COORDS_PER_VERTEX;
 			SetupSimpleIndexBuffer();
 			InitializeVertexBuffer();
@@ -203,7 +213,13 @@ namespace GlslTutorials
 			mm.M42 = offset.Y;
 			mm.M43 = offset.Z;	
 			
-			Programs.Draw(progarmNumber, vertexBufferObject, indexBufferObject, cameraToClip, worldToCamera, mm,
+			Matrix4 wtc = worldToCamera;
+			if (staticText)
+			{
+				wtc = Matrix4.Identity;
+			}
+			
+			Programs.Draw(progarmNumber, vertexBufferObject, indexBufferObject, cameraToClip, wtc, mm,
 			              indexData.Length, color, COORDS_PER_VERTEX, vertexStride);
 	    }
 	}

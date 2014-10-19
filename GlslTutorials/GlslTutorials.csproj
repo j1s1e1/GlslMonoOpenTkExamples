@@ -158,5 +158,6 @@
     <None Include="XmlFilesForMeshes\unitplaneworldscene.xml" />
     <None Include="XmlFilesForMeshes\unitcubecolorworldscene.xml" />
     <None Include="Blender\test.obj" />
+    <None Include="Blender\X_Wing3.obj" />
   </ItemGroup>
 </Project>
