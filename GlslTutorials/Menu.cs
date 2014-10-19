@@ -5,6 +5,8 @@ namespace GlslTutorials
 {
 	public enum TutorialsEnum
 	{
+		Tut_Text,
+		Tut_3D_Shooter,
 		Tut_Blender,
 		Tut_Camera,
 		Tut_09_Ambient_Lighting,
@@ -23,8 +25,8 @@ namespace GlslTutorials
 		Tut_CheckObjects,
 		Tut_Spheres,
 		Tut_Blocks,
+		Tut_Vectors,
 
-		
 	}
 	public class MenuClass
 	{
@@ -57,6 +59,9 @@ namespace GlslTutorials
 				case TutorialsEnum.Tut_09_Ambient_Lighting: currentTutorial = new Tut_09_Ambient_Lighting(); break;
 				case TutorialsEnum.Tut_Camera: currentTutorial = new Tut_Camera(); break;		
 				case TutorialsEnum.Tut_Blender: currentTutorial = new Tut_Blender(); break;		
+				case TutorialsEnum.Tut_3D_Shooter: currentTutorial = new Tut_3D_Shooter(); break;	
+				case TutorialsEnum.Tut_Vectors: currentTutorial = new Tut_Vectors(); break;	
+				case TutorialsEnum.Tut_Text: currentTutorial = new Tut_Text(); break;	
 			}
 		}
 	}

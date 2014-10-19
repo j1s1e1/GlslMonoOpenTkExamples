@@ -17,7 +17,7 @@ namespace GlslTutorials
 		
 		public void ReadFile(string filename)
 		{
-			string nextLine;
+			string nextLine;			
 			blenderObjects = new List<BlenderObject>();
 			using (StreamReader sr = new StreamReader(new FileStream(filename, FileMode.Open)))
 			{
@@ -35,8 +35,12 @@ namespace GlslTutorials
 							if (nextLine[0] == 'o') break;
 							if (nextLine[0] == 'v')
 							{
-								bo.AddVertex(nextLine);
-								vertexcount++;
+								if (nextLine[1] == ' ')
+								{
+									bo.AddVertex(nextLine);
+									vertexcount++;
+								}
+								// Add Code for Normals
 							}
 							if (nextLine[0] == 'f') bo.AddTriangle(nextLine, previousObjectVertexCount);
 						}
@@ -86,6 +90,14 @@ namespace GlslTutorials
 			foreach (BlenderObject bo in blenderObjects)
 			{
 				bo.SetColor(color);
+			}
+		}
+		
+		public void RotateShapes(Vector3 rotationAxis, float angle)
+		{
+			foreach (BlenderObject bo in blenderObjects)
+			{
+				bo.RotateShape(rotationAxis, angle);
 			}
 		}
 	}

@@ -17,6 +17,8 @@ namespace GlslTutorials
         public static float global_z_rotate = 0;
 		
 		public static Matrix4 worldToCamera = Matrix4.Identity;
+		protected Matrix4 modelToWorld = Matrix4.Identity;
+		protected Matrix4 cameraToClip = Matrix4.Identity;
 
         protected float x = 0;
         protected float y = 0;
@@ -86,9 +88,9 @@ namespace GlslTutorials
 			return AnalysisTools.CheckExtents(vertexData);
 		}
 		
-		protected void SetupSimpleIndexBuffer(int elementCount)
+		protected void SetupSimpleIndexBuffer()
 		{
-			indexData = new short[vertexData.Length/elementCount];
+			indexData = new short[vertexData.Length/COORDS_PER_VERTEX];
 			for (short i = 0; i < indexData.Length; i++)
 			{
 				indexData[i] = i;
@@ -141,6 +143,11 @@ namespace GlslTutorials
         {
              offset.Z = z_in;
         }
+		public Vector3 GetOffset()
+		{
+			return offset;
+		}	
+		
         protected void SetupIndexBuffer()
         {
             indicesVboData = new int[vertexCount];
@@ -274,34 +281,10 @@ namespace GlslTutorials
             rotation3 = r3;
         }
 
-        public virtual void Draw()
-    {
-        /*
-        GL.PushMatrix();
-        {
-            if (global_move) {
-                GL.Rotate(global_x_rotate, 1, 0, 0);
-                GL.Rotate(global_y_rotate, 0, 1, 0);
-                GL.Rotate(global_z_rotate, 0, 0, 1);
-                GL.Translate(global_x_offset, global_y_offset, global_z_offset);
-            }
-            GL.Translate(x + x_offset, y + y_offset, z + z_offset);
-            GL.Rotate(angle1, 1, 0, 0);
-            GL.Rotate(angle2, 0, 1, 0);
-            GL.Rotate(angle3, 0, 1, 1);
-            angle1 = (float)(angle1 + rotation1);
-            angle2 = (float)(angle2 + rotation2);
-            angle3 = (float)(angle3 + rotation3);
-            // Color Array Buffer (Colors not used when lighting is enabled)
-            VBO_Tools.BindColorBuffer(colorBufferID);
-            // Vertex Normal Buffer
-            VBO_Tools.BindVertexNormalBuffer(vertexNormalBufferID);
-            // Element Array Buffer
-            VBO_Tools.BindElementBuffer(indiciesBufferID, 3, 0);
-        }
-        GL.PopMatrix();
-        */
-    }
+	    public virtual void Draw()
+	    {
+	       
+	    }
 		
 		protected Vector3 axis = new Vector3(0f, 0f, 1f);
 		
@@ -318,16 +301,22 @@ namespace GlslTutorials
 	    }
 		
 		///Applies a rotation matrix about the given axis, with the given angle in degrees.
-	    public Matrix4 Rotate(Matrix4 input, Vector3 axis, float angDegCCW)
+	    public Matrix4 Rotate(Matrix4 input, Vector3 rotationAxis, float angleDeg)
 	    {
-	        Matrix4 rotation = Matrix4.Rotate(axis, (float)Math.PI / 180.0f * angDegCCW);
+	        Matrix4 rotation = Matrix4.CreateFromAxisAngle(rotationAxis, (float)Math.PI / 180.0f * angleDeg);
 	        return Matrix4.Mult(rotation, input);
 	    }
 		
-		public static void RotateWorld(Vector3 axis, float angDegCCW)
+		public static void RotateWorld(Vector3 rotationAxis, float angleDeg)
 		{
-			Matrix4 rotation = Matrix4.Rotate(axis, (float)Math.PI / 180.0f * angDegCCW);
+			Matrix4 rotation = Matrix4.CreateFromAxisAngle(rotationAxis, (float)Math.PI / 180.0f * angleDeg);
 			worldToCamera = Matrix4.Mult(worldToCamera, rotation);
+		}
+		
+		public void RotateShape(Vector3 rotationAxis, float angleDeg)
+		{
+			Matrix4 rotation = Matrix4.CreateFromAxisAngle(rotationAxis, (float)Math.PI / 180.0f * angleDeg);
+			modelToWorld = Matrix4.Mult(modelToWorld, rotation);			
 		}
 	}
 }

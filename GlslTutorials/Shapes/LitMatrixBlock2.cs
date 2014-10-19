@@ -5,10 +5,7 @@ using System;
 namespace GlslTutorials
 {
 	public class LitMatrixBlock2 : Shape
-	{
-		Matrix4 cameraToClip = Matrix4.Identity;
-	    Matrix4 modelToWorld = Matrix4.Identity;
-		
+	{		
 		Vector3 size;
 		
 		//		  2-------3

@@ -14,6 +14,7 @@ namespace GlslTutorials
 		
 		Blender blender;
 		Blender blender2;
+		Blender blender3;
 		
 		protected override void init()
 	    {
@@ -29,7 +30,10 @@ namespace GlslTutorials
 			//blender.ReadFile(BlenderFilesDirectory + "SingleSideCleanFirst2.obj");
 			//blender.ReadFile(BlenderFilesDirectory + "SingleSideOriginal2.obj");
 			//blender.ReadFile(BlenderFilesDirectory + "Simpler.obj");
-			//blender.ReadFile(BlenderFilesDirectory + "XWingLow-MediumPolyByPixelOzMultiMaterialColoredVer1-0.obj");
+			blender3 = new Blender();
+			blender3.ReadFile(BlenderFilesDirectory + "X_Wing3.obj");
+			blender3.SetColor(Colors.WHITE_COLOR);
+			blender3.Scale(new Vector3(0.1f, 0.1f, 0.1f));
 			//blender.ReadFile(BlenderFilesDirectory +  "benjob_tie.obj");
 			//blender.ReadFile(BlenderFilesDirectory +  "deathstarmesh.obj");
 			
@@ -41,7 +45,6 @@ namespace GlslTutorials
 	        GL.DepthMask(true);
 	        GL.DepthFunc(DepthFunction.Lequal);
 	        GL.DepthRange(0.0f, 1.0f);
-	        
 		}
 		
 		double anglehorizontal = 0;
@@ -58,6 +61,7 @@ namespace GlslTutorials
 	        GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 			blender.Draw();
 			blender2.Draw();
+			blender3.Draw();
 			xoffset = (float) (Math.Cos (anglevertical) * Math.Cos (anglehorizontal));
 			yoffset = (float) (Math.Cos (anglevertical) * Math.Sin (anglehorizontal));
 			zoffset = (float) (Math.Sin (anglevertical)) / 10f;
@@ -92,6 +96,8 @@ namespace GlslTutorials
 					break;		
 				case Keys.I:
 					result.AppendLine("Found " + blender.ObjectCount().ToString() + " objects in Blender file.");
+					result.AppendLine("Found " + blender2.ObjectCount().ToString() + " objects in Blender 2 file.");
+					result.AppendLine("Found " + blender3.ObjectCount().ToString() + " objects in Blender 3 file.");
 					break;
 	        }
 	        return result.ToString();

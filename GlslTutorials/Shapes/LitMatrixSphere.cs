@@ -14,10 +14,6 @@ namespace GlslTutorials
 	    private int modelToWorldMatrixUnif;
 	    private int colorUnif;
 	
-	    Matrix4 cameraToClip = Matrix4.Identity;
-	    static Matrix4 worldToCamera = Matrix4.Identity;
-	    Matrix4 modelToWorld = Matrix4.Identity;
-		
 		float radius;
 		
 		string VertexShader = VertexShaders.PosOnlyWorldTransform_vert;
@@ -30,7 +26,7 @@ namespace GlslTutorials
         	vertexCount = vertexCoords.Length / COORDS_PER_VERTEX / 2;
 		
 			vertexData = vertexCoords;
-			SetupSimpleIndexBuffer(COORDS_PER_VERTEX);
+			SetupSimpleIndexBuffer();
 			
         	InitializeVertexBuffer();
 

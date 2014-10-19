@@ -38,7 +38,6 @@
     <Compile Include="GlsTutorials.Designer.cs" />
     <Compile Include="Tutorials\Tut_TiltBall.cs" />
     <Compile Include="Tutorials\TutorialBase.cs" />
-    <Compile Include="Shapes\Shape.cs" />
     <Compile Include="Shapes\LitMatrixBlock.cs" />
     <Compile Include="Shapes\LitMatrixSphere.cs" />
     <Compile Include="Colors.cs" />
@@ -101,6 +100,15 @@
     <Compile Include="Tutorials\Tut_Blender.cs" />
     <Compile Include="Blender\Blender.cs" />
     <Compile Include="Blender\BlenderObject.cs" />
+    <Compile Include="Tutorials\Tut_3D_Shooter.cs" />
+    <Compile Include="Objects\Missle.cs" />
+    <Compile Include="Tutorials\Tut_Vectors.cs" />
+    <Compile Include="Shapes\Shape.cs" />
+    <Compile Include="Text\Numbers.cs" />
+    <Compile Include="Tutorials\Tut_Text.cs" />
+    <Compile Include="Text\TextClass.cs" />
+    <Compile Include="Text\Symbols.cs" />
+    <Compile Include="Text\Letters.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -132,6 +140,9 @@
     <Folder Include="View\" />
     <Folder Include="ProgramData\" />
     <Folder Include="Blender\" />
+    <Folder Include="Objects\" />
+    <Folder Include="Portability\" />
+    <Folder Include="Text\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="XmlFilesForMeshes\unitplane.xml" />

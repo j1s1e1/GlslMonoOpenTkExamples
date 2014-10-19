@@ -1,20 +1,25 @@
 ﻿<Properties GitUserInfo="UsingGIT">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="GlslTutorials/Tutorials/Tut_Blocks.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="GlslTutorials/Text/Symbols.cs">
     <Files>
-      <File FileName="GlslTutorials/Shapes/LitMatrixBlock2.cs" Line="47" Column="65" />
-      <File FileName="GlslTutorials/GL_Helpers/VertexShaders.cs" Line="23" Column="25" />
-      <File FileName="GlslTutorials/Tutorials/Tut_Blocks.cs" Line="24" Column="3" />
-      <File FileName="GlslTutorials/Shapes/LitMatrixBlock.cs" Line="7" Column="15" />
+      <File FileName="GlslTutorials/Tutorials/Tut_Text.cs" Line="22" Column="50" />
+      <File FileName="GlslTutorials/Text/TextClass.cs" Line="180" Column="70" />
+      <File FileName="GlslTutorials/Shapes/Shape.cs" Line="52" Column="23" />
+      <File FileName="GlslTutorials/Text/Letters.cs" Line="129" Column="4" />
+      <File FileName="GlslTutorials/Text/Numbers.cs" Line="107" Column="1" />
+      <File FileName="GlslTutorials/Text/Symbols.cs" Line="38" Column="35" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State expanded="True">
           <Node name="GlslTutorials" expanded="True">
+            <Node name="GL_Helpers" expanded="True" />
             <Node name="Shapes" expanded="True" />
-            <Node name="Tutorials" expanded="True">
-              <Node name="Tut_Blocks.cs" selected="True" />
+            <Node name="Text" expanded="True">
+              <Node name="Symbols.cs" selected="True" />
             </Node>
+            <Node name="Tutorials" expanded="True" />
+            <Node name="View" expanded="True" />
           </Node>
         </State>
       </Pad>
@@ -28,7 +33,6 @@
       <Breakpoint file="/home/jamie/repos/C#/GlslTutorials/GlslTutorials/Tutorials/Tut_TiltBall.cs" line="275" />
       <Breakpoint file="/home/jamie/repos/C#/GlslTutorials/GlslTutorials/Tutorials/Tut_08_Gimbal_Lock.cs" line="165" />
       <Breakpoint file="/home/jamie/repos/C#/GlslTutorials/GlslTutorials/Tutorials/Tut_09_Ambient_Lighting.cs" line="583" />
-      <Breakpoint file="/home/jamie/repos/C#/GlslTutorials/GlslTutorials/Shapes/LitMatrixSphere2.cs" line="68" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />

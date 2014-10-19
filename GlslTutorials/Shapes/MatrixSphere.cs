@@ -18,10 +18,6 @@ namespace GlslTutorials
 	    private int modelToWorldMatrixUnif;
 	    private int colorUnif;
 	
-	    static Matrix4 cameraToClip = new Matrix4();
-	    static Matrix4 worldToCamera = new Matrix4();
-	    Matrix4 modelToWorld = new Matrix4();
-	
 	    float center_x = 0f;
 	    float center_y = 0f;
 	    float center_z = 0f;

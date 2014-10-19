@@ -13,10 +13,6 @@ namespace GlslTutorials
 	    private static int worldToCameraMatrixUnif;
 	    private static int modelToWorldMatrixUnif;
 	    private static int colorUnif;
-	
-	    Matrix4 cameraToClip = Matrix4.Identity;
-	    static Matrix4 worldToCamera = Matrix4.Identity;
-	    Matrix4 modelToWorld = Matrix4.Identity;
 		
 		Vector3 size;
 		

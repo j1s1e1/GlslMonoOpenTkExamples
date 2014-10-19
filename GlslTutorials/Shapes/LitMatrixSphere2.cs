@@ -6,9 +6,6 @@ namespace GlslTutorials
 {
 	public class LitMatrixSphere2 : Shape
 	{
-	    Matrix4 cameraToClip = Matrix4.Identity;
-	    Matrix4 modelToWorld = Matrix4.Identity;
-		
 		float radius;
 		
 		string VertexShader = VertexShaders.PosOnlyWorldTransform_vert;
@@ -23,7 +20,7 @@ namespace GlslTutorials
         	vertexCount = vertexCoords.Length / COORDS_PER_VERTEX / 2;
 		
 			vertexData = vertexCoords;
-			SetupSimpleIndexBuffer(COORDS_PER_VERTEX);
+			SetupSimpleIndexBuffer();
 			
         	InitializeVertexBuffer();
 			

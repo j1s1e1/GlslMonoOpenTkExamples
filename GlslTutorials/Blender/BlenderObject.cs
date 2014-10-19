@@ -15,8 +15,6 @@ namespace GlslTutorials
 		string VertexShader = VertexShaders.PosOnlyWorldTransform_vert;
 		string FragmentShader = FragmentShaders.ColorUniform_frag;
 		int progarmNumber;
-		Matrix4 cameraToClip = Matrix4.Identity;
-	    Matrix4 modelToWorld = Matrix4.Identity;
 		
 		public BlenderObject (string nameIn)
 		{
@@ -34,9 +32,25 @@ namespace GlslTutorials
 		
 		public void AddTriangle(string triangleInfo, short offset)
 		{
-			List<short> newIndexes = 
-				triangleInfo.Substring(2).Split(' ').Select(s => (short)(Convert.ToInt16(s) - offset)).ToList();
-			indexes.AddRange(newIndexes);
+			if (triangleInfo.Contains("/"))
+			{
+				int debug = 0;
+				List<short> newIndexes = new List<short>();
+				string[] selections = triangleInfo.Substring(2).Split(' ');
+				for (int i = 0; i < selections.Length; i++)
+				{
+					string[] selections_parts = selections[i].Split ('/');
+					newIndexes.Add(Convert.ToInt16(selections_parts[0]));
+					debug++;
+				}
+				indexes.AddRange(newIndexes);
+			}
+			else
+			{
+				List<short> newIndexes = 
+					triangleInfo.Substring(2).Split(' ').Select(s => (short)(Convert.ToInt16(s) - offset)).ToList();
+				indexes.AddRange(newIndexes);
+			}
 		}
 		
 		public void Setup()
