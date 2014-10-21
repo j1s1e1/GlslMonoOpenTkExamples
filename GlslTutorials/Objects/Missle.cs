@@ -93,6 +93,16 @@ namespace GlslTutorials
 			fire = false;
 		}
 		
+		public Vector3[] GetOffsets()
+		{
+			Vector3[] offsets = new Vector3[4];
+			offsets[0] = topLeft.GetOffset();
+			offsets[1] = topLeft.GetOffset();
+			offsets[2] = topLeft.GetOffset();
+			offsets[3] = topLeft.GetOffset();
+			return offsets;
+		}
+		
 		public void DrawMissle(LitMatrixSphere2 missle, Vector3 step)
 		{
 			missle.Draw();

@@ -17,6 +17,10 @@ namespace GlslTutorials
 	    int current_letter;
 		
 		bool staticText = false;
+		bool reverseRotation = true;
+		
+		bool updateLock = false;
+    	bool waitingForUpdate = false;
 		
 	    private float[] SwapX(float[] input)
 	    {
@@ -185,9 +189,10 @@ namespace GlslTutorials
 	    }
 	
 	    public TextClass(String text, float scaleFactorIn, float letterOffsetIn, 
-		                 bool staticTextIn = false, bool reverseRotation = true) 
+		                 bool staticTextIn = false, bool reverseRotationIn = true) 
 		{
 			staticText = staticTextIn;
+			reverseRotation = reverseRotationIn;
 			text = text.ToUpper();
 	        current_letter = 0;
 	        scaleFactor = scaleFactorIn;
@@ -205,6 +210,23 @@ namespace GlslTutorials
 	
 			progarmNumber = Programs.AddProgram(VertexShader, FragmentShader);
 	    }
+		
+		public void UpdateText(String text)
+	    {
+	        updateLock = true;
+	        text = text.ToUpper();
+	        current_letter = 0;
+	        vertexStride = 3 * 4; // bytes per vertex, no color
+	        vertexData = GetCoordsFromText(text);
+	        if (reverseRotation)
+	        {
+	            vertexData = ReverseRotation(vertexData);
+	        }
+	        vertexCount = vertexData.Length / COORDS_PER_VERTEX;
+	        SetupSimpleIndexBuffer();
+	        InitializeVertexBuffer();
+	        updateLock = false;
+	    }
 	
 	    public override void Draw() 
 		{
@@ -219,8 +241,16 @@ namespace GlslTutorials
 				wtc = Matrix4.Identity;
 			}
 			
-			Programs.Draw(progarmNumber, vertexBufferObject, indexBufferObject, cameraToClip, wtc, mm,
-			              indexData.Length, color, COORDS_PER_VERTEX, vertexStride);
+			if (updateLock == false)
+	        {
+	            Programs.Draw(progarmNumber, vertexBufferObject, indexBufferObject, cameraToClip, wtc, mm,
+	                    indexData.Length, color, COORDS_PER_VERTEX, vertexStride);
+				waitingForUpdate = false;
+	        }
+	        else
+	        {
+	            waitingForUpdate = true;
+	        }
 	    }
 	}
 }

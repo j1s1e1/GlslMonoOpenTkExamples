@@ -1192,9 +1192,7 @@ namespace GlslTutorials
 			AddTrianglePair(Z, 0, V0, V1, V2, V3);
 			AddTrianglePair(Z, 6, V4, V5, V6, V7);
 			AddTrianglePair(Z, 12, V4, V5, V2, V3);
-		}
-		
-				
+		}		
 	}
 }
 

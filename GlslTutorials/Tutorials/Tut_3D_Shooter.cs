@@ -17,9 +17,22 @@ namespace GlslTutorials
 		List<Missle> missles = new List<Missle>();
 	 	bool addMissle = false;
 		
+		List<Alien> aliens;
+		
 		TextClass credit1;
 		TextClass credit2;
+		
+		int deadAliensCount = 0;
+		TextClass deadAliensText;
+		
 		bool staticText = true;
+		
+		double anglehorizontal = 0;
+		double anglevertical = 0;
+		
+		Vector3 axis = new Vector3(0f, 0f, 1f);
+		Vector3 up = new Vector3(0f, 0.07f, 0f);
+		Vector3 right = new Vector3(0.16f, 0f,0f);
 				
 		protected override void init()
 	    {
@@ -28,6 +41,17 @@ namespace GlslTutorials
 			ship.ReadFile(BlenderFilesDirectory + "X_Wing3.obj");
 			ship.SetColor(Colors.WHITE_COLOR);
 			ship.Scale(new Vector3(0.1f, 0.1f, 0.1f));
+			
+			aliens = new List<Alien>();
+			
+			for (int i = 0; i < 10; i++)
+			{
+				Alien alien = new Alien();
+				aliens.Add(alien);
+			}
+			
+			deadAliensText = new TextClass("Dead Aliens = " + deadAliensCount.ToString(), 0.4f, 0.04f, staticText);
+			deadAliensText.SetOffset(new Vector3(-0.75f, +0.8f, 0.0f));
 			
 			credit1 = new TextClass("X-Wing Model based on Blender model by", 0.4f, 0.04f, staticText);
         	credit1.SetOffset(new Vector3(-0.75f, -0.65f, 0.0f));
@@ -38,17 +62,10 @@ namespace GlslTutorials
 			SetupDepthAndCull();
 		}
 		
-		double anglehorizontal = 0;
-		double anglevertical = 0;
-		
-		Vector3 axis = new Vector3(0f, 0f, 1f);
-		Vector3 up = new Vector3(0f, 0.07f, 0f);
-		Vector3 right = new Vector3(0.16f, 0f,0f);
-		
-		
 		public override void display()
 	    {
 			List<int> deadMissles = new List<int>();
+			List<int> deadAliens = new List<int>();
 			ClearDisplay();
 			ship.Draw();
 			anglehorizontal = anglehorizontal + 0.02f;
@@ -78,6 +95,25 @@ namespace GlslTutorials
  	            missles.Add(new Missle(axis, up, right));
 	            addMissle = false;
         	}
+			int dead = 0;
+			for(int i = 0; i < aliens.Count; i++)
+			{
+				if (aliens[i].isDead())
+				{
+					dead++;
+				}
+				else
+				{
+					aliens[i].Draw();
+					aliens[i].FireOn(missles);
+				}
+			}
+			if (dead > deadAliensCount)
+			{
+				deadAliensCount = dead;
+				deadAliensText.UpdateText("Dead Aliens = " + deadAliensCount.ToString());
+			}
+			deadAliensText.Draw();
 			credit1.Draw();
 			credit2.Draw();
 		}

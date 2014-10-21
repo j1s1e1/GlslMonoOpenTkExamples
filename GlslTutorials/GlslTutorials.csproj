@@ -109,6 +109,9 @@
     <Compile Include="Text\TextClass.cs" />
     <Compile Include="Text\Symbols.cs" />
     <Compile Include="Text\Letters.cs" />
+    <Compile Include="Creatures\Alien.cs" />
+    <Compile Include="Creatures\RandomMovement.cs" />
+    <Compile Include="Creatures\Collisions.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -143,6 +146,7 @@
     <Folder Include="Objects\" />
     <Folder Include="Portability\" />
     <Folder Include="Text\" />
+    <Folder Include="Creatures\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="XmlFilesForMeshes\unitplane.xml" />

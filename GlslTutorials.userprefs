@@ -1,27 +1,19 @@
 ﻿<Properties GitUserInfo="UsingGIT">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="GlslTutorials/Tutorials/Tut_3D_Shooter.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="GlslTutorials/Menu.cs">
     <Files>
-      <File FileName="GlslTutorials/Tutorials/Tut_Text.cs" Line="33" Column="66" />
-      <File FileName="GlslTutorials/Text/TextClass.cs" Line="139" Column="51" />
-      <File FileName="GlslTutorials/Shapes/Shape.cs" Line="52" Column="23" />
-      <File FileName="GlslTutorials/Text/Letters.cs" Line="826" Column="43" />
-      <File FileName="GlslTutorials/Tutorials/Tut_3D_Shooter.cs" Line="45" Column="36" />
-      <File FileName="GlslTutorials/Menu.cs" Line="28" Column="3" />
-      <File FileName="GlslTutorials/Text/Numbers.cs" Line="1" Column="1" />
-      <File FileName="GlslTutorials/Text/Symbols.cs" Line="54" Column="47" />
+      <File FileName="GlslTutorials/Creatures/Alien.cs" Line="31" Column="56" />
+      <File FileName="GlslTutorials/Tutorials/Tut_3D_Shooter.cs" Line="92" Column="14" />
+      <File FileName="GlslTutorials/Creatures/RandomMovement.cs" Line="31" Column="20" />
+      <File FileName="GlslTutorials/Menu.cs" Line="8" Column="18" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State expanded="True">
           <Node name="GlslTutorials" expanded="True">
-            <Node name="GL_Helpers" expanded="True" />
-            <Node name="Shapes" expanded="True" />
-            <Node name="Text" expanded="True" />
-            <Node name="Tutorials" expanded="True">
-              <Node name="Tut_3D_Shooter.cs" selected="True" />
-            </Node>
-            <Node name="View" expanded="True" />
+            <Node name="Creatures" expanded="True" />
+            <Node name="Tutorials" expanded="True" />
+            <Node name="Menu.cs" selected="True" />
           </Node>
         </State>
       </Pad>
@@ -33,7 +25,6 @@
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
       <Breakpoint file="/home/jamie/repos/C#/GlslTutorials/GlslTutorials/Tutorials/Tut_TiltBall.cs" line="275" />
-      <Breakpoint file="/home/jamie/repos/C#/GlslTutorials/GlslTutorials/Tutorials/Tut_08_Gimbal_Lock.cs" line="165" />
       <Breakpoint file="/home/jamie/repos/C#/GlslTutorials/GlslTutorials/Tutorials/Tut_09_Ambient_Lighting.cs" line="583" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>

@@ -5,6 +5,7 @@ namespace GlslTutorials
 {
 	public enum TutorialsEnum
 	{
+		Tut_3D_Shooter,
 		Tut_02_Vertex_Colors,
 		Tut_03_CPU_Position_Offset,
 		Tut_03_Shader_Calc_Offset,
@@ -25,7 +26,7 @@ namespace GlslTutorials
 		Tut_TiltBall,
 		Tut_Blender,
 		Tut_Camera,
-		Tut_3D_Shooter,
+		
 	}
 	public class MenuClass
 	{
