@@ -36,11 +36,41 @@ namespace GlslTutorials
 		
 		public static void Draw(int program, int[] vertexBufferObject, int[] indexBufferObject,
 		                 Matrix4 cameraToClip, Matrix4 worldToCamera, Matrix4 mm,
-		                 int indexDataLength, float[] color, int COORDS_PER_VERTEX, int vertexStride)
+		                 int indexDataLength, float[] color)
 		{
 			ActivePrograms[program].Draw (vertexBufferObject, indexBufferObject,
 		                 cameraToClip, worldToCamera, mm,
-		                 indexDataLength, color, COORDS_PER_VERTEX, vertexStride);
+		                 indexDataLength, color);
+		}
+		
+		public static void SetUniformColor(int program, Vector4 color)
+		{
+			ActivePrograms[program].SetUniformColor(color);
+		}
+		
+		public static void SetLightPosition(int program, Vector3 lightPos)
+		{
+			ActivePrograms[program].SetLightPosition(lightPos);
+		}
+		
+		public static void SetDirectionToLight(int program, Vector3 dirToLight)
+		{
+			ActivePrograms[program].SetDirectionToLight(dirToLight);
+		}
+		
+		public static void SetLightIntensity(int program, Vector4 lightIntensity)
+		{
+			ActivePrograms[program].SetLightIntensity(lightIntensity);
+		}
+		
+		public static void SetNormalModelToCameraMatrix(int program, Matrix3 normalModelToCameraMatrix)
+		{
+			ActivePrograms[program].SetNormalModelToCameraMatrix(normalModelToCameraMatrix);
+		}
+		
+		public static void SetModelToCameraMatrix(int program, Matrix4 modelToCameraMatrix)
+		{
+			ActivePrograms[program].SetModelToCameraMatrix(modelToCameraMatrix);
 		}
 	}
 }

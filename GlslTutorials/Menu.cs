@@ -5,6 +5,7 @@ namespace GlslTutorials
 {
 	public enum TutorialsEnum
 	{
+		Tut_MultipleShaders,
 		Tut_3D_Shooter,
 		Tut_02_Vertex_Colors,
 		Tut_03_CPU_Position_Offset,
@@ -62,6 +63,7 @@ namespace GlslTutorials
 				case TutorialsEnum.Tut_3D_Shooter: currentTutorial = new Tut_3D_Shooter(); break;	
 				case TutorialsEnum.Tut_Vectors: currentTutorial = new Tut_Vectors(); break;	
 				case TutorialsEnum.Tut_Text: currentTutorial = new Tut_Text(); break;	
+				case TutorialsEnum.Tut_MultipleShaders: currentTutorial = new Tut_MultipleShaders(); break;	
 			}
 		}
 	}

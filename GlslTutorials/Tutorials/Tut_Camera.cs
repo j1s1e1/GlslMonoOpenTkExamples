@@ -33,21 +33,12 @@ namespace GlslTutorials
 			lmb2.SetOffset(offset);
 			lmb2.SetAxis(axis);
 			
-			GL.Enable(EnableCap.CullFace);
-	        GL.CullFace(CullFaceMode.Back);
-	        GL.FrontFace(FrontFaceDirection.Cw);
-	
-	        GL.Enable(EnableCap.DepthTest);
-	        GL.DepthMask(true);
-	        GL.DepthFunc(DepthFunction.Lequal);
-	        GL.DepthRange(0.0f, 1.0f);
+			SetupDepthAndCull();
 		}
 		
 		public override void display()
 	    {
-	        GL.ClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-	        GL.ClearDepth(1.0f);
-	        GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
+	       	ClearDisplay();
 			lms1.Draw();
 			lms2.Draw();
 			lmb2.Draw();

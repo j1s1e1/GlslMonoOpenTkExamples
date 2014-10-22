@@ -112,6 +112,7 @@
     <Compile Include="Creatures\Alien.cs" />
     <Compile Include="Creatures\RandomMovement.cs" />
     <Compile Include="Creatures\Collisions.cs" />
+    <Compile Include="Tutorials\Tut_MultipleShaders.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />

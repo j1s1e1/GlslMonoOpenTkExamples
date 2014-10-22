@@ -40,12 +40,7 @@ namespace GlslTutorials
 														LEFT_EXTENT, BOTTOM_EXTENT, REAR_EXTENT,
 														RIGHT_EXTENT, BOTTOM_EXTENT, REAR_EXTENT,
 													};
-		
-		string VertexShader = VertexShaders.PosOnlyWorldTransform_vert;
-		string FragmentShader = FragmentShaders.ColorUniform_frag;
-		
-		int progarmNumber;
-		
+
 		public LitMatrixBlock2 (Vector3 sizeIn, float[] colorIn)
 		{
 			size = sizeIn;
@@ -54,7 +49,7 @@ namespace GlslTutorials
 			modelToWorld.M22 = size.Y;
 			modelToWorld.M33 = size.Z;
 			
-			progarmNumber = Programs.AddProgram(VertexShader, FragmentShader);
+			programNumber = Programs.AddProgram(VertexShader, FragmentShader);
 			
 			vertexCount = 2 * 3 * 6;
 			vertexStride = 3 * 4; // no color for now
@@ -88,8 +83,8 @@ namespace GlslTutorials
 			mm.M42 = offset.Y;
 			mm.M43 = offset.Z;
 			
-			Programs.Draw(progarmNumber, vertexBufferObject, indexBufferObject, cameraToClip, worldToCamera, mm,
-			              indexData.Length, color, COORDS_PER_VERTEX, vertexStride);
+			Programs.Draw(programNumber, vertexBufferObject, indexBufferObject, cameraToClip, worldToCamera, mm,
+			              indexData.Length, color);
 		}
 	}
 }

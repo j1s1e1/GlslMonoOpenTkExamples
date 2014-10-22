@@ -208,7 +208,7 @@ namespace GlslTutorials
 			SetupSimpleIndexBuffer();
 			InitializeVertexBuffer();
 	
-			progarmNumber = Programs.AddProgram(VertexShader, FragmentShader);
+			programNumber = Programs.AddProgram(VertexShader, FragmentShader);
 	    }
 		
 		public void UpdateText(String text)
@@ -243,8 +243,8 @@ namespace GlslTutorials
 			
 			if (updateLock == false)
 	        {
-	            Programs.Draw(progarmNumber, vertexBufferObject, indexBufferObject, cameraToClip, wtc, mm,
-	                    indexData.Length, color, COORDS_PER_VERTEX, vertexStride);
+	            Programs.Draw(programNumber, vertexBufferObject, indexBufferObject, cameraToClip, wtc, mm,
+	                    indexData.Length, color);
 				waitingForUpdate = false;
 	        }
 	        else

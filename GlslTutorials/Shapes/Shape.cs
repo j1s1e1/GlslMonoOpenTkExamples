@@ -52,6 +52,20 @@ namespace GlslTutorials
         protected int vertexStride = 3 * 4 * 2; // bytes per vertex
         protected float[] vertexCoords;
 		
+		protected int[] vertexBufferObject = new int[1];
+	    protected int[] indexBufferObject = new int[1];
+		
+		protected float[] vertexData;
+		protected short[] indexData;
+		
+		protected string VertexShader = VertexShaders.PosOnlyWorldTransform_vert;
+		protected string FragmentShader = FragmentShaders.ColorUniform_frag;
+		protected int programNumber;
+		
+		public void SetProgram(int newProgram)
+		{
+			programNumber = newProgram;
+		}
 
         protected void SetupVertexBuffer()
         {
@@ -71,12 +85,6 @@ namespace GlslTutorials
             vertexBuffer.position(0);
             */
         }
-		
-	    protected int[] vertexBufferObject = new int[1];
-	    protected int[] indexBufferObject = new int[1];
-		
-		protected float[] vertexData;
-		protected short[] indexData;
 		
 		public string CheckRotations(Vector3 center)
 		{

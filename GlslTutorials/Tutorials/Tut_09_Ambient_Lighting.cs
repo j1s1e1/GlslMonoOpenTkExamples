@@ -171,9 +171,9 @@ namespace GlslTutorials
 	        GL.DepthRange(0.0f, 1.0f);
 	        reshape();
 			
-	        GL.GenBuffers(1, g_projectionUniformBuffer);
-	        GL.BindBuffer(BufferTarget.UniformBuffer, g_projectionUniformBuffer[0]);
-	        GL.BufferData(BufferTarget.UniformBuffer, (IntPtr)ProjectionBlock.byteLength(), (IntPtr)0, BufferUsageHint.StaticDraw);
+	        //GL.GenBuffers(1, g_projectionUniformBuffer);
+	        //GL.BindBuffer(BufferTarget.UniformBuffer, g_projectionUniformBuffer[0]);
+	        //GL.BufferData(BufferTarget.UniformBuffer, (IntPtr)ProjectionBlock.byteLength(), (IntPtr)0, BufferUsageHint.StaticDraw);
 
 	        reshape();
 	    }

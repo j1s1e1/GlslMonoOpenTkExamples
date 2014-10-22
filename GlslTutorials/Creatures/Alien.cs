@@ -65,6 +65,11 @@ namespace GlslTutorials
 				}
 			}
 		}
+		
+		public void SetProgram(int newProgram)
+		{
+			body.SetProgram(newProgram);
+		}
 	}
 }
 

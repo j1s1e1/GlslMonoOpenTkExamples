@@ -17,30 +17,30 @@ namespace GlslTutorials
 	    "}";
 		
 		public static String lms_fragmentShaderCode =
-        "uniform vec4 u_Color;" +
-        //"uniform vec3 u_LightPos;" +       	// The position of the light in eye space.
-        //"varying in vec3 v_Position;" +		// This will be passed into the fragment shader.
-        //"varying in vec3 v_Normal;" +         	// Interpolated normal for this fragment.
+        "uniform vec4 baseColor;" +
+        "uniform vec3 lightPos;" +       	// The position of the light in eye space.
+        "varying vec3 v_Position;" +		// This will be passed into the fragment shader.
+        "varying vec3 v_Normal;" +         	// Interpolated normal for this fragment.
         "void main()" +
 		"{" +
             // Will be used for attenuation.
-            //"float distance = length(u_LightPos - v_Position);" +
+            "float distance = length(lightPos - v_Position);" +
 
             // Get a lighting direction vector from the light to the vertex.
-            //"vec3 lightVector = normalize(u_LightPos - v_Position);" +
+            "vec3 lightVector = normalize(lightPos - v_Position);" +
 
             // Calculate the dot product of the light vector and vertex normal. If the normal and light vector are
             // pointing in the same direction then it will get max illumination.
-            //"float diffuse = max(dot(v_Normal, lightVector), 0.0);" +
+            "float diffuse = max(dot(v_Normal, lightVector), 0.0);" +
 
             // Add attenuation." +
-            //"diffuse = diffuse * (1.0 / distance);" +
+            "diffuse = diffuse * (1.0 / distance);" +
 
             // Add ambient lighting"
-            //"diffuse = diffuse + 0.2;" +
+            "diffuse = diffuse + 0.2;" +
 
             // Multiply the color by the diffuse illumination level and texture value to get final output color."
-            "gl_FragColor =  u_Color;" + //(diffuse * u_Color);" +
+            "gl_FragColor = (diffuse * baseColor);" +
     	"}";
 		
 		public string fragmentShaderCode =
@@ -87,7 +87,51 @@ namespace GlslTutorials
 	
 	    "void main()" +
 	    "{" +
-	        "gl_FragColor = theColor;" +
+	        "gl_FragColor = theColor;" + // + vec4(0.1, 0.1, 0.1, 1.0);" +
+	    "}";
+		
+		public static String solid_red_frag =
+	    "void main()" +
+	    "{" +
+	        "gl_FragColor =  vec4(1.0, 0.0, 0.0, 1.0);" +
+	    "}";
+		
+		public static String solid_green_frag =
+	    "void main()" +
+	    "{" +
+	        "gl_FragColor =  vec4(0.0, 1.0, 0.0, 1.0);" +
+	    "}";
+		
+		public static String solid_blue_frag =
+	    "void main()" +
+	    "{" +
+	        "gl_FragColor =  vec4(0.0, 0.0, 1.0, 1.0);" +
+	    "}";
+		
+		public static String solid_green_with_normals_frag =
+		"uniform vec3 u_LightPos;" +       	// The position of the light in eye space.
+        "varying vec3 v_Position;" +		// This will be passed into the fragment shader.
+        "varying vec3 v_Normal;" +         	// Interpolated normal for this fragment.
+	    "void main()" +
+	    "{" +
+			// Will be used for attenuation.
+            "float distance = length(u_LightPos - v_Position);" +
+
+            // Get a lighting direction vector from the light to the vertex.
+            "vec3 lightVector = normalize(u_LightPos - v_Position);" +
+
+            // Calculate the dot product of the light vector and vertex normal. If the normal and light vector are
+            // pointing in the same direction then it will get max illumination.
+            "float diffuse = max(dot(v_Normal, lightVector), 0.0);" +
+
+            // Add attenuation." +
+            "diffuse = diffuse * (1.0 / distance);" +
+
+            // Add ambient lighting"
+            "diffuse = diffuse + 0.2;" +
+
+            // Multiply the color by the diffuse illumination level to get final output color."
+            "gl_FragColor = (diffuse * vec4(0.0, 1.0, 0.0, 1.0));" +
 	    "}";
 	}
 }

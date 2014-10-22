@@ -19,12 +19,20 @@ namespace GlslTutorials
 
         public int normalModelToCameraMatrixUnif;
         public int dirToLightUnif;
+		public int lightPosUnif;
         public int lightIntensityUnif;
         public int ambientIntensityUnif;
         public int normalAttribute;
 		string vertexShader;
 		string fragmentShader;
-			
+		
+		int BYTES_PER_FLOAT = 4;
+		int COORDS_PER_VERTEX = 3;
+		int POSITION_DATA_SIZE_IN_ELEMENTS = 3;
+		int COLOR_DATA_SIZE_IN_ELEMENTS = 4;	
+		int NORMAL_DATA_SIZE_IN_ELEMENTS = 3;
+		int NORMAL_START = 3 * 4; // POSITION_DATA_SIZE_IN_ELEMENTS * BYTES_PER_FLOAT;
+		protected int vertexStride = 3 * 4; // bytes per vertex default to only 3 position floats
 		
 		public ProgramData(string vertexShaderIn, string fragmentShaderIn)
 	    {
@@ -64,9 +72,14 @@ namespace GlslTutorials
 	
 	        normalModelToCameraMatrixUnif = GL.GetUniformLocation(theProgram, "normalModelToCameraMatrix");
 	        dirToLightUnif =  GL.GetUniformLocation(theProgram, "dirToLight");
+			lightPosUnif = GL.GetUniformLocation(theProgram, "lightPos");
 	        lightIntensityUnif = GL.GetUniformLocation(theProgram, "lightIntensity");
 	        ambientIntensityUnif = GL.GetUniformLocation(theProgram, "ambientIntensity");
 	        normalAttribute = GL.GetAttribLocation(theProgram, "normal");
+			if (normalAttribute != -1)
+			{
+				vertexStride = 3 * 4 * 2;
+			}
 	    }
 		
 		public bool CompareShaders(string vertexShaderIn, string fragmentShaderIn)
@@ -76,12 +89,12 @@ namespace GlslTutorials
 		
 		public void Draw(int[] vertexBufferObject, int[] indexBufferObject,
 		                 Matrix4 cameraToClip, Matrix4 worldToCamera, Matrix4 mm,
-		                 int indexDataLength, float[] color, int COORDS_PER_VERTEX, int vertexStride)
+		                 int indexDataLength, float[] color)
 		{
+			GL.UseProgram(theProgram);	
 			GL.BindBuffer(BufferTarget.ArrayBuffer, vertexBufferObject[0]);
 			GL.BindBuffer(BufferTarget.ElementArrayBuffer, indexBufferObject[0]);
 			
-	        GL.UseProgram(theProgram);	
 	        GL.UniformMatrix4(cameraToClipMatrixUnif, false, ref cameraToClip);
 	        GL.UniformMatrix4(worldToCameraMatrixUnif, false, ref worldToCamera);
 	        GL.UniformMatrix4(modelToWorldMatrixUnif, false, ref mm);
@@ -90,14 +103,22 @@ namespace GlslTutorials
 
 			GL.EnableVertexAttribArray(positionAttribute);
 	        // Prepare the triangle coordinate data
-	        GL.VertexAttribPointer(positionAttribute, COORDS_PER_VERTEX, 
+	        GL.VertexAttribPointer(positionAttribute, POSITION_DATA_SIZE_IN_ELEMENTS, 
 				VertexAttribPointerType.Float, false, vertexStride, (IntPtr)0);
+			
+			if (normalAttribute != -1)
+			{
+				GL.EnableVertexAttribArray(normalAttribute);
+				GL.VertexAttribPointer(normalAttribute, NORMAL_DATA_SIZE_IN_ELEMENTS, 
+					VertexAttribPointerType.Float, false, vertexStride, (IntPtr)NORMAL_START);
+			}
 			
 	        // Draw the triangle
 	 		GL.DrawElements(PrimitiveType.Triangles, indexDataLength, DrawElementsType.UnsignedShort, 0);
 			
 	        // Disable vertex array
 	        GL.DisableVertexAttribArray(positionAttribute);
+			if (normalAttribute != -1) GL.DisableVertexAttribArray(normalAttribute);
 			
 			GL.BindBuffer(BufferTarget.ArrayBuffer, 0);
 			GL.BindBuffer(BufferTarget.ElementArrayBuffer, 0);
@@ -121,6 +142,48 @@ namespace GlslTutorials
 			result.AppendLine("ambientIntensityUnif = " + ambientIntensityUnif.ToString());
 			result.AppendLine("normalAttribute = " + normalAttribute.ToString());
 			return result.ToString();
+		}
+		
+		public void SetUniformColor(Vector4 color)
+		{
+			GL.UseProgram(theProgram);
+			GL.Uniform4(baseColorUnif, color);
+			GL.UseProgram(0);
+		}
+		
+		public void SetLightPosition(Vector3 lightPosition)
+		{
+			GL.UseProgram(theProgram);
+			GL.Uniform3(lightPosUnif, lightPosition);
+			GL.UseProgram(0);
+		}
+		
+		public void SetDirectionToLight(Vector3 dirToLight)
+		{
+			GL.UseProgram(theProgram);
+			GL.Uniform3(dirToLightUnif, dirToLight);
+			GL.UseProgram(0);
+		}
+		
+		public void SetLightIntensity(Vector4 lightIntensity)
+		{
+			GL.UseProgram(theProgram);
+			GL.Uniform4(lightIntensityUnif, lightIntensity);
+			GL.UseProgram(0);
+		}
+
+		public void SetNormalModelToCameraMatrix(Matrix3 normalModelToCameraMatrix)
+		{
+			GL.UseProgram(theProgram);
+			GL.UniformMatrix3(normalModelToCameraMatrixUnif, false, ref normalModelToCameraMatrix);
+			GL.UseProgram(0); 
+		}
+		
+		public void SetModelToCameraMatrix(Matrix4 modelToCameraMatrix)
+		{
+			GL.UseProgram(theProgram);
+			GL.UniformMatrix4(modelToCameraMatrixUnif, false, ref modelToCameraMatrix);
+			GL.UseProgram(0); 
 		}
 	}
 }

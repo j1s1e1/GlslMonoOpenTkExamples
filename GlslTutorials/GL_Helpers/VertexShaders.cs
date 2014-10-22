@@ -35,15 +35,23 @@ namespace GlslTutorials
 	    " }";
 		
 		public static string lms_vertexShaderCode =
-        "attribute vec4 a_Position;" +
-        //"attribute vec3 a_Normal;" +		// Per-vertex normal information we will pass in.
-        //"varying out vec3 v_Normal;" +		// This will be passed into the fragment shader.
-        //"varying out vec3 v_Position;" +		// This will be passed into the fragment shader.
+        "attribute vec4 position;" +
+        "attribute vec3 normal;" +		// Per-vertex normal information we will pass in.
+
+		"uniform mat4 cameraToClipMatrix;" +
+	    "uniform mat4 worldToCameraMatrix;" +
+	    "uniform mat4 modelToWorldMatrix;" +
+				
+		"varying vec3 v_Normal;" +		// This will be passed into the fragment shader.
+        "varying vec3 v_Position;" +	// This will be passed into the fragment shader.
         "void main()" +
 		"{" +
-        	//"v_Position = vec3(a_Position);" +
-            //"v_Normal = a_Normal;" +
-            "gl_Position = a_Position;" +
+			"vec4 temp = modelToWorldMatrix * position;" +
+	        "temp = worldToCameraMatrix * temp;" +
+	        "temp = cameraToClipMatrix * temp;" +
+        	"v_Position = vec3(temp);" +
+            "v_Normal = normal;" +
+            "gl_Position = temp;" +
         "}";
 		
 		 public static string DirAmbVertexLighting_PN_vert =	// Working Single Mesh Item
@@ -110,7 +118,7 @@ namespace GlslTutorials
 		
 		public static string DirVertexLighting_PN_vert =	// ?? Ambient Lighting
 		"attribute vec3 position;" +
-		"attribute vec4 color;" +		// added for spacing
+		//"attribute vec4 color;" +		// added for spacing
 	    "attribute vec3 normal;" +
 	    
 	
@@ -131,14 +139,16 @@ namespace GlslTutorials
 	
 	    "void main()" +
 	    "{" +
-	        "gl_Position = Projection.cameraToClipMatrix * (modelToCameraMatrix * vec4(position, 1.0));" +
+	        "gl_Position = vec4(position, 1.0);" + //  Projection.cameraToClipMatrix * (modelToCameraMatrix * vec4(position, 1.0));" +
 	
-	        "vec3 normCamSpace = normalize(normalModelToCameraMatrix * normal);" +
+	        "vec3 normCamSpace = normal;" + //  normalize(normalModelToCameraMatrix * normal);" +
 	
 	        "float cosAngIncidence = dot(normCamSpace, dirToLight);" +
+			//"cosAngIncidence = dot(vec3(0.75, 0.0, 0.0), vec3(0.5, 0.0, 0.0));" +
 	        "cosAngIncidence = clamp(cosAngIncidence, 0.0, 1.0);" +
 	
-	        "theColor = lightIntensity * cosAngIncidence + 0.01 * color;" +
+			//"theColor = lightIntensity * 0.05 + 0.001 * color;" +
+	        "theColor = vec4(normal, 1.0);" + // lightIntensity * cosAngIncidence + 0.001 * color;" +
 	    "}";
 		
 		 public static string DirVertexLighting_PCN_vert =	// ?? Ambient Lighting
