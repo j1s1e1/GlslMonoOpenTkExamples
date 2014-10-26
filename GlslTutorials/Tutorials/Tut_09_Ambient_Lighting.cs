@@ -9,7 +9,7 @@ namespace GlslTutorials
 {
 	public class Tut_09_Ambient_Lighting : TutorialBase 
 	{	
-	    static float g_fzNear = 10.0f;
+	    static float g_fzNear = 1.0f;
 	    static float g_fzFar = 1000.0f;
 	
 	    class ProgramData
@@ -34,8 +34,8 @@ namespace GlslTutorials
 	    static ProgramData g_VertexDiffuseColor;
 	    static ProgramData g_WhiteAmbDiffuseColor;
 	    static ProgramData g_VertexAmbDiffuseColor;
-	
-	    static int g_projectionBlockIndex = 2;
+		
+		static Matrix4 coloredCylinderModelmatrix = Matrix4.Identity;
 	
 	    ProgramData LoadProgram(String vertexShader, String fragmentShader)
 	    {
@@ -73,7 +73,12 @@ namespace GlslTutorials
 	        //FIX_THIS  GL.UniformBlockBinding(data.theProgram, projectionBlock, g_projectionBlockIndex);
 	        // to avoid uniform block
 	        data.cameraToClipMatrixUnif = GL.GetUniformLocation(data.theProgram, "Projection.cameraToClipMatrix");
-	        return data;
+	        if (data.cameraToClipMatrixUnif == -1)
+			{
+				data.cameraToClipMatrixUnif = GL.GetUniformLocation(data.theProgram, "cameraToClipMatrix");
+	        
+			}
+			return data;
 	    }
 	
 	    void InitializeProgram()
@@ -135,8 +140,6 @@ namespace GlslTutorials
 	        Framework.ForwardMouseWheel(g_objtPole, wheel, direction, x, y);
 	    }
 	
-	    static int[] g_projectionUniformBuffer = new int[]{0};
-	
 	    //Called after the window and OpenGL are initialized. Called exactly once, before the main loop.
 	    protected override void init()
 	    {
@@ -169,12 +172,6 @@ namespace GlslTutorials
 	        GL.DepthMask(true);
 	        GL.DepthFunc(DepthFunction.Lequal);
 	        GL.DepthRange(0.0f, 1.0f);
-	        reshape();
-			
-	        //GL.GenBuffers(1, g_projectionUniformBuffer);
-	        //GL.BindBuffer(BufferTarget.UniformBuffer, g_projectionUniformBuffer[0]);
-	        //GL.BufferData(BufferTarget.UniformBuffer, (IntPtr)ProjectionBlock.byteLength(), (IntPtr)0, BufferUsageHint.StaticDraw);
-
 	        reshape();
 	    }
 	
@@ -219,13 +216,9 @@ namespace GlslTutorials
 					GL.UseProgram(0);
 	            }
 				
-				//TEST
-				//lightDirCameraSpace = new Vector4(1f, 1f, -1f, 0f);
-	
 	            GL.UseProgram(whiteDiffuse.theProgram);
 				Vector3 dirToLight = new Vector3(lightDirCameraSpace.X, lightDirCameraSpace.Y, lightDirCameraSpace.Z);
-				// test 
-				dirToLight = new Vector3(10f, 10f, 0f);
+
 	            GL.Uniform3(whiteDiffuse.dirToLightUnif, dirToLight);
 				GL.UseProgram(0);
 	            GL.UseProgram(vertexDiffuse.theProgram);
@@ -236,15 +229,15 @@ namespace GlslTutorials
                 using ( PushStack pushstack = new PushStack(modelMatrix))
                 {		
                     GL.UseProgram(whiteDiffuse.theProgram);
-					
+					modelMatrix.Translate(new Vector3(0f, 0f, 10f));
                     Matrix4 mm =  modelMatrix.Top();
-					mm = Matrix4.Identity; // TEST
+					//mm = Matrix4.Identity; // TEST
                     GL.UniformMatrix4(whiteDiffuse.modelToCameraMatrixUnif, false, ref mm);
-					projData.cameraToClipMatrix = Matrix4.Identity; // Test
+					//projData.cameraToClipMatrix = Matrix4.Identity; // Test
                     GL.UniformMatrix4(whiteDiffuse.cameraToClipMatrixUnif, false, ref projData.cameraToClipMatrix);
                     Matrix3 normMatrix = new Matrix3(modelMatrix.Top());
-                    normMatrix.Normalize();
-					normMatrix = Matrix3.Identity; // TEST
+                    //normMatrix.Normalize();
+					//normMatrix = Matrix3.Identity; // TEST
                     GL.UniformMatrix3(whiteDiffuse.normalModelToCameraMatrixUnif, false, ref normMatrix);
                     g_pPlaneMesh.Render();
                     GL.UseProgram(0);
@@ -255,17 +248,19 @@ namespace GlslTutorials
                 using (PushStack pushstack = new PushStack(modelMatrix))
                 {
                     modelMatrix.ApplyMatrix(g_objtPole.CalcMatrix());
-
+					//modelMatrix.Scale(0.25f);
+					modelMatrix.Translate(new Vector3(0f, 0f, 10f));
+					coloredCylinderModelmatrix = modelMatrix.Top ();
                     if(g_bDrawColoredCyl)
                     {					
                         GL.UseProgram(vertexDiffuse.theProgram);
                         Matrix4 mm = modelMatrix.Top();
-                        mm = Matrix4.Identity; // TEST
+                        //mm = Matrix4.Identity; // TEST
                         GL.UniformMatrix4(vertexDiffuse.modelToCameraMatrixUnif, false, ref mm);
-						projData.cameraToClipMatrix = Matrix4.Identity; // TEST
+						//projData.cameraToClipMatrix = Matrix4.Identity; // TEST
                         GL.UniformMatrix4(vertexDiffuse.cameraToClipMatrixUnif, false, ref projData.cameraToClipMatrix);
                         Matrix3 normMatrix = new Matrix3(modelMatrix.Top());
-                        normMatrix = Matrix3.Identity; // TEST
+                        //normMatrix = Matrix3.Identity; // TEST
                         GL.UniformMatrix3(vertexDiffuse.normalModelToCameraMatrixUnif, false, ref normMatrix);
 						g_pCylinderMesh.Render("lit-color");
                     }
@@ -273,12 +268,12 @@ namespace GlslTutorials
                     {
                         GL.UseProgram(whiteDiffuse.theProgram);
                         Matrix4 mm = modelMatrix.Top();
-						mm = Matrix4.Identity; // TEST
+						//mm = Matrix4.Identity; // TEST
                         GL.UniformMatrix4(whiteDiffuse.modelToCameraMatrixUnif, false, ref mm);
-						projData.cameraToClipMatrix = Matrix4.Identity; // TEST
+						//projData.cameraToClipMatrix = Matrix4.Identity; // TEST
                         GL.UniformMatrix4(whiteDiffuse.cameraToClipMatrixUnif, false, ref projData.cameraToClipMatrix);
                         Matrix3  normMatrix = new Matrix3(modelMatrix.Top());
-						normMatrix = Matrix3.Identity; // TEST
+						//normMatrix = Matrix3.Identity; // TEST
                         GL.UniformMatrix3(whiteDiffuse.normalModelToCameraMatrixUnif, false, ref normMatrix);
                         g_pCylinderMesh.Render("lit");
                     }
@@ -339,8 +334,17 @@ namespace GlslTutorials
 	                    result.Append("Ambient Lighting On.\n");
 	                else
 	                    result.Append("Ambient Lighting Off.\n");
-	
 	                break;
+				
+				case Keys.I:
+					result.AppendLine("cameraToClipMatrix = " + projData.cameraToClipMatrix.ToString());
+					result.AppendLine("coloredCylinderModelmatrix = " + coloredCylinderModelmatrix.ToString());
+					Matrix4 multiply = Matrix4.Mult(projData.cameraToClipMatrix, coloredCylinderModelmatrix);
+					result.Append(AnalysisTools.CalculateMatrixEffects(multiply));
+					break;
+				case Keys.J:
+					result.Append(AnalysisTools.TestRotations());
+					break;
 	        }
 	        result.Append(keyCode);
 	        reshape();

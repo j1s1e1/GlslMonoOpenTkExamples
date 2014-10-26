@@ -12,10 +12,6 @@ namespace GlslTutorials
 		List<float> vertexes;
 		List<short> indexes;
 		
-		string VertexShader = VertexShaders.PosOnlyWorldTransform_vert;
-		string FragmentShader = FragmentShaders.ColorUniform_frag;
-		int progarmNumber;
-		
 		public BlenderObject (string nameIn)
 		{
 			Name = nameIn;
@@ -55,7 +51,7 @@ namespace GlslTutorials
 		
 		public void Setup()
 		{
-			progarmNumber = Programs.AddProgram(VertexShader, FragmentShader);
+			programNumber = Programs.AddProgram(VertexShader, FragmentShader);
 			
 			vertexCount = indexes.Count;
 			vertexStride = 3 * 4; // no color for now
@@ -82,7 +78,7 @@ namespace GlslTutorials
 			mm.M42 = offset.Y;
 			mm.M43 = offset.Z;
 			
-			Programs.Draw(progarmNumber, vertexBufferObject, indexBufferObject, cameraToClip, worldToCamera, mm,
+			Programs.Draw(programNumber, vertexBufferObject, indexBufferObject, cameraToClip, worldToCamera, mm,
 			              indexData.Length, color);
 		}
 	}

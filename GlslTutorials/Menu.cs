@@ -5,6 +5,9 @@ namespace GlslTutorials
 {
 	public enum TutorialsEnum
 	{
+
+		Tut_SingleMeshItem,
+		Tut_10_Fragment_Point_Lighting,
 		Tut_MultipleShaders,
 		Tut_3D_Shooter,
 		Tut_02_Vertex_Colors,
@@ -23,10 +26,10 @@ namespace GlslTutorials
 		Tut_Blocks,
 		Tut_Vectors,
 		Tut_Text,
-		Tut_SingleMeshItem,
 		Tut_TiltBall,
 		Tut_Blender,
 		Tut_Camera,
+		Tut_3D_Shooter2,
 		
 	}
 	public class MenuClass
@@ -60,10 +63,12 @@ namespace GlslTutorials
 				case TutorialsEnum.Tut_09_Ambient_Lighting: currentTutorial = new Tut_09_Ambient_Lighting(); break;
 				case TutorialsEnum.Tut_Camera: currentTutorial = new Tut_Camera(); break;		
 				case TutorialsEnum.Tut_Blender: currentTutorial = new Tut_Blender(); break;		
-				case TutorialsEnum.Tut_3D_Shooter: currentTutorial = new Tut_3D_Shooter(); break;	
+				case TutorialsEnum.Tut_3D_Shooter: currentTutorial = new Tut_3D_Shooter(); break;
+				case TutorialsEnum.Tut_3D_Shooter2: currentTutorial = new Tut_3D_Shooter(); break;
 				case TutorialsEnum.Tut_Vectors: currentTutorial = new Tut_Vectors(); break;	
 				case TutorialsEnum.Tut_Text: currentTutorial = new Tut_Text(); break;	
 				case TutorialsEnum.Tut_MultipleShaders: currentTutorial = new Tut_MultipleShaders(); break;	
+				case TutorialsEnum.Tut_10_Fragment_Point_Lighting: currentTutorial = new Tut_10_Fragment_Point_Lighting(); break;	
 			}
 		}
 	}

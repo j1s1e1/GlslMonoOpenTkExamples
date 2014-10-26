@@ -113,6 +113,8 @@
     <Compile Include="Creatures\RandomMovement.cs" />
     <Compile Include="Creatures\Collisions.cs" />
     <Compile Include="Tutorials\Tut_MultipleShaders.cs" />
+    <Compile Include="Tutorials\Tut_10_Fragment_Point_Lighting.cs" />
+    <Compile Include="Tutorials\Tut_3D_Shooter2.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -164,5 +166,8 @@
     <None Include="XmlFilesForMeshes\unitcubecolorworldscene.xml" />
     <None Include="Blender\test.obj" />
     <None Include="Blender\X_Wing3.obj" />
+    <None Include="XmlFilesForMeshes\largeplane.xml" />
+    <None Include="XmlFilesForMeshes\unitcube.xml" />
+    <None Include="XmlFilesForMeshes\unitcylinderfragmentpointlighting.xml" />
   </ItemGroup>
 </Project>

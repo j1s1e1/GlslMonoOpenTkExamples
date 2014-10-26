@@ -27,7 +27,6 @@ namespace GlslTutorials
 			
 			int DirVertexLighting_PN = Programs.AddProgram(VertexShaders.DirVertexLighting_PN_vert,
 			 	FragmentShaders.ColorPassthrough_frag);
-			Programs.SetUniformColor(DirVertexLighting_PN, new Vector4(0.75f, 0.25f, 0.0f, 1f));
 			Vector3 dirToLight = new Vector3(0.5f, 0.5f, 0.0f);
 			dirToLight.Normalize();
 			Programs.SetDirectionToLight(DirVertexLighting_PN, dirToLight);

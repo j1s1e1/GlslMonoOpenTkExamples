@@ -85,6 +85,66 @@ namespace GlslTutorials
 			result.AppendLine("maxZ = " + maxZ.ToString());
 			return result.ToString();
 		}
+		
+		
+		public static string CalculateMatrixEffects(Matrix4 matrix)
+		{
+			// Check This
+			StringBuilder result = new StringBuilder();
+			result.AppendLine(matrix.ToString());
+			result.AppendLine("");
+			result.AppendLine("Translation by " + matrix.M41 + " " + matrix.M42 + " " + matrix.M43);
+			Matrix3 normalizedMatrix = new Matrix3(matrix);
+			normalizedMatrix.Normalize();
+			float heading = 0f;
+			float attitude = 0f;
+			float bank = 0f;
+			
+			if (normalizedMatrix.M21 == 1)
+			{
+				result.AppendLine("North Pole");
+				heading = (float)Math.Atan2(normalizedMatrix.M13,normalizedMatrix.M33);
+				bank = 0f;
+			}
+			else
+			{
+				if (normalizedMatrix.M21 == -1)
+				{
+					result.AppendLine("South Pole");
+					heading = (float)Math.Atan2(normalizedMatrix.M13,normalizedMatrix.M33);
+					bank = 0;
+				}
+				else
+				{
+					heading = (float)Math.Atan2(-normalizedMatrix.M31, normalizedMatrix.M11);
+					attitude = (float)Math.Asin(normalizedMatrix.M21);
+					bank = (float)Math.Atan2(-normalizedMatrix.M23, normalizedMatrix.M22);
+				}
+			}
+			heading = heading * 180f / (float)Math.PI;
+			attitude = attitude * 180f / (float)Math.PI;
+			bank = bank * 180f / (float)Math.PI;
+			result.AppendLine("heading = " + heading.ToString());
+			result.AppendLine("attitude = " + attitude.ToString());
+			result.AppendLine("bank = " + bank.ToString());
+
+			return result.ToString();
+		}
+		
+		public static string TestRotations()
+		{
+			StringBuilder result = new StringBuilder();
+			Matrix4 X45 = Matrix4.CreateRotationX(45f * (float)Math.PI / 180f);
+			result.AppendLine("X45");
+			result.Append(CalculateMatrixEffects(X45));
+			Matrix4 Y45 = Matrix4.CreateRotationY(45f * (float)Math.PI / 180f);
+			result.AppendLine("Y45");
+			result.Append(CalculateMatrixEffects(Y45));
+			Matrix4 Z45 = Matrix4.CreateRotationZ(45f * (float)Math.PI / 180f);
+			result.AppendLine("Z45");
+			result.Append(CalculateMatrixEffects(Z45));
+			return result.ToString();
+		}
 	}
 }
 

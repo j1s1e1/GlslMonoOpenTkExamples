@@ -1,26 +1,29 @@
 ﻿<Properties GitUserInfo="UsingGIT">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="GlslTutorials/Tutorials/Tut_MultipleShaders.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="GlslTutorials/GL_Helpers/AnalysisTools.cs">
     <Files>
-      <File FileName="GlslTutorials/ProgramData/Programs.cs" Line="61" Column="16" />
-      <File FileName="GlslTutorials/ProgramData/ProgramData.cs" Line="93" Column="46" />
-      <File FileName="GlslTutorials/Tutorials/Tut_MultipleShaders.cs" Line="56" Column="6" />
-      <File FileName="GlslTutorials/GL_Helpers/VertexShaders.cs" Line="144" Column="28" />
-      <File FileName="GlslTutorials/Creatures/Alien.cs" Line="71" Column="31" />
-      <File FileName="GlslTutorials/GL_Helpers/FragmentShaders.cs" Line="85" Column="46" />
+      <File FileName="GlslTutorials/Tutorials/Tut_09_Ambient_Lighting.cs" Line="333" Column="36" />
+      <File FileName="GlslTutorials/GL_Helpers/VertexShaders.cs" Line="202" Column="66" />
+      <File FileName="GlslTutorials/Menu.cs" Line="8" Column="27" />
+      <File FileName="GlslTutorials/View/ObjectPole.cs" Line="39" Column="1" />
+      <File FileName="GlslTutorials/GL_Helpers/MatrixStack.cs" Line="296" Column="1" />
+      <File FileName="GlslTutorials/GL_Helpers/AnalysisTools.cs" Line="98" Column="33" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State expanded="True">
           <Node name="GlslTutorials" expanded="True">
+            <Node name="Blender" expanded="True" />
             <Node name="Creatures" expanded="True" />
-            <Node name="GL_Helpers" expanded="True" />
+            <Node name="GL_Helpers" expanded="True">
+              <Node name="AnalysisTools.cs" selected="True" />
+            </Node>
+            <Node name="Mesh" expanded="True" />
             <Node name="ProgramData" expanded="True" />
             <Node name="Shapes" expanded="True" />
-            <Node name="Text" expanded="True" />
-            <Node name="Tutorials" expanded="True">
-              <Node name="Tut_MultipleShaders.cs" selected="True" />
-            </Node>
+            <Node name="Tutorials" expanded="True" />
+            <Node name="View" expanded="True" />
+            <Node name="XmlFilesForMeshes" expanded="True" />
           </Node>
         </State>
       </Pad>
@@ -32,7 +35,7 @@
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
       <Breakpoint file="/home/jamie/repos/C#/GlslTutorials/GlslTutorials/Tutorials/Tut_TiltBall.cs" line="275" />
-      <Breakpoint file="/home/jamie/repos/C#/GlslTutorials/GlslTutorials/Tutorials/Tut_09_Ambient_Lighting.cs" line="583" />
+      <Breakpoint file="/home/jamie/repos/C#/GlslTutorials/GlslTutorials/Tutorials/Tut_09_Ambient_Lighting.cs" line="584" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />

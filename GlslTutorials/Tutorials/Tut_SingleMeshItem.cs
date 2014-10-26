@@ -61,6 +61,9 @@ namespace GlslTutorials
 	
 	
 	    static ProgramData currentProgram;
+		
+		static Vector4 g_lightDirection = new Vector4(0.866f, 0.5f, 0.0f, 0.0f);
+		Vector3 dirToLight = new Vector3(0.5f, 0.5f, 1f);
 	
 	    ProgramData LoadProgram(String strVertexShader, String strFragmentShader)
 	    {
@@ -118,9 +121,20 @@ namespace GlslTutorials
 	        GL.Uniform4(UniformColorTint.baseColorUnif, 0.5f, 0.5f, 0f, 1.0f);
 	        GL.UseProgram(0);
 	
-	        g_WhiteDiffuseColor = LoadProgram(VertexShaders.PosColorLocalTransform_vert, FragmentShaders.ColorPassthrough_frag);
-	        g_WhiteAmbDiffuseColor = LoadProgram(VertexShaders.DirAmbVertexLighting_PN_vert, FragmentShaders.ColorPassthrough_frag);
+	        g_WhiteDiffuseColor = LoadProgram(VertexShaders.PosColorLocalTransform_vert, 
+			                                  FragmentShaders.ColorPassthrough_frag);
+			
+	        g_WhiteAmbDiffuseColor = LoadProgram(VertexShaders.DirAmbVertexLighting_PN_vert, 
+			                                     FragmentShaders.ColorPassthrough_frag);
 	        
+			g_VertexDiffuseColor = LoadProgram(VertexShaders.DirVertexLighting_PCN, 
+			                                   FragmentShaders.ColorPassthrough_frag);
+			GL.UseProgram(g_VertexDiffuseColor.theProgram);
+			Vector4 lightIntensity = new Vector4(0.5f, 0.5f, 0.5f, 1.0f);
+			GL.Uniform3(g_VertexDiffuseColor.dirToLightUnif, ref dirToLight);
+	        GL.Uniform4(g_VertexDiffuseColor.lightIntensityUnif, ref lightIntensity);
+			GL.UseProgram(0);
+			
 			GL.UseProgram(g_WhiteAmbDiffuseColor.theProgram);
 	        Vector3 light_direction = new Vector3(10f, 10f, 0f);
 	        Vector4 light_intensity = new Vector4(0.5f, 0.5f, 0.5f, 0.5f);
@@ -159,14 +173,9 @@ namespace GlslTutorials
 	        } catch (Exception ex) {
 	            throw new Exception("Error " + ex.ToString());
 	        }
-	        GL.Enable(EnableCap.CullFace);
-	        GL.CullFace(CullFaceMode.Back);
-	        GL.FrontFace(FrontFaceDirection.Cw);
-	
-	        GL.Enable(EnableCap.DepthTest);
-	        GL.DepthMask(true);
-	        GL.DepthFunc(DepthFunction.Lequal);
-	        GL.DepthRange(0.0f, 1.0f);
+	        
+			SetupDepthAndCull();
+			
 			Camera.Move(0f, 0f, 0f);
 	        Camera.MoveTarget(0f, 0f, 0.0f);
 	        reshape();
@@ -175,13 +184,10 @@ namespace GlslTutorials
 	
 	    public override void display()
 	    {
-	        GL.ClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-	        GL.ClearDepth(1.0f);
-	        GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
+	        ClearDisplay();
 	
 	        if (current_mesh != null)
 	        {
-	
 	            MatrixStack modelMatrix = new MatrixStack();
                 using (PushStack pushstack = new PushStack(modelMatrix)) 
 				{
@@ -198,6 +204,21 @@ namespace GlslTutorials
 					{
                         Matrix4 cm2 = Matrix4.Mult(mm, cm);
                         GL.UniformMatrix4(currentProgram.modelToCameraMatrixUnif, false, ref cm2);
+						if (currentProgram.normalModelToCameraMatrixUnif != 0)
+						{
+							Matrix3 normalModelToCameraMatrix = Matrix3.Identity;
+							Matrix4 applyMatrix = Matrix4.Mult(Matrix4.Identity,
+							                                         Matrix4.CreateTranslation(dirToLight));
+							normalModelToCameraMatrix = new Matrix3(applyMatrix);
+							normalModelToCameraMatrix.Invert();
+							GL.UniformMatrix3(currentProgram.normalModelToCameraMatrixUnif, false, 
+							                  ref normalModelToCameraMatrix);
+							//Matrix4 cameraToClipMatrix = Matrix4.Identity;
+							//GL.UniformMatrix4(currentProgram.cameraToClipMatrixUnif, false, ref cameraToClipMatrix); 
+                   
+						}
+						//Matrix4 cameraToClipMatrix = Matrix4.Identity;
+						//GL.UniformMatrix4(currentProgram.cameraToClipMatrixUnif, false, ref cameraToClipMatrix); 
                     } 
 					else 
 					{
@@ -272,7 +293,11 @@ namespace GlslTutorials
 	            case Keys.D5:
 	                currentProgram = g_WhiteAmbDiffuseColor;
 	                noWorldMatrix = true;
-	                break;				
+	                break;			
+				case Keys.D6:
+					currentProgram = g_VertexDiffuseColor;
+	                noWorldMatrix = true;
+					break;
 				
 	            case Keys.A:
 	                current_mesh = g_pCylinderMesh;

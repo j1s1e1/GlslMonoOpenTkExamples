@@ -87,7 +87,7 @@ namespace GlslTutorials
 	
 	    "void main()" +
 	    "{" +
-	        "gl_FragColor = theColor;" + // + vec4(0.1, 0.1, 0.1, 1.0);" +
+	        "gl_FragColor = theColor;" + // + 
 	    "}";
 		
 		public static String solid_red_frag =
@@ -132,6 +132,27 @@ namespace GlslTutorials
 
             // Multiply the color by the diffuse illumination level to get final output color."
             "gl_FragColor = (diffuse * vec4(0.0, 1.0, 0.0, 1.0));" +
+	    "}";
+		
+		public static String FragmentLighting =
+
+	    "uniform vec3 modelSpaceLightPos;" +
+
+	    "uniform vec4 lightIntensity;" +
+	    "uniform vec4 ambientIntensity;" +
+				
+		"varying vec4 diffuseColor;" +
+	    "varying vec3 vertexNormal;" +
+	    "varying vec3 modelSpacePosition;" +
+
+	    "void main()" +
+	    "{" +
+		    "vec3 lightDir = normalize(modelSpaceLightPos - modelSpacePosition);" +
+	
+		    "float cosAngIncidence = dot(normalize(vertexNormal), lightDir);" +
+		    "cosAngIncidence = clamp(cosAngIncidence, 0, 1);" +
+		
+		    "gl_FragColor = (diffuseColor * lightIntensity * cosAngIncidence) + (diffuseColor * ambientIntensity);" +
 	    "}";
 	}
 }

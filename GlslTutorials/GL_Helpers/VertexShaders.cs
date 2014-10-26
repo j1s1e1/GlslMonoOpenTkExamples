@@ -55,8 +55,8 @@ namespace GlslTutorials
         "}";
 		
 		 public static string DirAmbVertexLighting_PN_vert =	// Working Single Mesh Item
-	    "attribute vec3 position;" +							// ?? Ambient lighting
-		"attribute vec4 color;" + // added to make normal 2
+	    "attribute vec3 position;" +							// ?? Ambient lighting works for cylinder
+		"attribute vec4 color;" + // added to make normal 2		// if normal matrixes are used
 	    "attribute vec3 normal;" +
 	
 	    "uniform vec3 dirToLight;" +
@@ -85,6 +85,7 @@ namespace GlslTutorials
 	        "cosAngIncidence = clamp(cosAngIncidence, 0.0, 1.0);" +
 	
 	        "theColor = (lightIntensity * cosAngIncidence) + ambientIntensity + 0.01 * color;" +
+			//"theColor = vec4(1.0, 0.0, 0.0, 1.0);" +	
 	    "}";
 		
 	    public string positionNormal =
@@ -116,9 +117,9 @@ namespace GlslTutorials
 	        "theColor = color;" +
 	    "}";
 		
-		public static string DirVertexLighting_PN_vert =	// ?? Ambient Lighting
+		public static string DirVertexLighting_PN_vert =	// ?? Ambient Lighting works for cylinder
 		"attribute vec3 position;" +
-		//"attribute vec4 color;" +		// added for spacing
+		"attribute vec4 color;" +		// added for spacing
 	    "attribute vec3 normal;" +
 	    
 	
@@ -139,16 +140,14 @@ namespace GlslTutorials
 	
 	    "void main()" +
 	    "{" +
-	        "gl_Position = vec4(position, 1.0);" + //  Projection.cameraToClipMatrix * (modelToCameraMatrix * vec4(position, 1.0));" +
+	        "gl_Position = Projection.cameraToClipMatrix * (modelToCameraMatrix * vec4(position, 1.0));" +
 	
-	        "vec3 normCamSpace = normal;" + //  normalize(normalModelToCameraMatrix * normal);" +
+	        "vec3 normCamSpace = normalize(normalModelToCameraMatrix * normal);" +
 	
 	        "float cosAngIncidence = dot(normCamSpace, dirToLight);" +
-			//"cosAngIncidence = dot(vec3(0.75, 0.0, 0.0), vec3(0.5, 0.0, 0.0));" +
 	        "cosAngIncidence = clamp(cosAngIncidence, 0.0, 1.0);" +
 	
-			//"theColor = lightIntensity * 0.05 + 0.001 * color;" +
-	        "theColor = vec4(normal, 1.0);" + // lightIntensity * cosAngIncidence + 0.001 * color;" +
+	        "theColor = lightIntensity * cosAngIncidence + 0.001 * color;" +
 	    "}";
 		
 		 public static string DirVertexLighting_PCN_vert =	// ?? Ambient Lighting
@@ -183,7 +182,7 @@ namespace GlslTutorials
 	        "theColor = lightIntensity * diffuseColor * cosAngIncidence;" +
 	    "}";
 		
-		public static string DirAmbVertexLighting_PCN_vert =	// ?? Ambient Lighting
+		public static string DirAmbVertexLighting_PCN_vert =	// ?? Ambient Lighting works for cylinder
 		"attribute vec3 position;" +
 		"attribute vec4 diffuseColor;" +
     	"attribute vec3 normal;" +
@@ -194,19 +193,17 @@ namespace GlslTutorials
 	    "uniform mat4 modelToCameraMatrix;" +
 	    "uniform mat3 normalModelToCameraMatrix;" +
 	
-	    "struct UniformBlock" +
-	    "{" +
-	        "mat4 cameraToClipMatrix;" +
-	    "};" +
-	
-	    "uniform UniformBlock Projection;" +
+	    "uniform mat4 cameraToClipMatrix;" +
 	
 	    "varying vec4 theColor;" +
 	
 	    "void main()" +
 	    "{" +
-	        "gl_Position = Projection.cameraToClipMatrix * (modelToCameraMatrix * vec4(position, 1.0));" +
-	
+	        "gl_Position = cameraToClipMatrix * (modelToCameraMatrix * vec4(position, 1.0));" +
+			//"gl_Position = modelToCameraMatrix * (cameraToClipMatrix * vec4(position, 1.0));" +
+			//"gl_Position =	(modelToCameraMatrix * vec4(position, 1.0));" +
+			//"gl_Position =	(cameraToClipMatrix * vec4(position, 1.0));" +
+			//"gl_Position =	vec4(position, 1.0);" +
 	        "vec3 normCamSpace = normalize(normalModelToCameraMatrix * normal);" +
 	
 	        "float cosAngIncidence = dot(normCamSpace, dirToLight);" +
@@ -214,7 +211,154 @@ namespace GlslTutorials
 	
 	        "theColor = lightIntensity * diffuseColor * cosAngIncidence;" +
 	    "}";
+		
+		public static string ModelPosVertexLighting_PN =
+		
+		"attribute vec3 position;" +
+		"attribute vec4 color;" + // added to keep positions
+		"attribute vec3 normal;" +
 
+		"uniform vec3 modelSpaceLightPos;" +
+		"uniform vec4 lightIntensity;" +
+		"uniform vec4 ambientIntensity;" +
+
+		"uniform mat4 modelToCameraMatrix;" +
+		
+	    "uniform mat4 cameraToClipMatrix;" +
+					
+		"varying vec4 theColor;" +
+		
+		"void main()" +
+		"{" +
+			"gl_Position = cameraToClipMatrix * (modelToCameraMatrix * vec4(position, 1.0));" +
+		
+			"vec3 dirToLight = normalize(modelSpaceLightPos - position);" +
+			
+			"float cosAngIncidence = dot(normal, dirToLight);" +
+			"cosAngIncidence = clamp(cosAngIncidence, 0, 1);" +
+			
+			"theColor = (lightIntensity * cosAngIncidence) + ambientIntensity + 0.001 * color;" +
+		"}";
+		
+		public static string ModelPosVertexLighting_PCN = 
+		"attribute vec3 position;" +
+		"attribute vec4 inDiffuseColor;" +
+		"attribute vec3 normal;" +
+
+		"uniform vec3 modelSpaceLightPos;" +
+		"uniform vec4 lightIntensity;" +
+		"uniform vec4 ambientIntensity;" +
+		"uniform mat4 modelToCameraMatrix;" +
+				
+	    "uniform mat4 cameraToClipMatrix;" +
+				
+		"varying vec4 theColor;" +
+
+		"void main()" +
+		"{" +
+			"gl_Position = cameraToClipMatrix * (modelToCameraMatrix * vec4(position, 1.0));" +
+
+			"vec3 dirToLight = normalize(modelSpaceLightPos - position);" +
+	
+			"float cosAngIncidence = dot( normal, dirToLight);" +
+			"cosAngIncidence = clamp(cosAngIncidence, 0, 1);" +
+	
+			"theColor = (lightIntensity * cosAngIncidence * inDiffuseColor) + (ambientIntensity * inDiffuseColor);" +
+		"}";
+		
+		public static string FragmentLighting_PN = 
+
+		"attribute vec3 position;" +
+		"attribute vec4 color;" + // dummy to hold positions
+		"attribute vec3 normal;" +
+
+		"uniform mat4 modelToCameraMatrix;" +
+
+		"uniform mat4 cameraToClipMatrix;" +
+				
+		"varying vec4 diffuseColor;" +
+		"varying vec3 vertexNormal;" +
+		"varying vec3 modelSpacePosition;" +
+
+		"void main()" +
+		"{" +
+			"gl_Position = cameraToClipMatrix * (modelToCameraMatrix * vec4(position, 1.0));" +
+
+			"vertexNormal = normal;" +
+			"modelSpacePosition = position;" +
+			"diffuseColor = vec4(1.0);" +
+		"}";
+		
+		public static string FragmentLighting_PCN =
+
+		"attribute vec3 position;" +
+		"attribute vec4 inDiffuseColor;" +
+		"attribute vec3 normal;" +
+
+		"uniform mat4 modelToCameraMatrix;" +
+
+		"uniform mat4 cameraToClipMatrix;" +
+				
+		"varying vec4 diffuseColor;" +
+		"varying vec3 vertexNormal;" +
+		"varying vec3 modelSpacePosition;" +
+
+		"void main()" +
+		"{" +
+			"gl_Position =  cameraToClipMatrix * (modelToCameraMatrix * vec4(position, 1.0));" +
+	
+			"modelSpacePosition = position;" +
+			"vertexNormal = normal;" +
+			"diffuseColor = inDiffuseColor;" +
+		"}";
+		
+		public static string PosTransform =
+		
+		"attribute vec3 position;" +
+
+		"uniform mat4 modelToCameraMatrix;" +
+
+		"uniform mat4 cameraToClipMatrix;" +
+
+		"void main()" +
+		"{" +
+			"gl_Position = cameraToClipMatrix * (modelToCameraMatrix * vec4(position, 1.0));" +
+		"}";
+		
+		public static string DirVertexLighting_PCN =
+
+		"attribute vec3 position;" +
+		"attribute vec4 color;" +
+		"attribute vec3 normal;" +
+				
+				
+		"uniform vec3 dirToLight;" +
+		"uniform vec4 lightIntensity;" +
+
+		"uniform mat4 modelToCameraMatrix;" +
+		"uniform mat3 normalModelToCameraMatrix;" +
+		
+		"uniform mat4 cameraToClipMatrix;" +
+				
+		"varying vec4 theColor;" +
+
+		"void main()" +
+		"{" +
+			"gl_Position = cameraToClipMatrix * (modelToCameraMatrix * vec4(position, 1.0));" +
+
+			"vec3 normCamSpace = normalize(normalModelToCameraMatrix * normal);" +
+	
+			"float cosAngIncidence = dot(normCamSpace, dirToLight);" +
+			"cosAngIncidence = clamp(cosAngIncidence, 0.0, 1.0);" +
+	
+			//"theColor = lightIntensity * color;" + // works
+			//"theColor = vec4(normal, 1.0f);" + // works
+			"theColor = vec4(normCamSpace, 1.0f);" + // works\
+			"theColor = cosAngIncidence * vec4(normCamSpace, 1.0f);" +  // works for some faces
+			"theColor = lightIntensity * cosAngIncidence * vec4(normCamSpace, 1.0f);" +  // works for some faces
+				
+			//"theColor = lightIntensity  * cosAngIncidence * color;" +
+		"}";
 	}
 }
 
