@@ -30,7 +30,7 @@ namespace GlslTutorials
 			Vector3 dirToLight = new Vector3(0.5f, 0.5f, 0.0f);
 			dirToLight.Normalize();
 			Programs.SetDirectionToLight(DirVertexLighting_PN, dirToLight);
-			Programs.SetLightIntensity(DirVertexLighting_PN, new Vector4(0.8f, 0.8f, 0.8f, 1.0f));
+			Programs.SetLightIntensity(DirVertexLighting_PN, new Vector4(0.4f, 0.6f, 0.8f, 1.0f));
 			Programs.SetNormalModelToCameraMatrix(DirVertexLighting_PN, Matrix3.Identity);
 			Programs.SetModelToCameraMatrix(DirVertexLighting_PN, Matrix4.Identity);
 			

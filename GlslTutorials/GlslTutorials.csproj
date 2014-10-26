@@ -169,5 +169,6 @@
     <None Include="XmlFilesForMeshes\largeplane.xml" />
     <None Include="XmlFilesForMeshes\unitcube.xml" />
     <None Include="XmlFilesForMeshes\unitcylinderfragmentpointlighting.xml" />
+    <None Include="Blender\test_with_normals.obj" />
   </ItemGroup>
 </Project>

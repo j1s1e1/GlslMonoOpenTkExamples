@@ -20,6 +20,7 @@ namespace GlslTutorials
         public int normalModelToCameraMatrixUnif;
         public int dirToLightUnif;
 		public int lightPosUnif;
+		public int modelSpaceLightPosUnif;
         public int lightIntensityUnif;
         public int ambientIntensityUnif;
         public int normalAttribute;
@@ -73,6 +74,7 @@ namespace GlslTutorials
 	        normalModelToCameraMatrixUnif = GL.GetUniformLocation(theProgram, "normalModelToCameraMatrix");
 	        dirToLightUnif =  GL.GetUniformLocation(theProgram, "dirToLight");
 			lightPosUnif = GL.GetUniformLocation(theProgram, "lightPos");
+			modelSpaceLightPosUnif = GL.GetUniformLocation(theProgram, "modelSpaceLightPos");
 	        lightIntensityUnif = GL.GetUniformLocation(theProgram, "lightIntensity");
 	        ambientIntensityUnif = GL.GetUniformLocation(theProgram, "ambientIntensity");
 	        normalAttribute = GL.GetAttribLocation(theProgram, "normal");
@@ -97,8 +99,10 @@ namespace GlslTutorials
 			
 	        GL.UniformMatrix4(cameraToClipMatrixUnif, false, ref cameraToClip);
 	        GL.UniformMatrix4(worldToCameraMatrixUnif, false, ref worldToCamera);
-	        GL.UniformMatrix4(modelToWorldMatrixUnif, false, ref mm);
-	        GL.Uniform4(baseColorUnif, 1, color);
+	        
+			if (modelToWorldMatrixUnif != -1) GL.UniformMatrix4(modelToWorldMatrixUnif, false, ref mm);
+	        if (modelToCameraMatrixUnif != -1) GL.UniformMatrix4(modelToCameraMatrixUnif, false, ref mm);
+			GL.Uniform4(baseColorUnif, 1, color);
 			
 
 			GL.EnableVertexAttribArray(positionAttribute);
@@ -158,6 +162,13 @@ namespace GlslTutorials
 			GL.UseProgram(0);
 		}
 		
+		public void SetModelSpaceLightPosition(Vector3 modelSpaceLightPos)
+		{
+			GL.UseProgram(theProgram);
+			GL.Uniform3(modelSpaceLightPosUnif, modelSpaceLightPos);
+			GL.UseProgram(0);
+		}
+		
 		public void SetDirectionToLight(Vector3 dirToLight)
 		{
 			GL.UseProgram(theProgram);
@@ -169,6 +180,13 @@ namespace GlslTutorials
 		{
 			GL.UseProgram(theProgram);
 			GL.Uniform4(lightIntensityUnif, lightIntensity);
+			GL.UseProgram(0);
+		}
+		
+		public void SetAmbientIntensity(Vector4 ambientIntensity)
+		{
+			GL.UseProgram(theProgram);
+			GL.Uniform4(ambientIntensityUnif, ambientIntensity);
 			GL.UseProgram(0);
 		}
 
@@ -184,6 +202,11 @@ namespace GlslTutorials
 			GL.UseProgram(theProgram);
 			GL.UniformMatrix4(modelToCameraMatrixUnif, false, ref modelToCameraMatrix);
 			GL.UseProgram(0); 
+		}
+		
+		public void SetVertexStride(int vertexStrideIn)
+		{
+			vertexStride = vertexStrideIn;
 		}
 	}
 }

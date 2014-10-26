@@ -53,6 +53,11 @@ namespace GlslTutorials
 			ActivePrograms[program].SetLightPosition(lightPos);
 		}
 		
+		public static void SetModelSpaceLightPosition(int program, Vector3 modelSpaceLightPos)
+		{
+			ActivePrograms[program].SetModelSpaceLightPosition(modelSpaceLightPos);
+		}
+		
 		public static void SetDirectionToLight(int program, Vector3 dirToLight)
 		{
 			ActivePrograms[program].SetDirectionToLight(dirToLight);
@@ -62,6 +67,12 @@ namespace GlslTutorials
 		{
 			ActivePrograms[program].SetLightIntensity(lightIntensity);
 		}
+
+		public static void SetAmbientIntensity(int program, Vector4 ambientIntensity)
+		{
+			ActivePrograms[program].SetAmbientIntensity(ambientIntensity);
+		}
+		
 		
 		public static void SetNormalModelToCameraMatrix(int program, Matrix3 normalModelToCameraMatrix)
 		{
@@ -71,6 +82,12 @@ namespace GlslTutorials
 		public static void SetModelToCameraMatrix(int program, Matrix4 modelToCameraMatrix)
 		{
 			ActivePrograms[program].SetModelToCameraMatrix(modelToCameraMatrix);
+		}
+		
+		// for testing only.  This should be calculated
+		public static void SetVertexStride(int program, int vertexStride)
+		{
+			ActivePrograms[program].SetVertexStride(vertexStride);
 		}
 	}
 }

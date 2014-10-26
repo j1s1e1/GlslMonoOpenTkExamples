@@ -153,6 +153,7 @@ namespace GlslTutorials
 		    "cosAngIncidence = clamp(cosAngIncidence, 0, 1);" +
 		
 		    "gl_FragColor = (diffuseColor * lightIntensity * cosAngIncidence) + (diffuseColor * ambientIntensity);" +
+			//"gl_FragColor = diffuseColor;" + //TEST
 	    "}";
 	}
 }

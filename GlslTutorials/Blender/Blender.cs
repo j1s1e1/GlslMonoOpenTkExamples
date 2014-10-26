@@ -21,8 +21,10 @@ namespace GlslTutorials
 			blenderObjects = new List<BlenderObject>();
 			using (StreamReader sr = new StreamReader(new FileStream(filename, FileMode.Open)))
 			{
-				short vertexcount = 1;
+				short vertexCount = 1;
+				short normalCount = 1;
 				short previousObjectVertexCount = 1;  // change from 1 to zero based
+				short previousObjectNormalCount = 1;  // change from 1 to zero based
 				nextLine = sr.ReadLine();
 				while (!sr.EndOfStream)
 				{
@@ -38,13 +40,21 @@ namespace GlslTutorials
 								if (nextLine[1] == ' ')
 								{
 									bo.AddVertex(nextLine);
-									vertexcount++;
+									vertexCount++;
 								}
-								// Add Code for Normals
+								if (nextLine[1] == 'n')
+								{
+									bo.AddNormal(nextLine);
+									normalCount++;
+								}
 							}
-							if (nextLine[0] == 'f') bo.AddTriangle(nextLine, previousObjectVertexCount);
+							if (nextLine[0] == 'f')
+							{
+								bo.AddTriangle(nextLine, previousObjectVertexCount, previousObjectNormalCount);
+							}
 						}
-						previousObjectVertexCount = vertexcount;
+						previousObjectVertexCount = vertexCount;
+						previousObjectNormalCount = normalCount;
 						bo.Setup();
 						blenderObjects.Add(bo);
 					}
@@ -100,6 +110,15 @@ namespace GlslTutorials
 				bo.RotateShape(rotationAxis, angle);
 			}
 		}
+		
+	 	public void SetProgram(int program)
+	    {
+	        foreach (BlenderObject bo in blenderObjects)
+	        {
+	            // Need to add normals before using other programs
+	            bo.SetProgram(program);
+	        }
+	    }
 	}
 }
 

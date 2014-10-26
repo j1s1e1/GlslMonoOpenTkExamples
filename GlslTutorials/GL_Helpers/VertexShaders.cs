@@ -283,7 +283,7 @@ namespace GlslTutorials
 		"void main()" +
 		"{" +
 			"gl_Position = cameraToClipMatrix * (modelToCameraMatrix * vec4(position, 1.0));" +
-
+			//"gl_Position =  vec4(position, 1.0);" + //TEST
 			"vertexNormal = normal;" +
 			"modelSpacePosition = position;" +
 			"diffuseColor = vec4(1.0);" +
@@ -355,6 +355,7 @@ namespace GlslTutorials
 			//"theColor = vec4(normal, 1.0f);" + // works
 			"theColor = vec4(normCamSpace, 1.0f);" + // works\
 			"theColor = cosAngIncidence * vec4(normCamSpace, 1.0f);" +  // works for some faces
+			
 			"theColor = lightIntensity * cosAngIncidence * vec4(normCamSpace, 1.0f);" +  // works for some faces
 				
 			//"theColor = lightIntensity  * cosAngIncidence * color;" +

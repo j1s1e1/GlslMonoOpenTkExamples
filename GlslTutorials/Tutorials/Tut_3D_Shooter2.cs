@@ -33,14 +33,42 @@ namespace GlslTutorials
 		Vector3 axis = new Vector3(0f, 0f, 1f);
 		Vector3 up = new Vector3(0f, 0.07f, 0f);
 		Vector3 right = new Vector3(0.16f, 0f,0f);
+		
+		int defaultShader;
+		int shaderFragWhiteDiffuseColor;
+		
+		private void SetupShaders()
+		{
+			defaultShader = Programs.AddProgram(VertexShaders.lms_vertexShaderCode,
+			                                    FragmentShaders.lms_fragmentShaderCode);
+			
+			shaderFragWhiteDiffuseColor = Programs.AddProgram(VertexShaders.FragmentLighting_PN, 
+			                        FragmentShaders.FragmentLighting);
+			Programs.SetLightIntensity(shaderFragWhiteDiffuseColor, new Vector4(0.0f, 0.0f, 0.8f, 1.0f));
+			Programs.SetAmbientIntensity(shaderFragWhiteDiffuseColor, new Vector4(0.2f, 0.2f, 0.2f, 1.0f));
+			Matrix4 mm = Matrix4.Identity;
+			mm.M11 = 0.05f;
+			mm.M22 = 0.05f;
+			mm.M33 = 0.05f;
+			Programs.SetModelToCameraMatrix(shaderFragWhiteDiffuseColor, mm);
+			Vector4 worldLightPos = new Vector4(-0.5f, -0.5f, 1f, 1.0f);
+			Vector4 lightPosCameraSpace = Vector4.Transform(worldLightPos, mm);
+			Matrix4 invTransform = mm.Inverted();
+			Vector4 lightPosModelSpace = Vector4.Transform(lightPosCameraSpace, invTransform);
+			Vector3 lightPos = new Vector3(lightPosModelSpace.X, lightPosModelSpace.Y, lightPosModelSpace.Z);
+			Programs.SetModelSpaceLightPosition(shaderFragWhiteDiffuseColor, lightPos);			
+		}
 				
+		Vector3 currentScale = new Vector3(0.1f, 0.1f, 0.1f);
+		
 		protected override void init()
 	    {
 			string BlenderFilesDirectory = GlsTutorialsClass.ProjectDirectory + @"/Blender/";
 			ship = new Blender();
 			ship.ReadFile(BlenderFilesDirectory + "X_Wing3.obj");
 			ship.SetColor(Colors.WHITE_COLOR);
-			ship.Scale(new Vector3(0.1f, 0.1f, 0.1f));
+			
+			ship.Scale(currentScale);
 			
 			aliens = new List<Alien>();
 			
@@ -60,6 +88,7 @@ namespace GlslTutorials
         	credit2.SetOffset(new Vector3(-0.75f, -0.75f, 0.0f));
 			
 			SetupDepthAndCull();
+			SetupShaders();
 		}
 		
 		public override void display()
@@ -152,6 +181,20 @@ namespace GlslTutorials
 					break;		
 				case Keys.I:
 					result.AppendLine("Found " + ship.ObjectCount().ToString() + " objects in ship file.");
+					break;
+				case Keys.A:
+					ship.SetProgram(defaultShader);
+					break;
+				case Keys.B:
+					ship.SetProgram(shaderFragWhiteDiffuseColor);
+					break;
+				case Keys.Add:
+					currentScale = Vector3.Multiply(currentScale, 1.05f);
+					ship.Scale(currentScale);
+					break;
+				case Keys.Subtract:
+					currentScale = Vector3.Divide(currentScale, 1.05f);
+					ship.Scale(currentScale);
 					break;
 				case Keys.Space:
 					if (addMissle == false)

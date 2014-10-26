@@ -31,16 +31,61 @@ namespace GlslTutorials
 		double anglevertical = 0;
 		
 		Vector3 axis = new Vector3(0f, 0f, 1f);
-		Vector3 up = new Vector3(0f, 0.07f, 0f);
-		Vector3 right = new Vector3(0.16f, 0f,0f);
+		Vector3 up = new Vector3(0f, 0.5f, 0f);
+		Vector3 right = new Vector3(0.5f, 0f,0f);
+		
+		int defaultShader;
+		int shaderWithNormals;
+		int shaderDirVertexLighting_PN;
+		int shaderAllGreen;
+		int shaderFragWhiteDiffuseColor;
+		
+		private void SetupShaders()
+		{
+			defaultShader = Programs.AddProgram(VertexShaders.lms_vertexShaderCode,
+			                                    FragmentShaders.lms_fragmentShaderCode);
+			shaderWithNormals = Programs.AddProgram(VertexShaders.DirAmbVertexLighting_PN_vert,
+			                                       	FragmentShaders.ColorPassthrough_frag);
+			
+			shaderDirVertexLighting_PN = Programs.AddProgram(VertexShaders.DirVertexLighting_PN_vert,
+			 	FragmentShaders.ColorPassthrough_frag);
+			Vector3 dirToLight = new Vector3(0.5f, 0.5f, 0.0f);
+			dirToLight.Normalize();
+			Programs.SetDirectionToLight(shaderDirVertexLighting_PN, dirToLight);
+			Programs.SetLightIntensity(shaderDirVertexLighting_PN, new Vector4(0.4f, 0.6f, 0.8f, 1.0f));
+			Programs.SetNormalModelToCameraMatrix(shaderDirVertexLighting_PN, Matrix3.Identity);
+			Programs.SetModelToCameraMatrix(shaderDirVertexLighting_PN, Matrix4.Identity);
+			
+			shaderAllGreen  = Programs.AddProgram(VertexShaders.lms_vertexShaderCode,
+                                    FragmentShaders.solid_green_with_normals_frag);
+			
+			shaderFragWhiteDiffuseColor = Programs.AddProgram(VertexShaders.FragmentLighting_PN, 
+			                        FragmentShaders.FragmentLighting);
+			Programs.SetLightIntensity(shaderFragWhiteDiffuseColor, new Vector4(0.8f, 0.8f, 0.8f, 1.0f));
+			Programs.SetAmbientIntensity(shaderFragWhiteDiffuseColor, new Vector4(0.2f, 0.2f, 0.2f, 1.0f));
+			Matrix4 mm = Matrix4.Identity;
+			mm.M11 = 0.05f;
+			mm.M22 = 0.05f;
+			mm.M33 = 0.05f;
+			Programs.SetModelToCameraMatrix(shaderFragWhiteDiffuseColor, mm);
+			
+			
+			Vector4 worldLightPos = new Vector4(-0.5f, -0.5f, -10f, 1.0f);
+			Vector4 lightPosCameraSpace = Vector4.Transform(worldLightPos, mm);
+			Matrix4 invTransform = mm.Inverted();
+			Vector4 lightPosModelSpace = Vector4.Transform(lightPosCameraSpace, invTransform);
+			Vector3 lightPos = new Vector3(lightPosModelSpace.X, lightPosModelSpace.Y, lightPosModelSpace.Z);
+			
+			Programs.SetModelSpaceLightPosition(shaderFragWhiteDiffuseColor, lightPos);			
+		}
 				
 		protected override void init()
 	    {
 			string BlenderFilesDirectory = GlsTutorialsClass.ProjectDirectory + @"/Blender/";
 			ship = new Blender();
-			ship.ReadFile(BlenderFilesDirectory + "X_Wing3.obj");
+			ship.ReadFile(BlenderFilesDirectory + "test_with_normals.obj");
 			ship.SetColor(Colors.WHITE_COLOR);
-			ship.Scale(new Vector3(0.1f, 0.1f, 0.1f));
+			ship.Scale(new Vector3(0.05f, 0.05f, 0.05f));
 			
 			aliens = new List<Alien>();
 			
@@ -60,6 +105,7 @@ namespace GlslTutorials
         	credit2.SetOffset(new Vector3(-0.75f, -0.75f, 0.0f));
 			
 			SetupDepthAndCull();
+			SetupShaders();
 		}
 		
 		public override void display()
@@ -153,6 +199,27 @@ namespace GlslTutorials
 				case Keys.I:
 					result.AppendLine("Found " + ship.ObjectCount().ToString() + " objects in ship file.");
 					break;
+				case Keys.A:
+					ship.SetProgram(defaultShader);
+					break;
+				case Keys.B:
+					ship.SetProgram(shaderFragWhiteDiffuseColor);
+					break;
+				case Keys.C:
+					ship.SetProgram(shaderDirVertexLighting_PN);
+					break;
+				case Keys.D:
+					ship.SetProgram(shaderAllGreen);
+					break;		
+				case Keys.E:
+					ship.SetProgram(shaderWithNormals);
+					break;
+				case Keys.X:
+					ship.SetOffset(new Vector3(0f, 0f, 10f));
+					break;	
+				case Keys.V:
+					ship.SetOffset(new Vector3(0f, 0f, 0f));
+					break;	
 				case Keys.Space:
 					if (addMissle == false)
 					{

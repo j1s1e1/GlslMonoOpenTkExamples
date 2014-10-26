@@ -13,8 +13,6 @@ namespace GlslTutorials
 		{
 		}
 		
-		LitMatrixSphere2 lms2 = new LitMatrixSphere2(0.1f);
-		
 		struct ProgramData
 		{
 			public int theProgram;
@@ -23,7 +21,6 @@ namespace GlslTutorials
 			public int ambientIntensityUnif;
 			public int modelToCameraMatrixUnif;
 			public int cameraToClipMatrixUnif;
-			public int normalModelToCameraMatrixUnif; // added for 
 		};
 
 		struct UnlitProgData
@@ -45,6 +42,8 @@ namespace GlslTutorials
 		UnlitProgData g_Unlit;
 		
 		const int g_projectionBlockIndex = 2;
+		
+		Matrix4 coloredCylinderModelmatrix = Matrix4.Identity;
 		
 		UnlitProgData LoadUnlitProgram(string vertexShader, string fragmentShader)
 		{
@@ -73,8 +72,6 @@ namespace GlslTutorials
 			data.ambientIntensityUnif = GL.GetUniformLocation(data.theProgram, "ambientIntensity");
 		
 			data.cameraToClipMatrixUnif = GL.GetUniformLocation(data.theProgram, "cameraToClipMatrix");
-			data.normalModelToCameraMatrixUnif = 
-				GL.GetUniformLocation(data.theProgram, "normalModelToCameraMatrix");
 			return data;
 		}
 		
@@ -152,8 +149,7 @@ namespace GlslTutorials
 		
 			SetupDepthAndCull();
 			reshape();
-			
-			lms2.SetOffset(new Vector3(-0.5f, -0.5f, 0f));
+
 		}
 		
 		static float g_fLightHeight = 1.5f;
@@ -180,7 +176,6 @@ namespace GlslTutorials
 		public override void display()
 		{
 			ClearDisplay();
-			lms2.Draw();
 			if((g_pPlaneMesh != null) && (g_pCylinderMesh != null) && ( g_pCubeMesh != null))
 			{
 				MatrixStack modelMatrix = new MatrixStack();
@@ -207,7 +202,6 @@ namespace GlslTutorials
 				GL.UseProgram(pWhiteProgram.theProgram);
 				GL.Uniform4(pWhiteProgram.lightIntensityUnif, 0.8f, 0.8f, 0.8f, 1.0f);
 				GL.Uniform4(pWhiteProgram.ambientIntensityUnif, 0.2f, 0.2f, 0.2f, 1.0f);
-				//projData.cameraToClipMatrix = Matrix4.Identity; // Test
 			 	GL.UniformMatrix4(pWhiteProgram.cameraToClipMatrixUnif, false, ref projData.cameraToClipMatrix);
 				GL.UseProgram(pVertColorProgram.theProgram);
 				GL.Uniform4(pVertColorProgram.lightIntensityUnif, 0.8f, 0.8f, 0.8f, 1.0f);
@@ -221,11 +215,9 @@ namespace GlslTutorials
 				{
 					GL.UseProgram(pWhiteProgram.theProgram);
 					Matrix4 mm = modelMatrix.Top();
-					//mm = Matrix4.Identity; // TEST
 					GL.UniformMatrix4(pWhiteProgram.modelToCameraMatrixUnif, false, ref mm);
 		
 					Matrix4 invTransform = modelMatrix.Top().Inverted();
-					//invTransform = Matrix4.Identity; // TEST
 					Vector4 lightPosModelSpace = Vector4.Transform(lightPosCameraSpace, invTransform);
 					Vector3 lightPos = new Vector3(lightPosModelSpace.X, lightPosModelSpace.Y, lightPosModelSpace.Z);
 					GL.Uniform3(pWhiteProgram.modelSpaceLightPosUnif, ref lightPos);
@@ -238,12 +230,11 @@ namespace GlslTutorials
 				using (PushStack pushstack = new PushStack(modelMatrix))
 				{
 					modelMatrix.ApplyMatrix(g_objtPole.CalcMatrix());
-					// modelMatrix.SetMatrix(g_objtPole.CalcMatrix());
-					
+					modelMatrix.Translate(new Vector3(0f, 0f, 10f));
+					coloredCylinderModelmatrix = modelMatrix.Top();
 					if(g_bScaleCyl)
 						modelMatrix.Scale(1.0f, 1.0f, 0.2f);
 					Matrix4 mm = modelMatrix.Top();
-					//mm = Matrix4.Identity; // TEST
 					Matrix4 invTransform = modelMatrix.Top().Inverted();
 					Vector4 lightPosModelSpace = Vector4.Transform(lightPosCameraSpace,  invTransform);
 		
@@ -284,7 +275,6 @@ namespace GlslTutorials
 		
 						GL.UseProgram(g_Unlit.theProgram);
 						Matrix4 mm = modelMatrix.Top();
-						//mm = Matrix4.Identity; // TEST
 						GL.UniformMatrix4(g_Unlit.modelToCameraMatrixUnif, false, ref mm);
 						GL.Uniform4(g_Unlit.baseColorUnif, 0.8078f, 0.8706f, 0.9922f, 1.0f);
 						
@@ -348,6 +338,14 @@ namespace GlslTutorials
 				case Keys.H: 
 					g_bUseFragmentLighting = !g_bUseFragmentLighting; 
 					result.AppendLine("g_bUseFragmentLighting = " + g_bUseFragmentLighting.ToString());
+					break;
+				case Keys.Z:
+					result.AppendLine("cameraToClipMatrix = " + projData.cameraToClipMatrix.ToString());
+					result.AppendLine("");
+					result.AppendLine("coloredCylinderModelmatrix = " + coloredCylinderModelmatrix.ToString());
+				    result.AppendLine("");
+					Matrix4 multiply = Matrix4.Mult(projData.cameraToClipMatrix, coloredCylinderModelmatrix);
+					result.Append(AnalysisTools.CalculateMatrixEffects(multiply));
 					break;
 			}
 			
