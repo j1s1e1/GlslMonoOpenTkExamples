@@ -40,6 +40,8 @@ namespace GlslTutorials
 		int shaderAllGreen;
 		int shaderFragWhiteDiffuseColor;
 		
+		Vector3 currentScale = new Vector3(0.05f, 0.05f, 0.05f);
+		
 		private void SetupShaders()
 		{
 			defaultShader = Programs.AddProgram(VertexShaders.lms_vertexShaderCode,
@@ -85,7 +87,7 @@ namespace GlslTutorials
 			ship = new Blender();
 			ship.ReadFile(BlenderFilesDirectory + "test_with_normals.obj");
 			ship.SetColor(Colors.WHITE_COLOR);
-			ship.Scale(new Vector3(0.05f, 0.05f, 0.05f));
+			ship.Scale(currentScale);
 			
 			aliens = new List<Alien>();
 			
@@ -220,6 +222,14 @@ namespace GlslTutorials
 				case Keys.V:
 					ship.SetOffset(new Vector3(0f, 0f, 0f));
 					break;	
+				case Keys.Add:
+					currentScale = Vector3.Multiply(currentScale, 1.05f);
+					ship.Scale(currentScale);
+					break;
+				case Keys.Subtract:
+					currentScale = Vector3.Divide(currentScale, 1.05f);
+					ship.Scale(currentScale);
+					break;
 				case Keys.Space:
 					if (addMissle == false)
 					{

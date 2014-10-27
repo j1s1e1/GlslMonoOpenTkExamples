@@ -15,6 +15,28 @@ namespace GlslTutorials
 		
 		List<BlenderObject> blenderObjects;
 		
+		// These files can be created using binary blender objects
+		public string ReadBinaryFile(string filename)
+		{
+			blenderObjects = new List<BlenderObject>();
+			int offset = 0;
+			StringBuilder result = new StringBuilder();
+			byte[] binaryBlenderObjects = File.ReadAllBytes(filename);
+			int objectCount = BitConverter.ToInt32 (binaryBlenderObjects, 0);
+			result.AppendLine("Found " + objectCount.ToString() + " Blender Objects");
+			offset = offset + 4;
+			for (int i = 0; i < objectCount; i++)
+			{
+				BlenderObject bo = new BlenderObject("Object" + i.ToString());
+				int blenderObjectSize = bo.CreateFromBinaryData(binaryBlenderObjects, offset);
+				offset = offset + blenderObjectSize;
+				result.AppendLine("Object " + i.ToString() + " size = " + blenderObjectSize.ToString());
+				bo.Setup();
+				blenderObjects.Add(bo);
+			}
+			return result.ToString();
+		}
+		
 		public void ReadFile(string filename)
 		{
 			string nextLine;			
@@ -115,10 +137,22 @@ namespace GlslTutorials
 	    {
 	        foreach (BlenderObject bo in blenderObjects)
 	        {
-	            // Need to add normals before using other programs
 	            bo.SetProgram(program);
 	        }
 	    }
+		
+		public void SaveBinaryBlenderObjects(string fileName)
+		{
+			string BlenderFilesDirectory = GlsTutorialsClass.ProjectDirectory + @"/Blender/";
+			List<byte> binaryBlenderObjects = new List<byte>();
+			int objectCount = blenderObjects.Count;
+			binaryBlenderObjects.AddRange(BitConverter.GetBytes(objectCount));
+			foreach (BlenderObject bo in blenderObjects)
+			{
+				binaryBlenderObjects.AddRange(bo.GetBinaryBlenderObject());
+			}
+			File.WriteAllBytes(BlenderFilesDirectory + fileName, binaryBlenderObjects.ToArray());
+		}
 	}
 }
 

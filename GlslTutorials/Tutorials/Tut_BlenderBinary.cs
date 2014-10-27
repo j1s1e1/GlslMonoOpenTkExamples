@@ -6,19 +6,22 @@ using OpenTK.Graphics.OpenGL;
 
 namespace GlslTutorials
 {
-	public class Tut_Blender : TutorialBase
+	public class Tut_BlenderBinary : TutorialBase
 	{
-		public Tut_Blender ()
+		public Tut_BlenderBinary ()
 		{
 		}
 		
 		Blender blender;
 		Blender blender2;
 		Blender blender3;
+		Blender blender4;
 		
 		TextClass credit1;
 		TextClass credit2;
 		bool staticText = true;
+		
+		string blender3result;
 		
 		protected override void init()
 	    {
@@ -30,16 +33,11 @@ namespace GlslTutorials
 			blender2.ReadFile(BlenderFilesDirectory + "test.obj");
 			blender2.SetColor(Colors.BLUE_COLOR);
 			blender2.Scale(new Vector3(0.07f, 0.05f, 0.05f));
-			//blender.ReadFile(BlenderFilesDirectory + "SingleSideClean.obj");
-			//blender.ReadFile(BlenderFilesDirectory + "SingleSideCleanFirst2.obj");
-			//blender.ReadFile(BlenderFilesDirectory + "SingleSideOriginal2.obj");
-			//blender.ReadFile(BlenderFilesDirectory + "Simpler.obj");
+
 			blender3 = new Blender();
-			blender3.ReadFile(BlenderFilesDirectory + "X_Wing3.obj");
+			blender3result = blender3.ReadBinaryFile(BlenderFilesDirectory + "xwing3.bin");
 			blender3.SetColor(Colors.WHITE_COLOR);
 			blender3.Scale(new Vector3(0.1f, 0.1f, 0.1f));
-			//blender.ReadFile(BlenderFilesDirectory +  "benjob_tie.obj");
-			//blender.ReadFile(BlenderFilesDirectory +  "deathstarmesh.obj");
 			
 			credit1 = new TextClass("X-Wing Model based on Blender model by", 0.4f, 0.04f, staticText);
         	credit1.SetOffset(new Vector3(-0.75f, -0.65f, 0.0f));
@@ -101,10 +99,7 @@ namespace GlslTutorials
 					result.AppendLine("Found " + blender.ObjectCount().ToString() + " objects in Blender file.");
 					result.AppendLine("Found " + blender2.ObjectCount().ToString() + " objects in Blender 2 file.");
 					result.AppendLine("Found " + blender3.ObjectCount().ToString() + " objects in Blender 3 file.");
-					break;
-				case Keys.S:
-					blender.SaveBinaryBlenderObjects("blenderObject1.bin");
-				    blender3.SaveBinaryBlenderObjects("xwing3.bin");
+					result.AppendLine("Blender 4 Result = " + blender3result);
 					break;
 	        }
 	        return result.ToString();

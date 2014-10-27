@@ -73,7 +73,6 @@ namespace GlslTutorials
 			ActivePrograms[program].SetAmbientIntensity(ambientIntensity);
 		}
 		
-		
 		public static void SetNormalModelToCameraMatrix(int program, Matrix3 normalModelToCameraMatrix)
 		{
 			ActivePrograms[program].SetNormalModelToCameraMatrix(normalModelToCameraMatrix);

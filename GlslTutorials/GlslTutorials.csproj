@@ -115,6 +115,7 @@
     <Compile Include="Tutorials\Tut_MultipleShaders.cs" />
     <Compile Include="Tutorials\Tut_10_Fragment_Point_Lighting.cs" />
     <Compile Include="Tutorials\Tut_3D_Shooter2.cs" />
+    <Compile Include="Tutorials\Tut_BlenderBinary.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -170,5 +171,7 @@
     <None Include="XmlFilesForMeshes\unitcube.xml" />
     <None Include="XmlFilesForMeshes\unitcylinderfragmentpointlighting.xml" />
     <None Include="Blender\test_with_normals.obj" />
+    <None Include="Blender\xwing_with_normals.obj" />
+    <None Include="Blender\xwing_pn.obj" />
   </ItemGroup>
 </Project>

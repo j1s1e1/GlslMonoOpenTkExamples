@@ -4,8 +4,8 @@ using System.Collections.Generic;
 namespace GlslTutorials
 {
 	public enum TutorialsEnum
-	{
-		
+	{		Tut_Blender,
+		Tut_BlenderBinary,
 		Tut_3D_Shooter,
 		Tut_SingleMeshItem,
 		
@@ -28,7 +28,7 @@ namespace GlslTutorials
 		Tut_Vectors,
 		Tut_Text,
 		Tut_TiltBall,
-		Tut_Blender,
+
 		Tut_Camera,
 		Tut_3D_Shooter2,
 		
@@ -65,6 +65,7 @@ namespace GlslTutorials
 				case TutorialsEnum.Tut_10_Fragment_Point_Lighting: currentTutorial = new Tut_10_Fragment_Point_Lighting(); break;
 				case TutorialsEnum.Tut_Camera: currentTutorial = new Tut_Camera(); break;		
 				case TutorialsEnum.Tut_Blender: currentTutorial = new Tut_Blender(); break;		
+				case TutorialsEnum.Tut_BlenderBinary: currentTutorial = new Tut_BlenderBinary(); break;		
 				case TutorialsEnum.Tut_3D_Shooter: currentTutorial = new Tut_3D_Shooter(); break;
 				case TutorialsEnum.Tut_3D_Shooter2: currentTutorial = new Tut_3D_Shooter2(); break;
 				case TutorialsEnum.Tut_Vectors: currentTutorial = new Tut_Vectors(); break;	

@@ -37,6 +37,8 @@ namespace GlslTutorials
 		int defaultShader;
 		int shaderFragWhiteDiffuseColor;
 		
+		Vector3 currentScale = new Vector3(0.1f, 0.1f, 0.1f);
+		
 		private void SetupShaders()
 		{
 			defaultShader = Programs.AddProgram(VertexShaders.lms_vertexShaderCode,
@@ -58,8 +60,6 @@ namespace GlslTutorials
 			Vector3 lightPos = new Vector3(lightPosModelSpace.X, lightPosModelSpace.Y, lightPosModelSpace.Z);
 			Programs.SetModelSpaceLightPosition(shaderFragWhiteDiffuseColor, lightPos);			
 		}
-				
-		Vector3 currentScale = new Vector3(0.1f, 0.1f, 0.1f);
 		
 		protected override void init()
 	    {

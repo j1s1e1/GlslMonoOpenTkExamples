@@ -112,6 +112,84 @@ namespace GlslTutorials
 			Programs.Draw(programNumber, vertexBufferObject, indexBufferObject, cameraToClip, worldToCamera, mm,
 			              indexData.Length, color);
 		}
+		
+		public List<byte> GetBinaryBlenderObject()
+		{
+			List<byte> binaryBlenderObjectBytes = new List<byte>();
+			int vertexBytes = vertexes.Count * 4;
+			int indexBytes = indexes.Count * 2;
+			int normalBytes = normals.Count * 4;
+			int vertexNormalBytes = vertexNormals.Count * 4;
+			
+			binaryBlenderObjectBytes.AddRange(BitConverter.GetBytes(vertexBytes));
+			binaryBlenderObjectBytes.AddRange(BitConverter.GetBytes(indexBytes));
+			binaryBlenderObjectBytes.AddRange(BitConverter.GetBytes(normalBytes));
+			binaryBlenderObjectBytes.AddRange(BitConverter.GetBytes(vertexNormalBytes));
+			
+			if (vertexBytes > 0) 
+			{
+				binaryBlenderObjectBytes.AddRange(vertexes.SelectMany(s => BitConverter.GetBytes(s)));
+			}
+			if (indexBytes > 0) 
+			{
+				binaryBlenderObjectBytes.AddRange(indexes.SelectMany(s => BitConverter.GetBytes(s)));
+			}
+			if (normalBytes > 0) 
+			{
+				binaryBlenderObjectBytes.AddRange(normals.SelectMany(s => BitConverter.GetBytes(s)));
+			}
+			if (vertexNormalBytes > 0) 
+			{
+				binaryBlenderObjectBytes.AddRange(vertexNormals.SelectMany(s => BitConverter.GetBytes(s)));
+			}
+			return binaryBlenderObjectBytes;
+		}
+		
+		public int CreateFromBinaryData(byte[] binaryBlenderObjects, int offset)
+		{
+			int blenderHeaderBytes = 16;
+			int vertexBytes = BitConverter.ToInt32 (binaryBlenderObjects, offset);
+			offset = offset + 4;
+			int indexBytes = BitConverter.ToInt32 (binaryBlenderObjects, offset);
+			offset = offset + 4;
+			int normalBytes = BitConverter.ToInt32 (binaryBlenderObjects, offset);
+			offset = offset + 4;
+			int vertexNormalBytes = BitConverter.ToInt32 (binaryBlenderObjects, offset);
+			offset = offset + 4;
+			if (vertexBytes > 0)
+			{
+				for (int i = 0; i < vertexBytes; i = i + 4)
+				{
+					vertexes.Add(BitConverter.ToSingle(binaryBlenderObjects, offset));
+					offset = offset + 4;           
+				}
+			}
+			if (indexBytes > 0)
+			{
+				for (int i = 0; i < indexBytes; i = i + 2)
+				{
+					indexes.Add(BitConverter.ToInt16(binaryBlenderObjects, offset));
+					offset = offset + 2;           
+				}
+			}
+			if (normalBytes > 0)
+			{
+				for (int i = 0; i < normalBytes; i = i + 4)
+				{
+					normals.Add(BitConverter.ToSingle(binaryBlenderObjects, offset));
+					offset = offset + 4;           
+				}
+			}
+			if (vertexNormalBytes > 0)
+			{
+				for (int i = 0; i < vertexNormalBytes; i = i + 4)
+				{
+					vertexNormals.Add(BitConverter.ToSingle(binaryBlenderObjects, offset));
+					offset = offset + 4;           
+				}
+			}
+			return blenderHeaderBytes + vertexBytes + indexBytes + normalBytes + vertexNormalBytes;
+		}
 	}
 }
 
