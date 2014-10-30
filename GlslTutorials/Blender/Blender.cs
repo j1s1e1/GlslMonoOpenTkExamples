@@ -15,13 +15,16 @@ namespace GlslTutorials
 		
 		List<BlenderObject> blenderObjects;
 		
+		Vector3 currentOffset = new Vector3();
+		
 		// These files can be created using binary blender objects
 		public string ReadBinaryFile(string filename)
 		{
+			string BlenderFilesDirectory = GlsTutorialsClass.ProjectDirectory + @"/Blender/";
 			blenderObjects = new List<BlenderObject>();
 			int offset = 0;
 			StringBuilder result = new StringBuilder();
-			byte[] binaryBlenderObjects = File.ReadAllBytes(filename);
+			byte[] binaryBlenderObjects = File.ReadAllBytes(BlenderFilesDirectory + filename);
 			int objectCount = BitConverter.ToInt32 (binaryBlenderObjects, 0);
 			result.AppendLine("Found " + objectCount.ToString() + " Blender Objects");
 			offset = offset + 4;
@@ -39,9 +42,10 @@ namespace GlslTutorials
 		
 		public void ReadFile(string filename)
 		{
+			string BlenderFilesDirectory = GlsTutorialsClass.ProjectDirectory + @"/Blender/";
 			string nextLine;			
 			blenderObjects = new List<BlenderObject>();
-			using (StreamReader sr = new StreamReader(new FileStream(filename, FileMode.Open)))
+			using (StreamReader sr = new StreamReader(new FileStream(BlenderFilesDirectory + filename, FileMode.Open)))
 			{
 				short vertexCount = 1;
 				short normalCount = 1;
@@ -111,10 +115,16 @@ namespace GlslTutorials
 		
 		public void SetOffset(Vector3 offset)
 		{
+			currentOffset = offset;
 			foreach (BlenderObject bo in blenderObjects)
 			{
 				bo.SetOffset(offset);
 			}
+		}
+		
+		public Vector3 GetOffset()
+		{
+			return currentOffset;
 		}
 		
 		public void SetColor(float[] color)
@@ -152,6 +162,13 @@ namespace GlslTutorials
 				binaryBlenderObjects.AddRange(bo.GetBinaryBlenderObject());
 			}
 			File.WriteAllBytes(BlenderFilesDirectory + fileName, binaryBlenderObjects.ToArray());
+		}
+		
+		public void Face(Vector3 direction)
+		{
+			Vector3 axis = new Vector3();
+			float angle = 0;
+			RotateShapes(direction, 10f);
 		}
 	}
 }

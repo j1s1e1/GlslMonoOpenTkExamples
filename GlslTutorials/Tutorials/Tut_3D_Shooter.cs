@@ -83,9 +83,8 @@ namespace GlslTutorials
 				
 		protected override void init()
 	    {
-			string BlenderFilesDirectory = GlsTutorialsClass.ProjectDirectory + @"/Blender/";
 			ship = new Blender();
-			ship.ReadFile(BlenderFilesDirectory + "test_with_normals.obj");
+			ship.ReadFile("test_with_normals.obj");
 			ship.SetColor(Colors.WHITE_COLOR);
 			ship.Scale(currentScale);
 			

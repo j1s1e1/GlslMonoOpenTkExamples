@@ -17,13 +17,13 @@ namespace GlslTutorials
 		List<Missle> missles = new List<Missle>();
 	 	bool addMissle = false;
 		
-		List<Alien> aliens;
+		List<Enemy> enemies;
 		
 		TextClass credit1;
 		TextClass credit2;
 		
-		int deadAliensCount = 0;
-		TextClass deadAliensText;
+		int deadEnemyCount = 0;
+		TextClass deadenembyText;
 		
 		bool staticText = true;
 		
@@ -63,23 +63,22 @@ namespace GlslTutorials
 		
 		protected override void init()
 	    {
-			string BlenderFilesDirectory = GlsTutorialsClass.ProjectDirectory + @"/Blender/";
 			ship = new Blender();
-			ship.ReadFile(BlenderFilesDirectory + "X_Wing3.obj");
+			ship.ReadBinaryFile("xwng_with_normals.bin");
 			ship.SetColor(Colors.WHITE_COLOR);
 			
 			ship.Scale(currentScale);
 			
-			aliens = new List<Alien>();
+			enemies = new List<Enemy>();
 			
 			for (int i = 0; i < 10; i++)
 			{
-				Alien alien = new Alien();
-				aliens.Add(alien);
+				Enemy enemy = new Enemy();
+				enemies.Add(enemy);
 			}
 			
-			deadAliensText = new TextClass("Dead Aliens = " + deadAliensCount.ToString(), 0.4f, 0.04f, staticText);
-			deadAliensText.SetOffset(new Vector3(-0.75f, +0.8f, 0.0f));
+			deadenembyText = new TextClass("Dead enemby = " + deadEnemyCount.ToString(), 0.4f, 0.04f, staticText);
+			deadenembyText.SetOffset(new Vector3(-0.75f, +0.8f, 0.0f));
 			
 			credit1 = new TextClass("X-Wing Model based on Blender model by", 0.4f, 0.04f, staticText);
         	credit1.SetOffset(new Vector3(-0.75f, -0.65f, 0.0f));
@@ -94,7 +93,7 @@ namespace GlslTutorials
 		public override void display()
 	    {
 			List<int> deadMissles = new List<int>();
-			List<int> deadAliens = new List<int>();
+			List<int> deadenemby = new List<int>();
 			ClearDisplay();
 			ship.Draw();
 			anglehorizontal = anglehorizontal + 0.02f;
@@ -125,24 +124,24 @@ namespace GlslTutorials
 	            addMissle = false;
         	}
 			int dead = 0;
-			for(int i = 0; i < aliens.Count; i++)
+			for(int i = 0; i < enemies.Count; i++)
 			{
-				if (aliens[i].isDead())
+				if (enemies[i].isDead())
 				{
 					dead++;
 				}
 				else
 				{
-					aliens[i].Draw();
-					aliens[i].FireOn(missles);
+					enemies[i].Draw();
+					enemies[i].FireOn(missles);
 				}
 			}
-			if (dead > deadAliensCount)
+			if (dead > deadEnemyCount)
 			{
-				deadAliensCount = dead;
-				deadAliensText.UpdateText("Dead Aliens = " + deadAliensCount.ToString());
+				deadEnemyCount = dead;
+				deadenembyText.UpdateText("Dead enemby = " + deadEnemyCount.ToString());
 			}
-			deadAliensText.Draw();
+			deadenembyText.Draw();
 			credit1.Draw();
 			credit2.Draw();
 		}
@@ -208,6 +207,43 @@ namespace GlslTutorials
 					result.AppendLine("up " + up.ToString());
 					result.AppendLine("right " + right.ToString());
 					result.AppendLine("missles.Count " + missles.Count.ToString());
+					break;
+				case Keys.NumPad1:
+					Rotate(Vector3.UnitZ, 5f);
+					break;
+				case Keys.NumPad2:
+					Rotate(Vector3.UnitX, -5f);
+					break;
+				case Keys.NumPad3:
+					Rotate(Vector3.UnitZ, -5f);
+					break;
+				case Keys.NumPad4:
+					Rotate(Vector3.UnitY, -5f);
+					break;
+				case Keys.NumPad5:
+					if (addMissle == false)
+					{
+						if (missles.Count < 10)
+						{
+							addMissle = true;
+						}
+					}
+					break;
+				case Keys.NumPad6:
+					Rotate(Vector3.UnitY, 5f);
+					break;
+				case Keys.NumPad7:
+					Rotate(Vector3.UnitZ, 5f);
+					break;
+				case Keys.NumPad8:
+					Rotate(Vector3.UnitX, 5f);
+					break;
+				case Keys.NumPad9:
+					Rotate(Vector3.UnitZ, -5f);
+					break;
+				case Keys.S:
+					Enemy enemy = new Enemy();
+					enemies.Add(enemy);
 					break;
 	        }
 	        return result.ToString();

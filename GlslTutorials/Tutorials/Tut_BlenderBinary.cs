@@ -25,17 +25,16 @@ namespace GlslTutorials
 		
 		protected override void init()
 	    {
-			string BlenderFilesDirectory = GlsTutorialsClass.ProjectDirectory + @"/Blender/";
 			blender = new Blender();
-			blender.ReadFile(BlenderFilesDirectory + "test.obj");
+			blender.ReadFile("test.obj");
 			blender.Scale(new Vector3(0.05f, 0.05f, 0.05f));
 			blender2 = new Blender();
-			blender2.ReadFile(BlenderFilesDirectory + "test.obj");
+			blender2.ReadFile("test.obj");
 			blender2.SetColor(Colors.BLUE_COLOR);
 			blender2.Scale(new Vector3(0.07f, 0.05f, 0.05f));
 
 			blender3 = new Blender();
-			blender3result = blender3.ReadBinaryFile(BlenderFilesDirectory + "xwing3.bin");
+			blender3result = blender3.ReadBinaryFile("xwing3.bin");
 			blender3.SetColor(Colors.WHITE_COLOR);
 			blender3.Scale(new Vector3(0.1f, 0.1f, 0.1f));
 			

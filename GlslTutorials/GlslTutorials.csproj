@@ -116,6 +116,7 @@
     <Compile Include="Tutorials\Tut_10_Fragment_Point_Lighting.cs" />
     <Compile Include="Tutorials\Tut_3D_Shooter2.cs" />
     <Compile Include="Tutorials\Tut_BlenderBinary.cs" />
+    <Compile Include="Creatures\Enemy.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -173,5 +174,7 @@
     <None Include="Blender\test_with_normals.obj" />
     <None Include="Blender\xwing_with_normals.obj" />
     <None Include="Blender\xwing_pn.obj" />
+    <None Include="Blender\xwng_with_normals.bin" />
+    <None Include="Blender\test_with_normals.bin" />
   </ItemGroup>
 </Project>

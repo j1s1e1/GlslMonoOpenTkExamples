@@ -4,7 +4,9 @@ using System.Collections.Generic;
 namespace GlslTutorials
 {
 	public enum TutorialsEnum
-	{		Tut_Blender,
+	{		
+		Tut_3D_Shooter2,
+		Tut_Blender,
 		Tut_BlenderBinary,
 		Tut_3D_Shooter,
 		Tut_SingleMeshItem,
@@ -28,9 +30,7 @@ namespace GlslTutorials
 		Tut_Vectors,
 		Tut_Text,
 		Tut_TiltBall,
-
 		Tut_Camera,
-		Tut_3D_Shooter2,
 		
 	}
 	public class MenuClass

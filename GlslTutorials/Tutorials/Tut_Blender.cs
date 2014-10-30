@@ -22,25 +22,18 @@ namespace GlslTutorials
 		
 		protected override void init()
 	    {
-			string BlenderFilesDirectory = GlsTutorialsClass.ProjectDirectory + @"/Blender/";
 			blender = new Blender();
-			blender.ReadFile(BlenderFilesDirectory + "test.obj");
+			blender.ReadFile("test.obj");
 			blender.Scale(new Vector3(0.05f, 0.05f, 0.05f));
 			blender2 = new Blender();
-			blender2.ReadFile(BlenderFilesDirectory + "test.obj");
+			blender2.ReadFile("test.obj");
 			blender2.SetColor(Colors.BLUE_COLOR);
 			blender2.Scale(new Vector3(0.07f, 0.05f, 0.05f));
-			//blender.ReadFile(BlenderFilesDirectory + "SingleSideClean.obj");
-			//blender.ReadFile(BlenderFilesDirectory + "SingleSideCleanFirst2.obj");
-			//blender.ReadFile(BlenderFilesDirectory + "SingleSideOriginal2.obj");
-			//blender.ReadFile(BlenderFilesDirectory + "Simpler.obj");
 			blender3 = new Blender();
-			blender3.ReadFile(BlenderFilesDirectory + "X_Wing3.obj");
+			blender3.ReadFile("X_Wing3.obj");
 			blender3.SetColor(Colors.WHITE_COLOR);
 			blender3.Scale(new Vector3(0.1f, 0.1f, 0.1f));
-			//blender.ReadFile(BlenderFilesDirectory +  "benjob_tie.obj");
-			//blender.ReadFile(BlenderFilesDirectory +  "deathstarmesh.obj");
-			
+
 			credit1 = new TextClass("X-Wing Model based on Blender model by", 0.4f, 0.04f, staticText);
         	credit1.SetOffset(new Vector3(-0.75f, -0.65f, 0.0f));
 
@@ -105,6 +98,9 @@ namespace GlslTutorials
 				case Keys.S:
 					blender.SaveBinaryBlenderObjects("blenderObject1.bin");
 				    blender3.SaveBinaryBlenderObjects("xwing3.bin");
+					Blender xwing_with_normals = new Blender();
+					xwing_with_normals.ReadFile("xwing_with_normals.obj");
+					xwing_with_normals.SaveBinaryBlenderObjects("xwng_with_normals.bin");
 					break;
 	        }
 	        return result.ToString();
