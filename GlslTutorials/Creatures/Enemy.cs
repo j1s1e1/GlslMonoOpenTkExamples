@@ -7,7 +7,6 @@ namespace GlslTutorials
 	public class Enemy
 	{
 		Blender tieFighter;
-		float radius = 0.05f;
 		static Random random = new Random();
 		RandomMovement movement = new RandomMovement();
 		Collisions collision = new Collisions();

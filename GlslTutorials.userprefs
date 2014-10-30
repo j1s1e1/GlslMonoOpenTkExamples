@@ -1,24 +1,27 @@
 ﻿<Properties GitUserInfo="UsingGIT">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="GlslTutorials/Blender/Blender.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="GlslTutorials/Tutorials/Tut_09_Ambient_Lighting.cs">
     <Files>
-      <File FileName="GlslTutorials/Tutorials/Tut_3D_Shooter2.cs" Line="136" Column="13" />
-      <File FileName="GlslTutorials/Creatures/Enemy.cs" Line="59" Column="20" />
+      <File FileName="GlslTutorials/Tutorials/Tut_3D_Shooter2.cs" Line="14" Column="4" />
       <File FileName="GlslTutorials/Tutorials/Tut_04_MatrixPerspective.cs" Line="1" Column="1" />
-      <File FileName="GlslTutorials/Blender/Blender.cs" Line="171" Column="33" />
+      <File FileName="GlslTutorials/Blender/Blender.cs" Line="163" Column="5" />
+      <File FileName="GlslTutorials/Shapes/Shape.cs" Line="321" Column="17" />
+      <File FileName="GlslTutorials/Tutorials/Tut_09_Ambient_Lighting.cs" Line="10" Column="37" />
+      <File FileName="GlslTutorials/Tutorials/Tut_07_World_Scene.cs" Line="128" Column="10" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State expanded="True">
           <Node name="GlslTutorials" expanded="True">
-            <Node name="Blender" expanded="True">
-              <Node name="Blender.cs" selected="True" />
-            </Node>
+            <Node name="Blender" expanded="True" />
             <Node name="Creatures" expanded="True" />
             <Node name="GL_Helpers" expanded="True" />
             <Node name="ProgramData" expanded="True" />
             <Node name="Shapes" expanded="True" />
-            <Node name="Tutorials" expanded="True" />
+            <Node name="Tutorials" expanded="True">
+              <Node name="Tut_09_Ambient_Lighting.cs" selected="True" />
+            </Node>
+            <Node name="XmlFilesForMeshes" expanded="True" />
           </Node>
         </State>
       </Pad>
