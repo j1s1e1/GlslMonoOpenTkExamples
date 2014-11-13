@@ -5,6 +5,7 @@ namespace GlslTutorials
 {
 	public enum TutorialsEnum
 	{		
+		Tut_Spheres,
 		Tut_3D_Shooter2,
 		Tut_Blender,
 		Tut_BlenderBinary,
@@ -25,7 +26,7 @@ namespace GlslTutorials
 		Tut_09_Ambient_Lighting,
 		Tut_10_Fragment_Point_Lighting,
 		Tut_CheckObjects,
-		Tut_Spheres,
+		
 		Tut_Blocks,
 		Tut_Vectors,
 		Tut_Text,

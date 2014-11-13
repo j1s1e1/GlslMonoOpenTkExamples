@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using OpenTK;
 
 namespace GlslTutorials
 {
@@ -11,6 +13,9 @@ namespace GlslTutorials
    	 	static float[][] vertices;
     
     	public static float[] triangles;
+		
+		public static List<Vector3> vertexList;
+		public static List<Triangle> triangleList;
 
 	    static float[] CalculateVertex(float theta, float phi)
 	    {
@@ -102,6 +107,8 @@ namespace GlslTutorials
 	    {
 	        CreateVertices();
 	        CreateTriangles();
+			CreateVertexList();
+			CreateTriangleList();
 	    }
 		
 		public static float[] CloneTriangles()
@@ -109,6 +116,90 @@ namespace GlslTutorials
 			float[] result = new float[triangles.Length];
 			Array.Copy(triangles, 0, result, 0, result.Length);
 			return result;
+		}
+		
+		public static void CreateVertexList()
+		{
+			vertexList = new List<Vector3>();
+			for (int i = 0; i < triangles.Length; i = i + 3)
+			{
+				vertexList.Add(new Vector3(triangles[i], triangles[i+1], triangles[i+2]));
+			}
+		}
+		
+		public static void CreateTriangleList()
+		{
+			triangleList = new List<Triangle>();
+			for (int i = 0; i < vertexList.Count; i = i + 3)
+			{
+				triangleList.Add(new Triangle(vertexList[i], vertexList[i+1], vertexList[i+2]));
+			}
+		}
+		
+		public static List<Triangle> DivideTriangles(List<Triangle> triangles)
+		{
+			List<Triangle> result = new List<Triangle>();
+			for (int i = 0; i < triangles.Count; i++)
+			{
+				result.AddRange(triangles[i].Divide());
+			}
+			return result;
+		}
+		
+		public static List<Vector3> GetVertices(List<Triangle> triangles)
+		{
+			List<Vector3> result = new List<Vector3>();
+			for (int i = 0; i < triangles.Count; i++)
+			{
+				result.AddRange(triangles[i].GetVertices());
+			}
+			return result;
+		}
+		
+		public static List<Vector3> NormalizeVertices(List<Vector3> vertices)
+		{
+			List<Vector3> result = new List<Vector3>();
+			foreach (Vector3 v in vertices)
+			{
+				result.Add(v.Normalized());
+			}
+			return result;
+		}
+		
+		public static float[] GetFloats(List<Vector3> vertices)
+		{
+			float[] result = new float[vertices.Count * 3];
+			for (int i = 0; i < vertices.Count; i++)
+			{
+				Array.Copy (vertices[i].ToFloat(), 0, result, i * 3, 3);
+			}
+			return result;
+		}
+		
+		public static float[] GetFloats(List<Triangle> triangles)
+		{
+			float[] result = new float[triangles.Count * 9];
+			for (int i = 0; i < triangles.Count; i++)
+			{
+				Array.Copy (triangles[i].GetFloats(), 0, result, i * 9, 9);
+			}
+			return result;
+		}
+		
+		public static float[] GetDividedTriangles(int divideCount)
+		{
+			List<Triangle> result = new List<Triangle>();
+			foreach (Triangle t in triangleList)
+			{
+				result.Add(t.Clone());
+			}
+			while (divideCount-- > 0)
+			{
+				result = DivideTriangles(result);
+			}			
+			List<Vector3> vertices = GetVertices(result);
+			vertices = NormalizeVertices(vertices);
+			return GetFloats(vertices);
 		}
 	}
 }

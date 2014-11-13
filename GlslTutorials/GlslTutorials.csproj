@@ -117,6 +117,9 @@
     <Compile Include="Tutorials\Tut_3D_Shooter2.cs" />
     <Compile Include="Tutorials\Tut_BlenderBinary.cs" />
     <Compile Include="Creatures\Enemy.cs" />
+    <Compile Include="Shapes\TextureSphere.cs" />
+    <Compile Include="Shapes\Triangle.cs" />
+    <Compile Include="Geometry\Vector3Extensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
