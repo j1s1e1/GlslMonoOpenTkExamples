@@ -120,6 +120,8 @@
     <Compile Include="Shapes\TextureSphere.cs" />
     <Compile Include="Shapes\Triangle.cs" />
     <Compile Include="Geometry\Vector3Extensions.cs" />
+    <Compile Include="Tutorials\Tut_14_Basic_Textures.cs" />
+    <Compile Include="Geometry\Vector4Extensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
