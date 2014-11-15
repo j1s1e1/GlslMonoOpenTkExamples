@@ -2,16 +2,13 @@
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
   <MonoDevelop.Ide.Workbench ActiveDocument="GlslTutorials/Tutorials/Tut_14_Basic_Textures.cs">
     <Files>
-      <File FileName="GlslTutorials/Tutorials/Tut_14_Basic_Textures.cs" Line="399" Column="58" />
-      <File FileName="GlslTutorials/Tutorials/Tut_10_Fragment_Point_Lighting.cs" Line="289" Column="56" />
-      <File FileName="GlslTutorials/View/ProjectionBlock.cs" Line="15" Column="1" />
-      <File FileName="GlslTutorials/Tutorials/TutorialBase.cs" Line="106" Column="10" />
+      <File FileName="GlslTutorials/Tutorials/Tut_14_Basic_Textures.cs" Line="12" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State expanded="True">
           <Node name="GlslTutorials" expanded="True">
-            <Node name="Geometry" expanded="True" />
+            <Node name="GL_Helpers" expanded="True" />
             <Node name="Shapes" expanded="True" />
             <Node name="Tutorials" expanded="True">
               <Node name="Tut_14_Basic_Textures.cs" selected="True" />
@@ -31,6 +28,11 @@
       <Breakpoint file="/home/jamie/repos/C#/GlslTutorials/GlslTutorials/Tutorials/Tut_09_Ambient_Lighting.cs" line="587" />
       <Breakpoint file="/home/jamie/repos/C#/GlslTutorials/GlslTutorials/GL_Helpers/AnalysisTools.cs" line="106" />
       <Breakpoint file="/home/jamie/repos/C#/GlslTutorials/GlslTutorials/Shapes/Icosahedron.cs" line="200" />
+      <Breakpoint file="/home/jamie/repos/C#/GlslTutorials/GlslTutorials/Tutorials/Tut_14_Basic_Textures.cs" line="92" />
+      <Breakpoint file="/home/jamie/repos/C#/GlslTutorials/GlslTutorials/Tutorials/Tut_14_Basic_Textures.cs" line="94" />
+      <Breakpoint file="/home/jamie/repos/C#/GlslTutorials/GlslTutorials/Tutorials/Tut_14_Basic_Textures.cs" line="65" />
+      <Breakpoint file="/home/jamie/repos/C#/GlslTutorials/GlslTutorials/Tutorials/Tut_14_Basic_Textures.cs" line="67" />
+      <Breakpoint file="/home/jamie/repos/C#/GlslTutorials/GlslTutorials/Tutorials/Tut_14_Basic_Textures.cs" line="91" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />

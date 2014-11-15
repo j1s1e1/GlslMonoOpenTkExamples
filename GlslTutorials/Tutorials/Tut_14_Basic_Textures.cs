@@ -51,7 +51,7 @@ namespace GlslTutorials
 	        data.theProgram  = Shader.createAndLinkProgram(vertex_shader, fragment_shader);
 
 			data.modelToCameraMatrixUnif =  GL.GetUniformLocation(data.theProgram, "modelToCameraMatrix");
-			data.objectColorUnif =  GL.GetUniformLocation(data.theProgram, "objectColor");
+			data.objectColorUnif =  GL.GetUniformLocation(data.theProgram, "baseColor");
 		
 			data.cameraToClipMatrixUnif = GL.GetUniformLocation(data.theProgram, "cameraToClipMatrix");		
 			return data;
@@ -85,10 +85,13 @@ namespace GlslTutorials
 
 		static void InitializePrograms()
 		{
-			g_litShaderProg = LoadStandardProgram("PN.vert", "ShaderGaussian.frag");
-			g_litTextureProg = LoadStandardProgram("PN.vert", "TextureGaussian.frag");
+			Shader.compileShader(ShaderType.VertexShader, VertexShaders.BasicTexture_PN);
+			Shader.compileShader(ShaderType.FragmentShader, FragmentShaders.ShaderGaussian);
+			
+			g_litShaderProg = LoadStandardProgram(VertexShaders.BasicTexture_PN, FragmentShaders.ShaderGaussian);
+			g_litTextureProg = LoadStandardProgram(VertexShaders.BasicTexture_PN, FragmentShaders.TextureGaussian);
 		
-			g_Unlit = LoadUnlitProgram("Unlit.vert", "Unlit.frag");
+			g_Unlit = LoadUnlitProgram(VertexShaders.PosTransform, FragmentShaders.ColorUniform_frag);
 		}
 		
 	 	public static ObjectData g_initialObjectData = new ObjectData(new Vector3(0.0f, 0.5f, 0.0f),
