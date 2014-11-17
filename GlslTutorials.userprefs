@@ -1,24 +1,35 @@
 ﻿<Properties GitUserInfo="UsingGIT">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="GlslTutorials/Tutorials/Tut_14_Basic_Textures.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="GlslTutorials/Interpolator/TimedLinearInterpolator.cs">
     <Files>
-      <File FileName="GlslTutorials/Tutorials/Tut_14_Basic_Textures.cs" Line="12" Column="1" />
+      <File FileName="GlslTutorials/Tutorials/Tut_16_Gamma_Landscape.cs" Line="430" Column="29" />
+      <File FileName="GlslTutorials/Light/LightEnv.cs" Line="160" Column="35" />
+      <File FileName="GlslTutorials/Mesh/Mesh.cs" Line="104" Column="1" />
+      <File FileName="GlslTutorials/Attributes/AttribType.cs" Line="1" Column="1" />
+      <File FileName="GlslTutorials/Interpolator/WeightedLinearInterpolator.cs" Line="15" Column="19" />
+      <File FileName="GlslTutorials/Light/MaxIntensityData.cs" Line="16" Column="8" />
+      <File FileName="GlslTutorials/Light/LightData.cs" Line="2" Column="14" />
+      <File FileName="GlslTutorials/Interpolator/TimedLinearInterpolator.cs" Line="6" Column="46" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State expanded="True">
           <Node name="GlslTutorials" expanded="True">
-            <Node name="GL_Helpers" expanded="True" />
-            <Node name="Shapes" expanded="True" />
-            <Node name="Tutorials" expanded="True">
-              <Node name="Tut_14_Basic_Textures.cs" selected="True" />
+            <Node name="Attributes" expanded="True" />
+            <Node name="Interpolator" expanded="True">
+              <Node name="TimedLinearInterpolator.cs" selected="True" />
             </Node>
-            <Node name="View" expanded="True" />
+            <Node name="Light" expanded="True" />
+            <Node name="Tutorials" expanded="True" />
+            <Node name="XmlFilesForMeshes" expanded="True" />
           </Node>
         </State>
       </Pad>
       <Pad Id="ClassPad">
         <State expanded="True" selected="True" />
+      </Pad>
+      <Pad Id="MonoDevelop.Debugger.WatchPad">
+        <State />
       </Pad>
     </Pads>
   </MonoDevelop.Ide.Workbench>
@@ -28,11 +39,6 @@
       <Breakpoint file="/home/jamie/repos/C#/GlslTutorials/GlslTutorials/Tutorials/Tut_09_Ambient_Lighting.cs" line="587" />
       <Breakpoint file="/home/jamie/repos/C#/GlslTutorials/GlslTutorials/GL_Helpers/AnalysisTools.cs" line="106" />
       <Breakpoint file="/home/jamie/repos/C#/GlslTutorials/GlslTutorials/Shapes/Icosahedron.cs" line="200" />
-      <Breakpoint file="/home/jamie/repos/C#/GlslTutorials/GlslTutorials/Tutorials/Tut_14_Basic_Textures.cs" line="92" />
-      <Breakpoint file="/home/jamie/repos/C#/GlslTutorials/GlslTutorials/Tutorials/Tut_14_Basic_Textures.cs" line="94" />
-      <Breakpoint file="/home/jamie/repos/C#/GlslTutorials/GlslTutorials/Tutorials/Tut_14_Basic_Textures.cs" line="65" />
-      <Breakpoint file="/home/jamie/repos/C#/GlslTutorials/GlslTutorials/Tutorials/Tut_14_Basic_Textures.cs" line="67" />
-      <Breakpoint file="/home/jamie/repos/C#/GlslTutorials/GlslTutorials/Tutorials/Tut_14_Basic_Textures.cs" line="91" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />

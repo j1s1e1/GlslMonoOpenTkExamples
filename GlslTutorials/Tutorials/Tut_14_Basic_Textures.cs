@@ -42,7 +42,9 @@ namespace GlslTutorials
 		static int g_projectionBlockIndex = 2;
 		
 		static int g_gaussTexUnit = 0;
-
+		
+		int NUMBER_OF_LIGHTS = 2;
+		
 		static UnlitProgData LoadUnlitProgram(String strVertexShader, String strFragmentShader)
 		{
 			UnlitProgData data = new UnlitProgData();
@@ -140,65 +142,7 @@ namespace GlslTutorials
 	        Framework.ForwardMouseWheel(g_objtPole, wheel, direction, x, y);
 	    }
 		
-		 static ProjectionBlock projData = new ProjectionBlock();
-
-		class PerLight
-		{
-			public Vector4 cameraSpaceLightPos;
-			public Vector4 lightIntensity;
-			
-			public static int Size()
-			{
-				int size = 0;
-				size += Vector4.SizeInBytes;
-				return size;
-			}
-			
-			public float[] ToFloat()
-		    {
-				float[] result = new float[Size()/4];
-				int position = 0;
-				Array.Copy(cameraSpaceLightPos.ToFloat(), 0, result, position, 4);
-				position += 4;
-				Array.Copy(lightIntensity.ToFloat(), 0, result, position, 4);
-				return result;
-			}
-		};
-
-		const int NUMBER_OF_LIGHTS = 2;
-
-		class LightBlock
-		{
-			public Vector4 ambientIntensity;
-			public float lightAttenuation;
-			public float[] padding = new float[3];
-			public PerLight[] lights = new PerLight[NUMBER_OF_LIGHTS];
-			
-			public static int Size()
-			{
-				int size = 0;
-				size += Vector4.SizeInBytes;
-				size += sizeof(float) * 4;
-				size += NUMBER_OF_LIGHTS * PerLight.Size();
-				return size;
-			}
-						
-			public float[] ToFloat()
-		    {
-				float[] result = new float[Size()/4];
-				int position = 0;
-				Array.Copy(ambientIntensity.ToFloat(), 0, result, position, 4);
-				position += 4;
-				result[position] = lightAttenuation;
-				position += 4;
-				for (int i = 0; i < NUMBER_OF_LIGHTS; i++)
-				{
-					Array.Copy(lights[i].ToFloat(), 0, result, position, PerLight.Size()/4);
-					position += PerLight.Size()/4;
-				}
-				return result;
-			}
-		};
+		static ProjectionBlock projData = new ProjectionBlock();
 
 		class MaterialBlock
 		{
@@ -299,7 +243,7 @@ namespace GlslTutorials
 		
 		
 		//Called after the window and OpenGL are initialized. Called exactly once, before the main loop.
-		protected override void init ()
+		protected override void init()
 		{
 		    InitializeGInitialViewData();
 	        InitializeGViewScale();
@@ -354,16 +298,18 @@ namespace GlslTutorials
 		
 			GL.GenBuffers(1, out g_lightUniformBuffer);
 			GL.BindBuffer(BufferTarget.UniformBuffer, g_lightUniformBuffer);
-			GL.BufferData(BufferTarget.UniformBuffer, (IntPtr)LightBlock.Size(), IntPtr.Zero, BufferUsageHint.DynamicDraw);
+			GL.BufferData(BufferTarget.UniformBuffer, (IntPtr)LightBlock.Size(NUMBER_OF_LIGHTS), 
+			              IntPtr.Zero, BufferUsageHint.DynamicDraw);
 		
 			GL.GenBuffers(1, out g_projectionUniformBuffer);
 			GL.BindBuffer(BufferTarget.UniformBuffer, g_projectionUniformBuffer);
-			GL.BufferData(BufferTarget.UniformBuffer, (IntPtr)ProjectionBlock.byteLength(), IntPtr.Zero, BufferUsageHint.DynamicDraw);
+			GL.BufferData(BufferTarget.UniformBuffer, (IntPtr)ProjectionBlock.Size(), IntPtr.Zero, BufferUsageHint.DynamicDraw);
 		
 			//Bind the static buffers.
-			GL.BindBufferRange(BufferTarget.UniformBuffer, g_lightBlockIndex, g_lightUniformBuffer, IntPtr.Zero, (IntPtr)LightBlock.Size());
+			GL.BindBufferRange(BufferTarget.UniformBuffer, g_lightBlockIndex, g_lightUniformBuffer, 
+			                   IntPtr.Zero, (IntPtr)LightBlock.Size(NUMBER_OF_LIGHTS));
 		
-			GL.BindBufferRange(BufferTarget.UniformBuffer, g_projectionBlockIndex, g_projectionUniformBuffer, IntPtr.Zero, (IntPtr)ProjectionBlock.byteLength());
+			GL.BindBufferRange(BufferTarget.UniformBuffer, g_projectionBlockIndex, g_projectionUniformBuffer, IntPtr.Zero, (IntPtr)ProjectionBlock.Size());
 		
 			GL.BindBufferRange(BufferTarget.UniformBuffer, g_materialBlockIndex, g_materialUniformBuffer, IntPtr.Zero, (IntPtr)MaterialBlock.Size());
 		
@@ -428,7 +374,7 @@ namespace GlslTutorials
 				lightData.lights[1].lightIntensity = new Vector4(0.4f, 0.4f, 0.4f, 1.0f);
 		
 				GL.BindBuffer(BufferTarget.UniformBuffer, g_lightUniformBuffer);
-				GL.BufferSubData(BufferTarget.UniformBuffer, (IntPtr)0, (IntPtr)LightBlock.Size(), 
+				GL.BufferSubData(BufferTarget.UniformBuffer, (IntPtr)0, (IntPtr)LightBlock.Size(NUMBER_OF_LIGHTS), 
 				                 lightData.ToFloat());
 				GL.BindBuffer(BufferTarget.UniformBuffer, 0);
 		
@@ -525,7 +471,7 @@ namespace GlslTutorials
 			projData.cameraToClipMatrix = persMatrix.Top();
 		
 			GL.BindBuffer(BufferTarget.UniformBuffer, g_projectionUniformBuffer);
-			GL.BufferSubData(BufferTarget.UniformBuffer, (IntPtr)0, (IntPtr)ProjectionBlock.byteLength(), projData.ToFloat());
+			GL.BufferSubData(BufferTarget.UniformBuffer, (IntPtr)0, (IntPtr)ProjectionBlock.Size(), projData.ToFloat());
 			GL.BindBuffer(BufferTarget.UniformBuffer, 0);
 		
 			GL.Viewport(0, 0, w, h);

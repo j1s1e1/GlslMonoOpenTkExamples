@@ -19,6 +19,11 @@ namespace GlslTutorials
 		{
 			return (a + b) / 2;
 		}
+		
+		public static float Distance(Vector3 a, Vector3 b)
+		{
+			return (a - b).Length;
+		}
 	}
 }
 

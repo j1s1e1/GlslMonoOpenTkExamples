@@ -7,7 +7,7 @@ namespace GlslTutorials
 	public class ProjectionBlock 
 	{
 	    public Matrix4 cameraToClipMatrix;
-	    static public int byteLength()
+	    static public int Size()
 	    {
 	        return 16 * 4;
 	    }

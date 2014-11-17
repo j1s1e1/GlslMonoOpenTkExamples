@@ -14,6 +14,11 @@ namespace GlslTutorials
 		{
 			return new float[]{a.X, a.Y, a.Z, a.W};
 		}
+		
+		public static float Distance(Vector4 a, Vector4 b)
+		{
+			return (a - b).Length;
+		}
 	}
 }
 

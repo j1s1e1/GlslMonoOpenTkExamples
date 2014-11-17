@@ -88,7 +88,7 @@ namespace GlslTutorials
 	        return messages;
 	    }
 
-	    protected static float GetElapsedTime()
+	    public static float GetElapsedTime()
 	    {
 	    	return elapsedTime;
 	    }
