@@ -3,18 +3,17 @@ using System.Collections.Generic;
 
 namespace GlslTutorials
 {
-	public class TimedLinearInterpolator<T> : WeightedLinearInterpolator<T>
+	public class TimedLinearInterpolator<T> : WeightedLinearInterpolator<T> where T : IDistance<T>
 	{
-		public void SetValues<T_data>(List<T_data> data, bool isLoop = true)
+		public void SetValues<T_data>(List<T_data> dataSet, bool isLoop = true)  where T_data : IGetValueTime<T>
 		{
-			m_values.Clear();
+			m_values = new List<Data>();
 			
-			foreach (T_data newValue in data)
+			for(int i = 0; i < dataSet.Count; i++)
 			{
 				Data currData = new Data();
-				dynamic newValueDyn = newValue;
-				currData.data = newValueDyn.GetValue();
-				currData.weight = newValueDyn.GetTime();
+				currData.data = dataSet[i].GetValue();
+				currData.weight = dataSet[i].GetTime();
 				m_values.Add(currData);
 			}
 
@@ -22,7 +21,7 @@ namespace GlslTutorials
 			float m_totalDist = 0.0f;
 			for(int iLoop = 1; iLoop < m_values.Count; ++iLoop)
 			{
-				m_totalDist += Distance(m_values[iLoop - 1].data, m_values[iLoop].data);
+				m_totalDist += Distance(iLoop - 1, iLoop);
 				m_values[iLoop].weight = m_totalDist;
 			}
 

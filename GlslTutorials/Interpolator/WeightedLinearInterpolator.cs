@@ -3,15 +3,8 @@ using System.Collections.Generic;
 
 namespace GlslTutorials
 {
-	public class WeightedLinearInterpolator<T>
-	{
-		protected float Distance(T a, T b)
-		{
-			dynamic ad = a;
-			dynamic bd = b;
-			return Distance(ad, bd);
-		}
-		
+	public class WeightedLinearInterpolator<T> where T : IDistance<T>
+	{		
 		protected class Data
 		{
 			public T data;
@@ -52,6 +45,11 @@ namespace GlslTutorials
 			dynamic b = m_values[segment].data;
 			
 			return a * invSecAlpha + b * sectionAlpha;
+		}
+		
+		protected float Distance(int a, int b)
+		{
+			return m_values[a].data.Distance(m_values[a].data, m_values[b].data);
 		}
 	}
 }

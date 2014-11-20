@@ -210,13 +210,13 @@ namespace GlslTutorials
 			try
 			{
 				string XmlFilesDirectory = GlsTutorialsClass.ProjectDirectory + @"/XmlFilesForMeshes";
-				Stream lightEnv =  File.OpenRead(XmlFilesDirectory + @"/LightEnv.Xml");
+				Stream lightEnv =  File.OpenRead(XmlFilesDirectory + @"/lightenv.xml");
 				g_pLightEnv = new LightEnv(lightEnv);
 		
 				InitializePrograms();
-				Stream terrain =  File.OpenRead(XmlFilesDirectory + @"/terrain.Xml");
+				Stream terrain =  File.OpenRead(XmlFilesDirectory + @"/terrain.xml");
 				g_pTerrain = new Mesh(terrain);
-				Stream UnitSphere =  File.OpenRead(XmlFilesDirectory + @"/UnitSphere.Xml");
+				Stream UnitSphere =  File.OpenRead(XmlFilesDirectory + @"/unitsphere.xml");
 				g_pSphere = new Mesh(UnitSphere);
 			}
 			catch(Exception ex)

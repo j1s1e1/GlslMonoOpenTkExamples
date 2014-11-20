@@ -1,23 +1,22 @@
 ﻿<Properties GitUserInfo="UsingGIT">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="GlslTutorials/Interpolator/TimedLinearInterpolator.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="GlslTutorials/Interpolator/FloatIDistance.cs">
     <Files>
-      <File FileName="GlslTutorials/Tutorials/Tut_16_Gamma_Landscape.cs" Line="430" Column="29" />
-      <File FileName="GlslTutorials/Light/LightEnv.cs" Line="160" Column="35" />
-      <File FileName="GlslTutorials/Mesh/Mesh.cs" Line="104" Column="1" />
-      <File FileName="GlslTutorials/Attributes/AttribType.cs" Line="1" Column="1" />
-      <File FileName="GlslTutorials/Interpolator/WeightedLinearInterpolator.cs" Line="15" Column="19" />
-      <File FileName="GlslTutorials/Light/MaxIntensityData.cs" Line="16" Column="8" />
-      <File FileName="GlslTutorials/Light/LightData.cs" Line="2" Column="14" />
-      <File FileName="GlslTutorials/Interpolator/TimedLinearInterpolator.cs" Line="6" Column="46" />
+      <File FileName="GlslTutorials/Tutorials/Tut_16_Gamma_Landscape.cs" Line="213" Column="1" />
+      <File FileName="GlslTutorials/Light/LightEnv.cs" Line="344" Column="79" />
+      <File FileName="GlslTutorials/Interpolator/ConstVelLinearInterpolator.cs" Line="15" Column="15" />
+      <File FileName="GlslTutorials/Interpolator/Vector3IDistance.cs" Line="13" Column="3" />
+      <File FileName="GlslTutorials/Interpolator/Vector4IDistance.cs" Line="21" Column="19" />
+      <File FileName="GlslTutorials/Interpolator/FloatIDistance.cs" Line="21" Column="19" />
+      <File FileName="GlslTutorials/Interpolator/IDistance.cs" Line="7" Column="9" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State expanded="True">
           <Node name="GlslTutorials" expanded="True">
-            <Node name="Attributes" expanded="True" />
+            <Node name="Geometry" expanded="True" />
             <Node name="Interpolator" expanded="True">
-              <Node name="TimedLinearInterpolator.cs" selected="True" />
+              <Node name="FloatIDistance.cs" selected="True" />
             </Node>
             <Node name="Light" expanded="True" />
             <Node name="Tutorials" expanded="True" />
@@ -29,7 +28,12 @@
         <State expanded="True" selected="True" />
       </Pad>
       <Pad Id="MonoDevelop.Debugger.WatchPad">
-        <State />
+        <State>
+          <Value>i</Value>
+          <Value>root.NodeType</Value>
+          <Value>root.Value</Value>
+          <Value>(XmlElement)root</Value>
+        </State>
       </Pad>
     </Pads>
   </MonoDevelop.Ide.Workbench>
@@ -39,6 +43,15 @@
       <Breakpoint file="/home/jamie/repos/C#/GlslTutorials/GlslTutorials/Tutorials/Tut_09_Ambient_Lighting.cs" line="587" />
       <Breakpoint file="/home/jamie/repos/C#/GlslTutorials/GlslTutorials/GL_Helpers/AnalysisTools.cs" line="106" />
       <Breakpoint file="/home/jamie/repos/C#/GlslTutorials/GlslTutorials/Shapes/Icosahedron.cs" line="200" />
+      <Breakpoint file="/home/jamie/repos/CSharp/GlslTutorials/GlslTutorials/Tutorials/Tut_16_Gamma_Landscape.cs" line="216" />
+      <Breakpoint file="/home/jamie/repos/CSharp/GlslTutorials/GlslTutorials/Interpolator/TimedLinearInterpolator.cs" line="22" />
+      <Breakpoint file="/home/jamie/repos/CSharp/GlslTutorials/GlslTutorials/Interpolator/TimedLinearInterpolator.cs" line="14" />
+      <Breakpoint file="/home/jamie/repos/CSharp/GlslTutorials/GlslTutorials/Interpolator/TimedLinearInterpolator.cs" line="12" />
+      <Breakpoint file="/home/jamie/repos/CSharp/GlslTutorials/GlslTutorials/Interpolator/TimedLinearInterpolator.cs" line="10" />
+      <Breakpoint file="/home/jamie/repos/CSharp/GlslTutorials/GlslTutorials/Tutorials/Tut_16_Gamma_Landscape.cs" line="213" />
+      <Breakpoint file="/home/jamie/repos/CSharp/GlslTutorials/GlslTutorials/Light/LightEnv.cs" line="124" />
+      <Breakpoint file="/home/jamie/repos/CSharp/GlslTutorials/GlslTutorials/Light/LightEnv.cs" line="130" />
+      <Breakpoint file="/home/jamie/repos/CSharp/GlslTutorials/GlslTutorials/Light/LightEnv.cs" line="131" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />

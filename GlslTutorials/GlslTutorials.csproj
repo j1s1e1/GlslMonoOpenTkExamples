@@ -135,6 +135,11 @@
     <Compile Include="Geometry\FloatExtensions.cs" />
     <Compile Include="Light\LightData.cs" />
     <Compile Include="Light\MaxIntensityData.cs" />
+    <Compile Include="Interpolator\IDistance.cs" />
+    <Compile Include="Interpolator\Vector3IDistance.cs" />
+    <Compile Include="Interpolator\Vector4IDistance.cs" />
+    <Compile Include="Interpolator\FloatIDistance.cs" />
+    <Compile Include="Interpolator\IGetValueTime.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -199,5 +204,8 @@
     <None Include="Blender\xwing_pn.obj" />
     <None Include="Blender\xwng_with_normals.bin" />
     <None Include="Blender\test_with_normals.bin" />
+    <None Include="XmlFilesForMeshes\lightenv.xml" />
+    <None Include="XmlFilesForMeshes\unitsphere.xml" />
+    <None Include="XmlFilesForMeshes\terrain.xml" />
   </ItemGroup>
 </Project>

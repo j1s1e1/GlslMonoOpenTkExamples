@@ -12,17 +12,17 @@ namespace GlslTutorials
 	public class LightEnv
 	{
 		float m_fLightAttenuation;
-		ConstVelLinearInterpolator<Vector3> LightInterpolator;
+		ConstVelLinearInterpolator<Vector3IDistance> LightInterpolator;
 		
-		TimedLinearInterpolator<Vector4> m_ambientInterpolator;
-		TimedLinearInterpolator<Vector4> m_backgroundInterpolator;
-		TimedLinearInterpolator<Vector4> m_sunlightInterpolator;
-		TimedLinearInterpolator<float> m_maxIntensityInterpolator;
+		TimedLinearInterpolator<Vector4IDistance> m_ambientInterpolator = new TimedLinearInterpolator<Vector4IDistance>();
+		TimedLinearInterpolator<Vector4IDistance> m_backgroundInterpolator = new TimedLinearInterpolator<Vector4IDistance>();
+		TimedLinearInterpolator<Vector4IDistance> m_sunlightInterpolator = new TimedLinearInterpolator<Vector4IDistance>();
+		TimedLinearInterpolator<FloatIDistance> m_maxIntensityInterpolator = new TimedLinearInterpolator<FloatIDistance>();
 		
 		FrameworkTimer m_sunTimer;
 		List<FrameworkTimer> m_lightTimers = new List<FrameworkTimer>();
 		
-		List<ConstVelLinearInterpolator<Vector3>> m_lightPos = new List<ConstVelLinearInterpolator<Vector3>>();
+		List<ConstVelLinearInterpolator<Vector3IDistance>> m_lightPos = new List<ConstVelLinearInterpolator<Vector3IDistance>>();
 		List<Vector4> m_lightIntensity = new List<Vector4>();
 		
 		const int MAX_NUMBER_OF_LIGHTS = 4;
@@ -34,7 +34,7 @@ namespace GlslTutorials
 		
 		float GetValue(MaxIntensityData data) 
 		{
-			return data.first;
+			return data.GetFloat();
 		}
 		float GetTime(MaxIntensityData data) 
 		{
@@ -83,41 +83,11 @@ namespace GlslTutorials
 			
 			XmlElement root = docenvFilename.DocumentElement;
 		
-			//XmlNode pRootNode = doc.first_node("lightenv");
-			//PARSE_THROW(pRootNode, ("lightenv node not found in light environment file: " + envFilename));
-		
-			XmlNodeList attributeNodes = root.GetElementsByTagName("attribute");
-			
-			XmlNode sunNode = root.SelectSingleNode("sun");
-			float time = 0f; 
-		    if (attributeNodes.Count > 0) 
-			{
-            	for (int i = 0; i < attributeNodes.Count; i++) 
-				{
-                    XmlNode xmlNode = attributeNodes[i];
-					switch (xmlNode.Name)
-					{
-						case "atten": m_fLightAttenuation = float.Parse(xmlNode.Value); break;
-						case "sun":
-						{	
-							XmlNodeList sunAttributeNodes = sunNode.ChildNodes;
-							if (sunAttributeNodes.Count > 0) 
-							{
-				            	for (i = 0; i < sunAttributeNodes.Count; i++)
-				                {
-				                    XmlNode currentSunNode = attributeNodes[i];
-									switch (currentSunNode.Name)
-									{
-										case "time": time = float.Parse(currentSunNode.Value); break;
-									}
-				                }
-				            }
-							break;
-						}
-					}
-                }
-            }
-			
+			float time = float.Parse(root.GetAttribute("atten"));; 
+			XmlElement sunNode = (XmlElement)root.SelectSingleNode("sun");
+
+   		    time = float.Parse(((XmlElement)sunNode).GetAttribute("time"));
+
 			//m_fLightAttenuation = rapidxml::get_attrib_float(root, "atten", m_fLightAttenuation);
 			m_fLightAttenuation = 1.0f / (m_fLightAttenuation * m_fLightAttenuation);
 
@@ -131,7 +101,7 @@ namespace GlslTutorials
 			List<MaxIntensityData> maxIntensity = new List<MaxIntensityData>();
 		
 			
-			XmlNodeList pKeyNodes = root.GetElementsByTagName("key");
+			XmlNodeList pKeyNodes = sunNode.GetElementsByTagName("key");
 	        if (pKeyNodes.Count > 0) 
 			{
 	        	for (int i=0;  i < pKeyNodes.Count; i++) 
@@ -195,8 +165,13 @@ namespace GlslTutorials
 				MessageBox.Show("'light' elements must have at least one 'key' element child.");
 			}
 	
-			m_lightPos.Add(new ConstVelLinearInterpolator<Vector3>());
-			m_lightPos[m_lightPos.Count - 1].SetValues(posValues);
+			m_lightPos.Add(new ConstVelLinearInterpolator<Vector3IDistance>());
+			List<Vector3IDistance> posValuesIDistance = new List<Vector3IDistance>();
+			foreach (Vector3 v in posValues)
+			{
+				posValuesIDistance.Add(new Vector3IDistance(v));
+			}
+			m_lightPos[m_lightPos.Count - 1].SetValues(posValuesIDistance);
 		}
 		
 		public Vector4 GetSunlightDirection()
@@ -216,8 +191,8 @@ namespace GlslTutorials
 		
 		public Vector4 GetSunlightScaledIntensity()
 		{
-			return m_sunlightInterpolator.Interpolate(m_sunTimer.GetAlpha()) /
-				m_maxIntensityInterpolator.Interpolate(m_sunTimer.GetAlpha());
+			return m_sunlightInterpolator.Interpolate(m_sunTimer.GetAlpha()).GetValue() /
+				m_maxIntensityInterpolator.Interpolate(m_sunTimer.GetAlpha()).GetValue();
 		}
 		
 		public int GetNumLights()
@@ -238,23 +213,23 @@ namespace GlslTutorials
 		public Vector4 GetPointLightScaledIntensity(int pointLightIx)
 		{
 			return m_lightIntensity[pointLightIx] /
-				m_maxIntensityInterpolator.Interpolate(m_sunTimer.GetAlpha());
+				m_maxIntensityInterpolator.Interpolate(m_sunTimer.GetAlpha()).GetValue();
 		}
 		
 		public Vector3 GetPointLightWorldPos( int pointLightIx )
 		{
-			return m_lightPos[pointLightIx].Interpolate(m_lightTimers[pointLightIx].GetAlpha());
+			return m_lightPos[pointLightIx].Interpolate(m_lightTimers[pointLightIx].GetAlpha()).GetValue();
 		}
 		
 		public LightBlock GetLightBlock(Matrix4 worldToCamera, int numberOfLights = 4)
 		{
 			LightBlock lightData = new LightBlock(numberOfLights);
-			lightData.ambientIntensity = m_ambientInterpolator.Interpolate(m_sunTimer.GetAlpha());
+			lightData.ambientIntensity = m_ambientInterpolator.Interpolate(m_sunTimer.GetAlpha()).GetValue();
 			lightData.lightAttenuation = m_fLightAttenuation;
-			lightData.maxIntensity = m_maxIntensityInterpolator.Interpolate(m_sunTimer.GetAlpha());
+			lightData.maxIntensity = m_maxIntensityInterpolator.Interpolate(m_sunTimer.GetAlpha()).GetValue();
 		
 			lightData.lights[0].cameraSpaceLightPos =  Vector4.Transform(GetSunlightDirection(), worldToCamera);
-			lightData.lights[0].lightIntensity = m_sunlightInterpolator.Interpolate(m_sunTimer.GetAlpha());
+			lightData.lights[0].lightIntensity = m_sunlightInterpolator.Interpolate(m_sunTimer.GetAlpha()).GetValue();
 		
 			for(int light = 0; light < m_lightPos.Count; light++)
 			{
@@ -356,17 +331,17 @@ namespace GlslTutorials
 		
 		public Vector4 GetBackgroundColor()
 		{
-			return m_backgroundInterpolator.Interpolate(m_sunTimer.GetAlpha());
+			return m_backgroundInterpolator.Interpolate(m_sunTimer.GetAlpha()).GetValue();
 		}
 	
 		float GetMaxIntensity()
 		{
-			return m_maxIntensityInterpolator.Interpolate(m_sunTimer.GetAlpha());
+			return m_maxIntensityInterpolator.Interpolate(m_sunTimer.GetAlpha()).GetValue();
 		}
 	
 		Vector4 GetSunlightIntensity()
 		{
-			return m_sunlightInterpolator.Interpolate(m_sunTimer.GetAlpha());
+			return m_sunlightInterpolator.Interpolate(m_sunTimer.GetAlpha()).GetValue();
 		}
 	
 		float GetElapsedTime()

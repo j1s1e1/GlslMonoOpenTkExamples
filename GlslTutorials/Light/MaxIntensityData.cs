@@ -2,23 +2,34 @@ using System;
 
 namespace GlslTutorials
 {
-	public class MaxIntensityData
+	public class MaxIntensityData: IGetValueTime<FloatIDistance>
 	{
-		public float first;
+		public FloatIDistance first;
 		public float second;
 		
 		public MaxIntensityData(float firstIn, float secondIn)
+		{
+			first = new FloatIDistance(firstIn);
+			second = secondIn;
+		}
+		
+		public MaxIntensityData(FloatIDistance firstIn, float secondIn)
 		{
 			first = firstIn;
 			second = secondIn;
 		}
 		
-		float GetValue() 
+		public FloatIDistance GetValue() 
 		{
 			return first;
 		}
 		
-		float GetTime() 
+		public float GetFloat() 
+		{
+			return first.GetValue();
+		}
+		
+		public float GetTime() 
 		{
 			return second;
 		}
