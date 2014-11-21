@@ -140,6 +140,7 @@
     <Compile Include="Interpolator\Vector4IDistance.cs" />
     <Compile Include="Interpolator\FloatIDistance.cs" />
     <Compile Include="Interpolator\IGetValueTime.cs" />
+    <Compile Include="Interpolator\ILinearInterpolate.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />

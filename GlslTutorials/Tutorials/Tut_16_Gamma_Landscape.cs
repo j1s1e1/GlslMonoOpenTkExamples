@@ -38,6 +38,9 @@ namespace GlslTutorials
 
 		ProgramData LoadProgram(String strVertexShader, String strFragmentShader)
 		{
+			int test1 = Shader.compileShader(ShaderType.VertexShader, strVertexShader);
+			int test2 = Shader.compileShader(ShaderType.FragmentShader, strFragmentShader);
+			
 			ProgramData data = new ProgramData();
 			int vertex_shader = Shader.loadShader(ShaderType.VertexShader, strVertexShader);
 	        int fragment_shader = Shader.loadShader(ShaderType.FragmentShader, strFragmentShader);
@@ -75,7 +78,7 @@ namespace GlslTutorials
 		
 		void InitializePrograms()
 		{
-			g_progStandard = LoadProgram("PNT.vert", "litTexture.frag");
+			g_progStandard = LoadProgram(VertexShaders.PNT, FragmentShaders.litTexture);
 			g_progUnlit = LoadUnlitProgram(VertexShaders.PosTransform, FragmentShaders.ColorUniform_frag);
 		}
 		
@@ -332,7 +335,7 @@ namespace GlslTutorials
 					Matrix4 mm = modelMatrix.Top();
 					GL.UniformMatrix4(g_progUnlit.modelToCameraMatrixUnif, false, ref mm);
 		
-					Vector4 lightColor = g_pLightEnv.GetSunlightScaledIntensity(), gamma;
+					Vector4 lightColor = g_pLightEnv.GetSunlightScaledIntensity();
 					GL.Uniform4(g_progUnlit.objectColorUnif, 1, lightColor.ToFloat());
 					g_pSphere.Render("flat");
 				}

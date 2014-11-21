@@ -67,7 +67,9 @@ namespace GlslTutorials
 		}
 				
 		public LightEnv(Stream envFilename, float m_fLightAttenuation = 40.0f)
-		{		
+		{	
+			int i;
+			XmlElement pLightNode;
 			XmlDocument docenvFilename;
 		
 			try
@@ -101,10 +103,10 @@ namespace GlslTutorials
 			List<MaxIntensityData> maxIntensity = new List<MaxIntensityData>();
 		
 			
-			XmlNodeList pKeyNodes = sunNode.GetElementsByTagName("key");
+			XmlNodeList pKeyNodes = sunNode.SelectNodes("key");
 	        if (pKeyNodes.Count > 0) 
 			{
-	        	for (int i=0;  i < pKeyNodes.Count; i++) 
+	        	for (i=0;  i < pKeyNodes.Count; i++) 
 				{
 	            	XmlElement pKeyNode = (XmlElement)pKeyNodes.Item(i);
 	                float keyTime = float.Parse(pKeyNode.GetAttribute("time"));
@@ -132,14 +134,14 @@ namespace GlslTutorials
 			m_backgroundInterpolator.SetValues(background);
 			m_maxIntensityInterpolator.SetValues(maxIntensity);
 		
-			XmlNodeList pLightNodes = ((XmlElement)sunNode).GetElementsByTagName("light");
+			XmlNodeList pLightNodes = root.SelectNodes("light");
 			List<Vector3> posValues = new List<Vector3>();
 			
 			if (pLightNodes.Count > 0) 
 			{
-	        	for (int i=0;  i < pLightNodes.Count; i++) 
+	        	for (i=0;  i < pLightNodes.Count; i++) 
 				{
-					XmlElement pLightNode = (XmlElement)pLightNodes.Item(i);
+					pLightNode = (XmlElement)pLightNodes.Item(i);
 					if(m_lightPos.Count + 1 == MAX_NUMBER_OF_LIGHTS)
 					{
 						MessageBox.Show("Too many lights specified.");
@@ -151,11 +153,15 @@ namespace GlslTutorials
 			
 					m_lightIntensity.Add(ParseVec4(pLightNode.GetAttribute("intensity")));
 					
-					XmlNodeList pKeyNodes2 = pLightNode.GetElementsByTagName("key");
+					XmlNodeList pKeyNodes2 = pLightNode.SelectNodes("key");
 			
-					foreach (XmlNode x in pKeyNodes2)
+					if (pKeyNodes2.Count > 0)
 					{
-						posValues.Add(ParseVec3(x.Value));
+						for (i=0;  i < pKeyNodes2.Count; i++) 
+						{
+							pLightNode = (XmlElement)pKeyNodes2.Item(i);
+							posValues.Add(ParseVec3(pLightNode.InnerText));
+						}
 					}
 				}
 			}
@@ -331,7 +337,8 @@ namespace GlslTutorials
 		
 		public Vector4 GetBackgroundColor()
 		{
-			return m_backgroundInterpolator.Interpolate(m_sunTimer.GetAlpha()).GetValue();
+			float fAlpha = m_sunTimer.GetAlpha();
+			return m_backgroundInterpolator.Interpolate(fAlpha).GetValue();
 		}
 	
 		float GetMaxIntensity()

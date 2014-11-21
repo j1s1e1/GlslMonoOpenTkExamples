@@ -384,6 +384,33 @@ namespace GlslTutorials
 			"vertexNormal = normalize(normalModelToCameraMatrix * normal);" +
 			"cameraSpacePosition = vec3(tempCamPosition);" +
 		"}";
+		
+		public static string PNT =
+		
+
+		"attribute vec3 position;" +
+		"attribute vec3 dummy1;" +
+		"attribute vec3 normal;" +
+		"attribute vec3 dummy3;" +	
+		"attribute vec3 dummy4;" +
+		"attribute vec2 texCoord;" +
+
+		"varying vec2 colorCoord;" +
+		"varying vec3 cameraSpacePosition;" +
+		"varying vec3 cameraSpaceNormal;" +
+
+		"uniform mat4 cameraToClipMatrix;" +
+		"uniform mat4 modelToCameraMatrix;" +
+
+		"void main()" +
+		"{" +
+			"cameraSpacePosition = dummy1 + dummy3 + dummy4;" +
+			"cameraSpacePosition = (modelToCameraMatrix * vec4(position, 1.0)).xyz;" +
+			"gl_Position = cameraToClipMatrix * vec4(cameraSpacePosition, 1.0);" +
+			//Assume the modelToCameraMatrix contains no scaling.
+			"cameraSpaceNormal = (modelToCameraMatrix * vec4(normal, 0)).xyz;" +
+			"colorCoord = texCoord;" +
+		"}";
 	}
 }
 

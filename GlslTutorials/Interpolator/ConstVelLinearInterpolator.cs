@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace GlslTutorials
 {
-	public class ConstVelLinearInterpolator<T> : WeightedLinearInterpolator<T>  where T : IDistance<T>
+	public class ConstVelLinearInterpolator<T> : WeightedLinearInterpolator<T>  where T : IDistance<T>, ILinearInterpolate<T>
 	{
 		float m_totalDist;
 		

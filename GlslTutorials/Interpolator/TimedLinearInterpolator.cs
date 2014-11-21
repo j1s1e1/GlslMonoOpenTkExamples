@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace GlslTutorials
 {
-	public class TimedLinearInterpolator<T> : WeightedLinearInterpolator<T> where T : IDistance<T>
+	public class TimedLinearInterpolator<T> : WeightedLinearInterpolator<T> where T : IDistance<T>, ILinearInterpolate<T>
 	{
 		public void SetValues<T_data>(List<T_data> dataSet, bool isLoop = true)  where T_data : IGetValueTime<T>
 		{

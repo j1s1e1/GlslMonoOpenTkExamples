@@ -3,7 +3,7 @@ using OpenTK;
 
 namespace GlslTutorials
 {
-	public class Vector4IDistance : IDistance<Vector4IDistance>
+	public class Vector4IDistance : IDistance<Vector4IDistance>, ILinearInterpolate<Vector4IDistance>
 	{
 		Vector4 vector4Value;
 		public Vector4IDistance(Vector4 vector4ValueIn)
@@ -19,6 +19,13 @@ namespace GlslTutorials
 		float IDistance<Vector4IDistance>.Distance(Vector4IDistance a, Vector4IDistance b)
 		{
 			return Vector4Extensions.Distance(a.GetValue(), b.GetValue());
+		}
+		
+		Vector4IDistance ILinearInterpolate<Vector4IDistance>.LinearInterpolate(Vector4IDistance a, Vector4IDistance b, float sectionAlpha)
+		{
+			Vector4 interpolatedValue = (1f - sectionAlpha) * a.GetValue() + sectionAlpha * b.GetValue();
+			Vector4IDistance result = new Vector4IDistance(interpolatedValue);
+			return result;
 		}
 	}
 }

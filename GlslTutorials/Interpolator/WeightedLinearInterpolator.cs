@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace GlslTutorials
 {
-	public class WeightedLinearInterpolator<T> where T : IDistance<T>
+	public class WeightedLinearInterpolator<T> where T : IDistance<T>, ILinearInterpolate<T>
 	{		
 		protected class Data
 		{
@@ -41,15 +41,17 @@ namespace GlslTutorials
 
 			float invSecAlpha = 1.0f - sectionAlpha;
 			
-			dynamic a = m_values[segment - 1].data;
-			dynamic b = m_values[segment].data;
-			
-			return a * invSecAlpha + b * sectionAlpha;
+			return LinearInterpolate(segment - 1, segment, sectionAlpha);
 		}
 		
 		protected float Distance(int a, int b)
 		{
 			return m_values[a].data.Distance(m_values[a].data, m_values[b].data);
+		}
+		
+		protected T LinearInterpolate(int a, int b, float sectionAlpha)
+		{
+			return m_values[a].data.LinearInterpolate(m_values[a].data, m_values[b].data, sectionAlpha);
 		}
 	}
 }

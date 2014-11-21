@@ -1,24 +1,20 @@
 ﻿<Properties GitUserInfo="UsingGIT">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="GlslTutorials/Interpolator/FloatIDistance.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="GlslTutorials/Light/LightEnv.cs">
     <Files>
-      <File FileName="GlslTutorials/Tutorials/Tut_16_Gamma_Landscape.cs" Line="213" Column="1" />
-      <File FileName="GlslTutorials/Light/LightEnv.cs" Line="344" Column="79" />
-      <File FileName="GlslTutorials/Interpolator/ConstVelLinearInterpolator.cs" Line="15" Column="15" />
-      <File FileName="GlslTutorials/Interpolator/Vector3IDistance.cs" Line="13" Column="3" />
-      <File FileName="GlslTutorials/Interpolator/Vector4IDistance.cs" Line="21" Column="19" />
-      <File FileName="GlslTutorials/Interpolator/FloatIDistance.cs" Line="21" Column="19" />
-      <File FileName="GlslTutorials/Interpolator/IDistance.cs" Line="7" Column="9" />
+      <File FileName="GlslTutorials/Tutorials/Tut_16_Gamma_Landscape.cs" Line="291" Column="1" />
+      <File FileName="GlslTutorials/Light/LightEnv.cs" Line="15" Column="17" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State expanded="True">
           <Node name="GlslTutorials" expanded="True">
             <Node name="Geometry" expanded="True" />
-            <Node name="Interpolator" expanded="True">
-              <Node name="FloatIDistance.cs" selected="True" />
+            <Node name="GL_Helpers" expanded="True" />
+            <Node name="Interpolator" expanded="True" />
+            <Node name="Light" expanded="True">
+              <Node name="LightEnv.cs" selected="True" />
             </Node>
-            <Node name="Light" expanded="True" />
             <Node name="Tutorials" expanded="True" />
             <Node name="XmlFilesForMeshes" expanded="True" />
           </Node>
@@ -43,15 +39,22 @@
       <Breakpoint file="/home/jamie/repos/C#/GlslTutorials/GlslTutorials/Tutorials/Tut_09_Ambient_Lighting.cs" line="587" />
       <Breakpoint file="/home/jamie/repos/C#/GlslTutorials/GlslTutorials/GL_Helpers/AnalysisTools.cs" line="106" />
       <Breakpoint file="/home/jamie/repos/C#/GlslTutorials/GlslTutorials/Shapes/Icosahedron.cs" line="200" />
-      <Breakpoint file="/home/jamie/repos/CSharp/GlslTutorials/GlslTutorials/Tutorials/Tut_16_Gamma_Landscape.cs" line="216" />
-      <Breakpoint file="/home/jamie/repos/CSharp/GlslTutorials/GlslTutorials/Interpolator/TimedLinearInterpolator.cs" line="22" />
-      <Breakpoint file="/home/jamie/repos/CSharp/GlslTutorials/GlslTutorials/Interpolator/TimedLinearInterpolator.cs" line="14" />
-      <Breakpoint file="/home/jamie/repos/CSharp/GlslTutorials/GlslTutorials/Interpolator/TimedLinearInterpolator.cs" line="12" />
-      <Breakpoint file="/home/jamie/repos/CSharp/GlslTutorials/GlslTutorials/Interpolator/TimedLinearInterpolator.cs" line="10" />
-      <Breakpoint file="/home/jamie/repos/CSharp/GlslTutorials/GlslTutorials/Tutorials/Tut_16_Gamma_Landscape.cs" line="213" />
-      <Breakpoint file="/home/jamie/repos/CSharp/GlslTutorials/GlslTutorials/Light/LightEnv.cs" line="124" />
-      <Breakpoint file="/home/jamie/repos/CSharp/GlslTutorials/GlslTutorials/Light/LightEnv.cs" line="130" />
-      <Breakpoint file="/home/jamie/repos/CSharp/GlslTutorials/GlslTutorials/Light/LightEnv.cs" line="131" />
+      <Breakpoint file="/home/jamie/repos/CSharp/GlslTutorials/GlslTutorials/Tutorials/Tut_16_Gamma_Landscape.cs" line="221" />
+      <Breakpoint file="/home/jamie/repos/CSharp/GlslTutorials/GlslTutorials/Tutorials/Tut_16_Gamma_Landscape.cs" line="222" />
+      <Breakpoint file="/home/jamie/repos/CSharp/GlslTutorials/GlslTutorials/Tutorials/Tut_16_Gamma_Landscape.cs" line="48" />
+      <Breakpoint file="/home/jamie/repos/CSharp/GlslTutorials/GlslTutorials/Tutorials/Tut_16_Gamma_Landscape.cs" line="50" />
+      <Breakpoint file="/home/jamie/repos/CSharp/GlslTutorials/GlslTutorials/GL_Helpers/Shader.cs" line="62" />
+      <Breakpoint file="/home/jamie/repos/CSharp/GlslTutorials/GlslTutorials/GL_Helpers/Shader.cs" line="78" />
+      <Breakpoint file="/home/jamie/repos/CSharp/GlslTutorials/GlslTutorials/Tutorials/Tut_16_Gamma_Landscape.cs" line="45" />
+      <Breakpoint file="/home/jamie/repos/CSharp/GlslTutorials/GlslTutorials/Tutorials/Tut_16_Gamma_Landscape.cs" line="42" />
+      <Breakpoint file="/home/jamie/repos/CSharp/GlslTutorials/GlslTutorials/Tutorials/Tut_16_Gamma_Landscape.cs" line="43" />
+      <Breakpoint file="/home/jamie/repos/CSharp/GlslTutorials/GlslTutorials/GL_Helpers/Shader.cs" line="46" />
+      <Breakpoint file="/home/jamie/repos/CSharp/GlslTutorials/GlslTutorials/GL_Helpers/Shader.cs" line="45" />
+      <Breakpoint file="/home/jamie/repos/CSharp/GlslTutorials/GlslTutorials/GL_Helpers/Shader.cs" line="43" />
+      <Breakpoint file="/home/jamie/repos/CSharp/GlslTutorials/GlslTutorials/Light/LightEnv.cs" line="341" />
+      <Breakpoint file="/home/jamie/repos/CSharp/GlslTutorials/GlslTutorials/Interpolator/WeightedLinearInterpolator.cs" line="30" />
+      <Breakpoint file="/home/jamie/repos/CSharp/GlslTutorials/GlslTutorials/Tutorials/Tut_16_Gamma_Landscape.cs" line="291" />
+      <Breakpoint file="/home/jamie/repos/CSharp/GlslTutorials/GlslTutorials/Tutorials/Tut_16_Gamma_Landscape.cs" line="292" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />

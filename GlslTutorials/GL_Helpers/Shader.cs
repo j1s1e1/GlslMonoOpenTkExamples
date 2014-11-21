@@ -40,7 +40,8 @@ namespace GlslTutorials
 	            // If the compilation failed, delete the shader.
 	            if (compileStatus[0] == 0)
 	            {
-					MessageBox.Show("Error creating shader: " + GL.GetShaderInfoLog(shaderHandle));
+					string shaderInfoLog = GL.GetShaderInfoLog(shaderHandle);
+					MessageBox.Show("Error creating shader: " + shaderInfoLog);
 	                GL.DeleteShader(shaderHandle);
 	                shaderHandle = 0;
 	            }
