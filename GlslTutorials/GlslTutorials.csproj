@@ -142,6 +142,7 @@
     <Compile Include="Interpolator\IGetValueTime.cs" />
     <Compile Include="Interpolator\ILinearInterpolate.cs" />
     <Compile Include="Tutorials\Tut_ShaderTexture.cs" />
+    <Compile Include="Tutorials\Tut_TextureSphere.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -210,5 +211,6 @@
     <None Include="XmlFilesForMeshes\unitsphere.xml" />
     <None Include="XmlFilesForMeshes\terrain.xml" />
     <None Include="Textures\Mars_MGS_colorhillshade_mola_1024.jpg" />
+    <None Include="Textures\Venus_Magellan_C3-MDIR_ClrTopo_Global_Mosaic_1024.jpg" />
   </ItemGroup>
 </Project>

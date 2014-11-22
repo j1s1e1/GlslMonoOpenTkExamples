@@ -1,25 +1,23 @@
 ﻿<Properties GitUserInfo="UsingGIT">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="GlslTutorials/Tutorials/Tut_ShaderTexture.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="GlslTutorials/Tutorials/Tut_TextureSphere.cs">
     <Files>
-      <File FileName="GlslTutorials/Tutorials/Tut_ShaderTexture.cs" Line="31" Column="38" />
-      <File FileName="GlslTutorials/GL_Helpers/Shader.cs" Line="78" Column="1" />
-      <File FileName="GlslTutorials/GL_Helpers/VertexShaders.cs" Line="424" Column="17" />
-      <File FileName="GlslTutorials/GL_Helpers/Textures.cs" Line="14" Column="21" />
-      <File FileName="GlslTutorials/Tutorials/Tut_Texture.cs" Line="1" Column="1" />
-      <File FileName="GlslTutorials/GL_Helpers/FragmentShaders.cs" Line="595" Column="62" />
+      <File FileName="GlslTutorials/Tutorials/Tut_TextureSphere.cs" Line="127" Column="50" />
+      <File FileName="GlslTutorials/Shapes/Icosahedron.cs" Line="189" Column="25" />
+      <File FileName="GlslTutorials/Tutorials/Tut_ShaderTexture.cs" Line="1" Column="1" />
+      <File FileName="GlslTutorials/Shapes/LitMatrixSphere.cs" Line="56" Column="38" />
+      <File FileName="GlslTutorials/Tutorials/TutorialBase.cs" Line="24" Column="24" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State expanded="True">
           <Node name="GlslTutorials" expanded="True">
             <Node name="GL_Helpers" expanded="True" />
-            <Node name="Interpolator" expanded="True" />
-            <Node name="Light" expanded="True" />
-            <Node name="Textures" expanded="True" />
-            <Node name="Tutorials" expanded="True">
-              <Node name="Tut_ShaderTexture.cs" selected="True" />
+            <Node name="Shapes" expanded="True" />
+            <Node name="Textures" expanded="True">
+              <Node name="Mars_MGS_colorhillshade_mola_1024.jpg" selected="True" />
             </Node>
+            <Node name="Tutorials" expanded="True" />
             <Node name="XmlFilesForMeshes" expanded="True" />
           </Node>
         </State>
@@ -43,7 +41,6 @@
       <Breakpoint file="/home/jamie/repos/C#/GlslTutorials/GlslTutorials/Tutorials/Tut_09_Ambient_Lighting.cs" line="587" />
       <Breakpoint file="/home/jamie/repos/C#/GlslTutorials/GlslTutorials/GL_Helpers/AnalysisTools.cs" line="106" />
       <Breakpoint file="/home/jamie/repos/C#/GlslTutorials/GlslTutorials/Shapes/Icosahedron.cs" line="200" />
-      <Breakpoint file="/home/jamie/repos/CSharp/GlslTutorials/GlslTutorials/GL_Helpers/Shader.cs" line="62" />
       <Breakpoint file="/home/jamie/repos/CSharp/GlslTutorials/GlslTutorials/Tutorials/Tut_16_Gamma_Landscape.cs" line="227" />
       <Breakpoint file="/home/jamie/repos/CSharp/GlslTutorials/GlslTutorials/Tutorials/Tut_16_Gamma_Landscape.cs" line="221" />
       <Breakpoint file="/home/jamie/repos/CSharp/GlslTutorials/GlslTutorials/Tutorials/Tut_16_Gamma_Landscape.cs" line="223" />
