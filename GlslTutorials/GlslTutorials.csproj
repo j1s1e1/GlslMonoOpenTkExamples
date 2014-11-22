@@ -141,6 +141,7 @@
     <Compile Include="Interpolator\FloatIDistance.cs" />
     <Compile Include="Interpolator\IGetValueTime.cs" />
     <Compile Include="Interpolator\ILinearInterpolate.cs" />
+    <Compile Include="Tutorials\Tut_ShaderTexture.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -208,5 +209,6 @@
     <None Include="XmlFilesForMeshes\lightenv.xml" />
     <None Include="XmlFilesForMeshes\unitsphere.xml" />
     <None Include="XmlFilesForMeshes\terrain.xml" />
+    <None Include="Textures\Mars_MGS_colorhillshade_mola_1024.jpg" />
   </ItemGroup>
 </Project>

@@ -387,7 +387,6 @@ namespace GlslTutorials
 		
 		public static string PNT =
 		
-
 		"attribute vec3 position;" +
 		"attribute vec3 dummy1;" +
 		"attribute vec3 normal;" +
@@ -409,6 +408,19 @@ namespace GlslTutorials
 			"gl_Position = cameraToClipMatrix * vec4(cameraSpacePosition, 1.0);" +
 			//Assume the modelToCameraMatrix contains no scaling.
 			"cameraSpaceNormal = (modelToCameraMatrix * vec4(normal, 0)).xyz;" +
+			"colorCoord = texCoord;" +
+		"}";
+		
+		public static string SimpleTexture =
+		
+		"attribute vec4 position;" +
+		"attribute vec2 texCoord;" +
+
+		"varying vec2 colorCoord;" +
+
+		"void main()" +
+		"{" +
+			"gl_Position = position;" +
 			"colorCoord = texCoord;" +
 		"}";
 	}

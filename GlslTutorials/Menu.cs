@@ -5,6 +5,7 @@ namespace GlslTutorials
 {
 	public enum TutorialsEnum
 	{		
+		Tut_ShaderTexture,
 		Tut_16_Gamma_Landscape,
 		Tut_Texture,
 		Tut_14_Basic_Textures,
@@ -78,6 +79,7 @@ namespace GlslTutorials
 				case TutorialsEnum.Tut_Text: currentTutorial = new Tut_Text(); break;	
 				case TutorialsEnum.Tut_MultipleShaders: currentTutorial = new Tut_MultipleShaders(); break;	
 				case TutorialsEnum.Tut_Texture: currentTutorial = new Tut_Texture(); break;	
+				case TutorialsEnum.Tut_ShaderTexture: currentTutorial = new Tut_ShaderTexture(); break;	
 				
 			}
 		}

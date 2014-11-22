@@ -21,7 +21,8 @@ namespace GlslTutorials
 	    protected static int COLOR_DATA_SIZE_IN_ELEMENTS = 4;
 	    protected static int POSITION_STRIDE = POSITION_DATA_SIZE_IN_ELEMENTS * BYTES_PER_FLOAT;
 	    protected static int COLOR_STRIDE = COLOR_DATA_SIZE_IN_ELEMENTS * BYTES_PER_FLOAT;
-
+		protected static int TEXTURE_DATA_SIZE_IN_ELEMENTS = 2;
+		protected static int TEXTURE_STRIDE = TEXTURE_DATA_SIZE_IN_ELEMENTS * BYTES_PER_FLOAT;
     	protected Timer timer;
 
 	    // For single program tutorials

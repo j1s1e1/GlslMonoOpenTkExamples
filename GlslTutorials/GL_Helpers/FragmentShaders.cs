@@ -583,6 +583,17 @@ namespace GlslTutorials
 			"gl_FragColor = accumLighting / Lgt.maxIntensity;" +
 		
 		"}";
+		
+		public static String SimpleTexture =
+	
+		"varying vec2 colorCoord;" +
+				
+		"uniform sampler2D diffuseColorTex;" +
+		
+		"void main()" +
+		"{" +			
+			"gl_FragColor = texture2D(diffuseColorTex, colorCoord);" +
+		"}";
 
 
 	}
