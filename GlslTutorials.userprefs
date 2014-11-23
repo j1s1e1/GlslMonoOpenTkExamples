@@ -14,9 +14,7 @@
           <Node name="GlslTutorials" expanded="True">
             <Node name="GL_Helpers" expanded="True" />
             <Node name="Shapes" expanded="True" />
-            <Node name="Textures" expanded="True">
-              <Node name="Mars_MGS_colorhillshade_mola_1024.jpg" selected="True" />
-            </Node>
+            <Node name="Textures" expanded="True" selected="True" />
             <Node name="Tutorials" expanded="True" />
             <Node name="XmlFilesForMeshes" expanded="True" />
           </Node>

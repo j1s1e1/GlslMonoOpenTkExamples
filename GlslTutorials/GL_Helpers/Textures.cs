@@ -11,11 +11,30 @@ namespace GlslTutorials
 		{
 		}
 		
-		public static int Load(string path, int quality = 0, bool repeat = true, bool flip_y = false)
+		public static int Load(string path, int quality = 0, bool repeat = true, bool flip_y = false, bool oneTwenty = false)
 		{
 			string textureFilesDirectory = GlsTutorialsClass.ProjectDirectory + @"/Textures";
 		    Bitmap bitmap = new Bitmap(textureFilesDirectory + "//" +path);
 		
+			// Add 10% on each side for sphere mapping
+			if (oneTwenty)
+			{
+				int width = bitmap.Width;
+				int height = bitmap.Height;
+				int extra = width/10;
+				int newWidth = width + 2 * extra;
+				Bitmap bitmap2 = new Bitmap(newWidth, height);
+				Rectangle lastTen = new Rectangle(new Point(width - extra, 0), new Size(extra, height));
+				Rectangle firstTen = new Rectangle(new Point(0, 0), new Size(extra, height));
+    			using (Graphics g = Graphics.FromImage(bitmap2))
+    			{
+        			g.DrawImage(bitmap, 0, 0, lastTen, GraphicsUnit.Pixel);
+        			g.DrawImage(bitmap, extra, 0);
+					g.DrawImage(bitmap, extra + width, 0, firstTen, GraphicsUnit.Pixel);
+    			}
+				bitmap = bitmap2;
+			}
+			
 		    //Flip the image
 		    if (flip_y)
 		        bitmap.RotateFlip(RotateFlipType.RotateNoneFlipY);
@@ -122,8 +141,7 @@ namespace GlslTutorials
 		    GL.BindTexture(TextureTarget.Texture2D, 0);
 		
 		    return texture;
-		}
-		
+		}	
 	}
 }
 

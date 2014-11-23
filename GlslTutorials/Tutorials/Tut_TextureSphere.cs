@@ -60,7 +60,7 @@ namespace GlslTutorials
 			GL.GenSamplers(1, out sampler);
 			GL.SamplerParameter(sampler, SamplerParameterName.TextureMagFilter,  (int)TextureMagFilter.Nearest);
 			GL.SamplerParameter(sampler, SamplerParameterName.TextureMinFilter,  (int)TextureMinFilter.Nearest);
-			GL.SamplerParameter(sampler, SamplerParameterName.TextureWrapT, (int)TextureWrapMode.ClampToEdgeSgis);
+			GL.SamplerParameter(sampler, SamplerParameterName.TextureWrapT, (int)TextureWrapMode.Repeat);
 			
 		}
 		
@@ -86,10 +86,6 @@ namespace GlslTutorials
 		
 		private void CalculateTextureCoordinates()
 		{
-			float minx = 0f;
-			float miny = 0f;
-			float maxx = 1f;
-			float maxy = 1f;
 			textureCoordinates = new float[vertexCount * TEXTURE_DATA_SIZE_IN_ELEMENTS];
 			for (int vertex = 0; vertex < vertexCount; vertex++)
 			{
@@ -103,15 +99,42 @@ namespace GlslTutorials
 				
 				textureCoordinates[vertex * 2] = (float)((longitude + Math.PI) / (Math.PI * 2));
 				textureCoordinates[vertex * 2 + 1] = (float)((lattitude + Math.PI/2) / Math.PI);
-				if (textureCoordinates[vertex * 2] < minx) minx = textureCoordinates[vertex * 2];
-				if (textureCoordinates[vertex * 2] > maxx) maxx = textureCoordinates[vertex * 2];
-				if (textureCoordinates[vertex * 2 + 1] < miny) miny = textureCoordinates[vertex * 2];
-				if (textureCoordinates[vertex * 2 + 1] > maxy) maxy = textureCoordinates[vertex * 2];
 				if (textureCoordinates[vertex * 2] < 0) textureCoordinates[vertex * 2] = 0f;
 				if (textureCoordinates[vertex * 2] > 1) textureCoordinates[vertex * 2] = 1f;
 				if (textureCoordinates[vertex * 2 + 1] < 0) textureCoordinates[vertex * 2] = 0f;
 				if (textureCoordinates[vertex * 2 + 1] > 1) textureCoordinates[vertex * 2] = 1f;
 			}
+			// center all x coordinates in original 100%
+			for (int vertex = 0; vertex < vertexCount; vertex++)
+			{
+				textureCoordinates[vertex * 2] = 1f/12f + 10f/12f * textureCoordinates[vertex * 2];
+			}
+			// Check each set of 3 coordinates for crossing edges.  Move some if necessary
+			for (int vertex = 0; vertex < vertexCount; vertex = vertex + 3)
+			{
+				if (textureCoordinates[vertex * 2] < 0.35f)
+				{
+					if (textureCoordinates[(vertex + 1) * 2] > 0.65f)
+					{
+						textureCoordinates[(vertex + 1) * 2] = textureCoordinates[(vertex + 1) * 2] - 10f/12f;
+					}
+					if (textureCoordinates[(vertex + 2) * 2] > 0.65f)
+					{
+						textureCoordinates[(vertex + 2) * 2] = textureCoordinates[(vertex + 2) * 2] - 10f/12f;
+					}
+				}
+				if (textureCoordinates[vertex * 2] > 0.65f)
+				{
+					if (textureCoordinates[(vertex + 1) * 2] < 0.35f)
+					{
+						textureCoordinates[(vertex + 1) * 2] = textureCoordinates[(vertex + 1) * 2] + 10f/12f;
+					}
+					if (textureCoordinates[(vertex + 2) * 2] < 0.35f)
+					{
+						textureCoordinates[(vertex + 2) * 2] = textureCoordinates[(vertex + 2) * 2] + 10f/12f;
+					}				
+				}
+			}			
 		}
 		
 		private void AddTextureCoordinates()
@@ -124,7 +147,7 @@ namespace GlslTutorials
 		
 		protected override void init ()
 		{
-			vertexData = Icosahedron.GetDividedTriangles(4);
+			vertexData = Icosahedron.GetDividedTriangles(2);
 			vertexCount = vertexData.Length / 3;  // Icosahedron class only uses 3 floats per vertex
 			CalculateTextureCoordinates();
 			ScaleCoordinates(0.8f, 0.5f);
@@ -137,7 +160,7 @@ namespace GlslTutorials
 			CreateSampler();
 		    GL.ClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 		    //current_texture = Textures.Load("Mars_MGS_colorhillshade_mola_1024.jpg", 1);
-			current_texture = Textures.Load("Venus_Magellan_C3-MDIR_ClrTopo_Global_Mosaic_1024.jpg", 1);
+			current_texture = Textures.Load("Venus_Magellan_C3-MDIR_ClrTopo_Global_Mosaic_1024.jpg", 1, false, false, true);
 		    GL.Enable(EnableCap.Texture2D);
 			
 			SetupDepthAndCull();
