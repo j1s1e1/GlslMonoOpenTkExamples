@@ -48,6 +48,16 @@ namespace GlslTutorials
 			ActivePrograms[program].SetUniformColor(color);
 		}
 		
+		public static void SetUniformTexture(int program, int colorTexUnit)
+		{
+			ActivePrograms[program].SetUniformTexture(colorTexUnit);
+		}
+		
+		public static void LoadTexture(int program, string texture, bool oneTwenty)
+		{
+			ActivePrograms[program].LoadTexture(texture, oneTwenty);
+		}
+		
 		public static void SetLightPosition(int program, Vector3 lightPos)
 		{
 			ActivePrograms[program].SetLightPosition(lightPos);

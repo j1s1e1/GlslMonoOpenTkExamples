@@ -24,6 +24,13 @@ namespace GlslTutorials
         public int lightIntensityUnif;
         public int ambientIntensityUnif;
         public int normalAttribute;
+		public int texCoordAttribute;
+		public int colorTextureUnif;
+		
+		public int sampler = 0;
+		public int texUnit = 0;
+		private int current_texture;
+			
 		string vertexShader;
 		string fragmentShader;
 		
@@ -33,6 +40,8 @@ namespace GlslTutorials
 		int COLOR_DATA_SIZE_IN_ELEMENTS = 4;	
 		int NORMAL_DATA_SIZE_IN_ELEMENTS = 3;
 		int NORMAL_START = 3 * 4; // POSITION_DATA_SIZE_IN_ELEMENTS * BYTES_PER_FLOAT;
+		int TEXTURE_DATA_SIZE_IN_ELEMENTS = 2;
+		int TEXTURE_START = 3 * 4 + 3 * 4;
 		protected int vertexStride = 3 * 4; // bytes per vertex default to only 3 position floats
 		
 		public ProgramData(string vertexShaderIn, string fragmentShaderIn)
@@ -82,7 +91,22 @@ namespace GlslTutorials
 			{
 				vertexStride = 3 * 4 * 2;
 			}
+			texCoordAttribute = GL.GetAttribLocation(theProgram, "texCoord");
+			if (texCoordAttribute != -1)
+			{
+				CreateSampler();
+				vertexStride = 3 * 4 * 2 + 2 * 4;
+			} 
+			colorTextureUnif = GL.GetUniformLocation(theProgram, "diffuseColorTex");
 	    }
+		
+		void CreateSampler()
+		{
+			GL.GenSamplers(1, out sampler);
+			GL.SamplerParameter(sampler, SamplerParameterName.TextureMagFilter,  (int)TextureMagFilter.Nearest);
+			GL.SamplerParameter(sampler, SamplerParameterName.TextureMinFilter,  (int)TextureMinFilter.Nearest);
+			GL.SamplerParameter(sampler, SamplerParameterName.TextureWrapT, (int)TextureWrapMode.Repeat);
+		}
 		
 		public bool CompareShaders(string vertexShaderIn, string fragmentShaderIn)
 		{
@@ -102,7 +126,7 @@ namespace GlslTutorials
 	        
 			if (modelToWorldMatrixUnif != -1) GL.UniformMatrix4(modelToWorldMatrixUnif, false, ref mm);
 	        if (modelToCameraMatrixUnif != -1) GL.UniformMatrix4(modelToCameraMatrixUnif, false, ref mm);
-			GL.Uniform4(baseColorUnif, 1, color);
+			if (baseColorUnif != -1) GL.Uniform4(baseColorUnif, 1, color);
 			
 
 			GL.EnableVertexAttribArray(positionAttribute);
@@ -117,12 +141,26 @@ namespace GlslTutorials
 					VertexAttribPointerType.Float, false, vertexStride, (IntPtr)NORMAL_START);
 			}
 			
+			if (texCoordAttribute != -1)
+			{
+				GL.Enable(EnableCap.Texture2D);
+				GL.EnableVertexAttribArray(texCoordAttribute);
+				GL.VertexAttribPointer(texCoordAttribute, TEXTURE_DATA_SIZE_IN_ELEMENTS, 
+					VertexAttribPointerType.Float, false, vertexStride, (IntPtr)TEXTURE_START);
+				GL.BindTexture(TextureTarget.Texture2D, current_texture);
+				GL.BindSampler(texUnit, sampler);
+			}			
+			
 	        // Draw the triangle
 	 		GL.DrawElements(PrimitiveType.Triangles, indexDataLength, DrawElementsType.UnsignedShort, 0);
 			
 	        // Disable vertex array
 	        GL.DisableVertexAttribArray(positionAttribute);
 			if (normalAttribute != -1) GL.DisableVertexAttribArray(normalAttribute);
+			if (texCoordAttribute != -1)
+			{
+				GL.DisableVertexAttribArray(texCoordAttribute);
+			}
 			
 			GL.BindBuffer(BufferTarget.ArrayBuffer, 0);
 			GL.BindBuffer(BufferTarget.ElementArrayBuffer, 0);
@@ -153,6 +191,18 @@ namespace GlslTutorials
 			GL.UseProgram(theProgram);
 			GL.Uniform4(baseColorUnif, color);
 			GL.UseProgram(0);
+		}
+		
+		public void SetUniformTexture(int colorTexUnit)
+		{
+			GL.UseProgram(theProgram);
+			GL.Uniform1(colorTextureUnif, colorTexUnit);
+			GL.UseProgram(0);
+		}
+		
+		public void LoadTexture(string texture, bool oneTwenty)
+		{
+			current_texture = Textures.Load(texture, 1, false, false, oneTwenty);
 		}
 		
 		public void SetLightPosition(Vector3 lightPosition)

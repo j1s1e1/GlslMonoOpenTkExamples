@@ -423,6 +423,32 @@ namespace GlslTutorials
 			"gl_Position = position;" +
 			"colorCoord = texCoord;" +
 		"}";
+
+	
+	public static string MatrixTexture =
+        "attribute vec4 position;" +
+		"attribute vec3 normal;" +	
+		"attribute vec2 texCoord;" +
+				
+		"uniform mat4 cameraToClipMatrix;" +
+	    "uniform mat4 worldToCameraMatrix;" +
+	    "uniform mat4 modelToWorldMatrix;" +
+				
+		"varying vec3 v_Normal;" +
+        "varying vec3 v_Position;" +
+		"varying vec2 colorCoord;" +
+				
+        "void main()" +
+		"{" +
+			"vec4 temp = modelToWorldMatrix * position;" +
+	        "temp = worldToCameraMatrix * temp;" +
+	        "temp = cameraToClipMatrix * temp;" +
+        	"v_Position = vec3(temp);" +
+            "v_Normal = normal;" +
+            "gl_Position = temp;" +
+			"colorCoord = texCoord;" +
+        "}";
+		
 	}
 }
 

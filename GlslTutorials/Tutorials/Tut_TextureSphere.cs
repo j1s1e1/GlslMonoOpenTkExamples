@@ -61,7 +61,6 @@ namespace GlslTutorials
 			GL.SamplerParameter(sampler, SamplerParameterName.TextureMagFilter,  (int)TextureMagFilter.Nearest);
 			GL.SamplerParameter(sampler, SamplerParameterName.TextureMinFilter,  (int)TextureMinFilter.Nearest);
 			GL.SamplerParameter(sampler, SamplerParameterName.TextureWrapT, (int)TextureWrapMode.Repeat);
-			
 		}
 		
 		private void ScaleCoordinates(float scale, float zOffset)
@@ -162,9 +161,7 @@ namespace GlslTutorials
 		    //current_texture = Textures.Load("Mars_MGS_colorhillshade_mola_1024.jpg", 1);
 			current_texture = Textures.Load("Venus_Magellan_C3-MDIR_ClrTopo_Global_Mosaic_1024.jpg", 1, false, false, true);
 		    GL.Enable(EnableCap.Texture2D);
-			
 			SetupDepthAndCull();
-			
 		}
 		
 	 	public override void display()

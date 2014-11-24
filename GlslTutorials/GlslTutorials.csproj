@@ -143,6 +143,8 @@
     <Compile Include="Interpolator\ILinearInterpolate.cs" />
     <Compile Include="Tutorials\Tut_ShaderTexture.cs" />
     <Compile Include="Tutorials\Tut_TextureSphere.cs" />
+    <Compile Include="Tutorials\Tut_Colors.cs" />
+    <Compile Include="Shapes\ShadedSphere.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />

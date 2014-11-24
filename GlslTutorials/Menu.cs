@@ -5,12 +5,13 @@ namespace GlslTutorials
 {
 	public enum TutorialsEnum
 	{		
+		Tut_Spheres,
 		Tut_TextureSphere,
 		Tut_ShaderTexture,
 		Tut_16_Gamma_Landscape,
 		Tut_Texture,
 		Tut_14_Basic_Textures,
-		Tut_Spheres,
+		
 		Tut_3D_Shooter2,
 		Tut_Blender,
 		Tut_BlenderBinary,
@@ -37,6 +38,7 @@ namespace GlslTutorials
 		Tut_Text,
 		Tut_TiltBall,
 		Tut_Camera,
+		Tut_Colors,
 		
 	}
 	public class MenuClass
@@ -82,6 +84,7 @@ namespace GlslTutorials
 				case TutorialsEnum.Tut_Texture: currentTutorial = new Tut_Texture(); break;	
 				case TutorialsEnum.Tut_ShaderTexture: currentTutorial = new Tut_ShaderTexture(); break;	
 				case TutorialsEnum.Tut_TextureSphere: currentTutorial = new Tut_TextureSphere(); break;	
+				case TutorialsEnum.Tut_Colors: currentTutorial = new Tut_Colors(); break;
 			}
 		}
 	}

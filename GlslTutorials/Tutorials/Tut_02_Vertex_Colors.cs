@@ -7,7 +7,6 @@ using System.Windows.Forms;
 
 namespace GlslTutorials
 {
-
 	public class Tut_02_Vertex_Colors : TutorialBase 
 	{
 	    public static string VertexColor_vert =
