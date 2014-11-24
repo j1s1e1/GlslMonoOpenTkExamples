@@ -2,11 +2,29 @@
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
   <MonoDevelop.Ide.Workbench ActiveDocument="GlslTutorials/Shapes/ShadedSphere.cs">
     <Files>
-      <File FileName="GlslTutorials/Shapes/ShadedSphere.cs" Line="1" Column="1" />
-      <File FileName="GlslTutorials/Tutorials/Tut_TextureSphere.cs" Line="1" Column="1" />
-      <File FileName="GlslTutorials/ProgramData/ProgramData.cs" Line="1" Column="1" />
-      <File FileName="GlslTutorials/ProgramData/Programs.cs" Line="1" Column="1" />
+      <File FileName="GlslTutorials/Shapes/ShadedSphere.cs" Line="19" Column="45" />
     </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State expanded="True">
+          <Node name="GlslTutorials" expanded="True">
+            <Node name="Shapes" expanded="True">
+              <Node name="ShadedSphere.cs" selected="True" />
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+      <Pad Id="ClassPad">
+        <State expanded="True" selected="True" />
+      </Pad>
+      <Pad Id="MonoDevelop.Debugger.WatchPad">
+        <State>
+          <Value>parameters</Value>
+          <Value>name</Value>
+          <Value>i</Value>
+        </State>
+      </Pad>
+    </Pads>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />

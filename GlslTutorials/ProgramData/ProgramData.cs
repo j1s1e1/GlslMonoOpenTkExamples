@@ -8,27 +8,27 @@ namespace GlslTutorials
 {
 	public class ProgramData
 	{
-        public int theProgram;
-        public int positionAttribute;
-        public int colorAttribute;
-        public int modelToCameraMatrixUnif;
-        public int modelToWorldMatrixUnif;
-        public int worldToCameraMatrixUnif;
-        public int cameraToClipMatrixUnif;
-        public int baseColorUnif;
+        private int theProgram;
+        private int positionAttribute;
+        private int colorAttribute;
+        private int modelToCameraMatrixUnif;
+        private int modelToWorldMatrixUnif;
+        private int worldToCameraMatrixUnif;
+        private int cameraToClipMatrixUnif;
+        private int baseColorUnif;
 
-        public int normalModelToCameraMatrixUnif;
-        public int dirToLightUnif;
-		public int lightPosUnif;
-		public int modelSpaceLightPosUnif;
-        public int lightIntensityUnif;
-        public int ambientIntensityUnif;
-        public int normalAttribute;
-		public int texCoordAttribute;
-		public int colorTextureUnif;
+        private int normalModelToCameraMatrixUnif;
+        private int dirToLightUnif;
+		private int lightPosUnif;
+		private int modelSpaceLightPosUnif;
+        private int lightIntensityUnif;
+        private int ambientIntensityUnif;
+        private int normalAttribute;
+		private int texCoordAttribute;
+		private int colorTextureUnif;
 		
-		public int sampler = 0;
-		public int texUnit = 0;
+		private int sampler = 0;
+		private int texUnit = 0;
 		private int current_texture;
 			
 		string vertexShader;

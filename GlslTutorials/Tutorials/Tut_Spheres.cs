@@ -19,10 +19,10 @@ namespace GlslTutorials
 	    {
 			lms1 = new LitMatrixSphere(0.2f);	
 			lms2 = new LitMatrixSphere2(0.2f);
-			ts = new TextureSphere(0.3f);
+			ts = new TextureSphere(0.2f);
 			lms2.SetColor(Colors.BLUE_COLOR);
 			
-			ss = new ShadedSphere(0.2f);
+			ss = new ShadedSphere(0.3f);
 			
 			SetupDepthAndCull();
 		}
@@ -36,8 +36,9 @@ namespace GlslTutorials
 			float cos = (float) Math.Cos (angle);
 			lms1.SetOffset(new Vector3(sin, cos, 0f));
 			lms2.SetOffset(new Vector3(cos, sin, 0f));
-			ss.SetOffset(new Vector3(-sin, cos, 0f));
+			ts.SetOffset(new Vector3(-sin, cos, 0f));
 			ts.RotateShape(tsAxis, angle);
+			ss.RotateShape(tsAxis, angle/4f);
 			angle += 0.02f;
 		}
 		
