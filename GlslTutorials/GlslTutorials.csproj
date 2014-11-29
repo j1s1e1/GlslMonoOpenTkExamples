@@ -145,6 +145,10 @@
     <Compile Include="Tutorials\Tut_TextureSphere.cs" />
     <Compile Include="Tutorials\Tut_Colors.cs" />
     <Compile Include="Shapes\ShadedSphere.cs" />
+    <Compile Include="Tutorials\Tut_Tanks.cs" />
+    <Compile Include="Creatures\Tank.cs" />
+    <Compile Include="Creatures\Movement.cs" />
+    <Compile Include="Creatures\KeyboardMovement.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />

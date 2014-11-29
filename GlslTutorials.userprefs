@@ -1,17 +1,18 @@
 ﻿<Properties GitUserInfo="UsingGIT">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="GlslTutorials/Shapes/ShadedSphere.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="GlslTutorials/Tutorials/Tut_Tanks.cs">
     <Files>
-      <File FileName="GlslTutorials/Shapes/ShadedSphere.cs" Line="19" Column="45" />
+      <File FileName="GlslTutorials/Tutorials/Tut_Tanks.cs" Line="2" Column="28" />
+      <File FileName="GlslTutorials/Creatures/Tank.cs" Line="103" Column="38" />
+      <File FileName="GlslTutorials/Creatures/RandomMovement.cs" Line="14" Column="1" />
+      <File FileName="GlslTutorials/Creatures/Movement.cs" Line="2" Column="1" />
+      <File FileName="GlslTutorials/Creatures/KeyboardMovement.cs" Line="2" Column="14" />
+      <File FileName="GlslTutorials/Tutorials/Tut_Camera.cs" Line="3" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State expanded="True">
-          <Node name="GlslTutorials" expanded="True">
-            <Node name="Shapes" expanded="True">
-              <Node name="ShadedSphere.cs" selected="True" />
-            </Node>
-          </Node>
+          <Node name="GlslTutorials" expanded="True" />
         </State>
       </Pad>
       <Pad Id="ClassPad">

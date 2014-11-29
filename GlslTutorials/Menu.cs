@@ -5,6 +5,7 @@ namespace GlslTutorials
 {
 	public enum TutorialsEnum
 	{		
+		Tut_Tanks,
 		Tut_Spheres,
 		Tut_TextureSphere,
 		Tut_ShaderTexture,
@@ -85,6 +86,7 @@ namespace GlslTutorials
 				case TutorialsEnum.Tut_ShaderTexture: currentTutorial = new Tut_ShaderTexture(); break;	
 				case TutorialsEnum.Tut_TextureSphere: currentTutorial = new Tut_TextureSphere(); break;	
 				case TutorialsEnum.Tut_Colors: currentTutorial = new Tut_Colors(); break;
+				case TutorialsEnum.Tut_Tanks: currentTutorial = new Tut_Tanks(); break;
 			}
 		}
 	}

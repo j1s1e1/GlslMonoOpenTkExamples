@@ -37,8 +37,8 @@ namespace GlslTutorials
 			lms1.SetOffset(new Vector3(sin, cos, 0f));
 			lms2.SetOffset(new Vector3(cos, sin, 0f));
 			ts.SetOffset(new Vector3(-sin, cos, 0f));
-			ts.RotateShape(tsAxis, angle);
-			ss.RotateShape(tsAxis, angle/4f);
+			ts.RotateShape(tsAxis, angle/4f);
+			ss.RotateShape(tsAxis, angle);
 			angle += 0.02f;
 		}
 		
