@@ -1,18 +1,28 @@
 ﻿<Properties GitUserInfo="UsingGIT">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="GlslTutorials/Tutorials/Tut_Tanks.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="GlslTutorials/Objects/Ball.cs">
     <Files>
-      <File FileName="GlslTutorials/Tutorials/Tut_Tanks.cs" Line="2" Column="28" />
-      <File FileName="GlslTutorials/Creatures/Tank.cs" Line="103" Column="38" />
-      <File FileName="GlslTutorials/Creatures/RandomMovement.cs" Line="14" Column="1" />
-      <File FileName="GlslTutorials/Creatures/Movement.cs" Line="2" Column="1" />
-      <File FileName="GlslTutorials/Creatures/KeyboardMovement.cs" Line="2" Column="14" />
-      <File FileName="GlslTutorials/Tutorials/Tut_Camera.cs" Line="3" Column="1" />
+      <File FileName="GlslTutorials/Tutorials/Tut_Tennis.cs" Line="29" Column="4" />
+      <File FileName="GlslTutorials/Tutorials/TutorialBase.cs" Line="136" Column="26" />
+      <File FileName="GlslTutorials/ProgramData/Programs.cs" Line="14" Column="35" />
+      <File FileName="GlslTutorials/Shapes/Shape.cs" Line="143" Column="29" />
+      <File FileName="GlslTutorials/Objects/Ball.cs" Line="22" Column="31" />
+      <File FileName="GlslTutorials/Creatures/RandomMovement.cs" Line="29" Column="3" />
+      <File FileName="GlslTutorials/Creatures/ElasticMovement.cs" Line="8" Column="4" />
+      <File FileName="GlslTutorials/Shapes/LitMatrixSphere2.cs" Line="26" Column="3" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State expanded="True">
-          <Node name="GlslTutorials" expanded="True" />
+          <Node name="GlslTutorials" expanded="True">
+            <Node name="Creatures" expanded="True" />
+            <Node name="Objects" expanded="True">
+              <Node name="Ball.cs" selected="True" />
+            </Node>
+            <Node name="ProgramData" expanded="True" />
+            <Node name="Shapes" expanded="True" />
+            <Node name="Tutorials" expanded="True" />
+          </Node>
         </State>
       </Pad>
       <Pad Id="ClassPad">
@@ -20,15 +30,18 @@
       </Pad>
       <Pad Id="MonoDevelop.Debugger.WatchPad">
         <State>
-          <Value>parameters</Value>
-          <Value>name</Value>
+          <Value>w</Value>
+          <Value>h</Value>
           <Value>i</Value>
+          <Value>speed</Value>
         </State>
       </Pad>
     </Pads>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore />
+    <BreakpointStore>
+      <Breakpoint file="/home/jamie/repos/CSharp/GlslTutorials/GlslTutorials/Creatures/Movement.cs" line="28" />
+    </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
 </Properties>

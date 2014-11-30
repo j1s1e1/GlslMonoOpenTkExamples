@@ -9,6 +9,11 @@ namespace GlslTutorials
 	{
 		static List<ProgramData> ActivePrograms = new List<ProgramData>();
 		
+		public static void reset()
+	    {
+	        ActivePrograms = new List<ProgramData>();
+	    }
+		
 		public static int AddProgram(string vertexShader, string fragmentShader)
 		{
 			int program_number = -1;

@@ -146,9 +146,17 @@
     <Compile Include="Tutorials\Tut_Colors.cs" />
     <Compile Include="Shapes\ShadedSphere.cs" />
     <Compile Include="Tutorials\Tut_Tanks.cs" />
-    <Compile Include="Creatures\Tank.cs" />
     <Compile Include="Creatures\Movement.cs" />
     <Compile Include="Creatures\KeyboardMovement.cs" />
+    <Compile Include="Creatures\SocketMovement.cs" />
+    <Compile Include="Creatures\ReceiveSocket.cs" />
+    <Compile Include="Creatures\SocketListener.cs" />
+    <Compile Include="Creatures\StateObject.cs" />
+    <Compile Include="Tutorials\Tut_Tennis.cs" />
+    <Compile Include="Objects\Paddle.cs" />
+    <Compile Include="Objects\Tank.cs" />
+    <Compile Include="Objects\Ball.cs" />
+    <Compile Include="Creatures\ElasticMovement.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />

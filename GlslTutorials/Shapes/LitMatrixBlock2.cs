@@ -62,6 +62,12 @@ namespace GlslTutorials
 			InitializeVertexBuffer();
 		}
 		
+		~LitMatrixBlock2()
+		{
+			GL.DeleteBuffers(1, ref vertexBufferObject[0]);
+			GL.DeleteBuffers(1, ref indexBufferObject[0]);
+		}
+		
 		private float[] GetVertexData()
 		{
 			float[] vertexData = new float[lmbVertexData.Length];

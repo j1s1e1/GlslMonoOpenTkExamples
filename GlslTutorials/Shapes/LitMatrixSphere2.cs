@@ -23,6 +23,12 @@ namespace GlslTutorials
               	FragmentShaders.lms_fragmentShaderCode);
 		}
 		
+		~LitMatrixSphere2()
+		{
+			GL.DeleteBuffers(1, ref vertexBufferObject[0]);
+			GL.DeleteBuffers(1, ref indexBufferObject[0]);
+		}
+		
 		private float[] GetCircleCoords(float radius) 
 		{
 	        float[] coords = Icosahedron.CloneTriangles();

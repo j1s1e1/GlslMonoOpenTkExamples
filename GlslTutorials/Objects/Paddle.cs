@@ -5,12 +5,9 @@ using OpenTK;
 
 namespace GlslTutorials
 {
-	public class Tank
-	{
-		LitMatrixSphere2 body;
-		LitMatrixBlock2 leftTread;
-		LitMatrixBlock2 rightTread;
-		float radius = 0.05f;
+	public class Paddle
+	{	
+		LitMatrixBlock2 body;
 		static Random random = new Random();
 		Movement movement = new RandomMovement();
 		Collisions collision = new Collisions();
@@ -18,13 +15,11 @@ namespace GlslTutorials
 		int frameCount;
 		float scale = 0.5f;
 		bool dead = false;
-		public Tank()
+		Vector3 lowLimits = new Vector3(-1f, -1f, 0f);
+		Vector3 highLimits = new Vector3(1f, 1f, 1f);
+		public Paddle()
 		{
-			body = new LitMatrixSphere2(radius);
-			leftTread = new LitMatrixBlock2(new Vector3(radius/5, 2 * radius, 2 * radius), Colors.RED_COLOR);
-			leftTread.SetOffset(new Vector3(-radius, 0f, 0f));
-			rightTread = new LitMatrixBlock2(new Vector3(radius/5, 2 * radius, 2 * radius), Colors.RED_COLOR);
-			rightTread.SetOffset(new Vector3(-radius, 0f, 0f));
+			body = new LitMatrixBlock2(new Vector3(0.2f, 0.05f, 0.05f), Colors.RED_COLOR);
 			float xOffset = random.Next(20)/10f - 1f;
 			float yOffset = random.Next(20)/10f - 1f;
 			float zOffset = random.Next(10)/10f - 0.5f;
@@ -33,22 +28,14 @@ namespace GlslTutorials
 			{
 				case 0:	
 					body.SetColor(Colors.RED_COLOR);
-					leftTread.SetColor(Colors.RED_COLOR);
-					rightTread.SetColor(Colors.RED_COLOR);
 					break;
 				case 1:
 					body.SetColor(Colors.GREEN_COLOR); 
-					leftTread.SetColor(Colors.GREEN_COLOR);
-					rightTread.SetColor(Colors.GREEN_COLOR);
 					break;
 				case 2: body.SetColor(Colors.BLUE_COLOR);
-					leftTread.SetColor(Colors.BLUE_COLOR);
-					rightTread.SetColor(Colors.BLUE_COLOR);
 					break;
 				default: 
 					body.SetColor(Colors.YELLOW_COLOR);
-					leftTread.SetColor(Colors.YELLOW_COLOR);
-					rightTread.SetColor(Colors.YELLOW_COLOR);
 					break;
 			}
 			xOffset = xOffset * scale;
@@ -65,8 +52,6 @@ namespace GlslTutorials
 		public void Draw()
 		{
 			body.Draw();
-			leftTread.Draw();
-			rightTread.Draw();
 			if (frameCount < framesPerMove)
 			{
 				frameCount++;
@@ -75,8 +60,6 @@ namespace GlslTutorials
 			{
 				frameCount = 0;
 				body.SetOffset(movement.NewOffset(body.GetOffset()));
-				leftTread.SetOffset(Vector3.Add(body.GetOffset(), new Vector3(-radius, 0f, 0f)));
-				rightTread.SetOffset(Vector3.Add(body.GetOffset(), new Vector3(radius, 0f, 0f)));
 			}
 		}
 		 
@@ -95,19 +78,25 @@ namespace GlslTutorials
 		public void SetProgram(int newProgram)
 		{
 			body.SetProgram(newProgram);
-			leftTread.SetProgram(newProgram);
-			rightTread.SetProgram(newProgram);
 		}
 		
 		public void SetRandomControl()
 		{
 			movement = new RandomMovement();
+			movement.SetLimits(lowLimits, highLimits);
 		}
 		
 		public void SetKeyboardControl()
 		{
 			movement = new KeyboardMovement();
+			movement.SetLimits(lowLimits, highLimits);
 		}
+		
+		public void SetSocketControl()
+		{
+			movement = new SocketMovement();
+			movement.SetLimits(lowLimits, highLimits);
+		}		
 		
 		public void keyboard(Keys keyCode)
 		{
@@ -116,6 +105,18 @@ namespace GlslTutorials
 				KeyboardMovement keyboardMovement = (KeyboardMovement) movement;
 				keyboardMovement.keyboard(keyCode);
 			}
+		}
+		
+		public void SetLimits(Vector3 low, Vector3 high)
+		{
+			lowLimits = low;
+			highLimits = high;
+			movement.SetLimits(lowLimits, highLimits);
+		}
+		
+		public Vector3 GetOffset()
+		{
+			return body.GetOffset();
 		}
 	}
 }

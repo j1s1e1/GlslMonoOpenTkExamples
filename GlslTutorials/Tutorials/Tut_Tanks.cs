@@ -46,6 +46,9 @@ namespace GlslTutorials
 				case Keys.R:
 					tank1.SetRandomControl();
 					break;
+				case Keys.S:
+					tank1.SetSocketControl();
+					break;
 				
 	        }
 			tank1.keyboard(keyCode);
