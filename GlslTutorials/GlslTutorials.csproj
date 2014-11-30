@@ -109,7 +109,6 @@
     <Compile Include="Text\Symbols.cs" />
     <Compile Include="Text\Letters.cs" />
     <Compile Include="Creatures\Alien.cs" />
-    <Compile Include="Creatures\RandomMovement.cs" />
     <Compile Include="Creatures\Collisions.cs" />
     <Compile Include="Tutorials\Tut_MultipleShaders.cs" />
     <Compile Include="Tutorials\Tut_10_Fragment_Point_Lighting.cs" />
@@ -146,17 +145,18 @@
     <Compile Include="Tutorials\Tut_Colors.cs" />
     <Compile Include="Shapes\ShadedSphere.cs" />
     <Compile Include="Tutorials\Tut_Tanks.cs" />
-    <Compile Include="Creatures\Movement.cs" />
-    <Compile Include="Creatures\KeyboardMovement.cs" />
-    <Compile Include="Creatures\SocketMovement.cs" />
-    <Compile Include="Creatures\ReceiveSocket.cs" />
-    <Compile Include="Creatures\SocketListener.cs" />
-    <Compile Include="Creatures\StateObject.cs" />
     <Compile Include="Tutorials\Tut_Tennis.cs" />
     <Compile Include="Objects\Paddle.cs" />
     <Compile Include="Objects\Tank.cs" />
     <Compile Include="Objects\Ball.cs" />
-    <Compile Include="Creatures\ElasticMovement.cs" />
+    <Compile Include="Movement\ElasticMovement.cs" />
+    <Compile Include="Movement\Movement.cs" />
+    <Compile Include="Movement\SocketMovement.cs" />
+    <Compile Include="Movement\SocketListener.cs" />
+    <Compile Include="Movement\StateObject.cs" />
+    <Compile Include="Movement\ReceiveSocket.cs" />
+    <Compile Include="Movement\RandomMovement.cs" />
+    <Compile Include="Movement\KeyboardMovement.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -197,6 +197,7 @@
     <Folder Include="Textures\" />
     <Folder Include="Light\" />
     <Folder Include="Interpolator\" />
+    <Folder Include="Movement\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="XmlFilesForMeshes\unitplane.xml" />
