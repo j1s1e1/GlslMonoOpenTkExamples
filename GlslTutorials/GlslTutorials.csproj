@@ -222,16 +222,15 @@
     <None Include="XmlFilesForMeshes\unitcylinderfragmentpointlighting.xml" />
     <None Include="Blender\test_with_normals.obj" />
     <None Include="Blender\xwing_with_normals.obj" />
-    <None Include="Blender\xwing_pn.obj" />
     <None Include="Blender\xwng_with_normals.bin" />
     <None Include="Blender\test_with_normals.bin" />
     <None Include="XmlFilesForMeshes\lightenv.xml" />
     <None Include="XmlFilesForMeshes\unitsphere.xml" />
-    <None Include="XmlFilesForMeshes\terrain.xml" />
     <None Include="Textures\Mars_MGS_colorhillshade_mola_1024.jpg" />
     <None Include="Textures\Venus_Magellan_C3-MDIR_ClrTopo_Global_Mosaic_1024.jpg" />
     <None Include="XmlFilesForMeshes\infinity.xml" />
     <None Include="Textures\terrain_tex.png" />
     <None Include="XmlFilesForMeshes\unitcubebasictexture.xml" />
+    <None Include="XmlFilesForMeshes\terrain.xml" />
   </ItemGroup>
 </Project>

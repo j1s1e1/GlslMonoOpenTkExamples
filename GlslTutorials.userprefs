@@ -1,26 +1,12 @@
 ﻿<Properties GitUserInfo="UsingGIT">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="GlslTutorials/Attributes/AttributesClass.cs">
-    <Files>
-      <File FileName="GlslTutorials/Tutorials/Tut_16_Gamma_Landscape.cs" Line="151" Column="1" />
-      <File FileName="GlslTutorials/GL_Helpers/Textures.cs" Line="17" Column="1" />
-      <File FileName="GlslTutorials/Tutorials/Tut_14_Basic_Textures.cs" Line="261" Column="1" />
-      <File FileName="GlslTutorials/GL_Helpers/FragmentShaders.cs" Line="411" Column="35" />
-      <File FileName="GlslTutorials/XmlFilesForMeshes/infinity.xml" Line="1" Column="1" />
-      <File FileName="GlslTutorials/Attributes/Attribute.cs" Line="67" Column="1" />
-      <File FileName="GlslTutorials/Attributes/AttributesClass.cs" Line="28" Column="20" />
-    </Files>
+  <MonoDevelop.Ide.Workbench>
     <Pads>
       <Pad Id="ProjectPad">
         <State expanded="True">
           <Node name="GlslTutorials" expanded="True">
-            <Node name="Attributes" expanded="True">
-              <Node name="AttributesClass.cs" selected="True" />
-            </Node>
-            <Node name="GL_Helpers" expanded="True" />
-            <Node name="Mesh" expanded="True" />
-            <Node name="Textures" expanded="True" />
-            <Node name="Tutorials" expanded="True" />
+            <Node name="Blender" expanded="True" />
+            <Node name="XmlFilesForMeshes" expanded="True" />
           </Node>
         </State>
       </Pad>
@@ -40,10 +26,10 @@
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
       <Breakpoint file="/home/jamie/repos/CSharp/GlslTutorials/GlslTutorials/Creatures/Movement.cs" line="28" />
-      <Breakpoint file="/home/jamie/repos/CSharp/GlslTutorials/GlslTutorials/Tutorials/Tut_14_Basic_Textures.cs" line="264" />
-      <Breakpoint file="/home/jamie/repos/CSharp/GlslTutorials/GlslTutorials/Attributes/Attribute.cs" line="61" />
-      <Breakpoint file="/home/jamie/repos/CSharp/GlslTutorials/GlslTutorials/Attributes/Attribute.cs" line="67" />
       <Breakpoint file="/home/jamie/repos/CSharp/GlslTutorials/GlslTutorials/Attributes/AttributesClass.cs" line="59" />
+      <Breakpoint file="/home/jamie/repos/CSharp/GlslTutorials/GlslTutorials/Tutorials/Tut_14_Basic_Textures.cs" line="231" />
+      <Breakpoint file="/home/jamie/repos/CSharp/GlslTutorials/GlslTutorials/Tutorials/Tut_14_Basic_Textures.cs" line="370" />
+      <Breakpoint file="/home/jamie/repos/CSharp/GlslTutorials/GlslTutorials/Tutorials/Tut_16_Gamma_Landscape.cs" line="219" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
