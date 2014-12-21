@@ -154,27 +154,30 @@ namespace GlslTutorials
 		
 		static float g_fLightHeight = 1.5f;
 		static float g_fLightRadius = 1.0f;
+
+		FrameworkTimer g_LightTimer = new FrameworkTimer(FrameworkTimer.Type.TT_LOOP, 5.0f);
 		
 		Vector4 CalcLightPosition()
 		{
-			float fCurrTimeThroughLoop = GetElapsedTime();
+			float fCurrTimeThroughLoop = g_LightTimer.GetAlpha();
 		
 			Vector4 ret = new Vector4(0.0f, g_fLightHeight, 0.0f, 1.0f);
 		
 			ret.X = (float)Math.Cos(fCurrTimeThroughLoop * (3.14159f * 2.0f)) * g_fLightRadius;
-			ret.Z = (float)Math.Sin(fCurrTimeThroughLoop * (3.14159f * 2.0f)) * g_fLightRadius;
+			ret.Z = 10f + (float)Math.Sin(fCurrTimeThroughLoop * (3.14159f * 2.0f)) * g_fLightRadius;
 		
 			return ret;
 		}
 		
 		
 		static bool g_bUseFragmentLighting = true;
-		static bool g_bDrawColoredCyl = false;
-		static bool g_bDrawLight = false;
+		static bool g_bDrawColoredCyl = true;
+		static bool g_bDrawLight = true;
 		static bool g_bScaleCyl = false;
 		
 		public override void display()
 		{
+			g_LightTimer.Update();
 			ClearDisplay();
 			if((g_pPlaneMesh != null) && (g_pCylinderMesh != null) && ( g_pCubeMesh != null))
 			{
@@ -269,7 +272,6 @@ namespace GlslTutorials
 				{
 					using (PushStack pushstack = new PushStack(modelMatrix))
 					{
-	
 						modelMatrix.Translate(new Vector3(worldLightPos));
 						modelMatrix.Scale(0.1f, 0.1f, 0.1f);
 		

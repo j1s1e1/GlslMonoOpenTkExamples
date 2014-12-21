@@ -311,6 +311,49 @@ namespace GlslTutorials
 			"vertexNormal = normal;" +
 			"diffuseColor = inDiffuseColor;" +
 		"}";
+
+		public static string FragLightAtten_PN =
+
+		"attribute  vec3 position;" +
+		"attribute  vec4 color;" + // added for spacing
+		"attribute vec3 normal;" +
+
+		"varying vec4 diffuseColor;" +
+		"varying vec3 vertexNormal;" +
+
+		"uniform mat4 modelToCameraMatrix;" +
+		"uniform mat3 normalModelToCameraMatrix;" +
+
+		"uniform mat4 cameraToClipMatrix;" +
+
+		"void main()" +
+		"{" +
+			"gl_Position = cameraToClipMatrix * (modelToCameraMatrix * vec4(position, 1.0));" +
+			"vertexNormal = normalModelToCameraMatrix * normal;" +
+			"diffuseColor = vec4(1.0);" +
+		"}";
+
+		public static string FragLightAtten_PCN =
+
+		"attribute  vec3 position;" +
+		"attribute  vec4 inDiffuseColor;" +
+		"attribute vec3 normal;" +
+
+		"varying vec4 diffuseColor;" +
+		"varying vec3 vertexNormal;" +
+
+		"uniform mat4 modelToCameraMatrix;" +
+		"uniform mat3 normalModelToCameraMatrix;" +
+
+		"uniform mat4 cameraToClipMatrix;" +
+
+		"void main()" +
+		"{" +
+			"gl_Position = cameraToClipMatrix * (modelToCameraMatrix * vec4(position, 1.0));" +
+
+			"vertexNormal = normalModelToCameraMatrix * normal;" +
+			"diffuseColor = inDiffuseColor;" +
+		"}";
 		
 		public static string PosTransform =
 		
@@ -378,11 +421,12 @@ namespace GlslTutorials
 		
 		"void main()" +
 		"{" +
-			"vec4 tempCamPosition = (modelToCameraMatrix * vec4(position, 1.0));" +
+			"vec4 tempCamPosition = (modelToCameraMatrix * vec4(position, 1.0 + color * 0.0001));" +
 			"gl_Position = cameraToClipMatrix * tempCamPosition;" +
 		
 			"vertexNormal = normalize(normalModelToCameraMatrix * normal);" +
 			"cameraSpacePosition = vec3(tempCamPosition);" +
+			"gl_Position = vec4(position, 1.0);" + 
 		"}";
 		
 		public static string PNT =

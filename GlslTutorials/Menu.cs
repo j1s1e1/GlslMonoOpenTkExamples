@@ -4,7 +4,9 @@ using System.Collections.Generic;
 namespace GlslTutorials
 {
 	public enum TutorialsEnum
-	{	
+	{
+		Tut_10_Fragment_Attenuation,
+		Tut_14_Basic_Textures_Test,
 		Tut_14_Basic_Textures,
 		Tut_16_Gamma_Landscape,
 		Tut_Tennis,
@@ -73,6 +75,7 @@ namespace GlslTutorials
 				case TutorialsEnum.Tut_08_Gimbal_Lock: currentTutorial = new Tut_08_Gimbal_Lock(); break;
 				case TutorialsEnum.Tut_09_Ambient_Lighting: currentTutorial = new Tut_09_Ambient_Lighting(); break;
 				case TutorialsEnum.Tut_10_Fragment_Point_Lighting: currentTutorial = new Tut_10_Fragment_Point_Lighting(); break;
+				case TutorialsEnum.Tut_10_Fragment_Attenuation: currentTutorial = new Tut_10_Fragment_Attenuation(); break;
 				case TutorialsEnum.Tut_14_Basic_Textures: currentTutorial = new Tut_14_Basic_Textures(); break;
 				case TutorialsEnum.Tut_16_Gamma_Landscape: currentTutorial = new Tut_16_Gamma_Landscape(); break;
 				case TutorialsEnum.Tut_Camera: currentTutorial = new Tut_Camera(); break;		
@@ -89,6 +92,7 @@ namespace GlslTutorials
 				case TutorialsEnum.Tut_Colors: currentTutorial = new Tut_Colors(); break;
 				case TutorialsEnum.Tut_Tanks: currentTutorial = new Tut_Tanks(); break;
 				case TutorialsEnum.Tut_Tennis: currentTutorial = new Tut_Tennis(); break;
+				case TutorialsEnum.Tut_14_Basic_Textures_Test: currentTutorial = new Tut_14_Basic_Textures_Test(); break;
 			}
 		}
 	}

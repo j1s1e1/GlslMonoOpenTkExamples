@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
-    <ProductVersion>9.0.21022</ProductVersion>
+    <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{2C9BE22E-8C05-4B7B-BAD1-46D65304DF2C}</ProjectGuid>
     <OutputType>Exe</OutputType>
@@ -159,6 +159,8 @@
     <Compile Include="Movement\KeyboardMovement.cs" />
     <Compile Include="Tutorials\Tut_Remote.cs" />
     <Compile Include="Material\MaterialBlock.cs" />
+    <Compile Include="Tutorials\Tut_14_Basic_Textures_Test.cs" />
+    <Compile Include="Tutorials\Tut_10_Fragment_Attenuation.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />

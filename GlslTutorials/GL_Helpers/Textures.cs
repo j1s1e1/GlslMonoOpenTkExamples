@@ -142,6 +142,84 @@ namespace GlslTutorials
 		
 		    return texture;
 		}	
+
+		// Test Function
+		public static void DrawTexture1D(int texture)
+		{
+			GL.PushMatrix();
+
+			GL.Translate(256f, 256f, -5f);
+			GL.Scale(new Vector3(100f, 100f, 100f));
+
+			GL.Color4(Color.White);
+
+			GL.BindTexture(TextureTarget.Texture1D, texture);
+
+			GL.Begin(BeginMode.Quads);
+
+			//Bind texture coordinates to vertices in ccw order
+
+			//Top-Right
+			GL.TexCoord2(1.0f, 0.0f);
+			GL.Vertex2(1.0f, 1.0f);
+
+			//Top-Left
+			GL.TexCoord2(0f, 0f);
+			GL.Vertex2(-1.0f, 1.0f);
+
+			//Bottom-Left
+			GL.TexCoord2(0f, 1f);
+			GL.Vertex2(-1.0f, -1.0f);
+
+			//Bottom-Right
+			GL.TexCoord2(1f, 1f);
+			GL.Vertex2(1.0f, -1.0f);
+
+			GL.End();
+
+			GL.BindTexture(TextureTarget.Texture1D, 0);
+
+			GL.PopMatrix();
+		}
+
+		// Test Function
+		public static void DrawTexture2D(int texture)
+		{
+			GL.PushMatrix();
+
+			GL.Translate(256f, 256f, -5f);
+			GL.Scale(new Vector3(100f, 100f, 100f));
+
+			GL.Color4(Color.White);
+
+			GL.BindTexture(TextureTarget.Texture2D, texture);
+
+			GL.Begin(BeginMode.Quads);
+
+			//Bind texture coordinates to vertices in ccw order
+
+			//Top-Right
+			GL.TexCoord2(1.0f, 0.0f);
+			GL.Vertex2(1.0f, 1.0f);
+
+			//Top-Left
+			GL.TexCoord2(0f, 0f);
+			GL.Vertex2(-1.0f, 1.0f);
+
+			//Bottom-Left
+			GL.TexCoord2(0f, 1f);
+			GL.Vertex2(-1.0f, -1.0f);
+
+			//Bottom-Right
+			GL.TexCoord2(1f, 1f);
+			GL.Vertex2(1.0f, -1.0f);
+
+			GL.End();
+
+			GL.BindTexture(TextureTarget.Texture2D, 0);
+
+			GL.PopMatrix();
+		}
 	}
 }
 
