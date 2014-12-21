@@ -1,35 +1,12 @@
 ﻿<Properties GitUserInfo="UsingGIT">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
-  <MonoDevelop.Ide.Workbench>
-    <Pads>
-      <Pad Id="ProjectPad">
-        <State expanded="True" selected="True">
-          <Node name="GlslTutorials" expanded="True">
-            <Node name="Blender" expanded="True" />
-            <Node name="XmlFilesForMeshes" expanded="True" />
-          </Node>
-        </State>
-      </Pad>
-      <Pad Id="ClassPad">
-        <State expanded="True" selected="True" />
-      </Pad>
-      <Pad Id="MonoDevelop.Debugger.WatchPad">
-        <State>
-          <Value>shaderInfoLog</Value>
-          <Value>h</Value>
-          <Value>i</Value>
-          <Value>speed</Value>
-        </State>
-      </Pad>
-    </Pads>
-  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workbench />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
-      <Breakpoint file="/home/jamie/repos/CSharp/GlslTutorials/GlslTutorials/Creatures/Movement.cs" line="28" />
-      <Breakpoint file="/home/jamie/repos/CSharp/GlslTutorials/GlslTutorials/Attributes/AttributesClass.cs" line="59" />
-      <Breakpoint file="/home/jamie/repos/CSharp/GlslTutorials/GlslTutorials/Tutorials/Tut_14_Basic_Textures.cs" line="231" />
-      <Breakpoint file="/home/jamie/repos/CSharp/GlslTutorials/GlslTutorials/Tutorials/Tut_14_Basic_Textures.cs" line="370" />
-      <Breakpoint file="/home/jamie/repos/CSharp/GlslTutorials/GlslTutorials/Tutorials/Tut_16_Gamma_Landscape.cs" line="219" />
+      <Breakpoint file="/home/jamie/repos/CSharp/GlslTutorials/GlslTutorials/Creatures/Movement.cs" line="28" column="1" />
+      <Breakpoint file="/home/jamie/repos/CSharp/GlslTutorials/GlslTutorials/Attributes/AttributesClass.cs" line="59" column="1" />
+      <Breakpoint file="/home/jamie/repos/CSharp/GlslTutorials/GlslTutorials/Tutorials/Tut_14_Basic_Textures.cs" line="231" column="1" />
+      <Breakpoint file="/home/jamie/repos/CSharp/GlslTutorials/GlslTutorials/Tutorials/Tut_16_Gamma_Landscape.cs" line="219" column="1" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
