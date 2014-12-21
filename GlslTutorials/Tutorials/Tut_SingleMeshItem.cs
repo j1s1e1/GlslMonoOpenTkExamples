@@ -153,6 +153,7 @@ namespace GlslTutorials
 	    static Mesh g_pCubeColorMesh;
 	    static Mesh g_pCylinderMesh;
 		static Mesh g_pPlaneMesh;
+		static Mesh g_pInfinityMesh;
 	
 	    //Called after the window and OpenGL are initialized. Called exactly once, before the main loop.
 	    protected override void init()
@@ -169,6 +170,9 @@ namespace GlslTutorials
 				
 				Stream unitplane = File.OpenRead(XmlFilesDirectory + @"/unitplane.xml");
 	            g_pPlaneMesh = new Mesh(unitplane);
+				
+				Stream infinity = File.OpenRead(XmlFilesDirectory + @"/infinity.xml");
+				g_pInfinityMesh = new Mesh(infinity);
 				
 	        } catch (Exception ex) {
 	            throw new Exception("Error " + ex.ToString());
@@ -308,8 +312,9 @@ namespace GlslTutorials
 				case Keys.C:
 					current_mesh = g_pPlaneMesh;
 					break;
-
-
+				case Keys.D:
+					current_mesh = g_pInfinityMesh;
+					break;
 
 				case Keys.I:
 	                result.AppendLine("I Decrease g_camTarget.X");

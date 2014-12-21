@@ -158,6 +158,7 @@
     <Compile Include="Movement\RandomMovement.cs" />
     <Compile Include="Movement\KeyboardMovement.cs" />
     <Compile Include="Tutorials\Tut_Remote.cs" />
+    <Compile Include="Material\MaterialBlock.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -199,6 +200,7 @@
     <Folder Include="Light\" />
     <Folder Include="Interpolator\" />
     <Folder Include="Movement\" />
+    <Folder Include="Material\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="XmlFilesForMeshes\unitplane.xml" />
@@ -230,5 +232,6 @@
     <None Include="Textures\Venus_Magellan_C3-MDIR_ClrTopo_Global_Mosaic_1024.jpg" />
     <None Include="XmlFilesForMeshes\infinity.xml" />
     <None Include="Textures\terrain_tex.png" />
+    <None Include="XmlFilesForMeshes\unitcubebasictexture.xml" />
   </ItemGroup>
 </Project>

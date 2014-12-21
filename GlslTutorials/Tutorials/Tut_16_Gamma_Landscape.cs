@@ -38,8 +38,8 @@ namespace GlslTutorials
 
 		ProgramData LoadProgram(String strVertexShader, String strFragmentShader)
 		{
-			int test1 = Shader.compileShader(ShaderType.VertexShader, strVertexShader);
-			int test2 = Shader.compileShader(ShaderType.FragmentShader, strFragmentShader);
+			//int test1 = Shader.compileShader(ShaderType.VertexShader, strVertexShader);
+			//int test2 = Shader.compileShader(ShaderType.FragmentShader, strFragmentShader);
 			
 			ProgramData data = new ProgramData();
 			int vertex_shader = Shader.loadShader(ShaderType.VertexShader, strVertexShader);
@@ -49,8 +49,9 @@ namespace GlslTutorials
 			data.modelToCameraMatrixUnif =  GL.GetUniformLocation(data.theProgram, "modelToCameraMatrix");
 			data.numberOfLightsUnif = GL.GetUniformLocation(data.theProgram, "numberOfLights");
 		
-			int projectionBlock = GL.GetUniformBlockIndex(data.theProgram, "Projection");
-			GL.UniformBlockBinding(data.theProgram, projectionBlock, g_projectionBlockIndex);
+			//int projectionBlock = GL.GetUniformBlockIndex(data.theProgram, "Projection");
+			//GL.UniformBlockBinding(data.theProgram, projectionBlock, g_projectionBlockIndex);
+			data.cameraToClipMatrixUnif = GL.GetUniformLocation(data.theProgram, "cameraToClipMatrix");	
 		
 			int lightBlockIndex = GL.GetUniformBlockIndex(data.theProgram, "Light");
 			GL.UniformBlockBinding(data.theProgram, lightBlockIndex, g_lightBlockIndex);
@@ -125,8 +126,7 @@ namespace GlslTutorials
 			try
 			{
 				g_linearTexture = Textures.Load("terrain_tex.png", 1);
-				//std::string filename(Framework::FindFileOrThrow("terrain_tex.png"));
-		
+
 				//std::auto_ptr<glimg::ImageSet> pImageSet(glimg::loaders::dds::LoadFromFile(filename.c_str()));
 		
 				//glGenTextures(1, &g_linearTexture);
@@ -384,19 +384,23 @@ namespace GlslTutorials
 		
 		//Called whenever the window is resized. The new window size is given, in pixels.
 		//This is an opportunity to call glViewport or glScissor to keep up with the change in size.
-		void reshape (int w, int h)
+		public override void reshape ()
 		{
 			MatrixStack persMatrix = new MatrixStack();
-			persMatrix.Perspective(60.0f, (w / (float)h), g_fzNear, g_fzFar);
+			persMatrix.Perspective(60.0f, (width / (float)height), g_fzNear, g_fzFar);
 		
 			ProjectionBlock projData = new ProjectionBlock();
 			projData.cameraToClipMatrix = persMatrix.Top();
+			
+			Matrix4 cm = projData.cameraToClipMatrix;
+			GL.UniformMatrix4(g_progStandard.cameraToClipMatrixUnif, false, ref cm);
+			GL.UniformMatrix4(g_progUnlit.cameraToClipMatrixUnif, false, ref cm);
 		
-			GL.BindBuffer(BufferTarget.UniformBuffer, g_projectionUniformBuffer);
-			GL.BufferSubData(BufferTarget.UniformBuffer, (IntPtr)0, (IntPtr)ProjectionBlock.Size(), projData.ToFloat());
-			GL.BindBuffer(BufferTarget.UniformBuffer, 0);
+			//GL.BindBuffer(BufferTarget.UniformBuffer, g_projectionUniformBuffer);
+			//GL.BufferSubData(BufferTarget.UniformBuffer, (IntPtr)0, (IntPtr)ProjectionBlock.Size(), projData.ToFloat());
+			//GL.BindBuffer(BufferTarget.UniformBuffer, 0);
 		
-			GL.Viewport(0, 0, w, h);
+			GL.Viewport(0, 0, width, height);
 			//glutPostRedisplay();
 		}
 		
