@@ -161,12 +161,14 @@ namespace GlslTutorials
 		"varying vec3 vertexNormal;" +
 		"varying vec3 cameraSpacePosition;" +
 		
-		"uniform Material" +
+		"struct Material" +
 		"{" +
 			"vec4 diffuseColor;" +
 			"vec4 specularColor;" +
 			"float specularShininess;" +	//Not used in this shader
-		"} Mtl;" +
+		"};" +
+				
+		"uniform Material Mtl;" +
 		
 		"struct PerLight" +
 		"{" +
@@ -176,12 +178,14 @@ namespace GlslTutorials
 		
 		"const int numberOfLights = 2;" +
 		
-		"uniform Light" +
+		"struct Light" +
 		"{" +
 			"vec4 ambientIntensity;" +
 			"float lightAttenuation;" +
 			"PerLight lights[numberOfLights];" +
-		"} Lgt;" +
+		"};" +
+				
+		"uniform Light Lgt;" +
 		
 		"uniform sampler1D gaussianTexture;" +
 		
@@ -193,7 +197,7 @@ namespace GlslTutorials
 			"float lightDistanceSqr = dot(lightDifference, lightDifference);" +
 			"lightDirection = lightDifference * inversesqrt(lightDistanceSqr);" +
 			
-			"return (1 / ( 1.0 + Lgt.lightAttenuation * lightDistanceSqr));" +
+			"return (1.0 / ( 1.0 + Lgt.lightAttenuation * lightDistanceSqr));" +
 		"}" +
 		
 		"vec4 ComputeLighting(in PerLight lightData, in vec3 cameraSpacePosition," +
@@ -221,7 +225,7 @@ namespace GlslTutorials
 			
 			"vec3 halfAngle = normalize(lightDir + viewDirection);" +
 			"float texCoord = dot(halfAngle, surfaceNormal);" +
-			"float gaussianTerm = texture(gaussianTexture, texCoord).r;" +
+			"float gaussianTerm = texture1D(gaussianTexture, texCoord).r;" +
 		
 			"gaussianTerm = cosAngIncidence != 0.0 ? gaussianTerm : 0.0;" +
 			
@@ -246,16 +250,18 @@ namespace GlslTutorials
 		
 		public static String ShaderGaussian =
 			
-		"#version 140" +
+		//"#version 140\n" +  140 not supported
 		"varying vec3 vertexNormal;" +
 		"varying vec3 cameraSpacePosition;" +
 				
-		"uniform Material" +
+		"struct Material" +
 		"{" +
 			"vec4 diffuseColor;" +
 			"vec4 specularColor;" +
 			"float specularShininess;" +
-		"} Mtl;" +
+		"};" +
+				
+		"uniform Material Mtl;" +
 		
 		"struct PerLight" +
 		"{" +
@@ -265,12 +271,14 @@ namespace GlslTutorials
 				
 		"const int numberOfLights = 2;" +
 		
-		"uniform Light" +
+		"struct Light" +
 		"{" +
 			"vec4 ambientIntensity;" +
 			"float lightAttenuation;" +
 			"PerLight lights[numberOfLights];" +
-		"} Lgt;" +				
+		"};" +	
+				
+		"uniform Light Lgt;" +
 		
 		
 		"float CalcAttenuation(in vec3 cameraSpacePosition," +
@@ -281,7 +289,7 @@ namespace GlslTutorials
 			"float lightDistanceSqr = dot(lightDifference, lightDifference);" +
 			"lightDirection = lightDifference * inversesqrt(lightDistanceSqr);" +
 			
-			"return (1 / ( 1.0 + Lgt.lightAttenuation * lightDistanceSqr));" +
+			"return (1.0 / ( 1.0 + Lgt.lightAttenuation * lightDistanceSqr));" +
 		"}" +				
 				
 		"vec4 ComputeLighting(in PerLight lightData, in vec3 cameraSpacePosition," +
@@ -400,7 +408,7 @@ namespace GlslTutorials
 			
 			"vec3 halfAngle = normalize(lightDir + viewDirection);" +
 			"float texCoord = dot(halfAngle, surfaceNormal);" +
-			"float gaussianTerm = texture(gaussianTexture, texCoord).r;" +
+			"float gaussianTerm = texture1D(gaussianTexture, texCoord).r;" +
 		
 			"gaussianTerm = cosAngIncidence != 0.0 ? gaussianTerm : 0.0;" +
 			
@@ -513,7 +521,7 @@ namespace GlslTutorials
 		"}";
 		
 		public static String litTexture =
-
+		//"#version 140\n" +  140 not supported
 		"varying vec2 colorCoord;" +
 		"varying vec3 cameraSpacePosition;" +
 		"varying vec3 cameraSpaceNormal;" +
@@ -524,13 +532,15 @@ namespace GlslTutorials
 			"vec4 lightIntensity;" +
 		"};" +
 		
-		"uniform Light" +
+		"struct Light" +
 		"{" +
 			"vec4 ambientIntensity;" +
 			"float lightAttenuation;" +
 			"float maxIntensity;" +
 			"PerLight lights[4];" +
-		"} Lgt;" +
+		"};" +
+				
+		"uniform Light Lgt;" +
 		
 		"uniform int numberOfLights;" +
 		
@@ -572,7 +582,7 @@ namespace GlslTutorials
 		
 		"void main()" +
 		"{" +
-			"vec4 diffuseColor = texture(diffuseColorTex, colorCoord);" +
+			"vec4 diffuseColor = texture2D(diffuseColorTex, colorCoord);" +
 			
 			"vec4 accumLighting = diffuseColor * Lgt.ambientIntensity;" +
 			"for(int light = 0; light < numberOfLights; light++)" +

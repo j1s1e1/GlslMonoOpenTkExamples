@@ -19,7 +19,7 @@ namespace GlslTutorials
 	        g_allAttributeTypes = new AttribType[4];
 	        g_allAttributeTypes[0] = new AttribType("float", false,  DrawElementsType.UnsignedInt, 
 			                                        VertexAttribPointerType.Float, 4);
-	        g_allAttributeTypes[1] = new AttribType("int", false, 	 DrawElementsType.UnsignedInt,
+	        g_allAttributeTypes[1] = new AttribType("uint", false, 	 DrawElementsType.UnsignedInt,
 			                                        VertexAttribPointerType.Int, 4);
 	        g_allAttributeTypes[2] = new AttribType("short", false,  DrawElementsType.UnsignedShort,
 			                                        VertexAttribPointerType.Short, 2); // just using int size

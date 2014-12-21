@@ -14,6 +14,13 @@ namespace GlslTutorials
 		float ySpeed = 0f;	
 		float zSpeed = 0f;
 		
+		bool setX = false;
+		bool setY = false;
+		bool setZ = false;
+		float setXvalue;
+		float setYvalue;
+		float setZvalue;
+		
 		ReceiveSocket receiveSocket;
 		
 		public void ProcessData(byte[] data)
@@ -28,6 +35,11 @@ namespace GlslTutorials
 					case "X-": xSpeed = xSpeed - float.Parse(words[1]);break;
 					case "Y+": ySpeed = ySpeed + float.Parse(words[1]);break;
 					case "Y-": ySpeed = ySpeed - float.Parse(words[1]);break;
+					case "Z+": zSpeed = zSpeed + float.Parse(words[1]);break;
+					case "Z-": zSpeed = zSpeed - float.Parse(words[1]);break;
+					case "SetX": setX = true; setXvalue = float.Parse(words[1]);break;
+					case "SetY": setY = true; setYvalue = float.Parse(words[1]);break;
+					case "SetZ": setZ = true; setZvalue = float.Parse(words[1]);break;
 				}
 			}
 		}
@@ -46,6 +58,21 @@ namespace GlslTutorials
 			oldOffset.X = NewValue(oldOffset.X, maxXmovement, xLimitLow, xLimitHigh, xSpeed);
 			oldOffset.Y = NewValue(oldOffset.Y, maxYmovement, yLimitLow, yLimitHigh, ySpeed);
 			oldOffset.Z = NewValue(oldOffset.Z, maxZmovement, zLimitLow, zLimitHigh, zSpeed);
+			if (setX)
+			{
+				oldOffset.X = setXvalue;
+				setX = false;
+			}
+			if (setY)
+			{
+				oldOffset.Y = setYvalue;
+				setY = false;
+			}
+			if (setZ)
+			{
+				oldOffset.Z = setZvalue;
+				setZ = false;
+			}
 			return oldOffset;
 		}
 	}

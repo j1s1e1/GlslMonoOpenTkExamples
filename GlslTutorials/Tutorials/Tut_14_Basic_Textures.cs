@@ -19,6 +19,7 @@ namespace GlslTutorials
 			public int modelToCameraMatrixUnif;
 			public int normalModelToCameraMatrixUnif;
 			public int cameraToClipMatrixUnif;
+			public LightBlock lightBlock;
 		};
 
 		class UnlitProgData
@@ -27,6 +28,7 @@ namespace GlslTutorials
 			public int objectColorUnif;
 			public int modelToCameraMatrixUnif;
 			public int cameraToClipMatrixUnif;
+			public int normalModelToCameraMatrixUnif;
 		};
 
 		static float g_fzNear = 1.0f;
@@ -37,9 +39,9 @@ namespace GlslTutorials
 
 		static UnlitProgData g_Unlit;
 
-		static int g_materialBlockIndex = 0;
-		static int g_lightBlockIndex = 1;
-		static int g_projectionBlockIndex = 2;
+		//static int g_materialBlockIndex = 0;
+		//static int g_lightBlockIndex = 1;
+		//static int g_projectionBlockIndex = 2;
 		
 		static int g_gaussTexUnit = 0;
 		
@@ -55,7 +57,7 @@ namespace GlslTutorials
 			data.modelToCameraMatrixUnif =  GL.GetUniformLocation(data.theProgram, "modelToCameraMatrix");
 			data.objectColorUnif =  GL.GetUniformLocation(data.theProgram, "baseColor");
 		
-			data.cameraToClipMatrixUnif = GL.GetUniformLocation(data.theProgram, "cameraToClipMatrix");		
+			data.cameraToClipMatrixUnif = GL.GetUniformLocation(data.theProgram, "cameraToClipMatrix");	
 			return data;
 		}
 
@@ -70,12 +72,16 @@ namespace GlslTutorials
 			data.normalModelToCameraMatrixUnif = GL.GetUniformLocation(data.theProgram, "normalModelToCameraMatrix");
 		
 			int materialBlock = GL.GetUniformBlockIndex(data.theProgram, "Material");
-			int lightBlock = GL.GetUniformBlockIndex(data.theProgram, "Light");
+
+			data.cameraToClipMatrixUnif = GL.GetUniformLocation(data.theProgram, "cameraToClipMatrix");
+	
+			// Replace uniform buffers
+			data.lightBlock = new LightBlock();
+			data.lightBlock.SetUniforms(data.theProgram);			
 			
-			data.cameraToClipMatrixUnif = GL.GetUniformLocation(data.theProgram, "cameraToClipMatrix");	
 		
-			GL.UniformBlockBinding(data.theProgram, materialBlock, g_materialBlockIndex);
-			GL.UniformBlockBinding(data.theProgram, lightBlock, g_lightBlockIndex);
+			//GL.UniformBlockBinding(data.theProgram, materialBlock, g_materialBlockIndex);
+			//GL.UniformBlockBinding(data.theProgram, lightBlock, g_lightBlockIndex);
 		
 			int gaussianTextureUnif = GL.GetUniformLocation(data.theProgram, "gaussianTexture");
 			GL.UseProgram(data.theProgram);
@@ -87,8 +93,9 @@ namespace GlslTutorials
 
 		static void InitializePrograms()
 		{
-			Shader.compileShader(ShaderType.VertexShader, VertexShaders.BasicTexture_PN);
-			Shader.compileShader(ShaderType.FragmentShader, FragmentShaders.ShaderGaussian);
+			//Shader.compileShader(ShaderType.VertexShader, VertexShaders.BasicTexture_PN);
+			//Shader.compileShader(ShaderType.FragmentShader, FragmentShaders.ShaderGaussian);
+			//Shader.compileShader(ShaderType.FragmentShader, FragmentShaders.TextureGaussian);
 			
 			g_litShaderProg = LoadStandardProgram(VertexShaders.BasicTexture_PN, FragmentShaders.ShaderGaussian);
 			g_litTextureProg = LoadStandardProgram(VertexShaders.BasicTexture_PN, FragmentShaders.TextureGaussian);
@@ -175,7 +182,6 @@ namespace GlslTutorials
 		static Mesh g_pObjectMesh;
 		static Mesh g_pCubeMesh;
 
-		static int g_lightUniformBuffer = 0;
 		static int g_projectionUniformBuffer = 0;
 		static int g_materialUniformBuffer = 0;
 		
@@ -250,17 +256,15 @@ namespace GlslTutorials
 	        g_viewPole = new ViewProvider(g_initialViewData, g_viewScale, MouseButtons.MB_LEFT_BTN);
 	        g_objtPole = new ObjectPole(g_initialObjectData, (float)(90.0f / 250.0f),
 	                MouseButtons.MB_RIGHT_BTN, g_viewPole);
-			
-
 				
 			InitializePrograms();
 		
 			try
 			{
 				string XmlFilesDirectory = GlsTutorialsClass.ProjectDirectory + @"/XmlFilesForMeshes";
-	            Stream Infinity =  File.OpenRead(XmlFilesDirectory + @"/Infinity.xml");
+	            Stream Infinity =  File.OpenRead(XmlFilesDirectory + @"/infinity.xml");
 				g_pObjectMesh = new Mesh(Infinity);
-				Stream UnitCube =  File.OpenRead(XmlFilesDirectory + @"/UnitCube.xml");
+				Stream UnitCube =  File.OpenRead(XmlFilesDirectory + @"/unitcube.xml");
 				g_pCubeMesh = new Mesh(UnitCube);
 			}
 			catch(Exception ex)
@@ -296,24 +300,24 @@ namespace GlslTutorials
 			GL.BindBuffer(BufferTarget.UniformBuffer, g_materialUniformBuffer);
 			GL.BufferData(BufferTarget.UniformBuffer, (IntPtr)MaterialBlock.Size(), mtl.ToFloat(), BufferUsageHint.StaticDraw);
 		
-			GL.GenBuffers(1, out g_lightUniformBuffer);
-			GL.BindBuffer(BufferTarget.UniformBuffer, g_lightUniformBuffer);
-			GL.BufferData(BufferTarget.UniformBuffer, (IntPtr)LightBlock.Size(NUMBER_OF_LIGHTS), 
-			              IntPtr.Zero, BufferUsageHint.DynamicDraw);
+			//GL.GenBuffers(1, out g_lightUniformBuffer);
+			//GL.BindBuffer(BufferTarget.UniformBuffer, g_lightUniformBuffer);
+			//GL.BufferData(BufferTarget.UniformBuffer, (IntPtr)LightBlock.Size(NUMBER_OF_LIGHTS), 
+			//              IntPtr.Zero, BufferUsageHint.DynamicDraw);
 		
 			GL.GenBuffers(1, out g_projectionUniformBuffer);
 			GL.BindBuffer(BufferTarget.UniformBuffer, g_projectionUniformBuffer);
 			GL.BufferData(BufferTarget.UniformBuffer, (IntPtr)ProjectionBlock.Size(), IntPtr.Zero, BufferUsageHint.DynamicDraw);
 		
 			//Bind the static buffers.
-			GL.BindBufferRange(BufferTarget.UniformBuffer, g_lightBlockIndex, g_lightUniformBuffer, 
-			                   IntPtr.Zero, (IntPtr)LightBlock.Size(NUMBER_OF_LIGHTS));
+			//GL.BindBufferRange(BufferTarget.UniformBuffer, g_lightBlockIndex, g_lightUniformBuffer, 
+			//                   IntPtr.Zero, (IntPtr)LightBlock.Size(NUMBER_OF_LIGHTS));
 		
-			GL.BindBufferRange(BufferTarget.UniformBuffer, g_projectionBlockIndex, g_projectionUniformBuffer, IntPtr.Zero, (IntPtr)ProjectionBlock.Size());
+			//GL.BindBufferRange(BufferTarget.UniformBuffer, g_projectionBlockIndex, g_projectionUniformBuffer, IntPtr.Zero, (IntPtr)ProjectionBlock.Size());
 		
-			GL.BindBufferRange(BufferTarget.UniformBuffer, g_materialBlockIndex, g_materialUniformBuffer, IntPtr.Zero, (IntPtr)MaterialBlock.Size());
+			//GL.BindBufferRange(BufferTarget.UniformBuffer, g_materialBlockIndex, g_materialUniformBuffer, IntPtr.Zero, (IntPtr)MaterialBlock.Size());
 		
-			GL.BindBuffer(BufferTarget.UniformBuffer, 0);
+			//GL.BindBuffer(BufferTarget.UniformBuffer, 0);
 		
 			CreateGaussianTextures();
 		}
@@ -372,16 +376,18 @@ namespace GlslTutorials
 		
 				lightData.lights[1].cameraSpaceLightPos = Vector4.Transform(CalcLightPosition(), worldToCamMat);
 				lightData.lights[1].lightIntensity = new Vector4(0.4f, 0.4f, 0.4f, 1.0f);
+				
+				g_litShaderProg.lightBlock.Update(lightData);
 		
-				GL.BindBuffer(BufferTarget.UniformBuffer, g_lightUniformBuffer);
+				//GL.BindBuffer(BufferTarget.UniformBuffer, g_lightUniformBuffer);
 				GL.BufferSubData(BufferTarget.UniformBuffer, (IntPtr)0, (IntPtr)LightBlock.Size(NUMBER_OF_LIGHTS), 
 				                 lightData.ToFloat());
 				GL.BindBuffer(BufferTarget.UniformBuffer, 0);
 		
 				using ( PushStack pushstack = new PushStack(modelMatrix))
 				{
-					GL.BindBufferRange(BufferTarget.UniformBuffer, g_materialBlockIndex, g_materialUniformBuffer,
-						IntPtr.Zero, (IntPtr)MaterialBlock.Size());
+					//GL.BindBufferRange(BufferTarget.UniformBuffer, g_materialBlockIndex, g_materialUniformBuffer,
+					//	IntPtr.Zero, (IntPtr)MaterialBlock.Size());
 		
 					modelMatrix.ApplyMatrix(g_objtPole.CalcMatrix());
 					modelMatrix.Scale(2.0f);
@@ -406,7 +412,7 @@ namespace GlslTutorials
 					GL.BindTexture(TextureTarget.Texture1D, 0);
 		
 					GL.UseProgram(0);
-					GL.BindBufferBase(BufferTarget.UniformBuffer, g_materialBlockIndex, 0);
+					//GL.BindBufferBase(BufferTarget.UniformBuffer, g_materialBlockIndex, 0);
 				}
 		
 				if(g_bDrawLights)

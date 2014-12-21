@@ -157,6 +157,7 @@
     <Compile Include="Movement\ReceiveSocket.cs" />
     <Compile Include="Movement\RandomMovement.cs" />
     <Compile Include="Movement\KeyboardMovement.cs" />
+    <Compile Include="Tutorials\Tut_Remote.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -227,5 +228,7 @@
     <None Include="XmlFilesForMeshes\terrain.xml" />
     <None Include="Textures\Mars_MGS_colorhillshade_mola_1024.jpg" />
     <None Include="Textures\Venus_Magellan_C3-MDIR_ClrTopo_Global_Mosaic_1024.jpg" />
+    <None Include="XmlFilesForMeshes\infinity.xml" />
+    <None Include="Textures\terrain_tex.png" />
   </ItemGroup>
 </Project>

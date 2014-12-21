@@ -12,6 +12,7 @@ namespace GlslTutorials
 		{
 			int size = 0;
 			size += Vector4.SizeInBytes;
+			size += Vector4.SizeInBytes;
 			return size;
 		}
 		

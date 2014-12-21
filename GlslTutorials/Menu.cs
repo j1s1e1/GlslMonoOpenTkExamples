@@ -4,15 +4,14 @@ using System.Collections.Generic;
 namespace GlslTutorials
 {
 	public enum TutorialsEnum
-	{		
+	{	
+		Tut_14_Basic_Textures,
+		Tut_16_Gamma_Landscape,
 		Tut_Tennis,
 		Tut_Tanks,
 		Tut_Spheres,
 		Tut_TextureSphere,
 		Tut_ShaderTexture,
-		Tut_16_Gamma_Landscape,
-		Tut_Texture,
-		Tut_14_Basic_Textures,
 		
 		Tut_3D_Shooter2,
 		Tut_Blender,
@@ -41,6 +40,7 @@ namespace GlslTutorials
 		Tut_TiltBall,
 		Tut_Camera,
 		Tut_Colors,
+		Tut_Texture,
 		
 	}
 	public class MenuClass

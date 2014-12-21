@@ -1,26 +1,25 @@
 ﻿<Properties GitUserInfo="UsingGIT">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="GlslTutorials/Objects/Ball.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="GlslTutorials/Attributes/AttributesClass.cs">
     <Files>
-      <File FileName="GlslTutorials/Tutorials/Tut_Tennis.cs" Line="29" Column="4" />
-      <File FileName="GlslTutorials/Tutorials/TutorialBase.cs" Line="136" Column="26" />
-      <File FileName="GlslTutorials/ProgramData/Programs.cs" Line="14" Column="35" />
-      <File FileName="GlslTutorials/Shapes/Shape.cs" Line="143" Column="29" />
-      <File FileName="GlslTutorials/Objects/Ball.cs" Line="22" Column="31" />
-      <File FileName="GlslTutorials/Creatures/RandomMovement.cs" Line="29" Column="3" />
-      <File FileName="GlslTutorials/Creatures/ElasticMovement.cs" Line="8" Column="4" />
-      <File FileName="GlslTutorials/Shapes/LitMatrixSphere2.cs" Line="26" Column="3" />
+      <File FileName="GlslTutorials/Tutorials/Tut_16_Gamma_Landscape.cs" Line="151" Column="1" />
+      <File FileName="GlslTutorials/GL_Helpers/Textures.cs" Line="17" Column="1" />
+      <File FileName="GlslTutorials/Tutorials/Tut_14_Basic_Textures.cs" Line="261" Column="1" />
+      <File FileName="GlslTutorials/GL_Helpers/FragmentShaders.cs" Line="411" Column="35" />
+      <File FileName="GlslTutorials/XmlFilesForMeshes/infinity.xml" Line="1" Column="1" />
+      <File FileName="GlslTutorials/Attributes/Attribute.cs" Line="67" Column="1" />
+      <File FileName="GlslTutorials/Attributes/AttributesClass.cs" Line="28" Column="20" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State expanded="True">
           <Node name="GlslTutorials" expanded="True">
-            <Node name="Creatures" expanded="True" />
-            <Node name="Objects" expanded="True">
-              <Node name="Ball.cs" selected="True" />
+            <Node name="Attributes" expanded="True">
+              <Node name="AttributesClass.cs" selected="True" />
             </Node>
-            <Node name="ProgramData" expanded="True" />
-            <Node name="Shapes" expanded="True" />
+            <Node name="GL_Helpers" expanded="True" />
+            <Node name="Mesh" expanded="True" />
+            <Node name="Textures" expanded="True" />
             <Node name="Tutorials" expanded="True" />
           </Node>
         </State>
@@ -30,7 +29,7 @@
       </Pad>
       <Pad Id="MonoDevelop.Debugger.WatchPad">
         <State>
-          <Value>w</Value>
+          <Value>shaderInfoLog</Value>
           <Value>h</Value>
           <Value>i</Value>
           <Value>speed</Value>
@@ -41,6 +40,10 @@
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
       <Breakpoint file="/home/jamie/repos/CSharp/GlslTutorials/GlslTutorials/Creatures/Movement.cs" line="28" />
+      <Breakpoint file="/home/jamie/repos/CSharp/GlslTutorials/GlslTutorials/Tutorials/Tut_14_Basic_Textures.cs" line="264" />
+      <Breakpoint file="/home/jamie/repos/CSharp/GlslTutorials/GlslTutorials/Attributes/Attribute.cs" line="61" />
+      <Breakpoint file="/home/jamie/repos/CSharp/GlslTutorials/GlslTutorials/Attributes/Attribute.cs" line="67" />
+      <Breakpoint file="/home/jamie/repos/CSharp/GlslTutorials/GlslTutorials/Attributes/AttributesClass.cs" line="59" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />

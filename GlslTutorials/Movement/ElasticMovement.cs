@@ -9,11 +9,13 @@ namespace GlslTutorials
 		public ElasticMovement()
 		{
 			otherObjects = new List<Paddle>();
-			speed = new Vector3(random.Next(100)/100f, random.Next(100)/100f, random.Next(100)/100f);
+			speed = new Vector3(minSpeed + random.Next(100)/100f, 
+			        minSpeed + random.Next(100)/100f, minSpeed + random.Next(100)/100f);
 		}
 		
 		static Random random = new Random();
 		List<Paddle> otherObjects;
+		float minSpeed = 0.25f;
 		
 		private float NewValue(float oldValue, float maxMovement, float lowLimit, 
 		                       float highLimit, float speed)
@@ -29,10 +31,13 @@ namespace GlslTutorials
 			foreach (Paddle p in otherObjects)
 			{
 				Vector3 difference = oldOffset - p.GetOffset();
-				if (difference.Length < 0.05f)
+				if (Math.Abs(difference.X) < 0.15f)
 				{
-					speed.Y = -speed.Y;
-					return;
+					if (Math.Abs(difference.Y) < 0.05f)
+					{
+						speed.Y = -speed.Y;
+						return;
+					}
 				}
 			}
 			if (oldOffset.X == xLimitLow) speed.X = Math.Abs(speed.X);
