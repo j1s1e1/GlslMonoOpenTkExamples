@@ -4,12 +4,28 @@ using OpenTK.Graphics.OpenGL;
 
 namespace GlslTutorials
 {
-	class MaterialBlock
+	public class MaterialBlock
 	{
 		public Vector4 diffuseColor;
 		public Vector4 specularColor;
 		public float specularShininess;
 		public float[] padding = new float[3];
+
+		int programNumber;
+		int diffuseColorUnif;
+		int specularColorUnif;
+		int specularShininessUnif;
+
+		public MaterialBlock(Vector4 diffuseColorIn, Vector4 specularColorIn, float specularShininessIn)
+		{
+			diffuseColor = diffuseColorIn;
+			specularColor = specularColorIn;
+			specularShininess = specularShininessIn;
+		}
+
+		public MaterialBlock()
+		{
+		}
 		
 		public static int Size()
 		{
@@ -30,11 +46,6 @@ namespace GlslTutorials
 			result[position] = specularShininess;
 			return result;
 		}
-		
-		int programNumber;
-		int diffuseColorUnif;
-		int specularColorUnif;
-		int specularShininessUnif;
 		
 		public void SetUniforms(int program)
 		{

@@ -20,7 +20,8 @@ namespace GlslTutorials
 		public Vector4 ambientIntensity;
 		public float lightAttenuation;
 		public float maxIntensity;
-		public float[] padding = new float[2];
+		public float gamma;
+		public float padding;
 		public PerLight[] lights;
 		
 		
@@ -41,7 +42,8 @@ namespace GlslTutorials
 			position += 4;
 			result[position++] = lightAttenuation;
 			result[position++] = maxIntensity;
-			position += 2;
+			result[position++] = gamma;
+			position += 1;
 			for (int i = 0; i < NUMBER_OF_LIGHTS; i++)
 			{
 				Array.Copy(lights[i].ToFloat(), 0, result, position, PerLight.Size()/4);
@@ -70,6 +72,7 @@ namespace GlslTutorials
 		int lightAttenuationUnif;
 		int maxIntensityUnif;
 		int lightsUnif;
+		int gammaUnif;
 		
 		public void SetUniforms(int program)
 		{
@@ -77,6 +80,7 @@ namespace GlslTutorials
 			ambientIntensityUnif = GL.GetUniformLocation(program, "Lgt.ambientIntensity");
 			lightAttenuationUnif = GL.GetUniformLocation(program, "Lgt.lightAttenuation");
 			maxIntensityUnif = GL.GetUniformLocation(program, "Lgt.maxIntensity");
+			gammaUnif = GL.GetUniformLocation(program, "Lgt.gamma");
 			lightsUnif = GL.GetUniformLocation(program, "Lgt.lights[0].cameraSpaceLightPos");
 		}
 		
@@ -97,6 +101,7 @@ namespace GlslTutorials
 			GL.Uniform4(ambientIntensityUnif, lightblock.ambientIntensity);
 			GL.Uniform1(lightAttenuationUnif, lightblock.lightAttenuation);
 			GL.Uniform1(maxIntensityUnif, lightblock.maxIntensity);
+			if (gammaUnif != -1) GL.Uniform1(maxIntensityUnif, lightblock.gamma);
 			GL.Uniform4(lightsUnif, 2 * NUMBER_OF_LIGHTS, lightblock.LightsAsFloats());
 			GL.UseProgram(programNumber);
 		}		

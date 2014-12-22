@@ -47,7 +47,7 @@ namespace GlslTutorials
 			return m_isPaused;
 		}
 	
-		bool IsPaused()
+		public bool IsPaused()
 		{
 			return m_isPaused;
 		}

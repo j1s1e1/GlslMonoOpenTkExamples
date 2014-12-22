@@ -85,11 +85,6 @@ namespace GlslTutorials
 			data.lightAttenuationUnif = GL.GetUniformLocation(data.theProgram, "lightAttenuation");
 			data.bUseRSquareUnif = GL.GetUniformLocation(data.theProgram, "bUseRSquare");
 
-			// GLuint projectionBlock = glGetUniformBlockIndex(data.theProgram, "Projection");
-			// glUniformBlockBinding(data.theProgram, projectionBlock, g_projectionBlockIndex);
-			// GLuint unprojectionBlock = glGetUniformBlockIndex(data.theProgram, "UnProjection");
-			// glUniformBlockBinding(data.theProgram, unprojectionBlock, g_unprojectionBlockIndex);
-
 			data.cameraToClipMatrixUnif = GL.GetUniformLocation(data.theProgram, "cameraToClipMatrix");
 			data.clipToCameraMatrixUnif = GL.GetUniformLocation(data.theProgram, "clipToCameraMatrix");
 			data.windowSizeUnif = GL.GetUniformLocation(data.theProgram, "windowSize");
@@ -191,8 +186,8 @@ namespace GlslTutorials
 			return ret;
 		}
 			
-		static bool g_bDrawColoredCyl = false;
-		static bool g_bDrawLight = false;
+		static bool g_bDrawColoredCyl = true;
+		static bool g_bDrawLight = true;
 		static bool g_bScaleCyl = false;
 		static bool g_bUseRSquare = false;
 

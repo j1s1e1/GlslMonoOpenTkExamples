@@ -161,6 +161,13 @@
     <Compile Include="Material\MaterialBlock.cs" />
     <Compile Include="Tutorials\Tut_14_Basic_Textures_Test.cs" />
     <Compile Include="Tutorials\Tut_10_Fragment_Attenuation.cs" />
+    <Compile Include="Tutorials\Tut_12_HDR_Lighting.cs" />
+    <Compile Include="Light\LightManager.cs" />
+    <Compile Include="Light\SunlightValue.cs" />
+    <Compile Include="Scene\Scene.cs" />
+    <Compile Include="Light\TimerTypes.cs" />
+    <Compile Include="Light\LightingProgramTypes.cs" />
+    <Compile Include="Light\LightVectorData.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -203,6 +210,7 @@
     <Folder Include="Interpolator\" />
     <Folder Include="Movement\" />
     <Folder Include="Material\" />
+    <Folder Include="Scene\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="XmlFilesForMeshes\unitplane.xml" />

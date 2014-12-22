@@ -290,7 +290,7 @@ namespace GlslTutorials
 		
 		static ProjectionBlock projData = new ProjectionBlock();
 		
-		public override void reshape ()
+		public override void reshape()
 		{
 			MatrixStack persMatrix = new MatrixStack();
 	        persMatrix.Perspective(45.0f, (width / (float)height), g_fzNear, g_fzFar);

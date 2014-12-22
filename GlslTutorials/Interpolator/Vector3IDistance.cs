@@ -6,6 +6,12 @@ namespace GlslTutorials
 	public class Vector3IDistance : IDistance<Vector3IDistance>, ILinearInterpolate<Vector3IDistance>
 	{
 		Vector3 vector3Value;
+
+		public Vector3IDistance(float x, float y, float z)
+		{
+			vector3Value = new Vector3(x, y, z);
+		}
+
 		public Vector3IDistance(Vector3 vector3ValueIn)
 		{
 			vector3Value = vector3ValueIn;

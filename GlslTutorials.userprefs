@@ -1,16 +1,13 @@
 ﻿<Properties GitUserInfo="UsingGIT">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="GlslTutorials/Tutorials/Tut_10_Fragment_Attenuation.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="GlslTutorials/Light/LightManager.cs">
     <Files>
-      <File FileName="GlslTutorials/Tutorials/Tut_14_Basic_Textures_Test.cs" Line="1" Column="1" />
-      <File FileName="GlslTutorials/GL_Helpers/Textures.cs" Line="1" Column="1" />
-      <File FileName="GlslTutorials/Tutorials/Tut_Texture.cs" Line="1" Column="1" />
-      <File FileName="GlslTutorials/GL_Helpers/FragmentShaders.cs" Line="1" Column="1" />
-      <File FileName="GlslTutorials/GL_Helpers/VertexShaders.cs" Line="2" Column="2" />
-      <File FileName="GlslTutorials/Tutorials/Tut_10_Fragment_Attenuation.cs" Line="3" Column="3" />
-      <File FileName="GlslTutorials/Tutorials/Tut_10_Fragment_Point_Lighting.cs" Line="10" Column="10" />
-      <File FileName="GlslTutorials/Light/LightEnv.cs" Line="38" Column="38" />
-      <File FileName="GlslTutorials/Light/FrameworkTimer.cs" Line="29" Column="29" />
+      <File FileName="GlslTutorials/Tutorials/Tut_12_HDR_Lighting.cs" Line="1" Column="1" />
+      <File FileName="GlslTutorials/Tutorials/Tut_14_Basic_Textures.cs" Line="5" Column="5" />
+      <File FileName="GlslTutorials/Light/LightManager.cs" Line="20" Column="20" />
+      <File FileName="GlslTutorials/Interpolator/ILinearInterpolate.cs" Line="1" Column="1" />
+      <File FileName="GlslTutorials/Light/LightBlock.cs" Line="33" Column="33" />
+      <File FileName="GlslTutorials/Light/SunlightValue.cs" Line="11" Column="11" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
@@ -20,7 +17,6 @@
       <Breakpoint file="/home/jamie/repos/CSharp/GlslTutorials/GlslTutorials/Tutorials/Tut_14_Basic_Textures.cs" line="231" column="1" />
       <Breakpoint file="/home/jamie/repos/CSharp/GlslTutorials/GlslTutorials/Tutorials/Tut_16_Gamma_Landscape.cs" line="219" column="1" />
       <Breakpoint file="/home/jamie/repos/CSharp/GlslTutorials/GlslTutorials/GL_Helpers/Textures.cs" line="12" column="1" />
-      <RunToCursorBreakpoint file="/home/jamie/repos/CSharp/GlslTutorials/GlslTutorials/Tutorials/Tut_10_Fragment_Attenuation.cs" line="133" column="3" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
