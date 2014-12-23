@@ -1187,6 +1187,16 @@ namespace GlslTutorials
 
 			"gl_FragColor = pow(accumLighting, gamma);" +
 		"}";
+
+		public static String Tex =
+		"varying vec2 colorCoord;" +
+		"uniform sampler2D colorTexture;" +
+
+		"void main()" +
+		"{" +
+			"gl_FragColor = texture2D(colorTexture, colorCoord);" +
+		"}";
+
 	}
 }
 

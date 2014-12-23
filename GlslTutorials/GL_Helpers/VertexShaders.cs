@@ -517,6 +517,22 @@ namespace GlslTutorials
 			"diffuseColor = inDiffuseColor;" +
 			"cameraSpacePosition = vec3(tempCamPosition);" +
 		"}";
+
+		public static string PT =
+		"attribute vec3 position;" +
+		"attribute vec2 texCoord;" +
+
+		"varying vec2 colorCoord;" +
+
+		"uniform mat4 cameraToClipMatrix;" +
+
+		"uniform mat4 modelToCameraMatrix;" +
+
+		"void main()" +
+		"{" +
+			"gl_Position = cameraToClipMatrix * (modelToCameraMatrix * vec4(position, 1.0));" +
+			"colorCoord = texCoord;" +
+		"}";
 		
 	}
 }

@@ -171,6 +171,7 @@
     <Compile Include="Scene\SceneProgramData.cs" />
     <Compile Include="Tutorials\Tut_12_Gamma_Correction.cs" />
     <Compile Include="GL_Helpers\ShaderNames.cs" />
+    <Compile Include="Tutorials\Tut_15_ManyImages.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -247,5 +248,7 @@
     <None Include="XmlFilesForMeshes\terrain.xml" />
     <None Include="XmlFilesForMeshes\ground.xml" />
     <None Include="XmlFilesForMeshes\unittetrahedron.xml" />
+    <None Include="XmlFilesForMeshes\bigplane.xml" />
+    <None Include="XmlFilesForMeshes\corridor.xml" />
   </ItemGroup>
 </Project>
