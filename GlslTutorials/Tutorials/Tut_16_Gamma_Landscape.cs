@@ -125,29 +125,8 @@ namespace GlslTutorials
 		{
 			try
 			{
-				g_linearTexture = Textures.Load("terrain_tex.png", 1);
+				g_linearTexture = Textures.CreateMipMapTexture("terrain_tex.png", 2);
 
-				//std::auto_ptr<glimg::ImageSet> pImageSet(glimg::loaders::dds::LoadFromFile(filename.c_str()));
-		
-				//glGenTextures(1, &g_linearTexture);
-				//glBindTexture(GL_TEXTURE_2D, g_linearTexture);
-		/*
-				glimg::OpenGLPixelTransferParams xfer = glimg::GetUploadFormatType(pImageSet->GetFormat(), 0);
-		
-				for(int mipmapLevel = 0; mipmapLevel < pImageSet->GetMipmapCount(); mipmapLevel++)
-				{
-					glimg::SingleImage image = pImageSet->GetImage(mipmapLevel, 0, 0);
-					glimg::Dimensions dims = image.GetDimensions();
-		
-					glTexImage2D(GL_TEXTURE_2D, mipmapLevel, GL_SRGB8_ALPHA8, dims.Width, dims.height, 0,
-						xfer.format, xfer.type, image.GetImageData());
-				}
-		
-				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_BASE_LEVEL, 0);
-				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, pImageSet->GetMipmapCount() - 1);
-		
-				glBindTexture(GL_TEXTURE_2D, 0);
-				*/
 			}
 			catch(Exception ex)
 			{

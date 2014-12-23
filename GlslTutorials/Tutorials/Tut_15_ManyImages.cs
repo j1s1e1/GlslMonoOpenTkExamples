@@ -162,39 +162,7 @@ namespace GlslTutorials
 		{
 			try
 			{
-				string textureFilesDirectory = GlsTutorialsClass.ProjectDirectory + @"/Textures";
-				Bitmap bitmap = new Bitmap(textureFilesDirectory + "//" + "checker.png");
-
-				GL.GenTextures(1, out g_checkerTexture);
-				GL.BindTexture(TextureTarget.Texture2D, g_checkerTexture);
-
-				// Creating mipmaps manually
-				int width = bitmap.Width;
-				int height = bitmap.Height;
-				int mipMapCount = 6;
-
-				for(int mipmapLevel = 0; mipmapLevel < mipMapCount; mipmapLevel++)
-				{
-					uint[] data = new uint[width*height];
-					for (int col = 0; col < width; col++)
-					{
-						for (int row = 0; row < height; row++)
-						{
-							data[row * width + col] = (uint)bitmap.GetPixel(col, row).ToArgb();
-						}
-					}
-
-					GL.TexImage2D(TextureTarget.Texture2D, mipmapLevel, PixelInternalFormat.Rgb8,
-						width, height, 0, PixelFormat.Rgba, PixelType.UnsignedInt8888Reversed,
-						data);
-					bitmap = new Bitmap(bitmap, new Size(bitmap.Width/2, bitmap.Height/2));
-					width = width/2; 
-					height = height/2;
-				}
-
-				GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureBaseLevel, 0);
-				GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMaxLevel, mipMapCount - 1);
-				GL.BindTexture(TextureTarget.Texture2D, 0);
+				g_checkerTexture = Textures.CreateMipMapTexture("checker.png", 6);
 			}
 			catch(Exception ex)
 			{

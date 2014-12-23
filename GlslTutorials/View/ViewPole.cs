@@ -1,4 +1,5 @@
 using System;
+using System.Windows.Forms;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 
@@ -81,8 +82,9 @@ namespace GlslTutorials
 	    }
 	
 	    ///Resets the view to the initial view. Will fail if currently dragging.
-	    void Reset()
+	    public void Reset()
 	    {
+			MessageBox.Show("Viewpole reseet not implemented.");
 	    }
 	
 	    /**

@@ -172,6 +172,7 @@
     <Compile Include="Tutorials\Tut_12_Gamma_Correction.cs" />
     <Compile Include="GL_Helpers\ShaderNames.cs" />
     <Compile Include="Tutorials\Tut_15_ManyImages.cs" />
+    <Compile Include="Tutorials\Tut_17_Projected_Light.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
