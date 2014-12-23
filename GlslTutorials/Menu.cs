@@ -5,6 +5,7 @@ namespace GlslTutorials
 {
 	public enum TutorialsEnum
 	{
+		Tut_12_Gamma_Correction,
 		Tut_12_HDR_Lighting,
 		Tut_10_Fragment_Attenuation,
 		Tut_14_Basic_Textures_Test,
@@ -77,6 +78,7 @@ namespace GlslTutorials
 				case TutorialsEnum.Tut_09_Ambient_Lighting: currentTutorial = new Tut_09_Ambient_Lighting(); break;
 				case TutorialsEnum.Tut_10_Fragment_Point_Lighting: currentTutorial = new Tut_10_Fragment_Point_Lighting(); break;
 				case TutorialsEnum.Tut_10_Fragment_Attenuation: currentTutorial = new Tut_10_Fragment_Attenuation(); break;
+				case TutorialsEnum.Tut_12_Gamma_Correction: currentTutorial = new Tut_12_Gamma_Correction(); break;
 				case TutorialsEnum.Tut_12_HDR_Lighting: currentTutorial = new Tut_12_HDR_Lighting(); break;
 				case TutorialsEnum.Tut_14_Basic_Textures: currentTutorial = new Tut_14_Basic_Textures(); break;
 				case TutorialsEnum.Tut_16_Gamma_Landscape: currentTutorial = new Tut_16_Gamma_Landscape(); break;

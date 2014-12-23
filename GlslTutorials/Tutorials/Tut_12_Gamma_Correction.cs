@@ -7,9 +7,9 @@ using OpenTK.Graphics.OpenGL;
 
 namespace GlslTutorials
 {
-	public class Tut_12_HDR_Lighting : TutorialBase
+	public class Tut_12_Gamma_Correction : TutorialBase
 	{
-		public Tut_12_HDR_Lighting ()
+		public Tut_12_Gamma_Correction ()
 		{
 		}
 
@@ -35,11 +35,11 @@ namespace GlslTutorials
 		SceneProgramData[] g_Programs = new SceneProgramData[(int)LightingProgramTypes.LP_MAX_LIGHTING_PROGRAM_TYPES];
 		ShadersNames[] g_ShaderFiles = new ShadersNames[(int)LightingProgramTypes.LP_MAX_LIGHTING_PROGRAM_TYPES]
 		{
-			new ShadersNames(VertexShaders.HDR_PCN, FragmentShaders.DiffuseSpecularHDR),
-			new ShadersNames(VertexShaders.HDR_PCN, FragmentShaders.DiffuseOnlyHDR),
+			new ShadersNames(VertexShaders.HDR_PCN, FragmentShaders.DiffuseSpecularGamma),
+			new ShadersNames(VertexShaders.HDR_PCN, FragmentShaders.DiffuseOnlyGamma),
 
-			new ShadersNames(VertexShaders.HDR_PCN, FragmentShaders.DiffuseSpecularMtlHDR),
-			new ShadersNames(VertexShaders.HDR_PCN, FragmentShaders.DiffuseOnlyMtlHDR),
+			new ShadersNames(VertexShaders.HDR_PCN, FragmentShaders.DiffuseSpecularMtlGamma),
+			new ShadersNames(VertexShaders.HDR_PCN, FragmentShaders.DiffuseOnlyMtlGamma),
 		};
 
 		UnlitProgData g_Unlit;
@@ -78,7 +78,6 @@ namespace GlslTutorials
 			return g_Programs[(int)eType];
 		}
 
-
 		LightManager g_lights = new LightManager();
 
 		///////////////////////////////////////////////
@@ -101,48 +100,10 @@ namespace GlslTutorials
 
 		ViewPole g_viewPole = new ViewPole(g_initialViewData,
 			g_viewScale, MouseButtons.MB_LEFT_BTN);
+			
+		Matrix4 cameraToClipMatrix;
 
 		Vector4 g_skyDaylightColor = new Vector4(0.65f, 0.65f, 1.0f, 1.0f);
-
-		void SetupDaytimeLighting()
-		{
-			SunlightValue[] values = new SunlightValue[]
-			{
-				new SunlightValue(0.0f/24.0f, new Vector4(0.2f, 0.2f, 0.2f, 1.0f), new Vector4(0.6f, 0.6f, 0.6f, 1.0f), g_skyDaylightColor),
-				new SunlightValue(4.5f/24.0f, new Vector4(0.2f, 0.2f, 0.2f, 1.0f), new Vector4(0.6f, 0.6f, 0.6f, 1.0f), g_skyDaylightColor),
-				new SunlightValue(6.5f/24.0f, new Vector4(0.15f, 0.05f, 0.05f, 1.0f), new Vector4(0.3f, 0.1f, 0.10f, 1.0f), new Vector4(0.5f, 0.1f, 0.1f, 1.0f)),
-				new SunlightValue(8.0f/24.0f, new Vector4(0.0f, 0.0f, 0.0f, 1.0f), new Vector4(0.0f, 0.0f, 0.0f, 1.0f), new Vector4(0.0f, 0.0f, 0.0f, 1.0f)),
-				new SunlightValue(18.0f/24.0f, new Vector4(0.0f, 0.0f, 0.0f, 1.0f), new Vector4(0.0f, 0.0f, 0.0f, 1.0f), new Vector4(0.0f, 0.0f, 0.0f, 1.0f)),
-				new SunlightValue(19.5f/24.0f, new Vector4(0.15f, 0.05f, 0.05f, 1.0f), new Vector4(0.3f, 0.1f, 0.1f, 1.0f), new Vector4(0.5f, 0.1f, 0.1f, 1.0f)),
-				new SunlightValue(20.5f/24.0f, new Vector4(0.2f, 0.2f, 0.2f, 1.0f), new Vector4(0.6f, 0.6f, 0.6f, 1.0f), g_skyDaylightColor),
-			};
-
-			g_lights.SetSunlightValues(values);
-
-			g_lights.SetPointLightIntensity(0, new Vector4(0.2f, 0.2f, 0.2f, 1.0f));
-			g_lights.SetPointLightIntensity(1, new Vector4(0.0f, 0.0f, 0.3f, 1.0f));
-			g_lights.SetPointLightIntensity(2, new Vector4(0.3f, 0.0f, 0.0f, 1.0f));
-		}
-
-		void SetupNighttimeLighting()
-		{
-			SunlightValue[] values = new SunlightValue[]
-			{
-				new SunlightValue(0.0f/24.0f, new Vector4(0.2f, 0.2f, 0.2f, 1.0f), new Vector4(0.6f, 0.6f, 0.6f, 1.0f), g_skyDaylightColor),
-				new SunlightValue(4.5f/24.0f, new Vector4(0.2f, 0.2f, 0.2f, 1.0f), new Vector4(0.6f, 0.6f, 0.6f, 1.0f), g_skyDaylightColor),
-				new SunlightValue(6.5f/24.0f, new Vector4(0.15f, 0.05f, 0.05f, 1.0f), new Vector4(0.3f, 0.1f, 0.10f, 1.0f), new Vector4(0.5f, 0.1f, 0.1f, 1.0f)),
-				new SunlightValue(8.0f/24.0f, new Vector4(0.0f, 0.0f, 0.0f, 1.0f), new Vector4(0.0f, 0.0f, 0.0f, 1.0f), new Vector4(0.0f, 0.0f, 0.0f, 1.0f)),
-				new SunlightValue(18.0f/24.0f, new Vector4(0.0f, 0.0f, 0.0f, 1.0f), new Vector4(0.0f, 0.0f, 0.0f, 1.0f), new Vector4(0.0f, 0.0f, 0.0f, 1.0f)),
-				new SunlightValue(19.5f/24.0f, new Vector4(0.15f, 0.05f, 0.05f, 1.0f), new Vector4(0.3f, 0.1f, 0.1f, 1.0f), new Vector4(0.5f, 0.1f, 0.1f, 1.0f)),
-				new SunlightValue(20.5f/24.0f, new Vector4(0.2f, 0.2f, 0.2f, 1.0f), new Vector4(0.6f, 0.6f, 0.6f, 1.0f), g_skyDaylightColor),
-			};
-
-			g_lights.SetSunlightValues(values);
-
-			g_lights.SetPointLightIntensity(0, new Vector4(0.6f, 0.6f, 0.6f, 1.0f));
-			g_lights.SetPointLightIntensity(1, new Vector4(0.0f, 0.0f, 0.7f, 1.0f));
-			g_lights.SetPointLightIntensity(2, new Vector4(0.7f, 0.0f, 0.0f, 1.0f));
-		}
 
 		void SetupHDRLighting()
 		{
@@ -155,6 +116,29 @@ namespace GlslTutorials
 				new SunlightValue(18.0f/24.0f, new Vector4(0.0f, 0.0f, 0.0f, 1.0f), new Vector4(0.0f, 0.0f, 0.0f, 1.0f), new Vector4(0.0f, 0.0f, 0.0f, 1.0f), 1.0f),
 				new SunlightValue(19.5f/24.0f, new Vector4(0.225f, 0.075f, 0.075f, 1.0f), new Vector4(0.45f, 0.15f, 0.15f, 1.0f), new Vector4(0.5f, 0.1f, 0.1f, 1.0f), 1.5f),
 				new SunlightValue(20.5f/24.0f, new Vector4(0.6f, 0.6f, 0.6f, 1.0f), new Vector4(1.8f, 1.8f, 1.8f, 1.0f), g_skyDaylightColor, 3.0f),
+			};
+
+			g_lights.SetSunlightValues(values);
+
+			g_lights.SetPointLightIntensity(0, new Vector4(0.6f, 0.6f, 0.6f, 1.0f));
+			g_lights.SetPointLightIntensity(1, new Vector4(0.0f, 0.0f, 0.7f, 1.0f));
+			g_lights.SetPointLightIntensity(2, new Vector4(0.7f, 0.0f, 0.0f, 1.0f));
+		}
+
+		void SetupGammaLighting()
+		{
+			Vector4 sunlight = new Vector4(6.5f, 6.5f, 6.5f, 1.0f);
+			Vector4 brightAmbient = new Vector4(0.4f, 0.4f, 0.4f, 1.0f);
+
+			SunlightValue[] values = new SunlightValue[]
+			{
+				new SunlightValue(0.0f/24.0f, brightAmbient, sunlight, new Vector4(0.65f, 0.65f, 1.0f, 1.0f), 10.0f),
+				new SunlightValue(4.5f/24.0f, brightAmbient, sunlight, g_skyDaylightColor, 10.0f),
+				new SunlightValue(6.5f/24.0f, new Vector4(0.01f, 0.025f, 0.025f, 1.0f), new Vector4(2.5f, 0.2f, 0.2f, 1.0f), new Vector4(0.5f, 0.1f, 0.1f, 1.0f), 5.0f),
+				new SunlightValue(8.0f/24.0f, new Vector4(0.0f, 0.0f, 0.0f, 1.0f), new Vector4(0.0f, 0.0f, 0.0f, 1.0f), new Vector4(0.0f, 0.0f, 0.0f, 1.0f), 3.0f),
+				new SunlightValue(18.0f/24.0f, new Vector4(0.0f, 0.0f, 0.0f, 1.0f), new Vector4(0.0f, 0.0f, 0.0f, 1.0f), new Vector4(0.0f, 0.0f, 0.0f, 1.0f), 3.0f),
+				new SunlightValue(19.5f/24.0f, new Vector4(0.01f, 0.025f, 0.025f, 1.0f), new Vector4(2.5f, 0.2f, 0.2f, 1.0f), new Vector4(0.5f, 0.1f, 0.1f, 1.0f), 5.0f),
+				new SunlightValue(20.5f/24.0f, brightAmbient, sunlight, g_skyDaylightColor, 10.0f)
 			};
 
 			g_lights.SetSunlightValues(values);
@@ -181,9 +165,29 @@ namespace GlslTutorials
 				throw;
 			}
 
-			SetupDaytimeLighting();
+			SetupHDRLighting();
 
 			g_lights.CreateTimer("tetra", FrameworkTimer.Type.TT_LOOP, 2.5f);
+
+			/*
+			//Setup our Uniform Buffers
+			glGenBuffers(1, &g_lightUniformBuffer);
+			glBindBuffer(GL_UNIFORM_BUFFER, g_lightUniformBuffer);
+			glBufferData(GL_UNIFORM_BUFFER, sizeof(LightBlock), NULL, GL_DYNAMIC_DRAW);
+
+			glGenBuffers(1, &g_projectionUniformBuffer);
+			glBindBuffer(GL_UNIFORM_BUFFER, g_projectionUniformBuffer);
+			glBufferData(GL_UNIFORM_BUFFER, sizeof(ProjectionBlock), NULL, GL_DYNAMIC_DRAW);
+
+			//Bind the static buffers.
+			glBindBufferRange(GL_UNIFORM_BUFFER, g_lightBlockIndex, g_lightUniformBuffer,
+				0, sizeof(LightBlock));
+
+			glBindBufferRange(GL_UNIFORM_BUFFER, g_projectionBlockIndex, g_projectionUniformBuffer,
+				0, sizeof(ProjectionBlock));
+
+			glBindBuffer(GL_UNIFORM_BUFFER, 0);
+			*/
 
 			reshape();
 			SetupDepthAndCull();
@@ -192,9 +196,29 @@ namespace GlslTutorials
 		bool g_bDrawCameraPos = false;
 		bool g_bDrawLights = true;
 
+		bool g_isGammaCorrect = false;
+		float g_gammaValue = 2.2f;
+
+		Vector4 GammaCorrect(Vector4 input, float gamma)
+		{
+			Vector4 ret = new Vector4();
+			ret[0] = (float)Math.Pow(input[0], 1.0f / gamma);
+			ret[1] = (float)Math.Pow(input[1], 1.0f / gamma);
+			ret[2] = (float)Math.Pow(input[2], 1.0f / gamma);
+			ret[3] = input[3];
+
+			return ret;
+		}
+
 		public override void display()
 		{
+			if(g_pScene == null)
+				return;
+
 			g_lights.UpdateTime();
+
+			float gamma = g_isGammaCorrect ? g_gammaValue : 1.0f;
+
 			Vector4 bkg = g_lights.GetBackgroundColor();
 			GL.ClearColor(bkg[0], bkg[1], bkg[2], bkg[3]);
 			GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
@@ -203,9 +227,9 @@ namespace GlslTutorials
 			modelMatrix.SetMatrix(g_viewPole.CalcMatrix());
 
 			Matrix4 worldToCamMat = modelMatrix.Top();
-			LightBlock lightData = g_lights.GetLightInformationHDR(worldToCamMat);
+			LightBlock lightData = g_lights.GetLightInformationGamma(worldToCamMat);
 
-			// adjust light positions to match view change?? 
+			lightData.gamma = gamma;
 
 			// test
 			foreach (SceneProgramData spd in g_Programs)
@@ -213,7 +237,7 @@ namespace GlslTutorials
 				spd.lightBlock.Update(lightData);
 			}
 
-			if(g_pScene !=  null)
+			if(g_pScene != null)
 			{
 				using ( PushStack pushstack = new PushStack(modelMatrix))
 				{
@@ -221,66 +245,64 @@ namespace GlslTutorials
 				}
 			}
 
+			//Render the sun
+			using ( PushStack pushstack = new PushStack(modelMatrix))
 			{
-				//Render the sun
-				using ( PushStack pushstack = new PushStack(modelMatrix))
+				Vector3 sunlightDir = new Vector3(g_lights.GetSunlightDirection());
+				modelMatrix.Translate(sunlightDir * 500.0f);
+				modelMatrix.Scale(30.0f, 30.0f, 30.0f);
+
+				GL.UseProgram(g_Unlit.theProgram);
+				Matrix4 mm = modelMatrix.Top();
+				GL.UniformMatrix4(g_Unlit.modelToCameraMatrixUnif, false, ref mm);
+
+				Vector4 lightColor = GammaCorrect(g_lights.GetSunlightIntensity(), gamma);
+				GL.Uniform4(g_Unlit.objectColorUnif, lightColor);
+				g_pScene.GetSphereMesh().Render("flat");
+			}
+
+			//Render the lights
+			if(g_bDrawLights)
+			{
+				for(int light = 0; light < g_lights.GetNumberOfPointLights(); light++)
 				{
-					Vector3 sunlightDir = new Vector3(g_lights.GetSunlightDirection());
-					modelMatrix.Translate(sunlightDir * 500.0f);
-					modelMatrix.Scale(30.0f, 30.0f, 30.0f);
-
-					GL.UseProgram(g_Unlit.theProgram);
-					Matrix4 mm = modelMatrix.Top();
-					GL.UniformMatrix4(g_Unlit.modelToCameraMatrixUnif, false, ref mm);
-
-					Vector4 lightColor = g_lights.GetSunlightIntensity();
-					GL.Uniform4(g_Unlit.objectColorUnif, lightColor);
-					g_pScene.GetSphereMesh().Render("flat");
-				}
-
-				//Render the lights
-				if(g_bDrawLights)
-				{
-					for(int light = 0; light < g_lights.GetNumberOfPointLights(); light++)
+					using (PushStack pushstack = new PushStack(modelMatrix))
 					{
-						using ( PushStack pushstack = new PushStack(modelMatrix))
-						{
-							modelMatrix.Translate(g_lights.GetWorldLightPosition(light));
+						modelMatrix.Translate(g_lights.GetWorldLightPosition(light));
 
-							GL.UseProgram(g_Unlit.theProgram);
-							Matrix4 mm = modelMatrix.Top();
-							GL.UniformMatrix4(g_Unlit.modelToCameraMatrixUnif, false, ref mm);
-
-							Vector4 lightColor = g_lights.GetPointLightIntensity(light);
-							GL.Uniform4(g_Unlit.objectColorUnif, lightColor);
-							g_pScene.GetCubeMesh().Render("flat");
-						}
-					}
-				}
-
-				if(g_bDrawCameraPos)
-				{
-					using ( PushStack pushstack = new PushStack(modelMatrix))
-					{
-						modelMatrix.SetIdentity();
-						modelMatrix.Translate(new Vector3(0.0f, 0.0f, -g_viewPole.GetView().radius));
-
-						GL.Disable(EnableCap.DepthTest);
-						GL.DepthMask(false);
 						GL.UseProgram(g_Unlit.theProgram);
 						Matrix4 mm = modelMatrix.Top();
 						GL.UniformMatrix4(g_Unlit.modelToCameraMatrixUnif, false, ref mm);
-						GL.Uniform4(g_Unlit.objectColorUnif, 0.25f, 0.25f, 0.25f, 1.0f);
-						g_pScene.GetCubeMesh().Render("flat");
-						GL.DepthMask(true);
-						GL.Enable(EnableCap.DepthTest);
-						GL.Uniform4(g_Unlit.objectColorUnif, 1.0f, 1.0f, 1.0f, 1.0f);
+
+						Vector4 lightColor = GammaCorrect(g_lights.GetPointLightIntensity(light), gamma);
+						GL.Uniform4(g_Unlit.objectColorUnif, lightColor);
 						g_pScene.GetCubeMesh().Render("flat");
 					}
 				}
 			}
+
+			if(g_bDrawCameraPos)
+			{
+				using ( PushStack pushstack = new PushStack(modelMatrix))
+				{
+					modelMatrix.SetIdentity();
+					modelMatrix.Translate(new Vector3(0.0f, 0.0f, -g_viewPole.GetView().radius));
+
+					GL.Disable(EnableCap.DepthTest);
+					GL.DepthMask(false);
+					GL.UseProgram(g_Unlit.theProgram);
+					Matrix4 mm = modelMatrix.Top();
+					GL.UniformMatrix4(g_Unlit.modelToCameraMatrixUnif, false, ref mm);
+					GL.Uniform4(g_Unlit.objectColorUnif, 0.25f, 0.25f, 0.25f, 1.0f);
+					g_pScene.GetCubeMesh().Render("flat");
+					GL.DepthMask(true);
+					GL.Enable(EnableCap.DepthTest);
+					GL.Uniform4(g_Unlit.objectColorUnif, 1.0f, 1.0f, 1.0f, 1.0f);
+					g_pScene.GetCubeMesh().Render("flat");
+				}
+			}
 		}
-			
+
 		public override void reshape()
 		{
 			MatrixStack persMatrix = new MatrixStack();
@@ -303,10 +325,6 @@ namespace GlslTutorials
 			GL.UniformMatrix4(g_Unlit.cameraToClipMatrixUnif, false, ref projData.cameraToClipMatrix);
 			GL.UseProgram(0);
 
-			//glBindBuffer(GL_UNIFORM_BUFFER, g_projectionUniformBuffer);
-			//glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(ProjectionBlock), &projData);
-			//glBindBuffer(GL_UNIFORM_BUFFER, 0);
-
 			GL.Viewport(0, 0, width, height);
 		}
 
@@ -317,12 +335,9 @@ namespace GlslTutorials
 		{
 			StringBuilder result = new StringBuilder();
 			result.AppendLine(keyCode.ToString());
-			bool bChangedShininess = false;
-			bool bChangedLightModel = false;
 			switch (keyCode)
 			{
 			case Keys.Escape:
-				g_pScene = null;
 				g_pScene = null;
 				break;
 
@@ -334,9 +349,27 @@ namespace GlslTutorials
 			case Keys.D2: g_eTimerMode = TimerTypes.TIMER_SUN; result.AppendLine("Sun"); break;
 			case Keys.D3: g_eTimerMode = TimerTypes.TIMER_LIGHTS; result.AppendLine("Lights"); break;
 
-			case Keys.D: SetupDaytimeLighting(); break;
-			case Keys.N: SetupNighttimeLighting(); break;
+			case Keys.G: SetupGammaLighting(); break;
 			case Keys.H: SetupHDRLighting(); break;
+
+			case Keys.K:
+				g_isGammaCorrect = !g_isGammaCorrect;
+				if(g_isGammaCorrect)
+					result.AppendLine("Gamma on!");
+				else
+					result.AppendLine("Gamma off!");
+				break;
+
+			case Keys.Y:
+				g_gammaValue += 0.1f;
+				result.AppendLine("Gamma: " + g_gammaValue.ToString());
+				break;
+			case Keys.U:
+				g_gammaValue -= 0.1f;
+				if(g_gammaValue < 1.0f)
+					g_gammaValue = 1.0f;
+				result.AppendLine("Gamma: " + g_gammaValue.ToString());
+				break;
 
 			case Keys.Space:
 				{

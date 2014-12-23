@@ -101,7 +101,7 @@ namespace GlslTutorials
 			GL.Uniform4(ambientIntensityUnif, lightblock.ambientIntensity);
 			GL.Uniform1(lightAttenuationUnif, lightblock.lightAttenuation);
 			GL.Uniform1(maxIntensityUnif, lightblock.maxIntensity);
-			if (gammaUnif != -1) GL.Uniform1(maxIntensityUnif, lightblock.gamma);
+			if (gammaUnif != -1) GL.Uniform1(gammaUnif, lightblock.gamma);
 			GL.Uniform4(lightsUnif, 2 * NUMBER_OF_LIGHTS, lightblock.LightsAsFloats());
 			GL.UseProgram(programNumber);
 		}		

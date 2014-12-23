@@ -169,6 +169,8 @@
     <Compile Include="Light\LightingProgramTypes.cs" />
     <Compile Include="Light\LightVectorData.cs" />
     <Compile Include="Scene\SceneProgramData.cs" />
+    <Compile Include="Tutorials\Tut_12_Gamma_Correction.cs" />
+    <Compile Include="GL_Helpers\ShaderNames.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
