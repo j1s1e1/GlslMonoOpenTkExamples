@@ -40,8 +40,8 @@ namespace GlslTutorials
 	    ProgramData LoadProgram(String vertexShader, String fragmentShader)
 	    {
 	        ProgramData data = new ProgramData();
-	        int vertexShaderInt = Shader.loadShader(ShaderType.VertexShader, vertexShader);
-	        int fragmentShaderInt = Shader.loadShader(ShaderType.FragmentShader, fragmentShader);
+	        int vertexShaderInt = Shader.compileShader(ShaderType.VertexShader, vertexShader);
+	        int fragmentShaderInt = Shader.compileShader(ShaderType.FragmentShader, fragmentShader);
 	        data.theProgram = Shader.createAndLinkProgram(vertexShaderInt, fragmentShaderInt);
 	
 	        data.positionAttribute = GL.GetAttribLocation(data.theProgram, "position");

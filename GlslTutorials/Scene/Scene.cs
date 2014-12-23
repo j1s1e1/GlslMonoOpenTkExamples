@@ -17,22 +17,12 @@ namespace GlslTutorials
 		Mesh m_pCylMesh;
 		Mesh m_pSphereMesh;
 
-		public struct ProgramData
-		{
-			public int theProgram;
+		public delegate SceneProgramData GetProgramDelegate(LightingProgramTypes eType);
+		static public GetProgramDelegate GetProgramFromTutorial;
 
-			public int modelToCameraMatrixUnif;
-			public int normalModelToCameraMatrixUnif;
-			public LightBlock lightBlock;
-			public MaterialBlock materialBlock;
+		List<MaterialBlock> materials;
 
-			public int cameraToClipMatrixUnif;
-		};
-
-		public delegate ProgramData GetProgramDelegate(LightingProgramTypes eType);
-		public GetProgramDelegate GetProgramFromTutorial;
-
-		ProgramData GetProgram(LightingProgramTypes eType)
+		SceneProgramData GetProgram(LightingProgramTypes eType)
 		{
 			return GetProgramFromTutorial(eType);
 		}
@@ -64,19 +54,19 @@ namespace GlslTutorials
 			string XmlFilesDirectory = GlsTutorialsClass.ProjectDirectory + @"/XmlFilesForMeshes";
 
 			Stream ground =  File.OpenRead(XmlFilesDirectory + @"/ground.xml");
-			Mesh m_pTerrainMesh = new Mesh(ground);
+			m_pTerrainMesh = new Mesh(ground);
 
-			Stream unitcube =  File.OpenRead(XmlFilesDirectory + @"/unitcube.xml");
-			Mesh m_pCubeMesh = new Mesh(unitcube);
+			Stream unitcube =  File.OpenRead(XmlFilesDirectory + @"/unitcubehdr.xml");
+			m_pCubeMesh = new Mesh(unitcube);
 
 			Stream unittetrahedron =  File.OpenRead(XmlFilesDirectory + @"/unittetrahedron.xml");
-			Mesh m_pTetraMesh = new Mesh(unittetrahedron);
+			m_pTetraMesh = new Mesh(unittetrahedron);
 
 			Stream unitcylinder =  File.OpenRead(XmlFilesDirectory + @"/unitcylinder.xml");
-			Mesh m_pCylMesh = new Mesh(unitcylinder);
+			m_pCylMesh = new Mesh(unitcylinder);
 
 			Stream unitsphere =  File.OpenRead(XmlFilesDirectory + @"/unitsphere.xml");
-			Mesh m_pSphereMesh = new Mesh(unitsphere);
+			m_pSphereMesh = new Mesh(unitsphere);
 
 			////Align the size of each MaterialBlock to the uniform buffer alignment.
 			//int uniformBufferAlignSize = 0;
@@ -88,7 +78,7 @@ namespace GlslTutorials
 
 			//int sizeMaterialUniformBuffer = m_sizeMaterialBlock * MATERIAL_COUNT;
 
-			List<MaterialBlock> materials = new List<MaterialBlock>();
+			materials = new List<MaterialBlock>();
 			GetMaterials(materials);
 			//assert(materials.size() == MATERIAL_COUNT);
 
@@ -177,44 +167,44 @@ namespace GlslTutorials
 			}
 		}
 
-		public void DrawObject(Mesh pMesh, ProgramData prog, int materialBlockIndex, int mtlIx,
+		public void DrawObject(Mesh pMesh, SceneProgramData prog, int materialBlockIndex, int mtlIx,
 			MatrixStack modelMatrix )
 		{
-			//glBindBufferRange(GL_UNIFORM_BUFFER, materialBlockIndex, m_materialUniformBuffer,
-			//	mtlIx * m_sizeMaterialBlock, sizeof(MaterialBlock));
-
 			Matrix3 normMatrix = new Matrix3(modelMatrix.Top());
 			normMatrix = Matrix3.Transpose(normMatrix.Inverted());
 
 			GL.UseProgram(prog.theProgram);
 			Matrix4 mm =  modelMatrix.Top();
+
 			GL.UniformMatrix4(prog.modelToCameraMatrixUnif, false, ref mm);
 
 			GL.UniformMatrix3(prog.normalModelToCameraMatrixUnif, false, ref normMatrix);
+
+			// Apply Material
+			materials[mtlIx].SetUniforms(prog.theProgram);
+			materials[mtlIx].UpdateInternal();
+
 			pMesh.Render();
 			GL.UseProgram(0);
-
-			//glBindBufferBase(GL_UNIFORM_BUFFER, materialBlockIndex, 0);
 		}
 
-		public void DrawObject(Mesh pMesh, string meshName, ProgramData prog, int materialBlockIndex, int mtlIx,
+		public void DrawObject(Mesh pMesh, string meshName, SceneProgramData prog, int materialBlockIndex, int mtlIx,
 			MatrixStack modelMatrix)
 		{
-			//glBindBufferRange(GL_UNIFORM_BUFFER, materialBlockIndex, m_materialUniformBuffer,
-			//	mtlIx * m_sizeMaterialBlock, sizeof(MaterialBlock));
-
 			Matrix3 normMatrix = new Matrix3(modelMatrix.Top());
 			normMatrix = Matrix3.Transpose(normMatrix.Inverted());
 
 			GL.UseProgram(prog.theProgram);
+			// Apply Material
+			materials[mtlIx].SetUniforms(prog.theProgram);
+			materials[mtlIx].UpdateInternal();
+
 			Matrix4 mm = modelMatrix.Top();
 			GL.UniformMatrix4(prog.modelToCameraMatrixUnif, false, ref mm);
 
 			GL.UniformMatrix3(prog.normalModelToCameraMatrixUnif, false, ref normMatrix);
 			pMesh.Render(meshName);
 			GL.UseProgram(0);
-
-			//glBindBufferBase(GL_UNIFORM_BUFFER, materialBlockIndex, 0);
 		}
 
 		public Mesh GetSphereMesh()

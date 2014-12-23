@@ -156,8 +156,8 @@ namespace GlslTutorials
 	
 	    void InitializeProgram()
 	    {
-	        int vertexShader = Shader.loadShader(ShaderType.VertexShader, MatrixPerspective_vert);
-	        int fragmentShader = Shader.loadShader(ShaderType.FragmentShader, StandardColors_frag);
+	        int vertexShader = Shader.compileShader(ShaderType.VertexShader, MatrixPerspective_vert);
+	        int fragmentShader = Shader.compileShader(ShaderType.FragmentShader, StandardColors_frag);
 	        theProgram = Shader.createAndLinkProgram(vertexShader, fragmentShader);
 	
 	        offsetUniform = GL.GetUniformLocation(theProgram, "offset");

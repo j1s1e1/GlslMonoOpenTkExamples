@@ -168,6 +168,7 @@
     <Compile Include="Light\TimerTypes.cs" />
     <Compile Include="Light\LightingProgramTypes.cs" />
     <Compile Include="Light\LightVectorData.cs" />
+    <Compile Include="Scene\SceneProgramData.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -242,5 +243,7 @@
     <None Include="Textures\terrain_tex.png" />
     <None Include="XmlFilesForMeshes\unitcubebasictexture.xml" />
     <None Include="XmlFilesForMeshes\terrain.xml" />
+    <None Include="XmlFilesForMeshes\ground.xml" />
+    <None Include="XmlFilesForMeshes\unittetrahedron.xml" />
   </ItemGroup>
 </Project>

@@ -335,8 +335,8 @@ namespace GlslTutorials
 
 		public static string FragLightAtten_PCN =
 
-		"attribute  vec3 position;" +
-		"attribute  vec4 inDiffuseColor;" +
+		"attribute vec3 position;" +
+		"attribute vec4 inDiffuseColor;" +
 		"attribute vec3 normal;" +
 
 		"varying vec4 diffuseColor;" +
@@ -492,6 +492,31 @@ namespace GlslTutorials
             "gl_Position = temp;" +
 			"colorCoord = texCoord;" +
         "}";
+
+		public static string HDR_PCN =
+
+		"attribute vec3 position;" +
+		"attribute vec4 inDiffuseColor;" +
+		"attribute vec3 normal;" +
+
+		"varying vec4 diffuseColor;" +
+		"varying vec3 vertexNormal;" +
+		"varying vec3 cameraSpacePosition;" +
+
+		"uniform mat4 cameraToClipMatrix;" +
+
+		"uniform mat4 modelToCameraMatrix;" +
+		"uniform mat3 normalModelToCameraMatrix;" +
+
+		"void main()" +
+		"{" +
+			"vec4 tempCamPosition = (modelToCameraMatrix * vec4(position, 1.0));" +
+			"gl_Position = cameraToClipMatrix * tempCamPosition;" +
+
+			"vertexNormal = normalize(normalModelToCameraMatrix * normal);" +
+			"diffuseColor = inDiffuseColor;" +
+			"cameraSpacePosition = vec3(tempCamPosition);" +
+		"}";
 		
 	}
 }

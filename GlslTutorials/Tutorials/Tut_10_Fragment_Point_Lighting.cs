@@ -48,8 +48,8 @@ namespace GlslTutorials
 		UnlitProgData LoadUnlitProgram(string vertexShader, string fragmentShader)
 		{
 			UnlitProgData data = new UnlitProgData();
-	        int vertexShaderInt = Shader.loadShader(ShaderType.VertexShader, vertexShader);
-	        int fragmentShaderInt = Shader.loadShader(ShaderType.FragmentShader, fragmentShader);
+	        int vertexShaderInt = Shader.compileShader(ShaderType.VertexShader, vertexShader);
+	        int fragmentShaderInt = Shader.compileShader(ShaderType.FragmentShader, fragmentShader);
 			
 			data.theProgram  = Shader.createAndLinkProgram(vertexShaderInt, fragmentShaderInt);
 			data.modelToCameraMatrixUnif =  GL.GetUniformLocation(data.theProgram, "modelToCameraMatrix");
@@ -62,8 +62,8 @@ namespace GlslTutorials
 		ProgramData LoadLitProgram(string vertexShader, string fragmentShader)
 		{
 			ProgramData data = new ProgramData();
-	        int vertexShaderInt = Shader.loadShader(ShaderType.VertexShader, vertexShader);
-	        int fragmentShaderInt = Shader.loadShader(ShaderType.FragmentShader, fragmentShader);
+	        int vertexShaderInt = Shader.compileShader(ShaderType.VertexShader, vertexShader);
+	        int fragmentShaderInt = Shader.compileShader(ShaderType.FragmentShader, fragmentShader);
 		
 			data.theProgram = Shader.createAndLinkProgram(vertexShaderInt, fragmentShaderInt);
 			data.modelToCameraMatrixUnif = GL.GetUniformLocation(data.theProgram, "modelToCameraMatrix");

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Windows.Forms;
 using OpenTK;
 using LightInterpolator = GlslTutorials.ConstVelLinearInterpolator<GlslTutorials.Vector3IDistance>;
 using LightVector = System.Collections.Generic.List<GlslTutorials.LightVectorData>;
@@ -34,9 +35,9 @@ namespace GlslTutorials
 		TimedLinearInterpolator<FloatIDistance> m_maxIntensityInterpolator;
 
 		List<ConstVelLinearInterpolator<Vector3IDistance> > m_lightPos;
-		List<Vector4> m_lightIntensity;
-		List<FrameworkTimer> m_lightTimers;
-		List<ExtraTimer> m_extraTimers;
+		List<Vector4> m_lightIntensity = new List<Vector4>();
+		List<FrameworkTimer> m_lightTimers = new List<FrameworkTimer>();
+		List<ExtraTimer> m_extraTimers = new List<ExtraTimer>();
 
 		Vector4 CalcLightPosition(FrameworkTimer timer, float alphaOffset)
 		{
@@ -63,6 +64,10 @@ namespace GlslTutorials
 
 		public LightManager()
 		{
+			m_ambientInterpolator = new TimedLinearInterpolator<LightVectorData>();
+			m_backgroundInterpolator = new TimedLinearInterpolator<LightVectorData>();
+			m_sunlightInterpolator = new TimedLinearInterpolator<LightVectorData>();
+			m_maxIntensityInterpolator = new TimedLinearInterpolator<FloatIDistance>();
 			m_sunTimer = new FrameworkTimer(FrameworkTimer.Type.TT_LOOP,  30.0f);
 			m_ambientInterpolator = new TimedLinearInterpolator<LightVectorData>();
 			m_lightTimers = new List<FrameworkTimer>();
@@ -260,7 +265,7 @@ namespace GlslTutorials
 			
 		public LightBlock GetLightInformationHDR(Matrix4 worldToCameraMat ) 
 		{
-			LightBlock lightData = new LightBlock();
+			LightBlock lightData = new LightBlock(NUMBER_OF_LIGHTS);
 
 			lightData.ambientIntensity = m_ambientInterpolator.Interpolate(m_sunTimer.GetAlpha()).GetValue();
 			lightData.lightAttenuation = g_fLightAttenuation;
@@ -354,7 +359,15 @@ namespace GlslTutorials
 
 		public Vector4 GetBackgroundColor()
 		{
-			return m_backgroundInterpolator.Interpolate(m_sunTimer.GetAlpha()).GetValue();
+			try
+			{
+				return m_backgroundInterpolator.Interpolate(m_sunTimer.GetAlpha()).GetValue();
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show("Error interpolating background " + ex.ToString());
+				return Vector4.Zero;
+			}
 		}
 
 		public float GetMaxIntensity()

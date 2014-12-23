@@ -10,17 +10,6 @@ namespace GlslTutorials
 		{
 		}
 		
-		public static int loadShader(ShaderType shaderType, String shaderCode) 
-		{
-	        // create a vertex shader type (GLES20.GL_VERTEX_SHADER)
-	        // or a fragment shader type (GLES20.GL_FRAGMENT_SHADER)
-	        int shader = GL.CreateShader (shaderType);
-	        // add the source code to the shader and compile it
-			GL.ShaderSource (shader, shaderCode);
-            GL.CompileShader (shader);
-	        return shader;
-    	}
-		
 		public static int compileShader(ShaderType shaderType, String shaderSource)
 	    {
 	        int shaderHandle = GL.CreateShader(shaderType);
@@ -77,7 +66,8 @@ namespace GlslTutorials
 	            // If the link failed, delete the program.
 	            if (linkStatus[0] == 0)
 	            {
-	                MessageBox.Show("Error compiling program: " + GL.GetProgramInfoLog(programHandle));
+					String errorInfo = GL.GetProgramInfoLog(programHandle);
+					MessageBox.Show("Error compiling program: " + errorInfo);
 	                GL.DeleteProgram(programHandle);
 	                programHandle = 0;
 	            }

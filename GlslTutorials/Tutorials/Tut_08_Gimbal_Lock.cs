@@ -13,8 +13,8 @@ namespace GlslTutorials
 	        fFrustumScale = CalcFrustumScale(45.0f);
 	        float fzNear = 1.0f;
 	        float fzFar = 600.0f;
-	        int vertex_shader = Shader.loadShader(ShaderType.VertexShader, VertexShaders.PosColorLocalTransform_vert);
-	        int fragment_shader = Shader.loadShader(ShaderType.FragmentShader, FragmentShaders.ColorMultUniform_frag);
+	        int vertex_shader = Shader.compileShader(ShaderType.VertexShader, VertexShaders.PosColorLocalTransform_vert);
+	        int fragment_shader = Shader.compileShader(ShaderType.FragmentShader, FragmentShaders.ColorMultUniform_frag);
 	        theProgram = Shader.createAndLinkProgram(vertex_shader, fragment_shader);
 	        positionAttribute = GL.GetAttribLocation(theProgram, "position");
 	        colorAttribute = GL.GetAttribLocation(theProgram, "color");

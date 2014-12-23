@@ -45,8 +45,8 @@ namespace GlslTutorials
 		
 	    void InitializeProgram()
 	    {
-	        int vertex_shader = Shader.loadShader(ShaderType.VertexShader, VertexColor_vert);
-	        int fragment_shader = Shader.loadShader(ShaderType.FragmentShader, VertexColor_frag);
+	        int vertex_shader = Shader.compileShader(ShaderType.VertexShader, VertexColor_vert);
+	        int fragment_shader = Shader.compileShader(ShaderType.FragmentShader, VertexColor_frag);
 	        theProgram = Shader.createAndLinkProgram(vertex_shader, fragment_shader);
 	        positionAttribute = GL.GetAttribLocation(theProgram, "position");
 	        colorAttribute = GL.GetAttribLocation(theProgram, "color");

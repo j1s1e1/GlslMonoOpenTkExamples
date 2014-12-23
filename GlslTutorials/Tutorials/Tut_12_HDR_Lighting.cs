@@ -13,17 +13,6 @@ namespace GlslTutorials
 		{
 		}
 
-		enum LightingProgramTypes
-		{
-			LP_VERT_COLOR_DIFFUSE_SPECULAR = 0,
-			LP_VERT_COLOR_DIFFUSE,
-
-			LP_MTL_COLOR_DIFFUSE_SPECULAR,
-			LP_MTL_COLOR_DIFFUSE,
-
-			LP_MAX_LIGHTING_PROGRAM_TYPES,
-		};
-
 		struct UnlitProgData
 		{
 			public int theProgram;
@@ -54,26 +43,15 @@ namespace GlslTutorials
 			}
 		};
 
-		struct ProgramData
-		{
-			public int theProgram;
 
-			public int modelToCameraMatrixUnif;
-			public int normalModelToCameraMatrixUnif;
-			public LightBlock lightBlock;
-			public MaterialBlock materialBlock;
-
-			public int cameraToClipMatrixUnif;
-		};
-
-		ProgramData[] g_Programs = new ProgramData[(int)LightingProgramTypes.LP_MAX_LIGHTING_PROGRAM_TYPES];
+		SceneProgramData[] g_Programs = new SceneProgramData[(int)LightingProgramTypes.LP_MAX_LIGHTING_PROGRAM_TYPES];
 		ShadersNames[] g_ShaderFiles = new ShadersNames[(int)LightingProgramTypes.LP_MAX_LIGHTING_PROGRAM_TYPES]
 		{
-			new ShadersNames("PCN.vert", "DiffuseSpecularHDR.frag"),
-			new ShadersNames("PCN.vert", "DiffuseOnlyHDR.frag"),
+			new ShadersNames(VertexShaders.HDR_PCN, FragmentShaders.DiffuseSpecularHDR),
+			new ShadersNames(VertexShaders.HDR_PCN, FragmentShaders.DiffuseOnlyHDR),
 
-			new ShadersNames("PN.vert", "DiffuseSpecularMtlHDR.frag"),
-			new ShadersNames("PN.vert", "DiffuseOnlyMtlHDR.frag"),
+			new ShadersNames(VertexShaders.HDR_PCN, FragmentShaders.DiffuseSpecularMtlHDR),
+			new ShadersNames(VertexShaders.HDR_PCN, FragmentShaders.DiffuseOnlyMtlHDR),
 		};
 
 		UnlitProgData g_Unlit;
@@ -85,8 +63,8 @@ namespace GlslTutorials
 		UnlitProgData LoadUnlitProgram(string vertexShader, string fragmentShader)
 		{
 			UnlitProgData data = new UnlitProgData();
-			int vertexShaderInt = Shader.loadShader(ShaderType.VertexShader, vertexShader);
-			int fragmentShaderInt = Shader.loadShader(ShaderType.FragmentShader, fragmentShader);
+			int vertexShaderInt = Shader.compileShader(ShaderType.VertexShader, vertexShader);
+			int fragmentShaderInt = Shader.compileShader(ShaderType.FragmentShader, fragmentShader);
 
 			data.theProgram  = Shader.createAndLinkProgram(vertexShaderInt, fragmentShaderInt);
 			data.modelToCameraMatrixUnif =  GL.GetUniformLocation(data.theProgram, "modelToCameraMatrix");
@@ -97,16 +75,16 @@ namespace GlslTutorials
 			return data;
 		}
 			
-		ProgramData LoadLitProgram(ShadersNames  shaders)
+		SceneProgramData LoadLitProgram(ShadersNames  shaders)
 		{
-			ProgramData data = new ProgramData();
-			int vertexShaderInt = Shader.loadShader(ShaderType.VertexShader, shaders.vertexShader);
-			int fragmentShaderInt = Shader.loadShader(ShaderType.FragmentShader, shaders.fragmentShader);
+			SceneProgramData data = new SceneProgramData();
+			int vertexShaderInt = Shader.compileShader(ShaderType.VertexShader, shaders.vertexShader);
+			int fragmentShaderInt = Shader.compileShader(ShaderType.FragmentShader, shaders.fragmentShader);
 
 			data.theProgram = Shader.createAndLinkProgram(vertexShaderInt, fragmentShaderInt);
 			data.modelToCameraMatrixUnif = GL.GetUniformLocation(data.theProgram, "modelToCameraMatrix");
 
-			data.lightBlock = new LightBlock();
+			data.lightBlock = new LightBlock(4);
 			data.lightBlock.SetUniforms(data.theProgram);
 
 			data.normalModelToCameraMatrixUnif = GL.GetUniformLocation(data.theProgram, "normalModelToCameraMatrix");
@@ -126,23 +104,23 @@ namespace GlslTutorials
 				g_Programs[iProg] = LoadLitProgram(g_ShaderFiles[iProg]);
 			}
 
-			g_Unlit = LoadUnlitProgram("PosTransform.vert", "UniformColor.frag");
+			g_Unlit = LoadUnlitProgram(VertexShaders.PosTransform, FragmentShaders.ColorUniform_frag);
 		}
 
-		ProgramData GetProgram(LightingProgramTypes eType)
+		SceneProgramData GetProgram(LightingProgramTypes eType)
 		{
 			return g_Programs[(int)eType];
 		}
 
 
-		LightManager g_lights;
+		LightManager g_lights = new LightManager();
 
 		///////////////////////////////////////////////
 		// View/Object Setup
 		static ViewData g_initialViewData = new ViewData
 		(
 			new Vector3(-59.5f, 44.0f, 95.0f),
-			new Quaternion(0.92387953f, 0.3826834f, 0.0f, 0.0f),
+			new Quaternion(1.0f, 0.0f, 0.0f, 0.0f), // no 45 degree angle
 			50.0f,
 			0.0f
 		);
@@ -157,11 +135,6 @@ namespace GlslTutorials
 
 		ViewPole g_viewPole = new ViewPole(g_initialViewData,
 			g_viewScale, MouseButtons.MB_LEFT_BTN);
-			
-
-		//GLuint g_lightUniformBuffer;
-		//GLuint g_materialUniformBuffer;
-		//GLuint g_projectionUniformBuffer;
 
 		Vector4 g_skyDaylightColor = new Vector4(0.65f, 0.65f, 1.0f, 1.0f);
 
@@ -233,6 +206,7 @@ namespace GlslTutorials
 
 			try
 			{
+				Scene.GetProgramFromTutorial = GetProgram;
 				g_pScene = new Scene();
 			}
 			catch(Exception ex)
@@ -255,10 +229,9 @@ namespace GlslTutorials
 		public override void display()
 		{
 			g_lights.UpdateTime();
-			ClearDisplay();
 			Vector4 bkg = g_lights.GetBackgroundColor();
-
 			GL.ClearColor(bkg[0], bkg[1], bkg[2], bkg[3]);
+			GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
 			MatrixStack modelMatrix = new MatrixStack();
 			modelMatrix.SetMatrix(g_viewPole.CalcMatrix());
@@ -266,9 +239,13 @@ namespace GlslTutorials
 			Matrix4 worldToCamMat = modelMatrix.Top();
 			LightBlock lightData = g_lights.GetLightInformationHDR(worldToCamMat);
 
-			//glBindBuffer(GL_UNIFORM_BUFFER, g_lightUniformBuffer);
-			//glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(lightData), &lightData);
-			//glBindBuffer(GL_UNIFORM_BUFFER, 0);
+			// adjust light positions to match view change?? 
+
+			// test
+			foreach (SceneProgramData spd in g_Programs)
+			{
+				spd.lightBlock.Update(lightData);
+			}
 
 			if(g_pScene !=  null)
 			{
@@ -342,9 +319,23 @@ namespace GlslTutorials
 		{
 			MatrixStack persMatrix = new MatrixStack();
 			persMatrix.Perspective(45.0f, (width / (float)height), g_fzNear, g_fzFar);
-
+			// added
+			persMatrix.Translate(-0.5f, 0.0f, -3f);
+			persMatrix.Scale(0.01f);
+			// end added
 			ProjectionBlock projData = new ProjectionBlock();
 			projData.cameraToClipMatrix = persMatrix.Top();
+
+			foreach(SceneProgramData spd in g_Programs)
+			{
+				GL.UseProgram(spd.theProgram);
+				GL.UniformMatrix4(spd.cameraToClipMatrixUnif, false, ref projData.cameraToClipMatrix);
+				GL.UseProgram(0);
+			}
+
+			GL.UseProgram(g_Unlit.theProgram);
+			GL.UniformMatrix4(g_Unlit.cameraToClipMatrixUnif, false, ref projData.cameraToClipMatrix);
+			GL.UseProgram(0);
 
 			//glBindBuffer(GL_UNIFORM_BUFFER, g_projectionUniformBuffer);
 			//glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(ProjectionBlock), &projData);

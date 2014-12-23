@@ -53,8 +53,8 @@ namespace GlslTutorials
 	    void InitializeProgram()
 	    {
 	        // prepare shaders and OpenGL program
-	        int vertexShader = Shader.loadShader(ShaderType.VertexShader, calcOffset_vert);
-	        int fragmentShader = Shader.loadShader(ShaderType.FragmentShader, calcColor_frag);
+	        int vertexShader = Shader.compileShader(ShaderType.VertexShader, calcOffset_vert);
+	        int fragmentShader = Shader.compileShader(ShaderType.FragmentShader, calcColor_frag);
 	
 	        theProgram = Shader.createAndLinkProgram(vertexShader, fragmentShader);
 	

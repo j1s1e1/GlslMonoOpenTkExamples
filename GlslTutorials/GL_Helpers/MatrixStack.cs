@@ -232,7 +232,7 @@ namespace GlslTutorials
 	        Matrix4 persp = Matrix4.CreatePerspectiveFieldOfView(
 	                (float)Math.PI / 180 * degFOV, aspectRatio, zNear, zFar);
 	        m_currMatrix = Matrix4.Mult(persp, m_currMatrix);
-	    }
+ 	    }
 	
 	    /**
 	     \brief Applies a standard, OpenGL-style orthographic projection matrix.

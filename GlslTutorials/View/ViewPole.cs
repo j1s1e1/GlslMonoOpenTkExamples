@@ -34,7 +34,7 @@ namespace GlslTutorials
 	    ///Generates the world-to-camera matrix for the view.
 	    public Matrix4 CalcMatrix()
 	    {
-	        Matrix4 theMat = Matrix4.Identity;
+ 	        Matrix4 theMat = Matrix4.Identity;
 	
 	        //Remember: these transforms are in reverse order.
 	

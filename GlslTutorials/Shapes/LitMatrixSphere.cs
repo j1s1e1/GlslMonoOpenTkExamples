@@ -33,9 +33,9 @@ namespace GlslTutorials
 	        if (mProgram < 0)
 	        {
 	            // prepare shaders and OpenGL program
-	            int vertexShader = Shader.loadShader(ShaderType.VertexShader,
+	            int vertexShader = Shader.compileShader(ShaderType.VertexShader,
 	                    VertexShader);
-	            int fragmentShader = Shader.loadShader(ShaderType.FragmentShader,
+	            int fragmentShader = Shader.compileShader(ShaderType.FragmentShader,
 	                    FragmentShader);
 	
 	            mProgram = Shader.createAndLinkProgram(vertexShader, fragmentShader,

@@ -37,8 +37,8 @@ namespace GlslTutorials
 	
 	    void InitializeProgram()
 	    {
-	        int vertexShader = Shader.loadShader(ShaderType.VertexShader, PosColorLocalTransform_vert);
-	        int fragmentShader = Shader.loadShader(ShaderType.FragmentShader, ColorPassthrough_frag);
+	        int vertexShader = Shader.compileShader(ShaderType.VertexShader, PosColorLocalTransform_vert);
+	        int fragmentShader = Shader.compileShader(ShaderType.FragmentShader, ColorPassthrough_frag);
 	        theProgram = Shader.createAndLinkProgram(vertexShader, fragmentShader);
 	
 	        positionAttribute = GL.GetAttribLocation(theProgram, "position");

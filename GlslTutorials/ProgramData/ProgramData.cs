@@ -48,8 +48,8 @@ namespace GlslTutorials
 	    {
 			vertexShader = vertexShaderIn;
 			fragmentShader = fragmentShaderIn;
-	        int vertex_shader = Shader.loadShader(ShaderType.VertexShader, vertexShader);
-	        int fragment_shader = Shader.loadShader(ShaderType.FragmentShader, fragmentShader);
+	        int vertex_shader = Shader.compileShader(ShaderType.VertexShader, vertexShader);
+	        int fragment_shader = Shader.compileShader(ShaderType.FragmentShader, fragmentShader);
 	        theProgram  = Shader.createAndLinkProgram(vertex_shader, fragment_shader);
 	
 	        positionAttribute = GL.GetAttribLocation(theProgram, "position");
