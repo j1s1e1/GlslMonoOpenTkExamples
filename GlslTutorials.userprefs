@@ -1,8 +1,14 @@
 ﻿<Properties GitUserInfo="UsingGIT">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="GlslTutorials/Tutorials/Tut_17_DoubleProjection.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="GlslTutorials/Scene/SceneNode.cs">
     <Files>
-      <File FileName="GlslTutorials/Tutorials/Tut_17_DoubleProjection.cs" Line="30" Column="30" />
+      <File FileName="GlslTutorials/Scene/SceneImpl.cs" Line="1" Column="1" />
+      <File FileName="GlslTutorials/GL_Helpers/Shader.cs" Line="1" Column="1" />
+      <File FileName="GlslTutorials/Light/LightEnv.cs" Line="1" Column="1" />
+      <File FileName="GlslTutorials/Scene/SceneTexture.cs" Line="1" Column="1" />
+      <File FileName="GlslTutorials/Scene/SceneNode.cs" Line="4" Column="4" />
+      <File FileName="GlslTutorials/Scene/FrameworkScene.cs" Line="1" Column="1" />
+      <File FileName="GlslTutorials/Tutorials/Tut_17_DoubleProjection.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
@@ -11,8 +17,10 @@
       <Breakpoint file="/home/jamie/repos/CSharp/GlslTutorials/GlslTutorials/Attributes/AttributesClass.cs" line="59" column="1" />
       <Breakpoint file="/home/jamie/repos/CSharp/GlslTutorials/GlslTutorials/Tutorials/Tut_14_Basic_Textures.cs" line="231" column="1" />
       <Breakpoint file="/home/jamie/repos/CSharp/GlslTutorials/GlslTutorials/GL_Helpers/Textures.cs" line="12" column="1" />
-      <Breakpoint file="/home/jamie/repos/CSharp/GlslTutorials/GlslTutorials/GL_Helpers/Shader.cs" line="70" column="1" />
-      <Breakpoint file="/home/jamie/repos/CSharp/GlslTutorials/GlslTutorials/GL_Helpers/Shader.cs" line="33" column="1" />
+      <Breakpoint file="/home/jamie/repos/CSharp/GlslTutorials/GlslTutorials/GL_Helpers/Shader.cs" line="71" column="1" />
+      <Breakpoint file="/home/jamie/repos/CSharp/GlslTutorials/GlslTutorials/GL_Helpers/Shader.cs" line="34" column="1" />
+      <Breakpoint file="/home/jamie/repos/CSharp/GlslTutorials/GlslTutorials/Scene/SceneImpl.cs" line="359" column="1" />
+      <Breakpoint file="/home/jamie/repos/CSharp/GlslTutorials/GlslTutorials/Scene/SceneImpl.cs" line="314" column="1" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />

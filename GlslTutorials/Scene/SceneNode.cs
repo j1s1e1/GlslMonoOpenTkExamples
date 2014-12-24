@@ -8,10 +8,11 @@ namespace GlslTutorials
 	public class SceneNode
 	{
 		public SceneNode(SceneMesh pMesh, SceneProgram pProg, Vector3 nodePos, List<TextureBinding> texBindings)
-		{
+		{ 
 			m_pMesh = pMesh;
 			m_pProg = pProg;
 			m_texBindings = texBindings;
+			m_nodeTm = new Transform();
 			m_nodeTm.m_trans = nodePos;
 		}
 
@@ -64,7 +65,7 @@ namespace GlslTutorials
 			{
 				BindBinder bindBinder = new BindBinder(m_pProg.GetProgram());
 
-				bindBinder.StateBinder(sb);
+				bindBinder.StateBinder(sb); 
 			}
 			for(int texIx = 0; texIx < m_texBindings.Count; ++texIx)
 			{
@@ -115,11 +116,11 @@ namespace GlslTutorials
 		private SceneMesh m_pMesh;		//Unmanaged. We are deleted first, so these should always be real values.
 		private SceneProgram m_pProg;	//Unmanaged. We are deleted first, so these should always be real values.
 
-		private List<StateBinder> m_binders;	//Unmanaged. These live beyond us.
-		private List<TextureBinding> m_texBindings;
+		private List<StateBinder> m_binders = new List<StateBinder>();	//Unmanaged. These live beyond us.
+		private List<TextureBinding> m_texBindings = new List<TextureBinding>();
 
-		private Transform m_nodeTm;
-		private Transform m_objTm;
+		private Transform m_nodeTm = new Transform();
+		private Transform m_objTm = new Transform();
 	}
 
 }

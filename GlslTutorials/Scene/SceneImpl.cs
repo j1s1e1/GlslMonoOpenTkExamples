@@ -25,11 +25,11 @@ namespace GlslTutorials
 		private MeshMap m_meshes = new MeshMap();
 		private TextureMap m_textures = new TextureMap();
 		private  ProgramMap m_progs = new ProgramMap();
-		private NodeMap m_nodes;
+		private NodeMap m_nodes = new NodeMap();
 
-		List<SceneNode> m_rootNodes;
+		List<SceneNode> m_rootNodes = new List<SceneNode>();
 
-		List<int> m_samplers;
+		List<int> m_samplers = new List<int>();
 
 		// To allow reflectoin
 		VertexShaders vertexShaders = new VertexShaders();
@@ -195,7 +195,7 @@ namespace GlslTutorials
 
 			SceneTexture pTexture = new SceneTexture(pFilenameNode, creationFlags);
 
-			m_textures.Add(pFilenameNode, pTexture);
+			m_textures.Add(pNameNode, pTexture);
 		}
 
 		private void ReadPrograms(XmlElement scene)
@@ -348,10 +348,10 @@ namespace GlslTutorials
 						MessageBox.Show("Warning: the sampler " + pNameNode + " could not be found.");
 					}
 
-					//FIXME int textureUnit = rapidxml::attrib_to_int(*pTexunitNode, ThrowAttrib);
-					//FIXME GL.UseProgram(program);
-					//FIXME GL.Uniform1i(samplerLoc, textureUnit);
-					//FIXME GL.UseProgram(0);
+					int textureUnit = int.Parse(pTexunitNode);
+					GL.UseProgram(program);
+					GL.Uniform1(samplerLoc, textureUnit);
+					GL.UseProgram(0);
 				}
 				else
 				{
@@ -372,63 +372,60 @@ namespace GlslTutorials
 
 		private void ReadNode(SceneNode pParent, XmlElement nodeNode)
 		{
-			XmlNodeList pNameNode = nodeNode.GetElementsByTagName("name");
-			XmlNodeList pMeshNode = nodeNode.GetElementsByTagName("prog");
-			XmlNodeList pProgNode = nodeNode.GetElementsByTagName("xml:id");
+			string pNameNode = nodeNode.GetAttribute("name");
+			string pMeshNode = nodeNode.GetAttribute("mesh");
+			string pProgNode = nodeNode.GetAttribute("prog");
 
 			PARSE_THROW(pNameNode, "Node found with no `name` name specified.");
 			PARSE_THROW(pMeshNode, "Node found with no `mesh` name specified.");
 			PARSE_THROW(pProgNode, "Node found with no `prog` name specified.");
 
-			XmlNodeList pPositionNode = nodeNode.GetElementsByTagName("pos");
-			XmlNodeList pOrientNode = nodeNode.GetElementsByTagName("orient");
-			XmlNodeList pScaleNode = nodeNode.GetElementsByTagName("scale");
+			string pPositionNode = nodeNode.GetAttribute("pos");
+			string pOrientNode = nodeNode.GetAttribute("orient");
+			string pScaleNode = nodeNode.GetAttribute("scale");
 
 			PARSE_THROW(pPositionNode, "Node found with no `pos` specified.");
 
-			string name = pNameNode.Item(0).Name;
-			if(m_nodes.Keys.Contains(name))
+			if(m_nodes.Keys.Contains(pNameNode))
 			{
-				MessageBox.Show("The node named " + name + " already exist.");
+				MessageBox.Show("The node named " + pNameNode + " already exist.");
 			}
 				
-			string meshName = pMeshNode.Item(0).Name;
-			if(!m_meshes.Keys.Contains(meshName))
+			if(!m_meshes.Keys.Contains(pMeshNode))
 			{
-				MessageBox.Show("The node named " + name + " references the mesh " + meshName + " which does not exist.");
+				MessageBox.Show("The node named " + pNameNode + " references the mesh " + pMeshNode + " which does not exist.");
+			}
+				
+			if(!m_progs.Keys.Contains(pProgNode))
+			{
+				MessageBox.Show("The node named " + pNameNode + " references the program " + pProgNode + " which does not exist.");
 			}
 
-			string progName = pProgNode.Item(0).Name;
-			if(!m_progs.Keys.Contains(progName))
-			{
-				MessageBox.Show("The node named " + name + " references the program " + progName + " which does not exist.");
-			}
+			Vector3 nodePos = ParseVec3(pPositionNode);
 
-			Vector3 nodePos = ParseVec3(pPositionNode.Item(0).Name);
+			SceneNode pNode = new SceneNode(m_meshes[pMeshNode], m_progs[pProgNode], nodePos, ReadNodeTextures(nodeNode));
+			m_nodes[pNameNode] = pNode;
 
-			//FIXME SceneNode pNode = new SceneNode(meshIt.second, progIt.second, nodePos,
-			//FIXME 	ReadNodeTextures(nodeNode));
+			//parent/child nodes.
+			if(pParent == null)
+				m_rootNodes.Add(pNode);
 
-			//TODO: parent/child nodes.
-			//FIXMEif(pParent == null)
-			//FIXME	m_rootNodes.Add(pNode);
-
-			//FIXME if(pOrientNode != null)
-			//FIXME 	pNode.SetNodeOrient(rapidxml::attrib_to_quat(pOrientNode, ThrowAttrib));
-
-			/* FIXME 
+			if(pOrientNode != null)
+				pNode.SetNodeOrient(ParseQuaternion(pOrientNode));
+				
 			if(pScaleNode != null)
 			{
-				if(rapidxml::attrib_is_vec3(*pScaleNode))
-					pNode.SetNodeScale(rapidxml::attrib_to_vec3(pScaleNode, ThrowAttrib));
-				else
+				try
 				{
-					float unifScale = rapidxml::attrib_to_float(pScaleNode, ThrowAttrib);
-					pNode.SetNodeScale(Vector3(unifScale));
+					Vector3 result = ParseVec3(pScaleNode);
+					pNode.SetNodeScale(result);
+				}
+				catch 
+				{
+					float unifScale = float.Parse(pScaleNode);
+					pNode.SetNodeScale(new Vector3(unifScale));
 				}
 			}
-			*/
-
 			ReadNodeNotes(nodeNode);
 		}
 
@@ -450,30 +447,28 @@ namespace GlslTutorials
 			XmlNodeList xnl = nodeNode.GetElementsByTagName("texture");
 			foreach(XmlNode texNode in xnl)
 			{
-				XmlNodeList pNameNode = nodeNode.GetElementsByTagName("name");
-				XmlNodeList pUnitName = nodeNode.GetElementsByTagName("unit");
-				XmlNodeList pSamplerName = nodeNode.GetElementsByTagName("sampler");
+				string pNameNode = ((XmlElement)texNode).GetAttribute("name");
+				string pUnitName = ((XmlElement)texNode).GetAttribute("unit");
+				string pSamplerName = ((XmlElement)texNode).GetAttribute("sampler");
 
 				PARSE_THROW(pNameNode, "Textures on nodes must have a `name` attribute.");
 				PARSE_THROW(pUnitName, "Textures on nodes must have a `unit` attribute.");
 				PARSE_THROW(pSamplerName, "Textures on nodes must have a `sampler` attribute.");
 
-				string textureName = pNameNode.Item(0).Name;
-
-				if(!m_textures.Keys.Contains(textureName))
+				if(!m_textures.Keys.Contains(pNameNode))
 				{
-					MessageBox.Show("The node texture named " + textureName + "  is a texture which does not exist.");
+					MessageBox.Show("The node texture named " + pNameNode + "  is a texture which does not exist.");
 				}
 
 				TextureBinding binding = new TextureBinding();
 
-				binding.pTex = m_textures[textureName];
-				binding.texUnit = int.Parse(pUnitName.Item(0).Name);
-				binding.sampler = GetTypeFromName(pSamplerName[0].Name);
+				binding.pTex = m_textures[pNameNode];
+				binding.texUnit = int.Parse(pUnitName);
+				binding.sampler = GetTypeFromName(pSamplerName);
 
 				if(texUnits.Contains(binding.texUnit))
 				{
-					MessageBox.Show("Multiply bound texture unit in node texture " + textureName);
+					MessageBox.Show("Multiply bound texture unit in node texture " + pNameNode);
 				}
 				texBindings.Add(binding);
 
@@ -487,7 +482,10 @@ namespace GlslTutorials
 		{
 			int[] samplerArray = new int[(int)SamplerTypes.MAX_SAMPLERS];
 			GL.GenSamplers((int)SamplerTypes.MAX_SAMPLERS, samplerArray);
-			samplers = samplerArray.ToList();
+			foreach (int i in samplerArray)
+			{
+				samplers.Add(i);
+			}
 
 			//Always repeat.
 			for(int samplerIx = 0; samplerIx < (int)SamplerTypes.MAX_SAMPLERS; samplerIx++)
@@ -558,6 +556,13 @@ namespace GlslTutorials
 		{
 			List<float> newFloats = strVec3.Split(' ').Select(s => Convert.ToSingle(s)).ToList();
 			Vector3 ret = new Vector3(newFloats[0], newFloats[1], newFloats[2]);
+			return ret;
+		}
+
+		Quaternion ParseQuaternion(string strQuaternion)
+		{
+			List<float> newFloats = strQuaternion.Split(' ').Select(s => Convert.ToSingle(s)).ToList();
+			Quaternion ret = new Quaternion(newFloats[0], newFloats[1], newFloats[2], newFloats[3]);
 			return ret;
 		}
 	};

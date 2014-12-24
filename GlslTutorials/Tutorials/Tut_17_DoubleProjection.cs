@@ -57,13 +57,13 @@ namespace GlslTutorials
 		ViewPole g_persViewPole = new ViewPole(g_initPersView, g_initPersViewScale, MouseButtons.MB_RIGHT_BTN);
 
 
-		Scene g_pScene = null;
+		FrameworkScene g_pScene = null;
 
 		List<NodeRef> g_nodes = new List<NodeRef>();
 		FrameworkTimer g_timer = new FrameworkTimer(FrameworkTimer.Type.TT_LOOP, 10.0f);
 
-		// FIXME Framework::UniformIntBinder g_lightNumBinder;
-		// FIXME Framework::TextureBinder g_stoneTexBinder;
+		UniformIntBinder g_lightNumBinder;
+		TextureBinder g_stoneTexBinder;
 
 		int g_unlitModelToCameraMatrixUnif;
 		int g_unlitCameraToClipMatrixUnif;
@@ -82,28 +82,23 @@ namespace GlslTutorials
 			nodes.Add(pScene.FindNode("rightBar"));
 			nodes.Add(pScene.FindNode("leaningBar"));
 			nodes.Add(pScene.FindNode("spinBar"));
-/* FIXME
+			g_lightNumBinder = new UniformIntBinder();
 			AssociateUniformWithNodes(nodes, g_lightNumBinder, "numberOfLights");
 			SetStateBinderWithNodes(nodes, g_lightNumBinder);
 
-			GLuint unlit = pScene->FindProgram("p_unlit");
-			Framework::Mesh *pSphereMesh = pScene->FindMesh("m_sphere");
+ 			int unlit = pScene.FindProgram("p_unlit");
+			Mesh pSphereMesh = pScene.FindMesh("m_sphere");
 
 			//No more things that can throw.
 			g_spinBarOrient = nodes[3].NodeGetOrient();
 			g_unlitProg = unlit;
-			g_unlitModelToCameraMatrixUnif = glGetUniformLocation(unlit, "modelToCameraMatrix");
-			g_unlitObjectColorUnif = glGetUniformLocation(unlit, "objectColor");
+			g_unlitModelToCameraMatrixUnif = GL.GetUniformLocation(unlit, "modelToCameraMatrix");
+			g_unlitObjectColorUnif = GL.GetUniformLocation(unlit, "objectColor");
 
-			std::swap(nodes, g_nodes);
-			nodes.clear();	//If something was there already, delete it.
+			g_nodes = nodes;
+			g_pSphereMesh = pSphereMesh;
 
-			std::swap(pSphereMesh, g_pSphereMesh);
-
-			Framework::Scene *pOldScene = g_pScene;
-			g_pScene = pScene.release();
-			pScene.reset(pOldScene);	//If something was there already, delete it.
-			*/
+			g_pScene = pScene;
 		}
 
 		struct PerLight
@@ -173,13 +168,18 @@ namespace GlslTutorials
 
 			BuildLights(modelMatrix.Top());
 
-			/* FIXME
+			// added fake default
+			g_nodes[0].NodeSetOrient(new Quaternion());
+			g_nodes[3].NodeSetOrient(new Quaternion());
+
+			/* FIXME  
 			g_nodes[0].NodeSetOrient(glm::rotate(glm::fquat(),
 				360.0f * g_timer.GetAlpha(), glm::vec3(0.0f, 1.0f, 0.0f)));
 
 			g_nodes[3].NodeSetOrient(g_spinBarOrient * glm::rotate(glm::fquat(),
 				360.0f * g_timer.GetAlpha(), glm::vec3(0.0f, 0.0f, 1.0f)));
 				*/
+
 			{
 				MatrixStack persMatrix = new MatrixStack();
 				persMatrix.Perspective(60.0f, (width / height), g_fzNear, g_fzFar);
@@ -193,7 +193,7 @@ namespace GlslTutorials
 			}
 
 			GL.Viewport(0, 0, width, height);
-			// FIXME g_pScene.Render(modelMatrix.Top());
+			g_pScene.Render(modelMatrix.Top());
 
 			if(g_bDrawCameraPos)
 			{
@@ -279,6 +279,24 @@ namespace GlslTutorials
 			g_viewPole.CharPress((char)keyCode);
 			return result.ToString();
 		}
+
+		void AssociateUniformWithNodes(List<NodeRef> nodes, UniformIntBinder binder, string unifName)
+		{
+			foreach (NodeRef nr in nodes)
+			{
+				binder.AssociateWithProgram(nr.GetProgram(), unifName);
+			}
+		}
+
+		void SetStateBinderWithNodes(List<NodeRef> nodes, StateBinder binder)
+		{
+			foreach (NodeRef nr in nodes)
+			{
+				nr.SetStateBinder(binder);
+			}
+		}
+
+
 	}
 }
 

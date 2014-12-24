@@ -187,6 +187,9 @@
     <Compile Include="Scene\SamplerTypes.cs" />
     <Compile Include="Scene\BindBinder.cs" />
     <Compile Include="Scene\UnbindBinder.cs" />
+    <Compile Include="Scene\UniformIntBinder.cs" />
+    <Compile Include="Scene\TextureBinder.cs" />
+    <Compile Include="Scene\UniformBinderBase.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
