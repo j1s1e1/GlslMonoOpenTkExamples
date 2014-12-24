@@ -69,6 +69,10 @@ namespace GlslTutorials
 		int g_unlitCameraToClipMatrixUnif;
 		int g_unlitObjectColorUnif;
 		int g_unlitProg;
+
+		int g_litCameraToClipMatrixUnif;
+		int g_litProg;
+
 		Mesh g_pSphereMesh;
 		Quaternion g_spinBarOrient;
 
@@ -87,13 +91,19 @@ namespace GlslTutorials
 			SetStateBinderWithNodes(nodes, g_lightNumBinder);
 
  			int unlit = pScene.FindProgram("p_unlit");
+			int lit = pScene.FindProgram("p_lit");
 			Mesh pSphereMesh = pScene.FindMesh("m_sphere");
 
 			//No more things that can throw.
 			g_spinBarOrient = nodes[3].NodeGetOrient();
+
 			g_unlitProg = unlit;
 			g_unlitModelToCameraMatrixUnif = GL.GetUniformLocation(unlit, "modelToCameraMatrix");
+			g_unlitCameraToClipMatrixUnif  = GL.GetUniformLocation(unlit, "cameraToClipMatrix");
 			g_unlitObjectColorUnif = GL.GetUniformLocation(unlit, "objectColor");
+
+			g_litProg = lit;
+			g_litCameraToClipMatrixUnif  = GL.GetUniformLocation(lit, "cameraToClipMatrix");
 
 			g_nodes = nodes;
 			g_pSphereMesh = pSphereMesh;
@@ -127,7 +137,7 @@ namespace GlslTutorials
 			
 		int g_currSampler = 0;
 
-		bool g_bDrawCameraPos = false;
+		bool g_bDrawCameraPos = true;
 		bool g_bDepthClampProj = true;
 
 		int g_displayWidth = 700;
@@ -135,7 +145,7 @@ namespace GlslTutorials
 
 		void BuildLights(Matrix4 camMatrix )
 		{
-			LightBlock lightData = new LightBlock();
+			LightBlock lightData = new LightBlock(4);
 			lightData.ambientIntensity = new Vector4(0.2f, 0.2f, 0.2f, 1.0f);
 			lightData.lightAttenuation = 1.0f / (5.0f * 5.0f);
 			lightData.maxIntensity = 3.0f;
@@ -146,10 +156,17 @@ namespace GlslTutorials
 			lightData.lights[1].cameraSpaceLightPos = 
 				Vector4.Transform(new Vector4(5.0f, 6.0f, 0.5f, 1.0f), camMatrix);
 
-			// FIXME g_lightNumBinder.SetValue(2);
+			g_lightNumBinder.SetValue(2);
 
 			// FIXME glBindBuffer(GL_UNIFORM_BUFFER, g_lightUniformBuffer);
 			// FIXME glBufferData(GL_UNIFORM_BUFFER, sizeof(LightBlock), &lightData, GL_STREAM_DRAW);
+
+			// Update in used programs
+			lightData.SetUniforms(g_unlitProg);
+			lightData.UpdateInternal();
+
+			lightData.SetUniforms(g_pScene.FindProgram("p_lit"));
+			lightData.UpdateInternal();
 		}
 
 		public override void display()
@@ -165,6 +182,7 @@ namespace GlslTutorials
 
 			MatrixStack modelMatrix = new MatrixStack();
 			modelMatrix.ApplyMatrix(g_viewPole.CalcMatrix());
+
 
 			BuildLights(modelMatrix.Top());
 
@@ -189,6 +207,10 @@ namespace GlslTutorials
 
 				GL.UseProgram(g_unlitProg);
 				GL.UniformMatrix4(g_unlitCameraToClipMatrixUnif, false, ref projData.cameraToClipMatrix);
+				GL.UseProgram(0);
+
+				GL.UseProgram(g_pScene.FindProgram("p_lit"));
+				GL.UniformMatrix4(g_litCameraToClipMatrixUnif, false, ref projData.cameraToClipMatrix);
 				GL.UseProgram(0);
 			}
 
@@ -232,12 +254,16 @@ namespace GlslTutorials
 				GL.UniformMatrix4(g_unlitCameraToClipMatrixUnif, false, ref projData.cameraToClipMatrix);
 				GL.UseProgram(0);
 
+				GL.UseProgram(g_pScene.FindProgram("p_lit"));
+				GL.UniformMatrix4(g_litCameraToClipMatrixUnif, false, ref projData.cameraToClipMatrix);
+				GL.UseProgram(0);
+
 			}
 
 			if(!g_bDepthClampProj)
 				GL.Disable(EnableCap.DepthClamp);
 			GL.Viewport(width + (width % 2), 0, width, height);
-			// FIXME g_pScene.Render(modelMatrix.Top());
+			g_pScene.Render(modelMatrix.Top());
 			GL.Enable(EnableCap.DepthClamp);
 		}
 
@@ -295,8 +321,6 @@ namespace GlslTutorials
 				nr.SetStateBinder(binder);
 			}
 		}
-
-
 	}
 }
 

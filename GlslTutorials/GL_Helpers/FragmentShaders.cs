@@ -1271,9 +1271,10 @@ namespace GlslTutorials
 			"}" +
 
 			"gl_FragColor = accumLighting / Lgt.maxIntensity;" +
+			"gl_FragColor = diffuseColor;" +
+			"gl_FragColor = vec4(colorCoord, 0.0, 1.0);" +
 		"}";
-
-
+			
 	}
 }
 

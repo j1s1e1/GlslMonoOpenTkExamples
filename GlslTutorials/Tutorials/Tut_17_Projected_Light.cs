@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Windows.Forms;
@@ -126,42 +127,43 @@ namespace GlslTutorials
 
 
 
-		Scene g_pScene;
-		// FIXME std::vector<Framework::NodeRef> g_nodes;
+		FrameworkScene g_pScene;
+		List<NodeRef> g_nodes;
 		FrameworkTimer g_timer = new FrameworkTimer(FrameworkTimer.Type.TT_LOOP, 10.0f);
 
-		// FIXME Framework::UniformIntBinder g_lightNumBinder;
-		// FIXME Framework::TextureBinder g_stoneTexBinder;
-		// FIXME Framework::UniformMat4Binder g_lightProjMatBinder;
-		// FIXME Framework::UniformVec3Binder g_camLightPosBinder;
+		UniformIntBinder g_lightNumBinder;
+		TextureBinder g_stoneTexBinder;
+		UniformMat4Binder g_lightProjMatBinder;
+		UniformVec3Binder g_camLightPosBinder;
 
 		Quaternion g_spinBarOrient;
 
 		int g_unlitModelToCameraMatrixUnif;
 		int g_unlitCameraToClipMatrixUnif;
 		int g_unlitObjectColorUnif;
-		uint g_unlitProg;
+		int g_unlitProg;
 		Mesh g_pSphereMesh;
 
 		int g_coloredModelToCameraMatrixUnif;
 		int g_coloredCameraToClipMatrixUnif;
-		uint g_colroedProg;
+		int g_colroedProg;
 		Mesh g_pAxesMesh;
 
 
 		void LoadAndSetupScene()
 		{
-			/*
-			Scene pScene = new Scene("proj2d_scene.xml");
 
-			std::vector<Framework::NodeRef> nodes;
-			nodes.push_back(pScene->FindNode("cube"));
-			nodes.push_back(pScene->FindNode("rightBar"));
-			nodes.push_back(pScene->FindNode("leaningBar"));
-			nodes.push_back(pScene->FindNode("spinBar"));
-			nodes.push_back(pScene->FindNode("diorama"));
-			nodes.push_back(pScene->FindNode("floor"));
+			FrameworkScene pScene = new FrameworkScene("proj2d_scene.xml");
 
+			List<NodeRef> nodes = new List<NodeRef>();
+			nodes.Add(pScene.FindNode("cube"));
+			nodes.Add(pScene.FindNode("rightBar"));
+			nodes.Add(pScene.FindNode("leaningBar"));
+			nodes.Add(pScene.FindNode("spinBar"));
+			nodes.Add(pScene.FindNode("diorama"));
+			nodes.Add(pScene.FindNode("floor"));
+
+			g_lightNumBinder = new UniformIntBinder();
 			AssociateUniformWithNodes(nodes, g_lightNumBinder, "numberOfLights");
 			SetStateBinderWithNodes(nodes, g_lightNumBinder);
 			AssociateUniformWithNodes(nodes, g_lightProjMatBinder, "cameraToLightProjMatrix");
@@ -169,31 +171,26 @@ namespace GlslTutorials
 			AssociateUniformWithNodes(nodes, g_camLightPosBinder, "cameraSpaceProjLightPos");
 			SetStateBinderWithNodes(nodes, g_camLightPosBinder);
 
-			GLuint unlit = pScene->FindProgram("p_unlit");
-			Framework::Mesh *pSphereMesh = pScene->FindMesh("m_sphere");
+			int unlit = pScene.FindProgram("p_unlit");
+			Mesh pSphereMesh = pScene.FindMesh("m_sphere");
 
-			GLuint colored = pScene->FindProgram("p_colored");
-			Framework::Mesh *pAxesMesh = pScene->FindMesh("m_axes");
+			int colored = pScene.FindProgram("p_colored");
+			Mesh pAxesMesh = pScene.FindMesh("m_axes");
 
 			//No more things that can throw.
 			g_spinBarOrient = nodes[3].NodeGetOrient();
 			g_unlitProg = unlit;
-			g_unlitModelToCameraMatrixUnif = glGetUniformLocation(unlit, "modelToCameraMatrix");
-			g_unlitObjectColorUnif = glGetUniformLocation(unlit, "objectColor");
+			g_unlitModelToCameraMatrixUnif = GL.GetUniformLocation(unlit, "modelToCameraMatrix");
+			g_unlitObjectColorUnif = GL.GetUniformLocation(unlit, "objectColor");
 
 			g_colroedProg = colored;
-			g_coloredModelToCameraMatrixUnif = glGetUniformLocation(colored, "modelToCameraMatrix");
+			g_coloredModelToCameraMatrixUnif = GL.GetUniformLocation(colored, "modelToCameraMatrix");
 
-			std::swap(nodes, g_nodes);
-			nodes.clear();	//If something was there already, delete it.
+			g_nodes = nodes;
 
-			std::swap(pSphereMesh, g_pSphereMesh);
-			std::swap(pAxesMesh, g_pAxesMesh);
+			g_pSphereMesh = pSphereMesh;
 
-			Framework::Scene *pOldScene = g_pScene;
-			g_pScene = pScene.release();
-			pScene.reset(pOldScene);	//If something was there already, delete it.
-			*/
+			g_pScene = pScene;
 		}
 
 		const int MAX_NUMBER_OF_LIGHTS = 4;
@@ -424,6 +421,22 @@ namespace GlslTutorials
 			g_viewPole.CharPress((char)keyCode);
 			g_lightViewPole.CharPress((char)keyCode);
 			return result.ToString();
+		}
+
+		void AssociateUniformWithNodes(List<NodeRef> nodes, UniformBinderBase binder, string unifName)
+		{
+			foreach (NodeRef nr in nodes)
+			{
+				binder.AssociateWithProgram(nr.GetProgram(), unifName);
+			}
+		}
+
+		void SetStateBinderWithNodes(List<NodeRef> nodes, StateBinder binder)
+		{
+			foreach (NodeRef nr in nodes)
+			{
+				nr.SetStateBinder(binder);
+			}
 		}
 	}
 }

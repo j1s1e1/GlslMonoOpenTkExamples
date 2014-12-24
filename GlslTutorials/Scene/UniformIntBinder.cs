@@ -10,7 +10,7 @@ namespace GlslTutorials
 			m_val = 0;
 		}
 
-		void SetValue(int val)
+		public void SetValue(int val)
 		{ 
 			m_val = val;
 		}

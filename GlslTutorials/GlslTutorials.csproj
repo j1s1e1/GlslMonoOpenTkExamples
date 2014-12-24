@@ -190,6 +190,8 @@
     <Compile Include="Scene\UniformIntBinder.cs" />
     <Compile Include="Scene\TextureBinder.cs" />
     <Compile Include="Scene\UniformBinderBase.cs" />
+    <Compile Include="Scene\UniformMat4Binder.cs" />
+    <Compile Include="Scene\UniformVec3Binder.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
