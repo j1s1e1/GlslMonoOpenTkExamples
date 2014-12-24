@@ -77,8 +77,7 @@ namespace GlslTutorials
 			{
 				for(int tex = 0; tex < NUM_LIGHT_TEXTURES; ++tex)
 				{
-					g_lightTextures[tex] = Textures.CreateMipMapTexture(g_texDefs[tex].fileName, 6);
-					// look for sets don't create mipmap
+					g_lightTextures[tex] = Textures.Load(g_texDefs[tex].fileName, 1);
 				}
 			}
 			catch(Exception ex)
@@ -217,6 +216,7 @@ namespace GlslTutorials
 			{
 				MessageBox.Show("Error loading scene " + ex.ToString());
 			}
+			reshape();
 		}
 			
 		int g_currSampler = 0;
@@ -363,15 +363,6 @@ namespace GlslTutorials
 			GL.BindSampler(g_lightProjTexUnit, 0);
 		}
 
-		//Called whenever the window is resized. The new window size is given, in pixels.
-		//This is an opportunity to call glViewport or glScissor to keep up with the change in size.
-		void reshape (int w, int h)
-		{
-			g_displayWidth = w;
-			g_displayHeight = h;
-		}
-
-
 		public override String keyboard(Keys keyCode, int x, int y)
 		{
 			StringBuilder result = new StringBuilder();
@@ -396,7 +387,7 @@ namespace GlslTutorials
 			case Keys.P:
 				g_timer.TogglePause();
 				break;
-			case Keys.R: //Enter key.
+			case Keys.Enter: //Enter key.
 				{
 					try
 					{

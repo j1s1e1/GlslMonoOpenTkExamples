@@ -165,7 +165,7 @@ namespace GlslTutorials
 				string XmlFilesDirectory = GlsTutorialsClass.ProjectDirectory + @"/XmlFilesForMeshes";
 	            Stream UnitCubeColor =  File.OpenRead(XmlFilesDirectory + @"/unitcubecolor.xml");
 				g_pCubeColorMesh = new Mesh(UnitCubeColor);
-	            Stream UnitCylinder =File.OpenRead(XmlFilesDirectory + @"/unitcylinder.xml");
+	            Stream UnitCylinder = File.OpenRead(XmlFilesDirectory + @"/unitcylinder.xml");
 	            g_pCylinderMesh = new Mesh(UnitCylinder);
 				
 				Stream unitplane = File.OpenRead(XmlFilesDirectory + @"/unitplane.xml");

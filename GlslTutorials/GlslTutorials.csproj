@@ -173,6 +173,20 @@
     <Compile Include="GL_Helpers\ShaderNames.cs" />
     <Compile Include="Tutorials\Tut_15_ManyImages.cs" />
     <Compile Include="Tutorials\Tut_17_Projected_Light.cs" />
+    <Compile Include="Tutorials\Tut_17_DoubleProjection.cs" />
+    <Compile Include="Scene\SceneMesh.cs" />
+    <Compile Include="Scene\SceneTexture.cs" />
+    <Compile Include="Scene\FrameworkScene.cs" />
+    <Compile Include="Scene\SceneImpl.cs" />
+    <Compile Include="Scene\SceneProgram.cs" />
+    <Compile Include="Scene\SceneNode.cs" />
+    <Compile Include="Scene\NodeRef.cs" />
+    <Compile Include="Scene\TextureBinding.cs" />
+    <Compile Include="Scene\StateBinder.cs" />
+    <Compile Include="Scene\Transform.cs" />
+    <Compile Include="Scene\SamplerTypes.cs" />
+    <Compile Include="Scene\BindBinder.cs" />
+    <Compile Include="Scene\UnbindBinder.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
