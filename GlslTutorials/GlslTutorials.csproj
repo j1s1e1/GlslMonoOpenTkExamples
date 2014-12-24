@@ -265,5 +265,6 @@
     <None Include="XmlFilesForMeshes\unittetrahedron.xml" />
     <None Include="XmlFilesForMeshes\bigplane.xml" />
     <None Include="XmlFilesForMeshes\corridor.xml" />
+    <None Include="XmlFilesForMeshes\dp_scene.xml" />
   </ItemGroup>
 </Project>

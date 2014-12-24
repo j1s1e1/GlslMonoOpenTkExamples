@@ -6,25 +6,10 @@ namespace GlslTutorials
 {
 	public class SceneTexture
 	{
-		public SceneTexture(Stream filename, uint creationFlags)
+		public SceneTexture(string fileName, uint creationFlags)
 		{
-			/* FIXME
-			string pathname(Framework::FindFileOrThrow(filename));
-
-			std::auto_ptr<glimg::ImageSet> pImageSet;
-			string ext = GetExtension(pathname);
-			if(ext == "dds")
-			{
-				pImageSet.reset(glimg::loaders::dds::LoadFromFile(pathname.c_str()));
-			}
-			else
-			{
-				pImageSet.reset(glimg::loaders::stb::LoadFromFile(pathname.c_str()));
-			}
-
-			m_texObj = glimg::CreateTexture(pImageSet.get(), creationFlags);
-			m_texType = glimg::GetTextureType(pImageSet.get(), creationFlags);
-			*/
+			m_texObj = Textures.Load(fileName, 1);  //FIXME add options
+			m_texType = TextureTarget.Texture2D;
 		}
 
 		~SceneTexture()

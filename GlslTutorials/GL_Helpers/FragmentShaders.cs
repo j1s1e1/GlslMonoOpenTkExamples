@@ -1197,6 +1197,83 @@ namespace GlslTutorials
 			"gl_FragColor = texture2D(colorTexture, colorCoord);" +
 		"}";
 
+		public static String unlit =
+
+		"uniform vec4 objectColor;" +
+
+		"void main()" +
+		"{" +
+			"gl_FragColor = objectColor;" +
+		"}";
+
+		private static String VariableLightStructureUniform = 
+			"struct PerLight" +
+			"{" +
+			"vec4 cameraSpaceLightPos;" +
+			"vec4 lightIntensity;" +
+			"};" +
+
+			"uniform int numberOfLights;" +
+
+			"struct Light" +
+			"{" +
+			"vec4 ambientIntensity;" +
+			"float lightAttenuation;" +
+			"float maxIntensity;" +
+			"PerLight lights[4];" +
+			"};" +
+
+			"uniform Light Lgt;";
+
+		public static String littexture = 
+		"varying vec2 colorCoord;" +
+		"varying vec3 cameraSpacePosition;" +
+		"varying vec3 cameraSpaceNormal;" +
+ 
+		VariableLightStructureUniform +
+
+		CalcAttenuation + 
+
+		"vec4 ComputeLighting(in vec4 diffuseColor, in PerLight lightData)" +
+		"{" +
+			"vec3 lightDir;" +
+			"vec4 lightIntensity;" +
+			"if(lightData.cameraSpaceLightPos.w == 0.0)" +
+			"{" +
+				"lightDir = vec3(lightData.cameraSpaceLightPos);" +
+				"lightIntensity = lightData.lightIntensity;" +
+			"}" +
+			"else" +
+			"{" +
+				"float atten = CalcAttenuation(cameraSpacePosition, lightData.cameraSpaceLightPos.xyz, lightDir);" +
+				"lightIntensity = atten * lightData.lightIntensity;" +
+			"}" +
+
+			"vec3 surfaceNormal = normalize(cameraSpaceNormal);" +
+			"float cosAngIncidence = dot(surfaceNormal, lightDir);" +
+			"cosAngIncidence = cosAngIncidence < 0.0001 ? 0.0 : cosAngIncidence;" +
+
+			"vec4 lighting = diffuseColor * lightIntensity * cosAngIncidence;" +
+
+			"return lighting;" +
+		"}" +
+
+		"uniform sampler2D diffuseColorTex;" +
+
+		"void main()" +
+		"{" +
+			"vec4 diffuseColor = texture2D(diffuseColorTex, colorCoord);" +
+
+			"vec4 accumLighting = diffuseColor * Lgt.ambientIntensity;" +
+			"for(int light = 0; light < numberOfLights; light++)" +
+			"{" +
+				"accumLighting += ComputeLighting(diffuseColor, Lgt.lights[light]);" +
+			"}" +
+
+			"gl_FragColor = accumLighting / Lgt.maxIntensity;" +
+		"}";
+
+
 	}
 }
 

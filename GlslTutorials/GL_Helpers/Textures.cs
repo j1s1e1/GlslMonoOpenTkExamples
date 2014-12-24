@@ -11,10 +11,10 @@ namespace GlslTutorials
 		{
 		}
 		
-		public static int Load(string path, int quality = 0, bool repeat = true, bool flip_y = false, bool oneTwenty = false)
+		public static int Load(string fileName, int quality = 0, bool repeat = true, bool flip_y = false, bool oneTwenty = false)
 		{
 			string textureFilesDirectory = GlsTutorialsClass.ProjectDirectory + @"/Textures";
-		    Bitmap bitmap = new Bitmap(textureFilesDirectory + "//" +path);
+			Bitmap bitmap = new Bitmap(textureFilesDirectory + "//" + fileName);
 		
 			// Add 10% on each side for sphere mapping
 			if (oneTwenty)

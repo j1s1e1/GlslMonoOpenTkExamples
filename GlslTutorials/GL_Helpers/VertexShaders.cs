@@ -533,6 +533,42 @@ namespace GlslTutorials
 			"gl_Position = cameraToClipMatrix * (modelToCameraMatrix * vec4(position, 1.0));" +
 			"colorCoord = texCoord;" +
 		"}";
+
+		public static String unlit =
+		"attribute vec3 position;" +
+
+		"uniform mat4 cameraToClipMatrix;" +
+
+		"uniform mat4 modelToCameraMatrix;" +
+
+		"void main()" +
+		"{" +
+			"gl_Position = cameraToClipMatrix * (modelToCameraMatrix * vec4(position, 1.0));" +
+		"}";
+
+		public static String littexture =
+
+		"attribute vec3 position;" +
+		"attribute vec3 normal;" +
+		"attribute vec2 texCoord;" +
+
+		"varying vec2 colorCoord;" +
+		"varying vec3 cameraSpacePosition;" +
+		"varying vec3 cameraSpaceNormal;" +
+
+		"uniform mat4 cameraToClipMatrix;" +
+
+		"uniform mat4 modelToCameraMatrix;" +
+		"uniform mat3 normalModelToCameraMatrix;" +
+
+		"void main()" +
+		"{" +
+			"cameraSpacePosition = (modelToCameraMatrix * vec4(position, 1.0)).xyz;" +
+			"gl_Position = cameraToClipMatrix * vec4(cameraSpacePosition, 1.0);" +
+			"cameraSpaceNormal = normalize(normalModelToCameraMatrix * normal);" +
+
+			"colorCoord = texCoord;" +
+		"}";
 		
 	}
 }

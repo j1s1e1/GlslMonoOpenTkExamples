@@ -1,13 +1,8 @@
 ﻿<Properties GitUserInfo="UsingGIT">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="GlslTutorials/Scene/SceneImpl.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="GlslTutorials/Tutorials/Tut_17_DoubleProjection.cs">
     <Files>
       <File FileName="GlslTutorials/Tutorials/Tut_17_DoubleProjection.cs" Line="30" Column="30" />
-      <File FileName="GlslTutorials/Scene/SceneMesh.cs" Line="17" Column="17" />
-      <File FileName="GlslTutorials/Mesh/Mesh.cs" Line="14" Column="14" />
-      <File FileName="GlslTutorials/Scene/FrameworkScene.cs" Line="18" Column="18" />
-      <File FileName="GlslTutorials/Scene/SceneImpl.cs" Line="4" Column="4" />
-      <File FileName="GlslTutorials/Scene/SceneProgram.cs" Line="4" Column="4" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

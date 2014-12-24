@@ -1,5 +1,6 @@
 using OpenTK.Graphics.OpenGL;
 using System;
+using System.Collections.Generic;
 using System.Windows.Forms;
 
 namespace GlslTutorials
@@ -121,6 +122,37 @@ namespace GlslTutorials
 	
 	        return programHandle;
 	    }
+
+		public static int LinkProgram(List<int> shaderHandles)
+		{
+			int programHandle = GL.CreateProgram();
+
+			if (programHandle != 0)
+			{
+				// Bind the shaders to the program.
+				foreach (int handle in shaderHandles)
+				{
+					GL.AttachShader(programHandle, handle);
+				}
+					
+				// Link the two shaders together into a program.
+				GL.LinkProgram(programHandle);
+
+				// Get the link status.
+				int[] linkStatus = new int[1];
+				GL.GetProgram(programHandle, ProgramParameter.LinkStatus, linkStatus);
+
+				// If the link failed, delete the program.
+				if (linkStatus[0] == 0)
+				{
+					String errorInfo = GL.GetProgramInfoLog(programHandle);
+					MessageBox.Show("Error compiling program: " + errorInfo);
+					GL.DeleteProgram(programHandle);
+					programHandle = 0;
+				}
+			}
+			return programHandle;
+		}
 
 	}
 }

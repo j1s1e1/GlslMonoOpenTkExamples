@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Windows.Forms;
@@ -58,7 +59,7 @@ namespace GlslTutorials
 
 		Scene g_pScene = null;
 
-		// FIXME std::vector<Framework::NodeRef> g_nodes;
+		List<NodeRef> g_nodes = new List<NodeRef>();
 		FrameworkTimer g_timer = new FrameworkTimer(FrameworkTimer.Type.TT_LOOP, 10.0f);
 
 		// FIXME Framework::UniformIntBinder g_lightNumBinder;
@@ -73,15 +74,15 @@ namespace GlslTutorials
 
 		void LoadAndSetupScene()
 		{
-			/* FIXME
-			std::auto_ptr<Framework::Scene> pScene(new Framework::Scene("dp_scene.xml"));
 
-			std::vector<Framework::NodeRef> nodes;
-			nodes.push_back(pScene->FindNode("cube"));
-			nodes.push_back(pScene->FindNode("rightBar"));
-			nodes.push_back(pScene->FindNode("leaningBar"));
-			nodes.push_back(pScene->FindNode("spinBar"));
+			FrameworkScene pScene = new FrameworkScene("dp_scene.xml");
 
+			List<NodeRef> nodes = new List<NodeRef>();
+			nodes.Add(pScene.FindNode("cube"));
+			nodes.Add(pScene.FindNode("rightBar"));
+			nodes.Add(pScene.FindNode("leaningBar"));
+			nodes.Add(pScene.FindNode("spinBar"));
+/* FIXME
 			AssociateUniformWithNodes(nodes, g_lightNumBinder, "numberOfLights");
 			SetStateBinderWithNodes(nodes, g_lightNumBinder);
 

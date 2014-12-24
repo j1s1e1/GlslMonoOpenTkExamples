@@ -22,14 +22,18 @@ namespace GlslTutorials
 	class SceneImpl
 	{
 		uint FORCE_SRGB_COLORSPACE_FMT = 1;
-		private MeshMap m_meshes;
-		private TextureMap m_textures;
-		private  ProgramMap m_progs;
+		private MeshMap m_meshes = new MeshMap();
+		private TextureMap m_textures = new TextureMap();
+		private  ProgramMap m_progs = new ProgramMap();
 		private NodeMap m_nodes;
 
 		List<SceneNode> m_rootNodes;
 
 		List<int> m_samplers;
+
+		// To allow reflectoin
+		VertexShaders vertexShaders = new VertexShaders();
+		FragmentShaders fragmentShaders = new FragmentShaders();
 
 		public SceneImpl(string filename)
 		{
@@ -41,7 +45,7 @@ namespace GlslTutorials
 
 			XmlElement pSceneNode = doc.DocumentElement;
 		
-			PARSE_THROW(pSceneNode.ToString() + " Scene node not found in scene file.");
+			PARSE_THROW(pSceneNode, " Scene node not found in scene file.");
 
 			try
 			{
@@ -132,29 +136,29 @@ namespace GlslTutorials
 
 		private void ReadMeshes(XmlNode scene)
 		{
-			foreach(XmlNode pMeshNode in scene)
+			XmlNodeList pMeshNodes = ((XmlElement)scene).GetElementsByTagName("mesh");
+			foreach(XmlNode pMeshNode in pMeshNodes)
 			{
-				ReadMesh(pMeshNode);
+				ReadMesh((XmlElement)pMeshNode);
 			}
 		}
 
-		private void ReadMesh(XmlNode meshNode)
+		private void ReadMesh(XmlElement meshNode)
 		{
-			XmlNodeList pNameNode = ((XmlElement)meshNode).GetElementsByTagName("xml:id");
-			XmlNodeList pFilenameNode = ((XmlElement)meshNode).GetElementsByTagName("file");
+			string pNameNode = meshNode.GetAttribute("xml:id");
+			string pFilenameNode = meshNode.GetAttribute("file");
 
 			PARSE_THROW(pNameNode, "Mesh found with no `xml:id` name specified.");
 			PARSE_THROW(pFilenameNode, "Mesh found with no `file` filename specified.");
 
-			string name = pNameNode.Item(0).Name; //FIXME check make_string(*pNameNode)
+			string name = pNameNode; //FIXME check make_string(*pNameNode)
 			if (m_meshes.ContainsKey(name))
 			{
 				MessageBox.Show("The mesh named \"" + name + "\" already exists.");
 			}
 
 			string XmlFilesDirectory = GlsTutorialsClass.ProjectDirectory + @"/XmlFilesForMeshes";
-			string fileName = pFilenameNode[0].Name; //FIXME check
-			Stream fileStream = File.OpenRead(XmlFilesDirectory + @"/" + fileName);
+			Stream fileStream = File.OpenRead(XmlFilesDirectory + @"/" + pFilenameNode);
 			SceneMesh pMesh = new SceneMesh(fileStream);
 			m_meshes.Add(name, pMesh);
 		}
@@ -170,31 +174,28 @@ namespace GlslTutorials
 
 		private void ReadTexture(XmlElement TexNode)
 		{
-			XmlNodeList pNameNode = TexNode.GetElementsByTagName("xml:id");
-			XmlNodeList pFilenameNode = TexNode.GetElementsByTagName("file");
+			string pNameNode = TexNode.GetAttribute("xml:id");
+			string pFilenameNode = TexNode.GetAttribute("file");
+
+			if (pNameNode == "") return;
 
 			PARSE_THROW(pNameNode, "Texture found with no `xml:id` name specified.");
 			PARSE_THROW(pFilenameNode, "Texture found with no `file` filename specified.");
 
-			XmlNodeList pSrgbNode = TexNode.GetElementsByTagName("srgb");
+			string pSrgbNode = TexNode.GetAttribute("srgb");
 
-			string name = pNameNode.Item(0).Name; // FIXME check make_string(*pNameNode)
-			if(m_textures.Keys.Contains(name))
+			if(m_textures.Keys.Contains(pNameNode))
 			{
-				MessageBox.Show("The texture named \"" + name + "\" already exists.");
+				MessageBox.Show("The texture named \"" + pNameNode + "\" already exists.");
 			}
 
 			uint creationFlags = 0;
 			if(pSrgbNode != null)
 				creationFlags |= FORCE_SRGB_COLORSPACE_FMT;
 
-			string XmlFilesDirectory = GlsTutorialsClass.ProjectDirectory + @"/XmlFilesForMeshes";
-			string fileName = pFilenameNode[0].Name; //FIXME check
-			Stream fileStream = File.OpenRead(XmlFilesDirectory + @"/" + fileName);
+			SceneTexture pTexture = new SceneTexture(pFilenameNode, creationFlags);
 
-			SceneTexture pTexture = new SceneTexture(fileStream, creationFlags);
-
-			m_textures.Add(name, pTexture);
+			m_textures.Add(pFilenameNode, pTexture);
 		}
 
 		private void ReadPrograms(XmlElement scene)
@@ -208,10 +209,10 @@ namespace GlslTutorials
 
 		private void ReadProgram(XmlElement progNode)
 		{
-			XmlNodeList pNameNode = progNode.GetElementsByTagName("xml:id");
-			XmlNodeList pVertexShaderNode = progNode.GetElementsByTagName("vert");
-			XmlNodeList pFragmentShaderNode = progNode.GetElementsByTagName("frag");
-			XmlNodeList pModelMatrixNode = progNode.GetElementsByTagName("model-to-camera");
+			string pNameNode = progNode.GetAttribute("xml:id");
+			string pVertexShaderNode = progNode.GetAttribute("vert");
+			string pFragmentShaderNode = progNode.GetAttribute("frag");
+			string pModelMatrixNode = progNode.GetAttribute("model-to-camera");
 
 			PARSE_THROW(pNameNode, "Program found with no `xml:id` name specified.");
 			PARSE_THROW(pVertexShaderNode, "Program found with no `vert` vertex shader specified.");
@@ -219,28 +220,34 @@ namespace GlslTutorials
 			PARSE_THROW(pModelMatrixNode, "Program found with no model-to-camera matrix uniform name specified.");
 
 			//Optional.
-			XmlNodeList pNormalMatrixNode = progNode.GetElementsByTagName("normal-model-to-camera");
-			XmlNodeList pGeometryShaderNode = progNode.GetElementsByTagName("geom");
+			string pNormalMatrixNode = progNode.GetAttribute("normal-model-to-camera");
+			string pGeometryShaderNode = progNode.GetAttribute("geom");
 
-			string name = pNameNode[0].Name;
-			if(m_progs.Keys.Contains(name))
+			if(m_progs.Keys.Contains(pNameNode))
 			{
-				MessageBox.Show("The program named \"" + name + "\" already exists.");
+				MessageBox.Show("The program named \"" + pNameNode + "\" already exists.");
 			}
 				
 			List<int> shaders = new List<int>();
 			int program = 0;
+			string vertexShaderString = pVertexShaderNode.ToLower().Substring(0, pVertexShaderNode.Length - 5);
+			var vertexShaderField = vertexShaders.GetType().GetField(vertexShaderString);
+			string vertexShader = (string)vertexShaderField.GetValue(vertexShaders);
+
+			string fragmentShaderString = pFragmentShaderNode.ToLower().Substring(0, pVertexShaderNode.Length - 5);
+			var  fragmentShaderField = fragmentShaders.GetType().GetField(fragmentShaderString);
+			string fragmentShader = (string)fragmentShaderField.GetValue(fragmentShaders);
 
 			try
 			{
 				//  LoadShader(GL_VERTEX_SHADER, make_string(*pVertexShaderNode))
 				// GL_FRAGMENT_SHADER, make_string(*pFragmentShaderNode))
 				//LoadShader(GL_GEOMETRY_SHADER, make_string(*pGeometryShaderNode)
-				shaders.Add(Shader.compileShader(ShaderType.VertexShader, "VIRTEX_SHADER"));  // FIXME parse shaders
-				shaders.Add(Shader.compileShader(ShaderType.FragmentShader, "FRAGMENT_SHADER")); // FIXME parse shaders
-				if(pGeometryShaderNode != null)
+				shaders.Add(Shader.compileShader(ShaderType.VertexShader, vertexShader));  // FIXME parse shaders
+				shaders.Add(Shader.compileShader(ShaderType.FragmentShader, fragmentShader)); // FIXME parse shaders
+				if(pGeometryShaderNode != "")
 					shaders.Add(Shader.compileShader(ShaderType.GeometryShader, "GEOMETRY_SHADER"));// FIXME parse shaders
-				// FIXME Link with geometry program = glutil::LinkProgram(shaders);
+				program = Shader.LinkProgram(shaders);
 			}
 			catch(Exception ex)
 			{
@@ -255,30 +262,28 @@ namespace GlslTutorials
 			{
 				GL.DeleteShader(shader);
 			}
-
-			string matrixName = pModelMatrixNode[0].Name;
-			int matrixLoc = GL.GetUniformLocation(program, matrixName);
+				
+			int matrixLoc = GL.GetUniformLocation(program, pModelMatrixNode);
 			if(matrixLoc == -1)
 			{
 				GL.DeleteProgram(program);
-				MessageBox.Show("Could not find the matrix uniform " + matrixName +
-					" in program " + name);
+				MessageBox.Show("Could not find the matrix uniform " + pModelMatrixNode +
+					" in program " + pNameNode);
 			}
 
 			int normalMatLoc = -1;
-			if(pNormalMatrixNode != null)
+			if(pNormalMatrixNode != "")
 			{
-				matrixName = pNormalMatrixNode.Item(0).Name;
-				normalMatLoc = GL.GetUniformLocation(program, matrixName);
+				normalMatLoc = GL.GetUniformLocation(program, pNormalMatrixNode);
 				if(normalMatLoc == -1)
 				{
 					GL.DeleteProgram(program);
-					MessageBox.Show("Could not find the normal matrix uniform " + matrixName +
-						" in program " + name);
+					MessageBox.Show("Could not find the normal matrix uniform " + pNormalMatrixNode +
+						" in program " + pNameNode);
 				}
 			}
 
-			m_progs[name] = new SceneProgram(program, matrixLoc, normalMatLoc);
+			m_progs[pNameNode] = new SceneProgram(program, matrixLoc, normalMatLoc);
 
 			ReadProgramContents(program, progNode);
 		}
@@ -298,21 +303,20 @@ namespace GlslTutorials
 				string childName = pChildNode.Name;
 				if(childName == "block")
 				{
-					XmlNodeList pNameNode = ((XmlElement)pChildNode).GetElementsByTagName("name");
-					XmlNodeList pBindingNode = ((XmlElement)pChildNode).GetElementsByTagName("binding");
+					string pNameNode = ((XmlElement)pChildNode).GetAttribute("name");
+					string pBindingNode = ((XmlElement)pChildNode).GetAttribute("binding");
 
 					PARSE_THROW(pNameNode, "Program `block` element with no `name`.");
 					PARSE_THROW(pBindingNode, "Program `block` element with no `binding`.");
 
-					string name = pNameNode.Item(0).Name;
-					if(blockBindings.Contains(name))
+					if(blockBindings.Contains(pNameNode))
 					{
-						MessageBox.Show("The uniform block named " + name + " is used twice in the same program.");
+						MessageBox.Show("The uniform block named " + pNameNode + " is used twice in the same program.");
 					}
 
-					blockBindings.Add(name);
+					blockBindings.Add(pNameNode);
 
-					int blockIx = GL.GetUniformBlockIndex(program, name);
+					// FIXME int blockIx = GL.GetUniformBlockIndex(program, name);
 
 					// FIXME if(blockIx == GL_INVALID_INDEX)
 					// FIXME {
@@ -325,24 +329,23 @@ namespace GlslTutorials
 				}
 				else if(childName == "sampler")
 				{
-					XmlNodeList pNameNode = ((XmlElement)pChildNode).GetElementsByTagName("name");
-					XmlNodeList pTexunitNode = ((XmlElement)pChildNode).GetElementsByTagName("unit");
+					string pNameNode = ((XmlElement)pChildNode).GetAttribute("name");
+					string pTexunitNode = ((XmlElement)pChildNode).GetAttribute("unit");
 
 					PARSE_THROW(pNameNode, "Program `sampler` element with no `name`.");
 					PARSE_THROW(pTexunitNode, "Program `sampler` element with no `unit`.");
 
-					string name = pNameNode.Item(0).Name;
-					if(samplerBindings.Contains(name))
+					if(samplerBindings.Contains(pNameNode))
 					{
-						MessageBox.Show("A sampler " + name + " is used twice in the same program.");
+						MessageBox.Show("A sampler " + pNameNode + " is used twice in the same program.");
 					}
 						
-					samplerBindings.Add(name);
+					samplerBindings.Add(pNameNode);
 
-					int samplerLoc = GL.GetUniformLocation(program, name);
+					int samplerLoc = GL.GetUniformLocation(program, pNameNode);
 					if(samplerLoc == -1)
 					{
-						MessageBox.Show("Warning: the sampler " + name + " could not be found.");
+						MessageBox.Show("Warning: the sampler " + pNameNode + " could not be found.");
 					}
 
 					//FIXME int textureUnit = rapidxml::attrib_to_int(*pTexunitNode, ThrowAttrib);
