@@ -545,7 +545,7 @@ namespace GlslTutorials
 		"{" +
 			"gl_Position = cameraToClipMatrix * (modelToCameraMatrix * vec4(position, 1.0));" +
 			//"gl_Position = cameraToClipMatrix *  vec4(position, 1.0);" +
-			//"gl_Position = vec4(position, 1.0);" +
+			"gl_Position = vec4(position, 1.0);" +
 		"}";
 
 		public static String littexture =

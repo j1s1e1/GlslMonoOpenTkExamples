@@ -63,7 +63,6 @@ namespace GlslTutorials
 		FrameworkTimer g_timer = new FrameworkTimer(FrameworkTimer.Type.TT_LOOP, 10.0f);
 
 		UniformIntBinder g_lightNumBinder;
-		TextureBinder g_stoneTexBinder;
 
 		int g_unlitModelToCameraMatrixUnif;
 		int g_unlitCameraToClipMatrixUnif;
@@ -195,8 +194,8 @@ namespace GlslTutorials
 
 			g_nodes[0].NodeSetOrient(Quaternion.FromAxisAngle(new Vector3(0.0f, 1.0f, 0.0f), 
 				360.0f *  g_timer.GetAlpha()));
-			g_nodes[3].NodeSetOrient(Quaternion.FromAxisAngle(new Vector3(0.0f, 0.0f, 1.0f), 
-				360.0f * g_timer.GetAlpha()));
+			g_nodes[3].NodeSetOrient(Quaternion.Multiply(g_spinBarOrient,
+				Quaternion.FromAxisAngle(new Vector3(0.0f, 0.0f, 1.0f), 360.0f * g_timer.GetAlpha())));
 
 			{
 				MatrixStack persMatrix = new MatrixStack();

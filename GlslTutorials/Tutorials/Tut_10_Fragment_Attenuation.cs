@@ -9,6 +9,8 @@ namespace GlslTutorials
 {
 	public class Tut_10_Fragment_Attenuation : TutorialBase
 	{
+		float lightOffsetDebug = 10f;
+		Matrix4 lightModelmatrix = Matrix4.Identity;
 		public Tut_10_Fragment_Attenuation ()
 		{
 		}
@@ -181,7 +183,7 @@ namespace GlslTutorials
 			Vector4 ret = new Vector4(0.0f, g_fLightHeight, 0.0f, 1.0f);
 
 			ret.X = (float) Math.Cos(fCurrTimeThroughLoop * (3.14159f * 2.0f)) * g_fLightRadius;
-			ret.Z = 10f + (float) Math.Sin(fCurrTimeThroughLoop * (3.14159f * 2.0f)) * g_fLightRadius;
+			ret.Z = lightOffsetDebug + (float) Math.Sin(fCurrTimeThroughLoop * (3.14159f * 2.0f)) * g_fLightRadius;
 
 			return ret;
 		}
@@ -192,10 +194,6 @@ namespace GlslTutorials
 		static bool g_bUseRSquare = false;
 
 		static float g_fLightAttenuation = 1.0f;
-
-		//Called to update the display.
-		//You should call glutSwapBuffers after all of your rendering to display what you rendered.
-		//If you need continuous updates of the screen, call glutPostRedisplay() at the end of the function.
 
 		public override void display()
 		{
@@ -247,7 +245,6 @@ namespace GlslTutorials
 					using (PushStack pushstack = new PushStack(modelMatrix))
 					{
 						modelMatrix.ApplyMatrix(g_objtPole.CalcMatrix());
-						modelMatrix.Translate(new Vector3(0f, 0f, -10f));
 						if(g_bScaleCyl)
 							modelMatrix.Scale(1.0f, 1.0f, 0.2f);
 						coloredCylinderModelmatrix = modelMatrix.Top();
@@ -286,12 +283,13 @@ namespace GlslTutorials
 						using (PushStack pushstack = new PushStack(modelMatrix))
 						{
 							modelMatrix.Translate(new Vector3(worldLightPos));
+							modelMatrix.Translate(0f, 0f, -lightOffsetDebug);
 							modelMatrix.Scale(0.1f, 0.1f, 0.1f);
 
 							GL.UseProgram(g_Unlit.theProgram);
 							Matrix4 mm = modelMatrix.Top();
-							GL.UniformMatrix4(g_Unlit.modelToCameraMatrixUnif, false,
-								ref mm);
+							lightModelmatrix = mm;
+							GL.UniformMatrix4(g_Unlit.modelToCameraMatrixUnif, false, ref mm);
 							GL.Uniform4(g_Unlit.objectColorUnif, 0.8078f, 0.8706f, 0.9922f, 1.0f);
 							g_pCubeMesh.Render("flat");
 						}
@@ -328,8 +326,7 @@ namespace GlslTutorials
 			GL.UseProgram(0);
 
 			GL.UseProgram(g_Unlit.theProgram);
-			GL.UniformMatrix4(g_Unlit.cameraToClipMatrixUnif, 
-				false, ref projData.cameraToClipMatrix);
+			GL.UniformMatrix4(g_Unlit.cameraToClipMatrixUnif, false, ref projData.cameraToClipMatrix);
 			GL.UseProgram(0);
 
 			GL.Viewport(0, 0, width, height);
@@ -377,7 +374,15 @@ namespace GlslTutorials
 				result.AppendLine("coloredCylinderModelmatrix = " + coloredCylinderModelmatrix.ToString());
 				result.AppendLine("");
 				Matrix4 multiply = Matrix4.Mult(projData.cameraToClipMatrix, coloredCylinderModelmatrix);
-				result.Append(AnalysisTools.CalculateMatrixEffects(multiply));
+				result.AppendLine("cameraToClipMatrix x coloredCylinderModelmatrix");
+				result.AppendLine(AnalysisTools.CalculateMatrixEffects(multiply));
+				result.AppendLine("lightModelmatrix = " + lightModelmatrix.ToString());
+				result.AppendLine("");
+				result.AppendLine(AnalysisTools.CalculateMatrixEffects(lightModelmatrix));
+				multiply = Matrix4.Mult(projData.cameraToClipMatrix, lightModelmatrix);
+				result.AppendLine("cameraToClipMatrix x lightModelmatrix");
+				result.AppendLine(AnalysisTools.CalculateMatrixEffects(multiply));
+				result.AppendLine("");
 				break;
 			}
 

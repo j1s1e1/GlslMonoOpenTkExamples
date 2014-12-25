@@ -195,6 +195,7 @@
     <Compile Include="Tutorials\Tut_Texture_Tests.cs" />
     <Compile Include="View\RotateMode.cs" />
     <Compile Include="Tutorials\Tut_MoveMeshItem.cs" />
+    <Compile Include="Tutorials\Tut_MeshTransforms.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />

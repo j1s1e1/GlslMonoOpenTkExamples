@@ -14,6 +14,7 @@ namespace GlslTutorials
 	    "void main()" +
 	    "{" +
 	        "gl_FragColor = baseColor;" +
+			//"gl_FragColor =  vec4(1.0, 1.0, 1.0, 1.0);" +
 	    "}";
 		
 		public static String lms_fragmentShaderCode =
@@ -1212,6 +1213,7 @@ namespace GlslTutorials
 		"void main()" +
 		"{" +
 			"gl_FragColor = objectColor;" +
+			//"gl_FragColor =  vec4(1.0, 1.0, 1.0, 1.0);" 
 		"}";
 
 		private static String VariableLightStructureUniform = 
