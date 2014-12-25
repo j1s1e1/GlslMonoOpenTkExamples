@@ -85,7 +85,7 @@ namespace GlslTutorials
 		static ViewData g_initialViewData = new ViewData
 		(
 			new Vector3(-59.5f, 44.0f, 95.0f),
-			new Quaternion(1.0f, 0.0f, 0.0f, 0.0f), // no 45 degree angle
+				new Quaternion(0.92387953f, 0.3826834f, 0.0f, 0.0f), //  (1.0f, 0.0f, 0.0f, 0.0f), // no 45 degree angle
 			50.0f,
 			0.0f
 		);
@@ -169,26 +169,6 @@ namespace GlslTutorials
 
 			g_lights.CreateTimer("tetra", FrameworkTimer.Type.TT_LOOP, 2.5f);
 
-			/*
-			//Setup our Uniform Buffers
-			glGenBuffers(1, &g_lightUniformBuffer);
-			glBindBuffer(GL_UNIFORM_BUFFER, g_lightUniformBuffer);
-			glBufferData(GL_UNIFORM_BUFFER, sizeof(LightBlock), NULL, GL_DYNAMIC_DRAW);
-
-			glGenBuffers(1, &g_projectionUniformBuffer);
-			glBindBuffer(GL_UNIFORM_BUFFER, g_projectionUniformBuffer);
-			glBufferData(GL_UNIFORM_BUFFER, sizeof(ProjectionBlock), NULL, GL_DYNAMIC_DRAW);
-
-			//Bind the static buffers.
-			glBindBufferRange(GL_UNIFORM_BUFFER, g_lightBlockIndex, g_lightUniformBuffer,
-				0, sizeof(LightBlock));
-
-			glBindBufferRange(GL_UNIFORM_BUFFER, g_projectionBlockIndex, g_projectionUniformBuffer,
-				0, sizeof(ProjectionBlock));
-
-			glBindBuffer(GL_UNIFORM_BUFFER, 0);
-			*/
-
 			reshape();
 			SetupDepthAndCull();
 		}
@@ -224,7 +204,7 @@ namespace GlslTutorials
 			GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
 			MatrixStack modelMatrix = new MatrixStack();
-			modelMatrix.SetMatrix(g_viewPole.CalcMatrix());
+			//modelMatrix.SetMatrix(g_viewPole.CalcMatrix());
 
 			Matrix4 worldToCamMat = modelMatrix.Top();
 			LightBlock lightData = g_lights.GetLightInformationGamma(worldToCamMat);
@@ -258,7 +238,9 @@ namespace GlslTutorials
 
 				Vector4 lightColor = GammaCorrect(g_lights.GetSunlightIntensity(), gamma);
 				GL.Uniform4(g_Unlit.objectColorUnif, lightColor);
-				g_pScene.GetSphereMesh().Render("flat");
+				//TEST
+				g_pScene.GetSphereMesh().Render();
+				//g_pScene.GetSphereMesh().Render("flat");
 			}
 
 			//Render the lights
@@ -308,8 +290,8 @@ namespace GlslTutorials
 			MatrixStack persMatrix = new MatrixStack();
 			persMatrix.Perspective(45.0f, (width / (float)height), g_fzNear, g_fzFar);
 			// added
-			persMatrix.Translate(-0.5f, 0.0f, -3f);
-			persMatrix.Scale(0.01f);
+			//persMatrix.Translate(-0.5f, 0.0f, -3f);
+			//persMatrix.Scale(0.01f);
 			// end added
 			ProjectionBlock projData = new ProjectionBlock();
 			projData.cameraToClipMatrix = persMatrix.Top();

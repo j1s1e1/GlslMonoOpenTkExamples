@@ -133,6 +133,13 @@ namespace GlslTutorials
 				MessageBox.Show("Failed to load scene: " + ex.ToString());
 			}
 			reshape();
+			// Added 
+			GL.Enable(EnableCap.Texture2D);
+			//Basically enables the alpha channel to be used in the color buffer
+			GL.Enable(EnableCap.Blend);
+			//The operation/order to blend
+			GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
+			// End Added
 		}
 			
 		int g_currSampler = 0;
@@ -165,7 +172,7 @@ namespace GlslTutorials
 			lightData.SetUniforms(g_unlitProg);
 			lightData.UpdateInternal();
 
-			lightData.SetUniforms(g_pScene.FindProgram("p_lit"));
+			lightData.SetUniforms(g_litProg);
 			lightData.UpdateInternal();
 		}
 
@@ -186,17 +193,10 @@ namespace GlslTutorials
 
 			BuildLights(modelMatrix.Top());
 
-			// added fake default
-			g_nodes[0].NodeSetOrient(new Quaternion());
-			g_nodes[3].NodeSetOrient(new Quaternion());
-
-			/* FIXME  
-			g_nodes[0].NodeSetOrient(glm::rotate(glm::fquat(),
-				360.0f * g_timer.GetAlpha(), glm::vec3(0.0f, 1.0f, 0.0f)));
-
-			g_nodes[3].NodeSetOrient(g_spinBarOrient * glm::rotate(glm::fquat(),
-				360.0f * g_timer.GetAlpha(), glm::vec3(0.0f, 0.0f, 1.0f)));
-				*/
+			g_nodes[0].NodeSetOrient(Quaternion.FromAxisAngle(new Vector3(0.0f, 1.0f, 0.0f), 
+				360.0f *  g_timer.GetAlpha()));
+			g_nodes[3].NodeSetOrient(Quaternion.FromAxisAngle(new Vector3(0.0f, 0.0f, 1.0f), 
+				360.0f * g_timer.GetAlpha()));
 
 			{
 				MatrixStack persMatrix = new MatrixStack();
@@ -204,6 +204,11 @@ namespace GlslTutorials
 
 				ProjectionBlock projData = new ProjectionBlock();
 				projData.cameraToClipMatrix = persMatrix.Top();
+
+				// added
+				persMatrix.Translate(0.0f, 0.0f, -5f);
+				persMatrix.Scale(0.02f);
+				// end added
 
 				GL.UseProgram(g_unlitProg);
 				GL.UniformMatrix4(g_unlitCameraToClipMatrixUnif, false, ref projData.cameraToClipMatrix);
@@ -246,6 +251,11 @@ namespace GlslTutorials
 				applyMatrix.Column3 = Vector4.Zero;
 				persMatrix.ApplyMatrix(applyMatrix);
 				persMatrix.Perspective(60.0f, (width / height), g_fzNear, g_fzFar);
+
+				// added
+				persMatrix.Translate(0.0f, 0.0f, -5f);
+				persMatrix.Scale(0.02f);
+				// end added
 
 				ProjectionBlock projData = new ProjectionBlock();
 				projData.cameraToClipMatrix = persMatrix.Top();

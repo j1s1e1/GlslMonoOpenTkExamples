@@ -12,6 +12,9 @@ namespace GlslTutorials
 		public Tut_12_HDR_Lighting ()
 		{
 		}
+		// debug fields
+		Matrix4 sunModelToCameraMatrix = Matrix4.Identity;
+		Matrix4 g_viewPole_CalcMatrix = Matrix4.Identity;
 
 		struct UnlitProgData
 		{
@@ -86,7 +89,7 @@ namespace GlslTutorials
 		static ViewData g_initialViewData = new ViewData
 		(
 			new Vector3(-59.5f, 44.0f, 95.0f),
-			new Quaternion(1.0f, 0.0f, 0.0f, 0.0f), // no 45 degree angle
+			new Quaternion(0.92387953f, 0.3826834f, 0.0f, 0.0f), //  (1.0f, 0.0f, 0.0f, 0.0f), // no 45 degree angle
 			50.0f,
 			0.0f
 		);
@@ -200,14 +203,13 @@ namespace GlslTutorials
 			GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
 			MatrixStack modelMatrix = new MatrixStack();
-			modelMatrix.SetMatrix(g_viewPole.CalcMatrix());
+			// TEST  
+			g_viewPole_CalcMatrix = g_viewPole.CalcMatrix();
+			//modelMatrix.SetMatrix(g_viewPole.CalcMatrix());
 
 			Matrix4 worldToCamMat = modelMatrix.Top();
 			LightBlock lightData = g_lights.GetLightInformationHDR(worldToCamMat);
 
-			// adjust light positions to match view change?? 
-
-			// test
 			foreach (SceneProgramData spd in g_Programs)
 			{
 				spd.lightBlock.Update(lightData);
@@ -227,14 +229,18 @@ namespace GlslTutorials
 				{
 					Vector3 sunlightDir = new Vector3(g_lights.GetSunlightDirection());
 					modelMatrix.Translate(sunlightDir * 500.0f);
+					//TEST 
 					modelMatrix.Scale(30.0f, 30.0f, 30.0f);
 
 					GL.UseProgram(g_Unlit.theProgram);
 					Matrix4 mm = modelMatrix.Top();
+					sunModelToCameraMatrix = mm;
 					GL.UniformMatrix4(g_Unlit.modelToCameraMatrixUnif, false, ref mm);
 
 					Vector4 lightColor = g_lights.GetSunlightIntensity();
 					GL.Uniform4(g_Unlit.objectColorUnif, lightColor);
+					// TEST
+					//g_pScene.GetSphereMesh().Render();
 					g_pScene.GetSphereMesh().Render("flat");
 				}
 
@@ -280,16 +286,18 @@ namespace GlslTutorials
 				}
 			}
 		}
+
+		ProjectionBlock projData;
 			
 		public override void reshape()
 		{
 			MatrixStack persMatrix = new MatrixStack();
 			persMatrix.Perspective(45.0f, (width / (float)height), g_fzNear, g_fzFar);
 			// added
-			persMatrix.Translate(-0.5f, 0.0f, -3f);
-			persMatrix.Scale(0.01f);
+			//persMatrix.Translate(-0.5f, 0.0f, -3f);
+			//persMatrix.Scale(0.001f);
 			// end added
-			ProjectionBlock projData = new ProjectionBlock();
+			projData = new ProjectionBlock();
 			projData.cameraToClipMatrix = persMatrix.Top();
 
 			foreach(SceneProgramData spd in g_Programs)
@@ -303,10 +311,6 @@ namespace GlslTutorials
 			GL.UniformMatrix4(g_Unlit.cameraToClipMatrixUnif, false, ref projData.cameraToClipMatrix);
 			GL.UseProgram(0);
 
-			//glBindBuffer(GL_UNIFORM_BUFFER, g_projectionUniformBuffer);
-			//glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(ProjectionBlock), &projData);
-			//glBindBuffer(GL_UNIFORM_BUFFER, 0);
-
 			GL.Viewport(0, 0, width, height);
 		}
 
@@ -317,8 +321,6 @@ namespace GlslTutorials
 		{
 			StringBuilder result = new StringBuilder();
 			result.AppendLine(keyCode.ToString());
-			bool bChangedShininess = false;
-			bool bChangedLightModel = false;
 			switch (keyCode)
 			{
 			case Keys.Escape:
@@ -337,6 +339,26 @@ namespace GlslTutorials
 			case Keys.D: SetupDaytimeLighting(); break;
 			case Keys.N: SetupNighttimeLighting(); break;
 			case Keys.H: SetupHDRLighting(); break;
+
+			case Keys.I:
+				result.AppendLine("projData.cameraToClipMatrix" + projData.cameraToClipMatrix.ToString());
+				result.AppendLine(AnalysisTools.CalculateMatrixEffects(projData.cameraToClipMatrix));
+
+				result.AppendLine("sunModelToCameraMatrix = " + sunModelToCameraMatrix.ToString());
+				result.AppendLine(AnalysisTools.CalculateMatrixEffects(sunModelToCameraMatrix));
+
+				result.AppendLine("g_viewPole.CalcMatrix()" + g_viewPole_CalcMatrix.ToString());
+				result.AppendLine(AnalysisTools.CalculateMatrixEffects(g_viewPole_CalcMatrix));
+
+
+
+
+				/*result.AppendLine("cameraToClipMatrix = " + projData.cameraToClipMatrix.ToString());
+				result.AppendLine("coloredCylinderModelmatrix = " + coloredCylinderModelmatrix.ToString());
+				result.AppendLine(AnalysisTools.CalculateMatrixEffects(coloredCylinderModelmatrix));
+				Matrix4 multiply = Matrix4.Mult(projData.cameraToClipMatrix, coloredCylinderModelmatrix);
+				result.Append(AnalysisTools.CalculateMatrixEffects(multiply));*/
+				break;
 
 			case Keys.Space:
 				{

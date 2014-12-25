@@ -72,10 +72,19 @@ namespace GlslTutorials
         {
 			if (currentTutorial != null)
 			{
+				currentTutorial.MouseButton((int)e.Button, (int)e.Clicks,  e.X, e.Y);
 				currentTutorial.TouchEvent(e.X, e.Y);
 			}
             AddMessage("Mouse Event ");
         }
+
+		private void glControlMouseMove(object sender, System.Windows.Forms.MouseEventArgs e)
+		{
+			if (currentTutorial != null)
+			{
+				currentTutorial.MouseMotion(e.X, e.Y);
+			}
+		}
 		
 		bool loaded = false;
         private void glControlLoad (object sender, EventArgs e)

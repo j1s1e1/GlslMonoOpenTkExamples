@@ -192,6 +192,9 @@
     <Compile Include="Scene\UniformBinderBase.cs" />
     <Compile Include="Scene\UniformMat4Binder.cs" />
     <Compile Include="Scene\UniformVec3Binder.cs" />
+    <Compile Include="Tutorials\Tut_Texture_Tests.cs" />
+    <Compile Include="View\RotateMode.cs" />
+    <Compile Include="Tutorials\Tut_MoveMeshItem.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -271,5 +274,10 @@
     <None Include="XmlFilesForMeshes\bigplane.xml" />
     <None Include="XmlFilesForMeshes\corridor.xml" />
     <None Include="XmlFilesForMeshes\dp_scene.xml" />
+    <None Include="XmlFilesForMeshes\proj2d_scene.xml" />
+    <None Include="XmlFilesForMeshes\shortbar.xml" />
+    <None Include="XmlFilesForMeshes\longbar.xml" />
+    <None Include="XmlFilesForMeshes\unitdiorama.xml" />
+    <None Include="XmlFilesForMeshes\unitaxes.xml" />
   </ItemGroup>
 </Project>

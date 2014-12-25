@@ -1,12 +1,19 @@
 using System;
+using System.Drawing;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 
 namespace GlslTutorials
 {
+	enum MouseModifiers
+	{
+		MM_KEY_SHIFT =	0x01,	///<One of the shift keys.
+		MM_KEY_CTRL =	0x02,	///<One of the control keys.
+		MM_KEY_ALT =	0x04,	///<One of the alt keys.
+	};
+
 	public class ObjectPole : Pole 
 	{
-	    private ObjectData position;
 	    private ObjectData initialPosition;
 	    private float rotateScale;
 	    private bool isDragging;
@@ -29,14 +36,22 @@ namespace GlslTutorials
 	     **/
 	    public ObjectPole(ObjectData initialData, float rotateScale, MouseButtons actionButton, ViewProvider LookatProvider)
 	    {
-	        position = initialData;
+			m_pView = LookatProvider;
+			m_po = initialData;
+			m_initialPo = initialData;
+			m_rotateScale = rotateScale;
+			m_actionButton = actionButton;
+			m_bIsDragging = false;
 	        initialPosition = initialData;
 	    }
 	
 	    ///Generates the local-to-world matrix for this object.
 	    public Matrix4 CalcMatrix()
 	    {
-	        return Matrix4.CreateTranslation(position.position);
+			Matrix4 translateMat = Matrix4.Identity;
+			translateMat.Row3 = new Vector4(m_po.position, 1.0f);
+
+			return Matrix4.Mult(translateMat, Matrix4.CreateFromQuaternion(m_po.orientation));
 	    }
 	
 	    /**
@@ -81,13 +96,90 @@ namespace GlslTutorials
 	     \param modifiers A bitfield of MouseModifiers that specifies the modifiers being held down currently.
 	     \param position The mouse position at the moment of the mouse click.
 	     **/
-	    void MouseClick(MouseButtons button, bool isPressed, int modifiers, Vector2 position)
+	    public override void MouseClick(MouseButtons button, bool isPressed, int modifiers, Point position)
 	    {
+			if(isPressed)
+			{
+				//Ignore button presses when dragging.
+				if(!m_bIsDragging)
+				{
+					if(button == m_actionButton)
+					{
+						if((modifiers & (int)MouseModifiers.MM_KEY_ALT) != 0)
+							m_RotateMode = RotateMode.RM_SPIN;
+						else if((modifiers & (int)MouseModifiers.MM_KEY_CTRL) != 0)
+							m_RotateMode = RotateMode.RM_BIAXIAL;
+						else
+							m_RotateMode = RotateMode.RM_DUAL_AXIS;
+
+						m_prevMousePos = new Vector2(position.X, position.Y);
+						m_startDragMousePos =  new Vector2(position.X, position.Y);
+						m_startDragOrient = m_po.orientation;
+
+						m_bIsDragging = true;
+					}
+				}
+			}
+			else
+			{
+				//Ignore up buttons if not dragging.
+				if(m_bIsDragging)
+				{
+					if(button == m_actionButton)
+					{
+						MouseMove(position);
+
+						m_bIsDragging = false;
+					}
+				}
+			}
 	    }
 	
 	    ///Notifies the pole that the mouse has moved to the given absolute position.
-	    void MouseMove(Vector2  position)
+	    public override void MouseMove(Point  position)
 	    {
+			Vector2 vectorPositoin = new Vector2(position.X, position.Y);
+			if(m_bIsDragging)
+			{
+				Vector2 iDiff = vectorPositoin - m_prevMousePos;
+
+				switch(m_RotateMode)
+				{
+				case RotateMode.RM_DUAL_AXIS:
+					{
+						Quaternion rotRight =  Quaternion.FromAxisAngle(Vector3.UnitY, iDiff.X * m_rotateScale);
+						Quaternion rotLeft =  Quaternion.FromAxisAngle(Vector3.UnitX, iDiff.Y * m_rotateScale);
+						Quaternion rot = Quaternion.Multiply(rotLeft, rotRight);
+						rot.Normalize();
+						RotateViewDegrees(rot);
+					}
+					break;
+				case RotateMode.RM_BIAXIAL:
+					{
+						Vector2 iInitDiff = vectorPositoin - m_startDragMousePos;
+						Quaternion rot;
+
+						float degAngle;
+						if(Math.Abs(iInitDiff.X) > Math.Abs(iInitDiff.Y))
+						{
+							degAngle = iInitDiff.X * m_rotateScale;
+							rot =  Quaternion.FromAxisAngle(Vector3.UnitY, degAngle);
+						}
+						else
+						{
+							degAngle = iInitDiff.Y * m_rotateScale;
+							rot =  Quaternion.FromAxisAngle(Vector3.UnitX, degAngle);
+						}
+						RotateViewDegrees(rot, true);
+					}
+					break;
+				case RotateMode.RM_SPIN:
+					RotateViewDegrees(Quaternion.FromAxisAngle(Vector3.UnitZ, -iDiff.X * m_rotateScale));
+					break;
+				}
+
+				m_prevMousePos = vectorPositoin;
+			}
 	    }
 	
 	    /**
@@ -158,6 +250,25 @@ namespace GlslTutorials
 	
 	    void RotateViewDegrees(Quaternion rot, bool bFromInitial)
 	    {
+			if(!m_bIsDragging)
+				bFromInitial = false;
+
+			if(m_pView != null)
+			{
+				Quaternion viewQuat =  Quaternion.FromMatrix(new Matrix3(m_pView.CalcMatrix()));
+				Quaternion invViewQuat = viewQuat;
+				invViewQuat.Conjugate();
+				// FIXME check multipy order
+				Quaternion result = bFromInitial ? m_startDragOrient : m_po.orientation;
+				result = Quaternion.Multiply(viewQuat, result);
+				result = Quaternion.Multiply(rot, result);
+				result = Quaternion.Multiply(invViewQuat, result);
+				result.Normalize();
+
+				m_po.orientation = result;
+			}
+			else
+				RotateWorldDegrees(rot, bFromInitial);
 	    }
 	
 	    ViewProvider m_pView;

@@ -274,7 +274,7 @@ namespace GlslTutorials
 	
 		bool g_bDrawCameraPos = false;
 		bool g_bDrawLights = true;
-		bool g_bUseTexture = false;
+		bool g_bUseTexture = true;
 		int g_currTexture = 0;
 		
 		float g_lightHeight = 1.0f;

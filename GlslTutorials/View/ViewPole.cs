@@ -47,7 +47,7 @@ namespace GlslTutorials
 	
 	        //Rotate the world to look in the right direction..
 	        Quaternion fullRotation =
-	                Quaternion.Mult(new Quaternion(new Vector3(0.0f, 0.0f, 1.0f), m_currView.degSpinRotation),
+				Quaternion.Mult(new Quaternion(new Vector3(0.0f, 0.0f, 1.0f), m_currView.radSpinRotation),
 	                m_currView.orient);
 	        theMat = Matrix4.Mult(theMat, Matrix4.CreateFromQuaternion(fullRotation));
 	
@@ -132,15 +132,6 @@ namespace GlslTutorials
 	    {
 	    }
 	
-	    enum RotateMode
-	    {
-	        RM_DUAL_AXIS_ROTATE,
-	        RM_BIAXIAL_ROTATE,
-	        RM_XZ_AXIS_ROTATE,
-	        RM_Y_AXIS_ROTATE,
-	        RM_SPIN_VIEW_AXIS,
-	    };
-	
 	    ViewData m_currView;
 	    ViewScale m_viewScale;
 	
@@ -183,7 +174,7 @@ namespace GlslTutorials
 	
 	    void BeginDragRotate(Vector2 ptStart)
 	    {
-	        BeginDragRotate(ptStart, RotateMode.RM_DUAL_AXIS_ROTATE);
+	        BeginDragRotate(ptStart, RotateMode.RM_DUAL_AXIS);
 	    }
 	
 	    void BeginDragRotate(Vector2 ptStart, RotateMode rotMode)

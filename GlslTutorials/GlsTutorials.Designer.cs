@@ -10,6 +10,7 @@ namespace GlslTutorials
 			this.GlControl.Location = new System.Drawing.Point(400, 50);
             this.GlControl.Size = new System.Drawing.Size (512, 512);
 			this.GlControl.MouseClick += new System.Windows.Forms.MouseEventHandler(glControlMousehandler);
+			this.GlControl.MouseMove += new System.Windows.Forms.MouseEventHandler(glControlMouseMove);
             this.GlControl.Paint += glControlPaint;
             this.GlControl.Load += glControlLoad;
             this.GlControl.KeyDown += glControlKeyDown;

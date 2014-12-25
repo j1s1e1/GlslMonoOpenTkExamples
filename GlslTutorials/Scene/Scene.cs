@@ -65,7 +65,7 @@ namespace GlslTutorials
 			Stream unitcylinder =  File.OpenRead(XmlFilesDirectory + @"/unitcylinder.xml");
 			m_pCylMesh = new Mesh(unitcylinder);
 
-			Stream unitsphere =  File.OpenRead(XmlFilesDirectory + @"/unitsphere.xml");
+			Stream unitsphere =  File.OpenRead(XmlFilesDirectory + @"/unitsphere12.xml");
 			m_pSphereMesh = new Mesh(unitsphere);
 
 			////Align the size of each MaterialBlock to the uniform buffer alignment.

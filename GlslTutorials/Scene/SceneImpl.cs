@@ -151,16 +151,15 @@ namespace GlslTutorials
 			PARSE_THROW(pNameNode, "Mesh found with no `xml:id` name specified.");
 			PARSE_THROW(pFilenameNode, "Mesh found with no `file` filename specified.");
 
-			string name = pNameNode; //FIXME check make_string(*pNameNode)
-			if (m_meshes.ContainsKey(name))
+			if (m_meshes.ContainsKey(pNameNode))
 			{
-				MessageBox.Show("The mesh named \"" + name + "\" already exists.");
+				MessageBox.Show("The mesh named " + pNameNode + " already exists.");
 			}
 
 			string XmlFilesDirectory = GlsTutorialsClass.ProjectDirectory + @"/XmlFilesForMeshes";
 			Stream fileStream = File.OpenRead(XmlFilesDirectory + @"/" + pFilenameNode);
 			SceneMesh pMesh = new SceneMesh(fileStream);
-			m_meshes.Add(name, pMesh);
+			m_meshes.Add(pNameNode, pMesh);
 		}
 
 		private void ReadTextures(XmlElement scene)
@@ -240,13 +239,10 @@ namespace GlslTutorials
 
 			try
 			{
-				//  LoadShader(GL_VERTEX_SHADER, make_string(*pVertexShaderNode))
-				// GL_FRAGMENT_SHADER, make_string(*pFragmentShaderNode))
-				//LoadShader(GL_GEOMETRY_SHADER, make_string(*pGeometryShaderNode)
-				shaders.Add(Shader.compileShader(ShaderType.VertexShader, vertexShader));  // FIXME parse shaders
-				shaders.Add(Shader.compileShader(ShaderType.FragmentShader, fragmentShader)); // FIXME parse shaders
+				shaders.Add(Shader.compileShader(ShaderType.VertexShader, vertexShader));
+				shaders.Add(Shader.compileShader(ShaderType.FragmentShader, fragmentShader));
 				if(pGeometryShaderNode != "")
-					shaders.Add(Shader.compileShader(ShaderType.GeometryShader, "GEOMETRY_SHADER"));// FIXME parse shaders
+					shaders.Add(Shader.compileShader(ShaderType.GeometryShader, "GEOMETRY_SHADER"));
 				program = Shader.LinkProgram(shaders);
 			}
 			catch(Exception ex)
@@ -297,9 +293,6 @@ namespace GlslTutorials
 
 			foreach (XmlNode pChildNode in  pChildNodes)
 			{
-				//FIXME if(pChildNode.type() != rapidxml::node_element)
-				// FIXME	continue;
-
 				string childName = pChildNode.Name;
 				if(childName == "block")
 				{
@@ -316,7 +309,7 @@ namespace GlslTutorials
 
 					blockBindings.Add(pNameNode);
 
-					// FIXME int blockIx = GL.GetUniformBlockIndex(program, name);
+					// FIXMEint blockIx = GL.GetUniformBlockIndex(program, name);
 
 					// FIXME if(blockIx == GL_INVALID_INDEX)
 					// FIXME {
@@ -410,10 +403,10 @@ namespace GlslTutorials
 			if(pParent == null)
 				m_rootNodes.Add(pNode);
 
-			if(pOrientNode != null)
+			if(pOrientNode != "")
 				pNode.SetNodeOrient(ParseQuaternion(pOrientNode));
 				
-			if(pScaleNode != null)
+			if(pScaleNode != "")
 			{
 				try
 				{

@@ -71,7 +71,8 @@ namespace GlslTutorials
 		int ambientIntensityUnif;
 		int lightAttenuationUnif;
 		int maxIntensityUnif;
-		int lightsUnif;
+		int[] cameraSpaceLightPosUnif;
+		int[] lightIntensityUnif;
 		int gammaUnif;
 		int numberOfLightsUnif;
 		
@@ -82,19 +83,14 @@ namespace GlslTutorials
 			lightAttenuationUnif = GL.GetUniformLocation(program, "Lgt.lightAttenuation");
 			maxIntensityUnif = GL.GetUniformLocation(program, "Lgt.maxIntensity");
 			gammaUnif = GL.GetUniformLocation(program, "Lgt.gamma");
-			lightsUnif = GL.GetUniformLocation(program, "Lgt.lights[0].cameraSpaceLightPos");
-			numberOfLightsUnif = GL.GetUniformLocation(program, "numberOfLights");
-		}
-		
-		public float[] LightsAsFloats()
-		{
-			int lightFloats = PerLight.Size()/sizeof(float);
-			float[] result = new float[lightFloats * NUMBER_OF_LIGHTS];
-			for (int i = 0; i < NUMBER_OF_LIGHTS; i++)
+			cameraSpaceLightPosUnif = new int[NUMBER_OF_LIGHTS];
+			lightIntensityUnif = new int[NUMBER_OF_LIGHTS];
+			for (int i = 0 ; i < NUMBER_OF_LIGHTS; i++)
 			{
-			  Array.Copy(lights[i].ToFloat(), 0, result, i * lightFloats, lightFloats);
+				cameraSpaceLightPosUnif[i] = GL.GetUniformLocation(program, "Lgt.lights[" + i.ToString() + "].cameraSpaceLightPos");
+				lightIntensityUnif[i] =  GL.GetUniformLocation(program, "Lgt.lights[" + i.ToString() + "].lightIntensity");
 			}
-			return result;
+			numberOfLightsUnif = GL.GetUniformLocation(program, "numberOfLights");
 		}
 		
 		public void Update(LightBlock lightblock)
@@ -104,7 +100,11 @@ namespace GlslTutorials
 			GL.Uniform1(lightAttenuationUnif, lightblock.lightAttenuation);
 			GL.Uniform1(maxIntensityUnif, lightblock.maxIntensity);
 			if (gammaUnif != -1) GL.Uniform1(gammaUnif, lightblock.gamma);
-			GL.Uniform4(lightsUnif, 2 * NUMBER_OF_LIGHTS, lightblock.LightsAsFloats());
+			for (int i = 0; i < NUMBER_OF_LIGHTS; i++)
+			{
+				GL.Uniform4(cameraSpaceLightPosUnif[i], lightblock.lights[i].cameraSpaceLightPos);
+				GL.Uniform4(lightIntensityUnif[i], lightblock.lights[i].lightIntensity);
+			}
 			if (numberOfLightsUnif != -1) GL.Uniform1(numberOfLightsUnif, lightblock.NUMBER_OF_LIGHTS);
 			GL.UseProgram(programNumber);
 		}		
@@ -116,7 +116,11 @@ namespace GlslTutorials
 			GL.Uniform1(lightAttenuationUnif, lightAttenuation);
 			GL.Uniform1(maxIntensityUnif, maxIntensity);
 			if (gammaUnif != -1) GL.Uniform1(gammaUnif, gamma);
-			GL.Uniform4(lightsUnif, 2 * NUMBER_OF_LIGHTS, LightsAsFloats());
+			for (int i = 0; i < NUMBER_OF_LIGHTS; i++)
+			{
+				GL.Uniform4(cameraSpaceLightPosUnif[i], lights[i].cameraSpaceLightPos);
+				GL.Uniform4(lightIntensityUnif[i], lights[i].lightIntensity);
+			}
 			if (numberOfLightsUnif != -1) GL.Uniform1(numberOfLightsUnif, NUMBER_OF_LIGHTS);
 			GL.UseProgram(programNumber);
 		}

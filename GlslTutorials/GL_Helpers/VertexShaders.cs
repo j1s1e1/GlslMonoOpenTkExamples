@@ -544,6 +544,8 @@ namespace GlslTutorials
 		"void main()" +
 		"{" +
 			"gl_Position = cameraToClipMatrix * (modelToCameraMatrix * vec4(position, 1.0));" +
+			//"gl_Position = cameraToClipMatrix *  vec4(position, 1.0);" +
+			//"gl_Position = vec4(position, 1.0);" +
 		"}";
 
 		public static String littexture =
@@ -569,6 +571,51 @@ namespace GlslTutorials
 
 			"colorCoord = texCoord;" +
 		"}";
+
+		public static String colored =
+
+		"attribute vec3 position;" +
+		"attribute  vec4 color;" +
+
+		"varying vec4 objectColor;" +
+
+		"uniform mat4 cameraToClipMatrix;" +
+
+		"uniform mat4 modelToCameraMatrix;" +
+
+		"void main()" +
+		"{" +
+			"gl_Position = cameraToClipMatrix * (modelToCameraMatrix * vec4(position, 1.0));" +
+			"objectColor = color;" +
+		"}";
+
+		public static String projlight =
+
+		"attribute vec3 position;" +
+		"attribute vec3 normal;" +
+		"attribute vec2 texCoord;" +
+
+		"varying vec2 colorCoord;" +
+		"varying vec3 cameraSpacePosition;" +
+		"varying vec3 cameraSpaceNormal;" +
+		"varying vec4 lightProjPosition;" +
+
+		"uniform mat4 cameraToClipMatrix;" +
+
+		"uniform mat4 modelToCameraMatrix;" +
+		"uniform mat3 normalModelToCameraMatrix;" +
+		"uniform mat4 cameraToLightProjMatrix;" +
+
+		"void main()" +
+		"{" +
+			"cameraSpacePosition = (modelToCameraMatrix * vec4(position, 1.0)).xyz;" +
+			"gl_Position = cameraToClipMatrix * vec4(cameraSpacePosition, 1.0);" +
+			"cameraSpaceNormal = normalize(normalModelToCameraMatrix * normal);" +
+			"lightProjPosition = cameraToLightProjMatrix * vec4(cameraSpacePosition, 1.0);" +
+
+			"colorCoord = texCoord;" +
+		"}";
+
 		
 	}
 }

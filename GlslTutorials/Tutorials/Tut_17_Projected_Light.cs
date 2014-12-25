@@ -147,6 +147,10 @@ namespace GlslTutorials
 		int g_coloredModelToCameraMatrixUnif;
 		int g_coloredCameraToClipMatrixUnif;
 		int g_colroedProg;
+
+		int g_projLightCameraToClipMatrixUnif;
+		int g_projLightProg;
+
 		Mesh g_pAxesMesh;
 
 
@@ -166,8 +170,10 @@ namespace GlslTutorials
 			g_lightNumBinder = new UniformIntBinder();
 			AssociateUniformWithNodes(nodes, g_lightNumBinder, "numberOfLights");
 			SetStateBinderWithNodes(nodes, g_lightNumBinder);
+			g_lightProjMatBinder = new UniformMat4Binder();
 			AssociateUniformWithNodes(nodes, g_lightProjMatBinder, "cameraToLightProjMatrix");
 			SetStateBinderWithNodes(nodes, g_lightProjMatBinder);
+			g_camLightPosBinder = new UniformVec3Binder();
 			AssociateUniformWithNodes(nodes, g_camLightPosBinder, "cameraSpaceProjLightPos");
 			SetStateBinderWithNodes(nodes, g_camLightPosBinder);
 
@@ -175,22 +181,32 @@ namespace GlslTutorials
 			Mesh pSphereMesh = pScene.FindMesh("m_sphere");
 
 			int colored = pScene.FindProgram("p_colored");
+
+			int projLight = pScene.FindProgram("p_proj");
+
 			Mesh pAxesMesh = pScene.FindMesh("m_axes");
 
 			//No more things that can throw.
 			g_spinBarOrient = nodes[3].NodeGetOrient();
 			g_unlitProg = unlit;
 			g_unlitModelToCameraMatrixUnif = GL.GetUniformLocation(unlit, "modelToCameraMatrix");
+			g_unlitCameraToClipMatrixUnif  = GL.GetUniformLocation(unlit, "cameraToClipMatrix");
 			g_unlitObjectColorUnif = GL.GetUniformLocation(unlit, "objectColor");
 
 			g_colroedProg = colored;
+			g_coloredCameraToClipMatrixUnif= GL.GetUniformLocation(colored, "cameraToClipMatrix");
 			g_coloredModelToCameraMatrixUnif = GL.GetUniformLocation(colored, "modelToCameraMatrix");
+
+			g_projLightProg = projLight;
+			g_projLightCameraToClipMatrixUnif= GL.GetUniformLocation(projLight, "cameraToClipMatrix");
 
 			g_nodes = nodes;
 
 			g_pSphereMesh = pSphereMesh;
 
 			g_pScene = pScene;
+
+			g_pAxesMesh = pAxesMesh;
 		}
 
 		const int MAX_NUMBER_OF_LIGHTS = 4;
@@ -214,6 +230,13 @@ namespace GlslTutorials
 				MessageBox.Show("Error loading scene " + ex.ToString());
 			}
 			reshape();
+			// Added
+			GL.Enable(EnableCap.Texture2D);
+			//Basically enables the alpha channel to be used in the color buffer
+			GL.Enable(EnableCap.Blend);
+			//The operation/order to blend
+			GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
+			// End Added
 		}
 			
 		int g_currSampler = 0;
@@ -221,7 +244,7 @@ namespace GlslTutorials
 		float[] g_lightFOVs = new float[]{ 10.0f, 20.0f, 45.0f, 75.0f, 90.0f, 120.0f, 150.0f, 170.0f };
 		int g_currFOVIndex = 3;
 
-		bool g_bDrawCameraPos = false;
+		bool g_bDrawCameraPos = true;
 		bool g_bShowOtherLights = true;
 
 		int g_displayWidth = 500;
@@ -246,6 +269,16 @@ namespace GlslTutorials
 			else
 				g_lightNumBinder.SetValue(0);
 				*/
+
+			// Update in used programs
+			lightData.SetUniforms(g_unlitProg);
+			lightData.UpdateInternal();
+
+			lightData.SetUniforms(g_colroedProg);
+			lightData.UpdateInternal();
+
+			lightData.SetUniforms(g_projLightProg);
+			lightData.UpdateInternal();
 		}
 
 		public override void display()
@@ -266,16 +299,19 @@ namespace GlslTutorials
 			modelMatrix.ApplyMatrix(cameraMatrix);
 
 			BuildLights(cameraMatrix);
-			/* FIXME
-			g_nodes[0].NodeSetOrient(glm::rotate(glm::fquat(),
-				360.0f * g_timer.GetAlpha(), glm::vec3(0.0f, 1.0f, 0.0f)));
 
-			g_nodes[3].NodeSetOrient(g_spinBarOrient * glm::rotate(glm::fquat(),
-				360.0f * g_timer.GetAlpha(), glm::vec3(0.0f, 0.0f, 1.0f)));
-*/
+			g_nodes[0].NodeSetOrient(Quaternion.FromAxisAngle(new Vector3(0.0f, 1.0f, 0.0f), 
+				360.0f *  g_timer.GetAlpha()));
+			g_nodes[3].NodeSetOrient(Quaternion.FromAxisAngle(new Vector3(0.0f, 0.0f, 1.0f), 
+				360.0f * g_timer.GetAlpha()));
+				
 			{
 				MatrixStack persMatrix = new MatrixStack();
 				persMatrix.Perspective(60.0f, (g_displayWidth / (float)g_displayHeight), g_fzNear, g_fzFar);
+				// added
+				persMatrix.Translate(5f, 0.0f, -5f);
+				persMatrix.Scale(0.5f);
+				// end added
 
 				ProjectionBlock projData = new ProjectionBlock();
 				projData.cameraToClipMatrix = persMatrix.Top();
@@ -286,6 +322,10 @@ namespace GlslTutorials
 
 				GL.UseProgram(g_unlitProg);
 				GL.UniformMatrix4(g_unlitCameraToClipMatrixUnif, false, ref projData.cameraToClipMatrix);
+				GL.UseProgram(0);
+
+				GL.UseProgram(g_projLightProg);
+				GL.UniformMatrix4(g_projLightCameraToClipMatrixUnif, false, ref projData.cameraToClipMatrix);
 				GL.UseProgram(0);
 
 			}
@@ -305,17 +345,17 @@ namespace GlslTutorials
 				lightProjStack.ApplyMatrix(lightView);
 				lightProjStack.ApplyMatrix(Matrix4.Invert(cameraMatrix));
 
-				// FIXME g_lightProjMatBinder.SetValue(lightProjStack.Top());
+				g_lightProjMatBinder.SetValue(lightProjStack.Top());
 
 				// Row or Column??
 				Vector4 worldLightPos = Matrix4.Invert(lightView).Row3;
 				Vector3 lightPos = new Vector3(Vector4.Transform(worldLightPos, cameraMatrix));
 
-				// FIXME g_camLightPosBinder.SetValue(lightPos);
+				g_camLightPosBinder.SetValue(lightPos);
 			}
 
 			GL.Viewport(0, 0, width, height);
-			// FIXME g_pScene.Render(modelMatrix.Top());
+			g_pScene.Render(modelMatrix.Top());
 
 			{
 				//Draw axes

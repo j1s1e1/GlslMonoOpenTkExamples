@@ -202,7 +202,6 @@ namespace GlslTutorials
 			"void main()" +
 			"{" +
 				"vec3 cameraSpacePosition = CalcCameraSpacePosition();" +
-
 				"vec3 lightDir = vec3(0.0);" +
 				"vec4 attenIntensity = ApplyLightIntensity(cameraSpacePosition, lightDir);" +
 
@@ -338,11 +337,10 @@ namespace GlslTutorials
 		"};" +	
 				
 		"uniform Light Lgt;" +
+
+		"vec3 lightDirection;" +
 		
-		
-		"float CalcAttenuation(in vec3 cameraSpacePosition," +
-			"in vec3 cameraSpaceLightPos," +
-			"out vec3 lightDirection)" +
+		"float CalcAttenuation(vec3 cameraSpacePosition, vec3 cameraSpaceLightPos)" +
 		"{" +
 			"vec3 lightDifference =  cameraSpaceLightPos - cameraSpacePosition;" +
 			"float lightDistanceSqr = dot(lightDifference, lightDifference);" +
@@ -351,30 +349,27 @@ namespace GlslTutorials
 			"return (1.0 / ( 1.0 + Lgt.lightAttenuation * lightDistanceSqr));" +
 		"}" +				
 				
-		"vec4 ComputeLighting(in PerLight lightData, in vec3 cameraSpacePosition," +
-			"in vec3 cameraSpaceNormal)" +
+		"vec4 ComputeLighting(PerLight lightData, vec3 cameraSpacePosition, vec3 cameraSpaceNormal)" +
 		"{" +
-			"vec3 lightDir;" +
 			"vec4 lightIntensity;" +
 			"if(lightData.cameraSpaceLightPos.w == 0.0)" +
 			"{" +
-				"lightDir = vec3(lightData.cameraSpaceLightPos);" +
+				"lightDirection = vec3(lightData.cameraSpaceLightPos);" +
 				"lightIntensity = lightData.lightIntensity;" +
 			"}" +		
 			"else" +
 			"{" +
-				"float atten = CalcAttenuation(cameraSpacePosition," +
-					"lightData.cameraSpaceLightPos.xyz, lightDir);" +
+				"float atten = CalcAttenuation(cameraSpacePosition, lightData.cameraSpaceLightPos.xyz);" +
 				"lightIntensity = atten * lightData.lightIntensity;" +
 			"}" +
 			
 			"vec3 surfaceNormal = normalize(cameraSpaceNormal);" +
-			"float cosAngIncidence = dot(surfaceNormal, lightDir);" +
+			"float cosAngIncidence = dot(surfaceNormal, lightDirection);" +
 			"cosAngIncidence = cosAngIncidence < 0.0001 ? 0.0 : cosAngIncidence;" +
 			
 			"vec3 viewDirection = normalize(-cameraSpacePosition);" +
 
-			"vec3 halfAngle = normalize(lightDir + viewDirection);" +
+			"vec3 halfAngle = normalize(lightDirection + viewDirection);" +
 			
 			"float angleNormalHalf = acos(dot(halfAngle, surfaceNormal));" +
 			"float exponent = angleNormalHalf / Mtl.specularShininess;" +
@@ -392,14 +387,27 @@ namespace GlslTutorials
 		"void main()" +
 		"{" +
 			"vec4 accumLighting = Mtl.diffuseColor * Lgt.ambientIntensity;" +
+			//"gl_FragColor = accumLighting;" + // OK
 			"for(int light = 0; light < numberOfLights; light++)" +
 			"{" +
 				"accumLighting += ComputeLighting(Lgt.lights[light]," +
 					"cameraSpacePosition, vertexNormal);" +
 			"}" +
 			
-			"gl_FragColor = sqrt(accumLighting);" + //2.0 gamma correction
+			"gl_FragColor = sqrt(accumLighting);" + //2.0 gamma correction / OK
+			//"gl_FragColor =  vec4(0.5, sqrt(accumLighting).xy, 1.0);" +
+			//"gl_FragColor = vec4(cameraSpacePosition, 1.0);" +  // OK
+			//"gl_FragColor = vec4(normalize(vertexNormal), 1.0);" + 
+			//"gl_FragColor = vec4(0.5, normalize(vertexNormal).xy, 1.0);" + 
+			//"gl_FragColor = vec4(normalize(vertexNormal), 1.0);" + // OK
 			//"gl_FragColor = vec4(1.0, 0.0, 0.0, 1.0);" +
+			//"gl_FragColor = Mtl.diffuseColor;" + // OK
+			//"gl_FragColor = Lgt.ambientIntensity;" + // OK
+			//"gl_FragColor = ComputeLighting(Lgt.lights[0], cameraSpacePosition, vertexNormal);" + //OK
+			//"gl_FragColor = ComputeLighting(Lgt.lights[1], cameraSpacePosition, vertexNormal);" + //OK
+			//"gl_FragColor = vec4(normalize(Lgt.lights[0].cameraSpaceLightPos.xyz), 1.0);" + //OK
+			//"gl_FragColor = Lgt.lights[0].lightIntensity;" + //OK
+			//"gl_FragColor = ComputeLighting(Lgt.lights[1], cameraSpacePosition, vertexNormal);" + //NO
 		"}";
 		
 		
@@ -1271,10 +1279,82 @@ namespace GlslTutorials
 			"}" +
 
 			"gl_FragColor = accumLighting / Lgt.maxIntensity;" +
-			"gl_FragColor = diffuseColor;" +
-			"gl_FragColor = vec4(colorCoord, 0.0, 1.0);" +
+			//"gl_FragColor = diffuseColor;" +
+			//"gl_FragColor = vec4(colorCoord, 0.0, 1.0);" +
 		"}";
-			
+
+		public static String colored =
+
+		"varying vec4 objectColor;" +
+
+		"void main()" +
+		"{" +
+			"gl_FragColor = objectColor;" +
+		"}";
+
+		public static String projlight =
+
+		"varying vec2 colorCoord;" +
+		"varying  vec3 cameraSpacePosition;" +
+		"varying  vec3 cameraSpaceNormal;" +
+		"varying  vec4 lightProjPosition;" +
+
+		VariableLightStructureUniform +
+
+		CalcAttenuation + 
+
+		"vec4 ComputeLighting(in vec4 diffuseColor, in PerLight lightData)" +
+		"{" +
+			"vec3 lightDir;" +
+			"vec4 lightIntensity;" +
+			"if(lightData.cameraSpaceLightPos.w == 0.0)" +
+			"{" +
+				"lightDir = vec3(lightData.cameraSpaceLightPos);" +
+				"lightIntensity = lightData.lightIntensity;" +
+			"}" +
+			"else" +
+			"{" +
+				"float atten = CalcAttenuation(cameraSpacePosition, lightData.cameraSpaceLightPos.xyz, lightDir);" +
+				"lightIntensity = atten * lightData.lightIntensity;" +
+			"}" +
+
+			"vec3 surfaceNormal = normalize(cameraSpaceNormal);" +
+			"float cosAngIncidence = dot(surfaceNormal, lightDir);" +
+			"cosAngIncidence = cosAngIncidence < 0.0001 ? 0.0 : cosAngIncidence;" +
+
+			"vec4 lighting = diffuseColor * lightIntensity * cosAngIncidence;" +
+
+			"return lighting;" +
+		"}" +
+
+		"uniform sampler2D diffuseColorTex;" +
+		"uniform sampler2D lightProjTex;" +
+
+		"uniform vec3 cameraSpaceProjLightPos;" +
+
+		"void main()" +
+		"{" +
+			"vec4 diffuseColor = texture2D(diffuseColorTex, colorCoord);" +
+
+			"PerLight currLight;" +
+			"currLight.cameraSpaceLightPos = vec4(cameraSpaceProjLightPos, 1.0);" +
+			"currLight.lightIntensity = texture2DProj(lightProjTex, lightProjPosition.xyw) * 4.0;" +
+
+			"currLight.lightIntensity = lightProjPosition.w > 0.0 ? currLight.lightIntensity : vec4(0.0);" +
+
+			"vec4 accumLighting = diffuseColor * Lgt.ambientIntensity;" +
+			"for(int light = 0; light < numberOfLights; light++)" +
+			"{" +
+				"accumLighting += ComputeLighting(diffuseColor, Lgt.lights[light]);" +
+			"}" +
+
+			"accumLighting += ComputeLighting(diffuseColor, currLight);" +
+
+			"gl_FragColor = accumLighting / Lgt.maxIntensity;" +
+			//"gl_FragColor = diffuseColor;" +
+			//"gl_FragColor = vec4(colorCoord, 0.0, 1.0);" +
+		"}";
+
 	}
 }
 

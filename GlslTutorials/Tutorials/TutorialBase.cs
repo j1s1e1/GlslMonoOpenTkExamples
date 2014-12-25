@@ -190,6 +190,14 @@ namespace GlslTutorials
 	    {
 	
 	    }
+
+		public virtual void MouseButton(int button, int state, int x, int y)
+		{
+		}
+
+		public virtual void MouseMotion(int x, int y)
+		{
+		}
 		
 		protected void SetupDepthAndCull()
 		{

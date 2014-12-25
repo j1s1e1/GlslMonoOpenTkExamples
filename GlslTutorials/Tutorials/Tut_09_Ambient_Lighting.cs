@@ -36,6 +36,7 @@ namespace GlslTutorials
 	    static ProgramData g_VertexAmbDiffuseColor;
 		
 		static Matrix4 coloredCylinderModelmatrix = Matrix4.Identity;
+		static Matrix4 planeModelmatrix = Matrix4.Identity;
 	
 	    ProgramData LoadProgram(String vertexShader, String fragmentShader)
 	    {
@@ -122,13 +123,13 @@ namespace GlslTutorials
 	
 	    public static ObjectPole g_objtPole;
 	
-	    void MouseMotion(int x, int y)
+		public override void MouseMotion(int x, int y)
 	    {
 	        Framework.ForwardMouseMotion(g_viewPole, x, y);
 	        Framework.ForwardMouseMotion(g_objtPole, x, y);
 	    }
 	
-	    void MouseButton(int button, int state, int x, int y)
+	    public override void MouseButton(int button, int state, int x, int y)
 	    {
 	        Framework.ForwardMouseButton(g_viewPole, button, state, x, y);
 	        Framework.ForwardMouseButton(g_objtPole, button, state, x, y);
@@ -154,9 +155,9 @@ namespace GlslTutorials
 	        try
 	        {
 				string XmlFilesDirectory = GlsTutorialsClass.ProjectDirectory + @"/XmlFilesForMeshes";
-				Stream unitcylinder = File.OpenRead(XmlFilesDirectory + @"/unitcylinder.xml");
+				Stream unitcylinder = File.OpenRead(XmlFilesDirectory  + @"/unitcylinder9.xml");
 	            g_pCylinderMesh = new Mesh(unitcylinder);
-				Stream unitplane = File.OpenRead(XmlFilesDirectory + @"/unitplane.xml");
+				Stream unitplane = File.OpenRead(XmlFilesDirectory + @"/largeplane9.xml");
 	            g_pPlaneMesh = new Mesh(unitplane);
 	        }
 	        catch(Exception ex)
@@ -229,8 +230,13 @@ namespace GlslTutorials
                 using ( PushStack pushstack = new PushStack(modelMatrix))
                 {		
                     GL.UseProgram(whiteDiffuse.theProgram);
-					modelMatrix.Translate(new Vector3(0f, 0f, 10f));
+					//modelMatrix.Scale(new Vector3(10f, 10f, 1f));
+					//modelMatrix.ApplyMatrix(g_objtPole.CalcMatrix());
+
+					modelMatrix.Translate(new Vector3(0f, 0f, -10f));
+
                     Matrix4 mm =  modelMatrix.Top();
+					planeModelmatrix = mm;
 					//mm = Matrix4.Identity; // TEST
                     GL.UniformMatrix4(whiteDiffuse.modelToCameraMatrixUnif, false, ref mm);
 					//projData.cameraToClipMatrix = Matrix4.Identity; // Test
@@ -248,8 +254,8 @@ namespace GlslTutorials
                 using (PushStack pushstack = new PushStack(modelMatrix))
                 {
                     modelMatrix.ApplyMatrix(g_objtPole.CalcMatrix());
-					//modelMatrix.Scale(0.25f);
-					modelMatrix.Translate(new Vector3(0f, 0f, 10f));
+					//modelMatrix.Scale(0.05f);
+					//modelMatrix.Translate(new Vector3(0f, 0.5f, -10f));
 					coloredCylinderModelmatrix = modelMatrix.Top ();
                     if(g_bDrawColoredCyl)
                     {					
@@ -337,8 +343,11 @@ namespace GlslTutorials
 	                break;
 				
 				case Keys.I:
+					result.AppendLine("planeModelmatrix" + planeModelmatrix.ToString());
+					result.AppendLine(AnalysisTools.CalculateMatrixEffects(planeModelmatrix));
 					result.AppendLine("cameraToClipMatrix = " + projData.cameraToClipMatrix.ToString());
 					result.AppendLine("coloredCylinderModelmatrix = " + coloredCylinderModelmatrix.ToString());
+					result.AppendLine(AnalysisTools.CalculateMatrixEffects(coloredCylinderModelmatrix));
 					Matrix4 multiply = Matrix4.Mult(projData.cameraToClipMatrix, coloredCylinderModelmatrix);
 					result.Append(AnalysisTools.CalculateMatrixEffects(multiply));
 					break;

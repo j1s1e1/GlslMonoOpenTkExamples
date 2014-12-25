@@ -247,7 +247,7 @@ namespace GlslTutorials
 					using (PushStack pushstack = new PushStack(modelMatrix))
 					{
 						modelMatrix.ApplyMatrix(g_objtPole.CalcMatrix());
-						modelMatrix.Translate(new Vector3(0f, 0f, 10f));
+						modelMatrix.Translate(new Vector3(0f, 0f, -10f));
 						if(g_bScaleCyl)
 							modelMatrix.Scale(1.0f, 1.0f, 0.2f);
 						coloredCylinderModelmatrix = modelMatrix.Top();
