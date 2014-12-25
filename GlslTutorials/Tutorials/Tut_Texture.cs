@@ -1,5 +1,7 @@
 using System;
 using System.Drawing;
+using System.Text;
+using System.Windows.Forms;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 
@@ -12,6 +14,9 @@ namespace GlslTutorials
 		}
 		
 		private int current_texture;
+
+		TextureElement textureElement;
+		PaintWall paintWall;
 		
 		protected override void init ()
 		{
@@ -25,6 +30,8 @@ namespace GlslTutorials
 		    GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
 		    //Use for pixel depth comparing before storing in the depth buffer
 		    GL.Enable(EnableCap.DepthTest);
+			textureElement = new TextureElement("wood4_rotate.png");
+			paintWall = new PaintWall();
 		}
 		
 	 	public override void display()
@@ -34,6 +41,38 @@ namespace GlslTutorials
 		    GL.LoadIdentity();
 
 			Textures.DrawTexture2D(current_texture);
+			textureElement.Draw();
+			textureElement.Move(-0.2f, 0.5f, 0.0f);
+			paintWall.Draw();
+		}
+
+		public override String keyboard(Keys keyCode, int x, int y)
+		{
+			StringBuilder result = new StringBuilder();
+			result.AppendLine(keyCode.ToString());
+			switch (keyCode) {
+			case Keys.D1:
+				textureElement.Replace("flashlight.png");
+				break;	
+			case Keys.D2:
+				textureElement.Replace("wood4_rotate.png");
+				break;		
+			case Keys.D3:
+				break;				
+			case Keys.D4:
+				break;	
+			case Keys.D5:
+				break;			
+			case Keys.D6:
+				break;
+			case Keys.A:
+				paintWall.PaintRandom();
+				break;
+			}
+
+			reshape();
+			display();
+			return result.ToString();
 		}
 	}
 }

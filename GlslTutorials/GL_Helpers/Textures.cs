@@ -143,6 +143,26 @@ namespace GlslTutorials
 		    return texture;
 		}	
 
+		public static int CreateFromBitmap(Bitmap bitmap)
+		{
+			int texture = GL.GenTexture();
+			GL.BindTexture(TextureTarget.Texture2D, texture);
+			GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)All.Nearest);
+			GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)All.Nearest);
+
+			GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (int)All.ClampToEdge);
+			GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, (int)All.ClampToEdge);
+			GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, bitmap.Width, bitmap.Height, 0, PixelFormat.Bgra, PixelType.UnsignedByte, IntPtr.Zero);
+
+			System.Drawing.Imaging.BitmapData bitmap_data = bitmap.LockBits(new Rectangle(0, 0, bitmap.Width, bitmap.Height),
+				System.Drawing.Imaging.ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+			GL.TexSubImage2D(TextureTarget.Texture2D, 0, 0, 0, bitmap.Width, bitmap.Height, PixelFormat.Bgra, PixelType.UnsignedByte, bitmap_data.Scan0);
+			bitmap.UnlockBits(bitmap_data);
+			GL.BindTexture(TextureTarget.Texture2D, 0);
+
+			return texture;
+		}	
+
 		// Test Function
 		public static void DrawTexture1D(int texture)
 		{
@@ -190,8 +210,6 @@ namespace GlslTutorials
 			GL.Translate(256f, 256f, -5f);
 			GL.Scale(new Vector3(100f, 100f, 100f));
 
-			GL.Color4(Color.White);
-
 			GL.BindTexture(TextureTarget.Texture2D, texture);
 
 			GL.Begin(BeginMode.Quads);
@@ -199,19 +217,19 @@ namespace GlslTutorials
 			//Bind texture coordinates to vertices in ccw order
 
 			//Top-Right
-			GL.TexCoord2(1.0f, 0.0f);
+			GL.TexCoord2(1.0f, 1.0f);
 			GL.Vertex2(1.0f, 1.0f);
 
 			//Top-Left
-			GL.TexCoord2(0f, 0f);
+			GL.TexCoord2(0f, 1.0f);
 			GL.Vertex2(-1.0f, 1.0f);
 
 			//Bottom-Left
-			GL.TexCoord2(0f, 1f);
+			GL.TexCoord2(0f, 0f);
 			GL.Vertex2(-1.0f, -1.0f);
 
 			//Bottom-Right
-			GL.TexCoord2(1f, 1f);
+			GL.TexCoord2(1f, 0f);
 			GL.Vertex2(1.0f, -1.0f);
 
 			GL.End();

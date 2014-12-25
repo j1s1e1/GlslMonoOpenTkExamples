@@ -5,6 +5,8 @@ namespace GlslTutorials
 {
 	public enum TutorialsEnum
 	{
+		Tut_Texture,
+		Tut_Tennis3D,
 		Tut_MeshTransforms,
 		Tut_10_Fragment_Attenuation,
 		Tut_17_DoubleProjection,
@@ -54,7 +56,6 @@ namespace GlslTutorials
 		Tut_TiltBall,
 		Tut_Camera,
 		Tut_Colors,
-		Tut_Texture,
 
 		Tut_Texture_Tests,
 		
@@ -114,6 +115,7 @@ namespace GlslTutorials
 				case TutorialsEnum.Tut_Texture_Tests: currentTutorial = new Tut_Texture_Tests(); break;
 				case TutorialsEnum.Tut_MoveMeshItem: currentTutorial = new Tut_MoveMeshItem(); break;
 				case TutorialsEnum.Tut_MeshTransforms: currentTutorial = new Tut_MeshTransforms(); break;
+				case TutorialsEnum.Tut_Tennis3D: currentTutorial = new Tut_Tennis3D(); break;
 				case TutorialsEnum.Tut_14_Basic_Textures_Test: currentTutorial = new Tut_14_Basic_Textures_Test(); break;
 			}
 		}

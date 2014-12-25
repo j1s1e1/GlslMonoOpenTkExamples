@@ -196,6 +196,9 @@
     <Compile Include="View\RotateMode.cs" />
     <Compile Include="Tutorials\Tut_MoveMeshItem.cs" />
     <Compile Include="Tutorials\Tut_MeshTransforms.cs" />
+    <Compile Include="Tutorials\Tut_Tennis3D.cs" />
+    <Compile Include="Textures\TextureElement.cs" />
+    <Compile Include="Textures\PaintWall.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -280,5 +283,7 @@
     <None Include="XmlFilesForMeshes\longbar.xml" />
     <None Include="XmlFilesForMeshes\unitdiorama.xml" />
     <None Include="XmlFilesForMeshes\unitaxes.xml" />
+    <None Include="Textures\flashlight.png" />
+    <None Include="Textures\wood4_rotate.png" />
   </ItemGroup>
 </Project>
