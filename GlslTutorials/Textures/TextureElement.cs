@@ -8,26 +8,43 @@ namespace GlslTutorials
 	public class TextureElement :Shape
 	{
 		int texture;
-		Vector2 topRightCoord = new Vector2(1.0f, 1.0f);
-		Vector3 topRightVertex = new Vector3(1.0f, 1.0f, 0.5f);
+		int texUnit = 0;
 
-		Vector2 topLeftCoord = new Vector2(0.0f, 1.0f);
-		Vector3 topLeftVertex = new Vector3(-1.0f, 1.0f, 0.5f);
-
-		Vector2 bottomLeftCoord = new Vector2(0.0f, 0.0f);
-		Vector3 bottomLeftVertex = new Vector3(-1.0f, -1.0f, 0.5f);
-
-		Vector2 bottomRightCoord = new Vector2(1.0f, 0.0f);
-		Vector3 bottomRightVertex = new Vector3(1.0f, -1.0f, 0.5f);
+		float scale = 1.0f;
+		Vector3 lightPosition = new Vector3(0f, 0f, 1f);
 
 		public TextureElement(Bitmap bitmap)
 		{
 			texture = Textures.CreateFromBitmap(bitmap);
+			Setup();
 		}
 
 		public TextureElement(string fileName)
 		{
 			texture = Textures.Load(fileName);
+			Setup();
+		}
+
+		private void Setup()
+		{
+			vertexData = new float[]{	
+				// x y z xn yn zn tx ty
+				-1f, -1f, 0f, 0f, 0f, 1f, 0f, 0f,
+				-1f, 1f, 0f, 0f, 0f, 1f, 0f, 1f,
+				1f, 1f, 0f, 0f, 0f, 1f, 1f, 1f,
+
+				-1f, -1f, 0f, 0f, 0f, 1f, 0f, 0f,
+				1f, 1f, 0f, 0f, 0f, 1f, 1f, 1f,
+				1f, -1f, 0f, 0f, 0f, 1f, 1f, 0f
+										};
+			COORDS_PER_VERTEX = 8;
+			SetupSimpleIndexBuffer();
+			InitializeVertexBuffer();
+
+			programNumber = Programs.AddProgram(VertexShaders.MatrixTexture, 
+				FragmentShaders.MatrixTexture);
+			Programs.SetUniformTexture(programNumber, texUnit);
+			Programs.LoadTexture(programNumber, texture);
 		}
 
 		public void Replace(string fileName)
@@ -42,41 +59,33 @@ namespace GlslTutorials
 			texture = texture2;
 		}
 
+		public override void Move (Vector3 v)
+		{
+			base.Move(v);
+			lightPosition = lightPosition + v * scale;
+		}
+
+		public void Scale(float scaleIn)
+		{
+			scale = scale * scaleIn;
+		}
+
+		public void SetRotations(Vector3 rotations)
+		{
+//FIXME
+		}
+
 		public override void Draw()
 		{
-			GL.PushMatrix();
-
-			//GL.Rotate(30f, Vector3.UnitY);
-			GL.Translate(x, y, z);
-
-			GL.Translate(256f, 256f, -5f);  // center
-			GL.Scale(new Vector3(100f, 100f, 100f));
-
-			GL.BindTexture(TextureTarget.Texture2D, texture);
-
-			GL.Begin(BeginMode.Quads);
-
-			//Bind texture coordinates to vertices in ccw order
-
-			GL.TexCoord2(topRightCoord);
-			GL.Vertex3(topRightVertex);
-
-			GL.TexCoord2(topLeftCoord);
-			GL.Vertex3(topLeftVertex);
-
-			//Bottom-Left
-			GL.TexCoord2(bottomLeftCoord);
-			GL.Vertex3(bottomLeftVertex);
-
-			//Bottom-Right
-			GL.TexCoord2(bottomRightCoord);
-			GL.Vertex3(bottomRightVertex);
-
-			GL.End();
-
-			GL.BindTexture(TextureTarget.Texture2D, 0);
-
-			GL.PopMatrix();
+			Programs.SetLightPosition(programNumber, lightPosition);
+			Matrix4 mm = Rotate(modelToWorld, axis, angle);
+			mm.M41 = offset.X;
+			mm.M42 = offset.Y;
+			mm.M43 = offset.Z;	
+			mm = Matrix4.Mult(mm, Matrix4.CreateScale(scale));
+			Programs.LoadTexture(programNumber, texture);
+			Programs.Draw(programNumber, vertexBufferObject, indexBufferObject, cameraToClip, worldToCamera, mm,
+				indexData.Length, color);
 		}
 			
 	}

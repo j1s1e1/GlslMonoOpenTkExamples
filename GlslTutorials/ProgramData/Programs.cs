@@ -62,6 +62,11 @@ namespace GlslTutorials
 		{
 			ActivePrograms[program].LoadTexture(texture, oneTwenty);
 		}
+
+		public static void LoadTexture(int program, int texture)
+		{
+			ActivePrograms[program].LoadTexture(texture);
+		}
 		
 		public static void SetLightPosition(int program, Vector3 lightPos)
 		{

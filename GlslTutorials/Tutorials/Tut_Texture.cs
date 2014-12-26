@@ -17,6 +17,7 @@ namespace GlslTutorials
 
 		TextureElement textureElement;
 		PaintWall paintWall;
+		TextureElement newTextureElement;
 		
 		protected override void init ()
 		{
@@ -31,6 +32,11 @@ namespace GlslTutorials
 		    //Use for pixel depth comparing before storing in the depth buffer
 		    GL.Enable(EnableCap.DepthTest);
 			textureElement = new TextureElement("wood4_rotate.png");
+			textureElement.Scale(0.2f);
+
+			newTextureElement = new TextureElement("flashlight.png");
+			newTextureElement.Move(10f, 10f, 10f);
+			newTextureElement.Scale(0.2f);
 			paintWall = new PaintWall();
 		}
 		
@@ -40,10 +46,12 @@ namespace GlslTutorials
 		    GL.MatrixMode(MatrixMode.Modelview);
 		    GL.LoadIdentity();
 
-			Textures.DrawTexture2D(current_texture);
+			//Textures.DrawTexture2D(current_texture);
 			textureElement.Draw();
-			textureElement.Move(-0.2f, 0.5f, 0.0f);
-			paintWall.Draw();
+			textureElement.Move(-0.02f, 0.05f, 0.00f);
+
+			//newTextureElement.Draw();
+			//paintWall.Draw();
 		}
 
 		public override String keyboard(Keys keyCode, int x, int y)
@@ -52,10 +60,10 @@ namespace GlslTutorials
 			result.AppendLine(keyCode.ToString());
 			switch (keyCode) {
 			case Keys.D1:
-				textureElement.Replace("flashlight.png");
+				newTextureElement.Replace("flashlight.png");
 				break;	
 			case Keys.D2:
-				textureElement.Replace("wood4_rotate.png");
+				newTextureElement.Replace("wood4_rotate.png");
 				break;		
 			case Keys.D3:
 				break;				

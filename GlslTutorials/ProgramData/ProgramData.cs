@@ -204,6 +204,12 @@ namespace GlslTutorials
 		{
 			current_texture = Textures.Load(texture, 1, false, false, oneTwenty);
 		}
+
+		public void LoadTexture(int texture)
+		{
+			current_texture = texture;
+		}
+
 		
 		public void SetLightPosition(Vector3 lightPosition)
 		{

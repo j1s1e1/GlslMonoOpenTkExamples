@@ -10,6 +10,14 @@ namespace GlslTutorials
 		public Textures ()
 		{
 		}
+
+		public static void EnableTextures()
+		{
+			GL.Enable(EnableCap.Texture2D);
+			GL.Enable(EnableCap.Blend);
+			GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
+			GL.Enable(EnableCap.DepthTest);
+		}
 		
 		public static int Load(string fileName, int quality = 0, bool repeat = true, bool flip_y = false, bool oneTwenty = false)
 		{

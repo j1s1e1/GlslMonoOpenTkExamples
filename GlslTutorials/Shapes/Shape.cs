@@ -133,10 +133,16 @@ namespace GlslTutorials
 
         public virtual void Move (float x_add, float y_add, float z_add)
         {
-            x = x + x_add;
-            y = y + y_add;
-            z = z + z_add;
+			Move(new Vector3(x_add, y_add, z_add));
         }
+
+		public virtual void Move (Vector3 v)
+		{
+			offset = offset + v;
+			x = x + v.X;
+			y = y + v.Y;
+			z = z + v.Z;
+		}
 		
 		protected Vector3 offset = new Vector3(0);
 

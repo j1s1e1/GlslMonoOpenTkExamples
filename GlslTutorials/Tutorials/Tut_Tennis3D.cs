@@ -16,6 +16,10 @@ namespace GlslTutorials
 		Matrix4 ballModelMatrix = Matrix4.Identity;
 		bool renderWithString = false;
 		string renderString = "";
+		PaintWall frontWall = new PaintWall();
+		PaintWall backWall = new PaintWall();
+		PaintWall leftWall = new PaintWall();
+		PaintWall rightWall = new PaintWall();
 	    class ProgramData
 	    {
 	        public int theProgram;
@@ -212,7 +216,6 @@ namespace GlslTutorials
 	    protected override void init()
 	    {
 	        InitializeProgram();
-	
 	        try 
 	        {
 				string XmlFilesDirectory = GlsTutorialsClass.ProjectDirectory + @"/XmlFilesForMeshes";
@@ -235,16 +238,34 @@ namespace GlslTutorials
 	        }
 	        
 			SetupDepthAndCull();
-			
+			Textures.EnableTextures();
+
 			Camera.Move(0f, 0f, 0f);
 	        Camera.MoveTarget(0f, 0f, 0.0f);
 	        reshape();
 			current_mesh = g_unitSphereMesh;
+			frontWall.Move(0f, 0f, 0f);
+			frontWall.Scale(2f);
+			backWall.Move(0f, 0f, -200f);
+			backWall.Scale(0.5f);
+
+			leftWall.Move(-256f, 0f, 0f);
+			leftWall.SetRotations(new Vector3(0f, 70f, 0f));
+			rightWall.Move(256f, 0f, 0f);
+			rightWall.SetRotations(new Vector3(0f, -70f, 0f));
 	    }
 	
 	    public override void display()
 	    {
+			GL.Disable(EnableCap.DepthTest);
 	        ClearDisplay();
+			GL.Disable(EnableCap.CullFace);
+			GL.MatrixMode(MatrixMode.Modelview);
+			GL.LoadIdentity();
+			backWall.Draw();
+			leftWall.Draw();
+			rightWall.Draw();
+			GL.Enable(EnableCap.CullFace);
 	
 	        if (current_mesh != null)
 	        {
@@ -299,6 +320,11 @@ namespace GlslTutorials
 					reshape();
 				}
 	        }
+			GL.Disable(EnableCap.CullFace);
+			GL.MatrixMode(MatrixMode.Modelview);
+			GL.LoadIdentity();
+			frontWall.Draw();
+			GL.Enable(EnableCap.CullFace);
 			UpdatePosition();
 	    }
 
@@ -322,10 +348,12 @@ namespace GlslTutorials
 			}
 			if (ballModelMatrix.M43 < positionLimitLow.Z)
 			{
+				backWall.Paint(ballModelMatrix.M41/positionLimitHigh.X, ballModelMatrix.M42/positionLimitHigh.Y);
 				if (velocity.Z < 0) velocity.Z *= -1;
 			}
 			if (ballModelMatrix.M43 > positionLimitHigh.Z)
 			{
+				frontWall.Paint(ballModelMatrix.M41/positionLimitHigh.X, ballModelMatrix.M42/positionLimitHigh.Y);
 				if (velocity.Z > 0) velocity.Z *= -1;
 			}
 			position += velocity;
@@ -414,11 +442,7 @@ namespace GlslTutorials
 			case Keys.D6:
 				break;
 			case Keys.P:
-				newPerspectiveAngle = perspectiveAngle + 5f;
-				if (newPerspectiveAngle > 120f)
-				{
-					newPerspectiveAngle = 30f;
-				}
+				frontWall.PaintRandom();
 				break;
             case Keys.A:
 				renderWithString = false;
