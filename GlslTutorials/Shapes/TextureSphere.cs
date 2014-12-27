@@ -31,7 +31,7 @@ namespace GlslTutorials
 			programNumber = Programs.AddProgram(VertexShaders.MatrixTexture, 
               	FragmentShaders.MatrixTexture);
 			Programs.SetUniformTexture(programNumber, g_colorTexUnit);
-			Programs.LoadTexture(programNumber, "Venus_Magellan_C3-MDIR_ClrTopo_Global_Mosaic_1024.jpg", true);
+			Programs.SetTexture(programNumber, "Venus_Magellan_C3-MDIR_ClrTopo_Global_Mosaic_1024.jpg", true);
 			
 		}
 		

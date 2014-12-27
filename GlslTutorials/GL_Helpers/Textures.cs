@@ -15,7 +15,9 @@ namespace GlslTutorials
 		{
 			GL.Enable(EnableCap.Texture2D);
 			GL.Enable(EnableCap.Blend);
-			GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
+			//GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
+			//GL.BlendFunc(BlendingFactorSrc.OneMinusSrcAlpha, BlendingFactorDest.SrcAlpha);
+			GL.BlendFunc(BlendingFactorSrc.One, BlendingFactorDest.OneMinusSrcAlpha);
 			GL.Enable(EnableCap.DepthTest);
 		}
 		

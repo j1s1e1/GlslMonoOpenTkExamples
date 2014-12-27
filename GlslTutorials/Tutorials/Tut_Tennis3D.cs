@@ -20,6 +20,9 @@ namespace GlslTutorials
 		PaintWall backWall = new PaintWall();
 		PaintWall leftWall = new PaintWall();
 		PaintWall rightWall = new PaintWall();
+		PaintWall topWall = new PaintWall();
+		PaintWall bottomWall = new PaintWall();
+
 	    class ProgramData
 	    {
 	        public int theProgram;
@@ -246,26 +249,29 @@ namespace GlslTutorials
 			current_mesh = g_unitSphereMesh;
 			frontWall.Move(0f, 0f, 0f);
 			frontWall.Scale(2f);
-			backWall.Move(0f, 0f, -200f);
+			backWall.Move(0f, 0f, -0.9f);
 			backWall.Scale(0.5f);
 
-			leftWall.Move(-256f, 0f, 0f);
-			leftWall.SetRotations(new Vector3(0f, 70f, 0f));
-			rightWall.Move(256f, 0f, 0f);
-			rightWall.SetRotations(new Vector3(0f, -70f, 0f));
+			leftWall.Move(-0.8f, 0f, 0f);
+			leftWall.RotateShape(Vector3.UnitY, 70f);
+			rightWall.Move(0.8f, 0f, 0f);
+			rightWall.RotateShape(Vector3.UnitY, -70f);
+
+			topWall.Move(0f, 0.8f, 0f);
+			topWall.RotateShape(Vector3.UnitX, 70f);
+			bottomWall.Move(0f, -0.8f, 0f);
+			bottomWall.RotateShape(Vector3.UnitX, -70f);
 	    }
 	
 	    public override void display()
 	    {
 			GL.Disable(EnableCap.DepthTest);
 	        ClearDisplay();
-			GL.Disable(EnableCap.CullFace);
-			GL.MatrixMode(MatrixMode.Modelview);
-			GL.LoadIdentity();
 			backWall.Draw();
 			leftWall.Draw();
 			rightWall.Draw();
-			GL.Enable(EnableCap.CullFace);
+			topWall.Draw();
+			bottomWall.Draw();
 	
 	        if (current_mesh != null)
 	        {
@@ -320,11 +326,7 @@ namespace GlslTutorials
 					reshape();
 				}
 	        }
-			GL.Disable(EnableCap.CullFace);
-			GL.MatrixMode(MatrixMode.Modelview);
-			GL.LoadIdentity();
 			frontWall.Draw();
-			GL.Enable(EnableCap.CullFace);
 			UpdatePosition();
 	    }
 
@@ -332,18 +334,22 @@ namespace GlslTutorials
 		{
 			if (ballModelMatrix.M41 < positionLimitLow.X)
 			{
+				leftWall.Paint(ballModelMatrix.M43/positionLimitHigh.X, ballModelMatrix.M42/positionLimitHigh.Y);
 				if (velocity.X < 0) velocity.X *= -1;
 			}
 			if (ballModelMatrix.M41 > positionLimitHigh.X)
 			{
+				rightWall.Paint(ballModelMatrix.M43/positionLimitHigh.X, ballModelMatrix.M42/positionLimitHigh.Y);
 				if (velocity.X > 0) velocity.X *= -1;
 			}
 			if (ballModelMatrix.M42 < positionLimitLow.Y)
 			{
+				bottomWall.Paint(ballModelMatrix.M41/positionLimitHigh.X, ballModelMatrix.M43/positionLimitHigh.Y);
 				if (velocity.Y < 0) velocity.Y *= -1;
 			}
 			if (ballModelMatrix.M42 > positionLimitHigh.Y)
 			{
+				topWall.Paint(ballModelMatrix.M41/positionLimitHigh.X, ballModelMatrix.M43/positionLimitHigh.Y);
 				if (velocity.Y > 0) velocity.Y *= -1;
 			}
 			if (ballModelMatrix.M43 < positionLimitLow.Z)
@@ -373,8 +379,6 @@ namespace GlslTutorials
 	        GL.UseProgram(0);
 	    }
 	
-	    //Called whenever the window is resized. The new window size is given, in pixels.
-	    //This is an opportunity to call glViewport or glScissor to keep up with the change in size.
 	    public override void reshape()
 	    {
 	        MatrixStack camMatrix = new MatrixStack();

@@ -694,7 +694,7 @@ namespace GlslTutorials
 
             // Calculate the dot product of the light vector and vertex normal. If the normal and light vector are
             // pointing in the same direction then it will get max illumination.
-            "float diffuse = max(dot(v_Normal, lightVector), 0.0);" +
+            "float diffuse = max(dot(v_Normal, lightVector), 1.0);" +
 
             // Add attenuation." +
             "diffuse = diffuse * (1.0 / distance);" +
@@ -702,8 +702,10 @@ namespace GlslTutorials
             // Add ambient lighting"
             "diffuse = diffuse + 0.2;" +
 
+			"vec4 textureColor = texture2D(diffuseColorTex, colorCoord);" +
+
             // Multiply the color by the diffuse illumination level and texture value to get final output color."
-            "gl_FragColor = (diffuse * texture2D(diffuseColorTex, colorCoord));" +
+			"gl_FragColor = vec4(diffuse * textureColor.xyz, textureColor.w);" +
     	"}";
 
 		private static String MaterialStructureUniform =

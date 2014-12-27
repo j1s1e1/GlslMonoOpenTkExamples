@@ -5,6 +5,7 @@ namespace GlslTutorials
 {
 	public enum TutorialsEnum
 	{
+
 		Tut_Texture,
 		Tut_Tennis3D,
 

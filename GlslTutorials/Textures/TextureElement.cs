@@ -5,7 +5,7 @@ using OpenTK.Graphics.OpenGL;
 
 namespace GlslTutorials
 {
-	public class TextureElement :Shape
+	public class TextureElement : Shape
 	{
 		int texture;
 		int texUnit = 0;
@@ -41,10 +41,9 @@ namespace GlslTutorials
 			SetupSimpleIndexBuffer();
 			InitializeVertexBuffer();
 
-			programNumber = Programs.AddProgram(VertexShaders.MatrixTexture, 
-				FragmentShaders.MatrixTexture);
+			programNumber = Programs.AddProgram(VertexShaders.MatrixTexture, FragmentShaders.MatrixTexture);
 			Programs.SetUniformTexture(programNumber, texUnit);
-			Programs.LoadTexture(programNumber, texture);
+			Programs.SetTexture(programNumber, texture);
 		}
 
 		public void Replace(string fileName)
@@ -70,11 +69,6 @@ namespace GlslTutorials
 			scale = scale * scaleIn;
 		}
 
-		public void SetRotations(Vector3 rotations)
-		{
-//FIXME
-		}
-
 		public override void Draw()
 		{
 			Programs.SetLightPosition(programNumber, lightPosition);
@@ -83,7 +77,7 @@ namespace GlslTutorials
 			mm.M42 = offset.Y;
 			mm.M43 = offset.Z;	
 			mm = Matrix4.Mult(mm, Matrix4.CreateScale(scale));
-			Programs.LoadTexture(programNumber, texture);
+			Programs.SetTexture(programNumber, texture);
 			Programs.Draw(programNumber, vertexBufferObject, indexBufferObject, cameraToClip, worldToCamera, mm,
 				indexData.Length, color);
 		}

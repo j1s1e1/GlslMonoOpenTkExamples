@@ -13,7 +13,7 @@ namespace GlslTutorials
 		Random random;
 		public PaintWall ()
 		{
-			bitmap = new Bitmap(width, height);
+			bitmap = new Bitmap(width, height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
 			for (int col = 0; col < width; col++)
 			{
 				for (int row = 0; row < height; row++)
@@ -91,14 +91,19 @@ namespace GlslTutorials
 			textureElement.Move(movement.X, movement.Y, movement.Z);
 		}
 
+		public Vector3 GetOffset()
+		{
+			return textureElement.GetOffset();
+		}
+
 		public void Scale(float scale)
 		{
 			textureElement.Scale(scale);
 		}
 
-		public void SetRotations(Vector3 rotations)
+		public void RotateShape(Vector3 axis, float angle)
 		{
-			textureElement.SetRotations(rotations);
+			textureElement.RotateShape(axis, angle);
 		}
 
 		public void Draw()
