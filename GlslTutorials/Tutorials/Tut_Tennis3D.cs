@@ -9,6 +9,7 @@ namespace GlslTutorials
 {
 	public class Tut_Tennis3D : TutorialBase 
 	{
+		bool pause = false;
 		Vector3 position = new Vector3(0f, 0f, 0f);
 		Vector3 velocity = new Vector3(0.1f, 0.15f, 0.05f);
 		Vector3 positionLimitLow =  new Vector3(-50f, -50f, -100f);
@@ -327,7 +328,7 @@ namespace GlslTutorials
 				}
 	        }
 			frontWall.Draw();
-			UpdatePosition();
+			if (pause == false) UpdatePosition();
 	    }
 
 		private void UpdatePosition()
@@ -445,9 +446,6 @@ namespace GlslTutorials
                 break;			
 			case Keys.D6:
 				break;
-			case Keys.P:
-				frontWall.PaintRandom();
-				break;
             case Keys.A:
 				renderWithString = false;
                 current_mesh = g_pCylinderMesh;
@@ -497,6 +495,16 @@ namespace GlslTutorials
 				break;
 			case Keys.Q:
 				result.AppendLine("currentProgram = " + currentProgram.ToString());
+				break;
+			case Keys.P:
+				if (pause)
+				{
+					pause = false;
+				}
+				else
+				{
+					pause = true;
+				}
 				break;
 	        }
 			

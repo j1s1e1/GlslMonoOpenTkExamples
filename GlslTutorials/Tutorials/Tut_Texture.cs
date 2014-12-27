@@ -50,6 +50,7 @@ namespace GlslTutorials
 			}
 
 			bitmapWithAlpha = new TextureElement(bitmap);
+			bitmapWithAlpha.Move(new Vector3(0f, 0f, 0.5f));
 
 			SetupDepthAndCull();
 			Textures.EnableTextures();

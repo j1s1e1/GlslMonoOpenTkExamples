@@ -9,6 +9,7 @@ namespace GlslTutorials
 		Bitmap bitmap;
 		int width = 256;
 		int height = 256;
+		int clearWidth = 120;
 		TextureElement textureElement;
 		Random random;
 		public PaintWall ()
@@ -18,9 +19,9 @@ namespace GlslTutorials
 			{
 				for (int row = 0; row < height; row++)
 				{
-					if ((Math.Abs(row - 128) < 100) & (Math.Abs(col - 128) < 100))
+					if ((Math.Abs(row - 128) < clearWidth) & (Math.Abs(col - clearWidth) < 100))
 					{
-						// clear pixels bitmap.SetPixel(col, row, Color.White);
+						// clear pixels
 					}
 					else
 					{
