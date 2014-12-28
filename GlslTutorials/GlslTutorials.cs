@@ -67,15 +67,36 @@ namespace GlslTutorials
 				currentTutorial.Setup();
 			}
         }
-		
+
+		bool mouseDown = false;
+		bool controlModifier = false;
+
+		int mouseState = 0;
+
+		private void glControlMouseDown(object sender, System.Windows.Forms.MouseEventArgs e)
+		{
+			mouseState = 0;
+			if ((ModifierKeys & Keys.Control) == Keys.Control) controlModifier = true;
+			mouseDown = true;
+			if (currentTutorial != null)
+			{
+				currentTutorial.MouseButton((int)e.Button, mouseState,  e.X, e.Y);
+			}
+		}
+
+		private void glControlMouseUp(object sender, System.Windows.Forms.MouseEventArgs e)
+		{
+			mouseState = -1;
+			currentTutorial.MouseButton((int)e.Button, mouseState,  e.X, e.Y);
+			mouseDown = false;
+		}
+
 		private void glControlMousehandler(object sender, System.Windows.Forms.MouseEventArgs e)
         {
 			if (currentTutorial != null)
 			{
-				currentTutorial.MouseButton((int)e.Button, (int)e.Clicks,  e.X, e.Y);
 				currentTutorial.TouchEvent(e.X, e.Y);
 			}
-            AddMessage("Mouse Event ");
         }
 
 		private void glControlMouseMove(object sender, System.Windows.Forms.MouseEventArgs e)

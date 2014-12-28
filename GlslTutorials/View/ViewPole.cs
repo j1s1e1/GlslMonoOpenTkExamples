@@ -113,9 +113,6 @@ namespace GlslTutorials
 	     \ref module_glutil_poles "the Pole manual" for details.
 	     **/
 	    ///@{
-	    public void MouseClick(MouseButtons button, bool isPressed, int modifiers, Vector2 position)
-	    {
-	    }
 	    public void MouseMove(Vector2 position)
 	    {
 			if(m_bIsDragging)

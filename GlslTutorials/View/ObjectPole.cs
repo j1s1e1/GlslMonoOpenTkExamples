@@ -233,6 +233,10 @@ namespace GlslTutorials
 	
 	    void RotateWorldDegrees(Quaternion rot, bool bFromInitial)
 	    {
+			if(!m_bIsDragging)
+				bFromInitial = false;
+
+			m_po.orientation = (rot * (bFromInitial ? m_startDragOrient : m_po.orientation)).Normalized();
 	    }
 	
 	    void RotateLocalDegrees(Quaternion rot)
@@ -242,6 +246,10 @@ namespace GlslTutorials
 	
 	    void RotateLocalDegrees(Quaternion rot, bool bFromInitial)
 	    {
+			if(!m_bIsDragging)
+				bFromInitial = false;
+
+			m_po.orientation = ((bFromInitial ? m_startDragOrient : m_po.orientation) * rot).Normalized();
 	    }
 	
 	    void RotateViewDegrees(Quaternion rot)

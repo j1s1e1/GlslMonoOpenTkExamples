@@ -9,6 +9,8 @@ namespace GlslTutorials
 			this.GlControl = new OpenTK.GLControl();
 			this.GlControl.Location = new System.Drawing.Point(400, 50);
             this.GlControl.Size = new System.Drawing.Size (512, 512);
+			this.GlControl.MouseDown += new System.Windows.Forms.MouseEventHandler(glControlMouseDown);
+			this.GlControl.MouseUp += new System.Windows.Forms.MouseEventHandler(glControlMouseUp);
 			this.GlControl.MouseClick += new System.Windows.Forms.MouseEventHandler(glControlMousehandler);
 			this.GlControl.MouseMove += new System.Windows.Forms.MouseEventHandler(glControlMouseMove);
             this.GlControl.Paint += glControlPaint;

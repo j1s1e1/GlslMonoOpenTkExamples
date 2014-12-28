@@ -5,21 +5,41 @@ namespace GlslTutorials
 {
 	public class Framework 
 	{
+		static int GLUT_ACTIVE_SHIFT = 0x0001;
+		static int GLUT_ACTIVE_CTRL  = 0x0002;
+		static int GLUT_ACTIVE_ALT   = 0x0004;
+
 		public static void ForwardMouseMotion<T>(T forward, int x, int y) where T : IPole
 	    {
 	        forward.MouseMove(new Point(x, y));
 	    }
+
+		static int glutGetModifiers()
+		{
+			// FIXME return fgState.Modifiers;
+			return 0;
+		}
+
+		static int calc_glut_modifiers()
+		{
+			int ret = 0;
+
+			int modifiers = glutGetModifiers();
+			if((modifiers & GLUT_ACTIVE_SHIFT) != 0)
+				ret |= GLUT_ACTIVE_SHIFT;
+			if((modifiers & GLUT_ACTIVE_CTRL) != 0)
+				ret |= GLUT_ACTIVE_CTRL;
+			if((modifiers & GLUT_ACTIVE_ALT) != 0)
+				ret |= GLUT_ACTIVE_ALT;
+
+			return ret;
+		}
 	
 		public static void ForwardMouseButton<T>(T forward, int button, int state, int x, int y) where T : IPole
 	    {
-			//int modifiers = calc_glut_modifiers();
-			int modifiers = 0;
-
-			bool buttonDown = true;  // FIXME
+			int modifiers = calc_glut_modifiers();
 
 			Point mouseLoc = new Point(x, y);
-
-
 
 			MouseButtons eButton = (MouseButtons)(-1);
 
@@ -34,10 +54,22 @@ namespace GlslTutorials
 			case (int) System.Windows.Forms.MouseButtons.Middle: 
 				eButton = MouseButtons.MB_MIDDLE_BTN;
 				break;
+			default:
+				return;
 			}
 
-			forward.MouseClick(eButton, buttonDown, modifiers, mouseLoc);
-			forward.MouseButton(button, state, mouseLoc);
+			bool buttonDown = true;
+
+			if (state == -1)
+			{
+				buttonDown = false;
+				forward.MouseClick(eButton, buttonDown, modifiers, mouseLoc);
+			}
+			else
+			{
+				forward.MouseClick(eButton, buttonDown, modifiers, mouseLoc);
+				forward.MouseButton(button, state, mouseLoc);
+			}
 	    }
 	
 		public static void ForwardMouseWheel<T>(T forward, int wheel, int direction, int x, int y) where T : IPole

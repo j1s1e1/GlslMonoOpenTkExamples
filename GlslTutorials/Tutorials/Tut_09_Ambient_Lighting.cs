@@ -99,7 +99,7 @@ namespace GlslTutorials
 	
 	    private static void InitializeGInitialViewData()
 	    {
-	        g_initialViewData = new ViewData(new Vector3(0.0f, 0.0f, 0.0f),
+	        g_initialViewData = new ViewData(new Vector3(0.0f, 0.5f, 0.0f),
 				Quaternion.FromAxisAngle(new Vector3(0f, 0f, 1f), 45f),
 	                0.0f,
 	                0.0f);
@@ -132,7 +132,7 @@ namespace GlslTutorials
 	    public override void MouseButton(int button, int state, int x, int y)
 	    {
 			Framework.ForwardMouseButton<ViewProvider>(g_viewPole, button, state, x, y);
-	        Framework.ForwardMouseButton(g_objtPole, button, state, x, y);
+			Framework.ForwardMouseButton(g_objtPole, button, state, x, y);
 	    }
 	
 	    void MouseWheel(int wheel, int direction, int x, int y)
@@ -255,7 +255,7 @@ namespace GlslTutorials
                 {
                     modelMatrix.ApplyMatrix(g_objtPole.CalcMatrix());
 					//modelMatrix.Scale(0.05f);
-					//modelMatrix.Translate(new Vector3(0f, 0.5f, -10f));
+					modelMatrix.Translate(new Vector3(0f, 0.5f, -10f));
 					coloredCylinderModelmatrix = modelMatrix.Top ();
                     if(g_bDrawColoredCyl)
                     {					
