@@ -99,9 +99,9 @@ namespace GlslTutorials
 	
 	    private static void InitializeGInitialViewData()
 	    {
-	        g_initialViewData = new ViewData(new Vector3(0.0f, 0.5f, 0.0f),
-	                new Quaternion(0.92387953f, 0.3826834f, 0.0f, 0.0f),
-	                5.0f,
+	        g_initialViewData = new ViewData(new Vector3(0.0f, 0.0f, 0.0f),
+				Quaternion.FromAxisAngle(new Vector3(0f, 0f, 1f), 45f),
+	                0.0f,
 	                0.0f);
 	    }
 	
@@ -119,25 +119,25 @@ namespace GlslTutorials
 	    public static ObjectData g_initialObjectData = new ObjectData(new Vector3(0.0f, 0.5f, 0.0f),
 	            new Quaternion(1.0f, 0.0f, 0.0f, 0.0f));
 	
-	    public static  ViewProvider g_viewPole;
+		public static  ViewPole g_viewPole;
 	
 	    public static ObjectPole g_objtPole;
 	
 		public override void MouseMotion(int x, int y)
 	    {
-	        Framework.ForwardMouseMotion(g_viewPole, x, y);
+			Framework.ForwardMouseMotion<ViewProvider>(g_viewPole, x, y);
 	        Framework.ForwardMouseMotion(g_objtPole, x, y);
 	    }
 	
 	    public override void MouseButton(int button, int state, int x, int y)
 	    {
-	        Framework.ForwardMouseButton(g_viewPole, button, state, x, y);
+			Framework.ForwardMouseButton<ViewProvider>(g_viewPole, button, state, x, y);
 	        Framework.ForwardMouseButton(g_objtPole, button, state, x, y);
 	    }
 	
 	    void MouseWheel(int wheel, int direction, int x, int y)
 	    {
-	        Framework.ForwardMouseWheel(g_viewPole, wheel, direction, x, y);
+			Framework.ForwardMouseWheel<ViewProvider>(g_viewPole, wheel, direction, x, y);
 	        Framework.ForwardMouseWheel(g_objtPole, wheel, direction, x, y);
 	    }
 	
@@ -146,7 +146,7 @@ namespace GlslTutorials
 	    {
 	        InitializeGInitialViewData();
 	        InitializeGViewScale();
-	        g_viewPole = new ViewProvider(g_initialViewData, g_viewScale, MouseButtons.MB_LEFT_BTN);
+	        g_viewPole = new ViewPole(g_initialViewData, g_viewScale, MouseButtons.MB_LEFT_BTN);
 	        g_objtPole = new ObjectPole(g_initialObjectData, (float)(90.0f / 250.0f),
 	                MouseButtons.MB_RIGHT_BTN, g_viewPole);
 	

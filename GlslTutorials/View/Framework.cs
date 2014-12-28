@@ -5,12 +5,12 @@ namespace GlslTutorials
 {
 	public class Framework 
 	{
-	    public static void ForwardMouseMotion(Pole forward, int x, int y)
+		public static void ForwardMouseMotion<T>(T forward, int x, int y) where T : IPole
 	    {
 	        forward.MouseMove(new Point(x, y));
 	    }
 	
-	    public static void ForwardMouseButton(Pole forward, int button, int state, int x, int y)
+		public static void ForwardMouseButton<T>(T forward, int button, int state, int x, int y) where T : IPole
 	    {
 			//int modifiers = calc_glut_modifiers();
 			int modifiers = 0;
@@ -40,7 +40,7 @@ namespace GlslTutorials
 			forward.MouseButton(button, state, mouseLoc);
 	    }
 	
-	    public static void ForwardMouseWheel(Pole forward, int wheel, int direction, int x, int y)
+		public static void ForwardMouseWheel<T>(T forward, int wheel, int direction, int x, int y) where T : IPole
 	    {
 	        forward.MouseWheel(wheel, direction, new Point(x, y));
 	    }

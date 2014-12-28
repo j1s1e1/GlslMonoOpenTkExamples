@@ -136,7 +136,7 @@ namespace GlslTutorials
 				new Quaternion(1.0f, 0.0f, 0.0f, 0.0f)
 		);
 
-		static ViewProvider g_viewPole = new ViewProvider(g_initialViewData,
+		static ViewPole g_viewPole = new ViewPole(g_initialViewData,
 			g_viewScale, MouseButtons.MB_LEFT_BTN);
 		static ObjectPole g_objtPole = new ObjectPole(g_initialObjectData,
 			90.0f/250.0f, MouseButtons.MB_RIGHT_BTN, g_viewPole);

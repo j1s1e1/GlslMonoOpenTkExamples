@@ -126,7 +126,7 @@ namespace GlslTutorials
 		{
 			InitializeGInitialViewData();
 	        InitializeGViewScale();
-	        g_viewPole = new ViewProvider(g_initialViewData, g_viewScale, MouseButtons.MB_LEFT_BTN);
+	        g_viewPole = new ViewPole(g_initialViewData, g_viewScale, MouseButtons.MB_LEFT_BTN);
 	        g_objtPole = new ObjectPole(g_initialObjectData, (float)(90.0f / 250.0f),
 	                MouseButtons.MB_RIGHT_BTN, g_viewPole);
 	

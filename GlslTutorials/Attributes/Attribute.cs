@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Xml;
 using OpenTK;
@@ -116,6 +117,16 @@ namespace GlslTutorials
 	                    pAttribType.eGLTypeDrawVertex, pAttribType.bNormalized, 0, iOffset);
 	        }
 	    }
+
+		public float GetMin(int offset, int step)
+		{
+			return dataArray.Where((x, i) => i % step == offset).Min(item => item.fValue);
+		}
+
+		public float GetMax(int offset, int step)
+		{
+			return dataArray.Where((x, i) => i % step == offset).Max(item => item.fValue);
+		}
 	
 	    public int iAttribIx;
 	    public AttribType pAttribType;

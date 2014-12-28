@@ -12,7 +12,7 @@ namespace GlslTutorials
 		MM_KEY_ALT =	0x04,	///<One of the alt keys.
 	};
 
-	public class ObjectPole : Pole 
+	public class ObjectPole : IPole 
 	{
 	    private ObjectData initialPosition;
 	    private float rotateScale;
@@ -96,7 +96,7 @@ namespace GlslTutorials
 	     \param modifiers A bitfield of MouseModifiers that specifies the modifiers being held down currently.
 	     \param position The mouse position at the moment of the mouse click.
 	     **/
-	    public override void MouseClick(MouseButtons button, bool isPressed, int modifiers, Point position)
+	    public void MouseClick(MouseButtons button, bool isPressed, int modifiers, Point position)
 	    {
 			if(isPressed)
 			{
@@ -136,7 +136,7 @@ namespace GlslTutorials
 	    }
 	
 	    ///Notifies the pole that the mouse has moved to the given absolute position.
-	    public override void MouseMove(Point  position)
+	    public void MouseMove(Point  position)
 	    {
 			Vector2 vectorPositoin = new Vector2(position.X, position.Y);
 			if(m_bIsDragging)
@@ -200,6 +200,7 @@ namespace GlslTutorials
 	     **/
 	    void CharPress(char key)
 	    {
+			// empty in example
 	    }
 	    ///@}
 	
@@ -285,6 +286,18 @@ namespace GlslTutorials
 	    Vector2 m_prevMousePos;
 	    Vector2 m_startDragMousePos;
 	    Quaternion m_startDragOrient;
+
+		public void MouseButton(int button, int state, int x, int y)
+		{
+		}
+		public void MouseButton(int button, int state, Point p)
+		{
+		}
+			
+		public void MouseWheel(int wheel, int direction, Point p)
+		{
+			// empty in example
+		}
 	
 	}
 }

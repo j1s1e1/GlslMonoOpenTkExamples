@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Windows.Forms;
@@ -11,8 +12,12 @@ namespace GlslTutorials
 	{
 		bool renderWithString = false;
 		string renderString = "";
+		Vector3 initialScale = new Vector3(50f, 50f, 50f);
+		Vector3 scaleFactor = new Vector3(1f, 1f, 1f);
+
 	    class ProgramData
 	    {
+			public string name = "";
 	        public int theProgram;
 	        public int positionAttribute;
 	        public int colorAttribute;
@@ -54,32 +59,24 @@ namespace GlslTutorials
 	
 	    static float g_fzNear = 10.0f;
 	    static float g_fzFar = 1000.0f;
-	
-	    static ProgramData UniformColor;
-	    static ProgramData ObjectColor;
-	    static ProgramData UniformColorTint;
-	
-	    static ProgramData g_WhiteDiffuseColor;
-	    static ProgramData g_VertexDiffuseColor;
-	    static ProgramData g_WhiteAmbDiffuseColor;
-	    static ProgramData g_VertexAmbDiffuseColor;
-		static ProgramData g_Unlit;
-		static ProgramData g_litShaderProg;
-	
+
+		int currentOtherProgram = 0;
+		List<ProgramData> otherPrograms = new List<ProgramData>();
 	
 	    static ProgramData currentProgram;
-		
-		static Vector4 g_lightDirection = new Vector4(0.866f, 0.5f, 0.0f, 0.0f);
+
 		Vector3 dirToLight = new Vector3(0.5f, 0.5f, 1f);
 
 		float perspectiveAngle = 60f;
 		float newPerspectiveAngle = 60f;
 	
-	    ProgramData LoadProgram(String strVertexShader, String strFragmentShader)
+		ProgramData LoadProgram(string programSetString)
 	    {
+			ProgramSet programSet = ProgramSets.Find(programSetString);
 	        ProgramData data = new ProgramData();
-	        int vertex_shader = Shader.compileShader(ShaderType.VertexShader, strVertexShader);
-	        int fragment_shader = Shader.compileShader(ShaderType.FragmentShader, strFragmentShader);
+			data.name = programSet.name;
+			int vertex_shader = Shader.compileShader(ShaderType.VertexShader, programSet.vertexShader);
+			int fragment_shader = Shader.compileShader(ShaderType.FragmentShader, programSet.fragmentShader);
 	        data.theProgram  = Shader.createAndLinkProgram(vertex_shader, fragment_shader);
 	
 	        data.positionAttribute = GL.GetAttribLocation(data.theProgram, "position");
@@ -88,14 +85,14 @@ namespace GlslTutorials
 			{
 				if (data.positionAttribute != 0)
 				{
-					MessageBox.Show("These meshes only work with position at location 0 " + strVertexShader);
+					MessageBox.Show("These meshes only work with position at location 0 " + programSet.vertexShader);
 				}
 			}
 			if (data.colorAttribute != -1) 
 			{
 				if (data.colorAttribute != 1)
 				{
-					MessageBox.Show("These meshes only work with color at location 1" + strVertexShader);
+					MessageBox.Show("These meshes only work with color at location 1" + programSet.vertexShader);
 				}
 			}
 	
@@ -125,28 +122,23 @@ namespace GlslTutorials
 	
 	    void InitializeProgram()
 	    {
-	        UniformColor = LoadProgram(VertexShaders.PosOnlyWorldTransform_vert, FragmentShaders.ColorUniform_frag);
+			ProgramData UniformColor = LoadProgram("PosOnlyWorldTransform_vert ColorUniform_frag");
 	        GL.UseProgram(UniformColor.theProgram);
 	        GL.Uniform4(UniformColor.baseColorUnif, 0.694f, 0.4f, 0.106f, 1.0f);
 	        GL.UseProgram(0);
-	
-	        UniformColorTint = LoadProgram(VertexShaders.PosColorWorldTransform_vert, FragmentShaders.ColorMultUniform_frag);
+
+			ProgramData UniformColorTint = LoadProgram("PosColorWorldTransform_vert ColorMultUniform_frag");
 	        GL.UseProgram(UniformColorTint.theProgram);
 	        GL.Uniform4(UniformColorTint.baseColorUnif, 0.5f, 0.5f, 0f, 1.0f);
 	        GL.UseProgram(0);
-	
-	        g_WhiteDiffuseColor = LoadProgram(VertexShaders.PosColorLocalTransform_vert, 
-			                                  FragmentShaders.ColorPassthrough_frag);
-			
-	        g_WhiteAmbDiffuseColor = LoadProgram(VertexShaders.DirAmbVertexLighting_PN_vert, 
-			                                     FragmentShaders.ColorPassthrough_frag);
-	        
-			g_VertexDiffuseColor = LoadProgram(VertexShaders.DirVertexLighting_PCN, 
-			                                   FragmentShaders.ColorPassthrough_frag);
-				
-			g_Unlit = LoadProgram(VertexShaders.unlit, FragmentShaders.unlit);
 
-			g_litShaderProg = LoadProgram(VertexShaders.BasicTexture_PN, FragmentShaders.ShaderGaussian);
+			ProgramData g_WhiteAmbDiffuseColor = LoadProgram("DirAmbVertexLighting_PN_vert ColorPassthrough_frag");
+	        
+			ProgramData g_VertexDiffuseColor = LoadProgram("DirVertexLighting_PCN ColorPassthrough_frag");
+				
+			ProgramData g_Unlit = LoadProgram("unlit");
+
+			ProgramData g_litShaderProg = LoadProgram("BasicTexture_PN ShaderGaussian");
 
 			GL.UseProgram(g_VertexDiffuseColor.theProgram);
 			Vector4 lightIntensity = new Vector4(0.5f, 0.5f, 0.5f, 1.0f);
@@ -193,15 +185,32 @@ namespace GlslTutorials
 
 			GL.UseProgram(0);
 
-	        ObjectColor = LoadProgram(VertexShaders.PosColorWorldTransform_vert, FragmentShaders.ColorPassthrough_frag);
+			ProgramData ObjectColor = LoadProgram("PosColorWorldTransform_vert ColorPassthrough_frag");
 	        currentProgram = ObjectColor;
+
+			ProgramData g_WhiteDiffuseColor = LoadProgram("PosColorLocalTransform_vert ColorPassthrough_frag");
+
+			ProgramData DiffuseSpecularHDR = LoadProgram("HDR_PCN DiffuseSpecularHDR");
+			ProgramData DiffuseOnlyHDR = LoadProgram("HDR_PCN DiffuseOnlyHDR");
+			ProgramData DiffuseSpecularMtlHDR = LoadProgram("HDR_PCN DiffuseSpecularMtlHDR");
+			ProgramData DiffuseOnlyMtlHDR = LoadProgram("HDR_PCN DiffuseOnlyMtlHDR");
+
+			otherPrograms.Add(ObjectColor);
+			otherPrograms.Add(UniformColor);
+			otherPrograms.Add(UniformColorTint);
+			otherPrograms.Add(g_WhiteDiffuseColor);
+			otherPrograms.Add(g_VertexDiffuseColor);
+			otherPrograms.Add(g_WhiteAmbDiffuseColor);
+			otherPrograms.Add(g_Unlit);		
+			otherPrograms.Add(g_WhiteDiffuseColor);
+			otherPrograms.Add(DiffuseSpecularHDR);
+			otherPrograms.Add(DiffuseOnlyHDR);
+			otherPrograms.Add(DiffuseSpecularMtlHDR);
+			otherPrograms.Add(DiffuseOnlyMtlHDR);
+
 	    }
-	    static Mesh current_mesh;
-	    static Mesh g_pCubeColorMesh;
-	    static Mesh g_pCylinderMesh;
-		static Mesh g_pPlaneMesh;
-		static Mesh g_pInfinityMesh;
-		static Mesh g_unitSphereMesh;
+		int currentMesh = 0;
+		List<Mesh> meshes = new List<Mesh>();
 	
 	    //Called after the window and OpenGL are initialized. Called exactly once, before the main loop.
 	    protected override void init()
@@ -210,21 +219,14 @@ namespace GlslTutorials
 	
 	        try 
 	        {
-				string XmlFilesDirectory = GlsTutorialsClass.ProjectDirectory + @"/XmlFilesForMeshes";
-	            Stream UnitCubeColor =  File.OpenRead(XmlFilesDirectory + @"/unitcubecolor.xml");
-				g_pCubeColorMesh = new Mesh(UnitCubeColor);
-	            Stream UnitCylinder = File.OpenRead(XmlFilesDirectory + @"/unitcylinder.xml");
-	            g_pCylinderMesh = new Mesh(UnitCylinder);
-				
-				Stream unitplane = File.OpenRead(XmlFilesDirectory + @"/unitplane.xml");
-	            g_pPlaneMesh = new Mesh(unitplane);
-				
-				Stream infinity = File.OpenRead(XmlFilesDirectory + @"/infinity.xml");
-				g_pInfinityMesh = new Mesh(infinity);
-
-				Stream unitSphere = File.OpenRead(XmlFilesDirectory + @"/unitsphere12.xml");
-				g_unitSphereMesh = new Mesh(unitSphere);
-				
+				meshes.Add(new Mesh("unitcubecolor.xml"));
+				meshes.Add(new Mesh("unitcylinder.xml"));
+				meshes.Add(new Mesh("unitplane.xml"));
+				meshes.Add(new Mesh("infinity.xml"));
+				meshes.Add(new Mesh("unitsphere12.xml"));
+				meshes.Add(new Mesh("unitcylinder9.xml"));
+				meshes.Add(new Mesh("unitdiorama.xml"));
+				meshes.Add(new Mesh("ground.xml"));
 	        } catch (Exception ex) {
 	            throw new Exception("Error " + ex.ToString());
 	        }
@@ -234,22 +236,22 @@ namespace GlslTutorials
 			Camera.Move(0f, 0f, 0f);
 	        Camera.MoveTarget(0f, 0f, 0.0f);
 	        reshape();
-	        current_mesh = g_pCubeColorMesh;
 	    }
 	
 	    public override void display()
 	    {
 	        ClearDisplay();
 	
-	        if (current_mesh != null)
+			if (meshes[currentMesh] != null)
 	        {
 	            MatrixStack modelMatrix = new MatrixStack();
                 using (PushStack pushstack = new PushStack(modelMatrix)) 
 				{
 					modelMatrix.Rotate(axis, angle);   // rotate last to leave in place
                     modelMatrix.Translate(Camera.g_camTarget);
-                    modelMatrix.Scale(15.0f, 15.0f, 15.0f);
-                   
+					modelMatrix.Scale(initialScale.X / scaleFactor.X, 
+						initialScale.Y / scaleFactor.Y,
+						initialScale.Z / scaleFactor.Z);
 
                     GL.UseProgram(currentProgram.theProgram);
                     Matrix4 mm = modelMatrix.Top();
@@ -281,11 +283,19 @@ namespace GlslTutorials
                 }
 				if (renderWithString)
 				{
-					current_mesh.Render(renderString);
+					try
+					{
+						meshes[currentMesh].Render(renderString);
+					}
+					catch (Exception ex)
+					{
+						renderWithString = false;
+						MessageBox.Show("Error displaying mesh wih render string " + renderString + " " + ex.ToString());
+					}
 				}
 				else
 				{
-                	current_mesh.Render();
+					meshes[currentMesh].Render();
 				}
                 GL.UseProgram(0);
 				if (perspectiveAngle != newPerspectiveAngle)
@@ -331,10 +341,6 @@ namespace GlslTutorials
 	
 	    static bool noWorldMatrix = false;
 	
-	    //Called whenever a key on the keyboard was pressed.
-	    //The key is given by the ''key'' parameter, which is in ASCII.
-	    //It's often a good idea to have the escape key (ASCII value 27) call glutLeaveMainLoop() to 
-	    //exit the program.
 	    public override String keyboard(Keys keyCode, int x, int y)
 	    {
 	        StringBuilder result = new StringBuilder();
@@ -382,86 +388,51 @@ namespace GlslTutorials
                 break;			
 			case Keys.D6:
 				break;
-			case Keys.P:
+			case Keys.V:
 				newPerspectiveAngle = perspectiveAngle + 5f;
 				if (newPerspectiveAngle > 120f)
 				{
 					newPerspectiveAngle = 30f;
 				}
 				break;
-            case Keys.A:
-				renderWithString = false;
-                current_mesh = g_pCylinderMesh;
-                break;
-            case Keys.B:
-				renderWithString = false;
-                current_mesh = g_pCubeColorMesh;
-                break;
-			case Keys.C:
-				renderWithString = false;
-				current_mesh = g_pPlaneMesh;
-				break;
-			case Keys.D:
-				renderWithString = false;
-				current_mesh = g_pInfinityMesh;
-				break;
-			case Keys.E:
-				renderWithString = false;
-				current_mesh = g_unitSphereMesh;
-				break;
-			case Keys.F:
+
+			case Keys.S:
 				renderWithString = true;
 				renderString = "flat";
-				current_mesh = g_unitSphereMesh;
 				break;
-			case Keys.I:
-                result.AppendLine("I Decrease g_camTarget.X");
-                Camera.MoveTarget(-4.0f, 0, 0);
-                break;
-            case Keys.M:
-                result.AppendLine("M Increase g_camTarget.X");
-                Camera.MoveTarget(4.0f, 0, 0);
-                break;
-            case Keys.J:				
-				result.AppendLine("J Increase g_camTarget.Z");
-                Camera.MoveTarget(0, 0, 4.0f);
-				break;				
-            case Keys.K:				
-				result.AppendLine("K Decrease g_camTarget.Z");
-                Camera.MoveTarget(0, 0, -4.0f);
-				break;
-            case Keys.Escape:
-                //timer.Enabled = false;
-                break;
-            case Keys.Space:
-                break;
-			case Keys.Z:
-				break;
-
-			case Keys.W:
-				currentProgram = ObjectColor;
-				reshape();
+			case Keys.M:
+				renderWithString = false;
+				currentMesh++;
+				if (currentMesh > meshes.Count - 1) currentMesh = 0;
+				result.AppendLine("Mesh = " + meshes[currentMesh].fileName);
 				break;
 			case Keys.X:
 				noWorldMatrix = true;
-				currentProgram = g_Unlit;
 				reshape();
 				break;
-			case Keys.Y:
+			case Keys.P:
 				noWorldMatrix = true;
-				currentProgram = g_litShaderProg;
-				reshape();
+				currentProgram = otherPrograms[currentOtherProgram++];
+				if (currentOtherProgram > otherPrograms.Count - 1) currentOtherProgram = 0;
+				result.AppendLine("Program = " + otherPrograms[currentOtherProgram].name);
 				break;
 			case Keys.Q:
 				result.AppendLine("currentProgram = " + currentProgram.ToString());
 				break;
+			case Keys.I:
+				result.AppendLine("Current Mesh Data");
+				result.Append(meshes[currentMesh].GetMeshData());
+				break;
+			case Keys.O:
+				scaleFactor = meshes[currentMesh].GetUnitScaleFactor();
+				result.Append(scaleFactor.ToString());
+				break;
 	        }
-			
+
 	        reshape();
 	        display();
 	        return result.ToString();
 	    }
-	
 	}
 }
 

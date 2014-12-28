@@ -86,7 +86,6 @@
     <Compile Include="View\ObjectData.cs" />
     <Compile Include="View\ViewProvider.cs" />
     <Compile Include="View\ViewPole.cs" />
-    <Compile Include="View\Pole.cs" />
     <Compile Include="View\ObjectPole.cs" />
     <Compile Include="View\ProjectionBlock.cs" />
     <Compile Include="View\MouseButtons.cs" />
@@ -199,6 +198,9 @@
     <Compile Include="Tutorials\Tut_Tennis3D.cs" />
     <Compile Include="Textures\TextureElement.cs" />
     <Compile Include="Textures\PaintWall.cs" />
+    <Compile Include="ProgramData\ProgramSets.cs" />
+    <Compile Include="ProgramData\ProgramSet.cs" />
+    <Compile Include="View\IPole.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />

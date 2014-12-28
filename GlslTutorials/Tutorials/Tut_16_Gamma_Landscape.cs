@@ -155,7 +155,7 @@ namespace GlslTutorials
 			90.0f/250.0f);
 	    }	
 		
-		public static  ViewProvider g_viewPole;
+		public static  ViewPole g_viewPole;
 		
 		public static ObjectPole g_objtPole;
 		
@@ -187,7 +187,7 @@ namespace GlslTutorials
 		{
 			InitializeGInitialViewData();
 	        InitializeGViewScale();
-	        g_viewPole = new ViewProvider(g_initialViewData, g_initialViewScale, MouseButtons.MB_LEFT_BTN);
+			g_viewPole = new ViewPole(g_initialViewData, g_initialViewScale, MouseButtons.MB_LEFT_BTN);
 			
 			try
 			{

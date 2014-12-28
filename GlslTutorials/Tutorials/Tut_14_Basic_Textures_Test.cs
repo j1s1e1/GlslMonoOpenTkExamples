@@ -120,7 +120,7 @@ namespace GlslTutorials
 					90.0f/250.0f);
 	    }		
 		
-		public static  ViewProvider g_viewPole;
+		public static  ViewPole g_viewPole;
 	
 	    public static ObjectPole g_objtPole;
 		
@@ -214,7 +214,7 @@ namespace GlslTutorials
 		{
 		    InitializeGInitialViewData();
 	        InitializeGViewScale();
-	        g_viewPole = new ViewProvider(g_initialViewData, g_viewScale, MouseButtons.MB_LEFT_BTN);
+			g_viewPole = new ViewPole(g_initialViewData, g_viewScale, MouseButtons.MB_LEFT_BTN);
 	        g_objtPole = new ObjectPole(g_initialObjectData, (float)(90.0f / 250.0f),
 	                MouseButtons.MB_RIGHT_BTN, g_viewPole);
 				

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Text;
 using System.Xml;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
@@ -15,6 +16,26 @@ namespace GlslTutorials
 	    }
 
 	    private MeshData m_pData;
+
+		public String GetMeshData()
+		{
+			StringBuilder result = new StringBuilder();
+			result.AppendLine(fileName);
+			if(m_pData.colorAttribute != -1)
+			{
+				result.AppendLine("Position Data");
+				result.AppendLine("Vertex Count " + m_pData.vertexCount);
+				result.AppendLine("PositionMin " + m_pData.positionMin.ToString());
+				result.AppendLine("PositionMax " + m_pData.positionMax.ToString());
+			}
+
+			return result.ToString();
+		}
+
+		public Vector3 GetUnitScaleFactor()
+		{
+			return m_pData.positionMax - m_pData.positionMin;
+		}
 	
 	    static MeshPrimitiveType[] g_allPrimitiveTypes;
 	
@@ -82,8 +103,23 @@ namespace GlslTutorials
 	
 	        return cmd;
 	    }
+
+		public String fileName = "Unknown";
+
+		public Mesh(string fileNameIn)
+		{
+			fileName = fileNameIn;
+			string XmlFilesDirectory = GlsTutorialsClass.ProjectDirectory + @"/XmlFilesForMeshes";
+			Stream inputStream =  File.OpenRead(XmlFilesDirectory + @"/" + fileName);
+			Setup(inputStream);
+		}
 	
 	    public Mesh(Stream inputStream) 
+		{
+			Setup(inputStream);
+		}
+
+		private void Setup(Stream inputStream)
 		{
 	        int i;
 	        m_pData = new MeshData();
@@ -176,7 +212,16 @@ namespace GlslTutorials
 	                            m_pData.positionSize = attribs[iLoop].iSize;
 	                            m_pData.positionOffset = attribStartLocs[iLoop];
 	                            m_pData.positionStride = m_pData.positionSize * attribs[iLoop].pAttribType.iNumBytes;
-	                            break;
+								m_pData.vertexCount = attribs[iLoop].NumElements();
+								m_pData.positionMin = new Vector3();
+								m_pData.positionMax = new Vector3();
+								m_pData.positionMin.X = attribs[iLoop].GetMin(0, 3);
+								m_pData.positionMin.Y = attribs[iLoop].GetMin(1, 3);
+								m_pData.positionMin.Z = attribs[iLoop].GetMin(2, 3);
+								m_pData.positionMax.X = attribs[iLoop].GetMax(0, 3);
+								m_pData.positionMax.Y = attribs[iLoop].GetMax(1, 3);
+								m_pData.positionMax.Z = attribs[iLoop].GetMax(2, 3);
+								break;
 	                        case 1:
 	                            m_pData.colorAttribute = 1;
 	                            m_pData.colorSize = attribs[iLoop].iSize;

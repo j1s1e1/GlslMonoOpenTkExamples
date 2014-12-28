@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using OpenTK;
 
 namespace GlslTutorials
 {
@@ -25,6 +26,10 @@ namespace GlslTutorials
 	    public int 		positionStride = -1;
 	    public int 		colorStride = -1;
 	    public int 		normalStride  = -1;
+
+		public int 		vertexCount = -1;
+		public Vector3	positionMin;
+		public Vector3 	positionMax;
 	
 	    public VAOMap namedVAOs;
 	    public Dictionary<String, NamedVaoData> namedVaoData = new Dictionary<String, NamedVaoData>();
