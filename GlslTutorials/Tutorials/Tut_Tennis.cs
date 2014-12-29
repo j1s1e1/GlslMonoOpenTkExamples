@@ -21,8 +21,6 @@ namespace GlslTutorials
 		
 		protected override void init()
 	    {
-			Programs.reset();
-			Shape.resetWorldToCameraMatrix();
 			ball = new Ball();
 			ball.SetLimits(new Vector3(-1f, -1f, 0.5f), new Vector3(1f, 1f, 0.5f));
 			topPaddle = new Paddle();	

@@ -110,12 +110,6 @@ namespace GlslTutorials
 			g_pScene = pScene;
 		}
 
-		struct PerLight
-		{
-			Vector4 cameraSpaceLightPos;
-			Vector4 lightIntensity;
-		};
-
 		const int MAX_NUMBER_OF_LIGHTS = 4;
 
 		protected override void init()
@@ -132,13 +126,8 @@ namespace GlslTutorials
 				MessageBox.Show("Failed to load scene: " + ex.ToString());
 			}
 			reshape();
-			// Added 
-			GL.Enable(EnableCap.Texture2D);
-			//Basically enables the alpha channel to be used in the color buffer
-			GL.Enable(EnableCap.Blend);
-			//The operation/order to blend
-			GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
-			// End Added
+			Textures.EnableTextures();
+			MatrixStack.rightMultiply = false;
 		}
 			
 		int g_currSampler = 0;

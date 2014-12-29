@@ -5,18 +5,14 @@ namespace GlslTutorials
 {
 	public enum TutorialsEnum
 	{
-		Tut_09_Ambient_Lighting,
-		Tut_MoveMeshItem,
+		Tut_12_Gamma_Correction,
+		Tut_17_DoubleProjection,
 		Tut_17_Projected_Light,
 		Tut_12_HDR_Lighting,
 		Tut_Texture,
 		Tut_Tennis3D,
 
 		Tut_MeshTransforms,
-		Tut_10_Fragment_Attenuation,
-		Tut_17_DoubleProjection,
-
-		Tut_12_Gamma_Correction,
 
 		Tut_14_Basic_Textures_Test,
 		Tut_14_Basic_Textures,
@@ -43,11 +39,15 @@ namespace GlslTutorials
 		Tut_06_Rotations,
 		Tut_06_Scale,
 		Tut_06_Translation,
+		Tut_06_Hierarchy,
 		Tut_07_World_Scene,
 		Tut_08_Gimbal_Lock,
-
+		Tut_09_Ambient_Lighting,
 		Tut_10_Fragment_Point_Lighting,
+		Tut_10_Fragment_Attenuation,
 		Tut_CheckObjects,
+		Tut_RelativePositions,
+		Tut_MoveMeshItem,
 		
 		Tut_Blocks,
 		Tut_Vectors,
@@ -70,6 +70,9 @@ namespace GlslTutorials
 		
 		public static void StartTutorial(ref TutorialBase currentTutorial, TutorialsEnum tutorialSelection)
 		{
+			Programs.reset();
+			Shape.resetWorldToCameraMatrix();
+			MatrixStack.rightMultiply = true;
 			switch (tutorialSelection)
 			{
 				case TutorialsEnum.Tut_02_Vertex_Colors: currentTutorial = new Tut_02_Vertex_Colors(); break;
@@ -85,6 +88,7 @@ namespace GlslTutorials
 				case TutorialsEnum.Tut_Blocks: currentTutorial = new Tut_Blocks(); break;
 				case TutorialsEnum.Tut_CheckObjects: currentTutorial = new Tut_CheckObjects(); break;
 				case TutorialsEnum.Tut_SingleMeshItem: currentTutorial = new Tut_SingleMeshItem(); break;
+				case TutorialsEnum.Tut_06_Hierarchy: currentTutorial = new Tut_06_Hierarchy(); break;
 				case TutorialsEnum.Tut_07_World_Scene: currentTutorial = new Tut_07_World_Scene(); break;
 				case TutorialsEnum.Tut_08_Gimbal_Lock: currentTutorial = new Tut_08_Gimbal_Lock(); break;
 				case TutorialsEnum.Tut_09_Ambient_Lighting: currentTutorial = new Tut_09_Ambient_Lighting(); break;
@@ -115,6 +119,7 @@ namespace GlslTutorials
 				case TutorialsEnum.Tut_MoveMeshItem: currentTutorial = new Tut_MoveMeshItem(); break;
 				case TutorialsEnum.Tut_MeshTransforms: currentTutorial = new Tut_MeshTransforms(); break;
 				case TutorialsEnum.Tut_Tennis3D: currentTutorial = new Tut_Tennis3D(); break;
+				case TutorialsEnum.Tut_RelativePositions: currentTutorial = new Tut_RelativePositions(); break;
 				case TutorialsEnum.Tut_14_Basic_Textures_Test: currentTutorial = new Tut_14_Basic_Textures_Test(); break;
 			}
 		}

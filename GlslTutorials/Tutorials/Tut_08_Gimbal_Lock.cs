@@ -125,6 +125,7 @@ namespace GlslTutorials
 			Camera.Move(0f, 0f, 0f);
 	        Camera.MoveTarget(0f, 0f, 0.0f);
 	        reshape();
+			MatrixStack.rightMultiply = false;
 	    }
 	
 	    class GimbalAngles

@@ -14,17 +14,17 @@ namespace GlslTutorials
 	        forward.MouseMove(new Point(x, y));
 	    }
 
-		static int glutGetModifiers()
+		static int glutGetModifiers(int state)
 		{
-			// FIXME return fgState.Modifiers;
+
 			return 0;
 		}
 
-		static int calc_glut_modifiers()
+		static int calc_glut_modifiers(int state)
 		{
 			int ret = 0;
 
-			int modifiers = glutGetModifiers();
+			int modifiers = glutGetModifiers(state);
 			if((modifiers & GLUT_ACTIVE_SHIFT) != 0)
 				ret |= GLUT_ACTIVE_SHIFT;
 			if((modifiers & GLUT_ACTIVE_CTRL) != 0)
@@ -37,7 +37,7 @@ namespace GlslTutorials
 	
 		public static void ForwardMouseButton<T>(T forward, int button, int state, int x, int y) where T : IPole
 	    {
-			int modifiers = calc_glut_modifiers();
+			int modifiers = calc_glut_modifiers(state);
 
 			Point mouseLoc = new Point(x, y);
 

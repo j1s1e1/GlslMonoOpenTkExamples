@@ -68,16 +68,18 @@ namespace GlslTutorials
 			}
         }
 
-		bool mouseDown = false;
-		bool controlModifier = false;
-
 		int mouseState = 0;
+
+		static int GLUT_ACTIVE_SHIFT = 0x0001;
+		static int GLUT_ACTIVE_CTRL  = 0x0002;
+		static int GLUT_ACTIVE_ALT   = 0x0004;
 
 		private void glControlMouseDown(object sender, System.Windows.Forms.MouseEventArgs e)
 		{
 			mouseState = 0;
-			if ((ModifierKeys & Keys.Control) == Keys.Control) controlModifier = true;
-			mouseDown = true;
+			if ((ModifierKeys & Keys.Control) == Keys.Control) mouseState &= GLUT_ACTIVE_CTRL;
+			if ((ModifierKeys & Keys.Shift) == Keys.Shift) mouseState &= GLUT_ACTIVE_SHIFT;
+			if ((ModifierKeys & Keys.Alt) == Keys.Alt) mouseState &= GLUT_ACTIVE_ALT;
 			if (currentTutorial != null)
 			{
 				currentTutorial.MouseButton((int)e.Button, mouseState,  e.X, e.Y);
@@ -88,7 +90,6 @@ namespace GlslTutorials
 		{
 			mouseState = -1;
 			currentTutorial.MouseButton((int)e.Button, mouseState,  e.X, e.Y);
-			mouseDown = false;
 		}
 
 		private void glControlMousehandler(object sender, System.Windows.Forms.MouseEventArgs e)

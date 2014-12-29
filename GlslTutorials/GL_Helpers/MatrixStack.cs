@@ -9,7 +9,8 @@ namespace GlslTutorials
 	{
 	    private Stack<Matrix4> m_stack;
 	    private Matrix4 m_currMatrix;
-	
+
+		public static bool rightMultiply = true;
 	
 	    /**
 	     \file
@@ -107,15 +108,29 @@ namespace GlslTutorials
 	    ///Applies a rotation matrix about the given axis, with the given angle in degrees.
 	    public void Rotate(Vector3 axis, float angDegCCW)
 	    {
-	        Matrix4 rotation = Matrix4.Rotate(axis, (float)Math.PI / 180.0f * angDegCCW);
-			m_currMatrix = Matrix4.Mult(m_currMatrix, rotation);
+	        Matrix4 rotation = Matrix4.CreateFromAxisAngle(axis, (float)Math.PI / 180.0f * angDegCCW);
+			if (rightMultiply)
+			{
+				m_currMatrix = Matrix4.Mult(m_currMatrix, rotation);
+			}
+			else
+			{
+				m_currMatrix = Matrix4.Mult(rotation, m_currMatrix);
+			}
 	    }
 	
 	    ///Applies a rotation matrix about the given axis, with the given angle in radians.
 	    public void RotateRadians(Vector3 axis, float angRadCCW)
 	    {
-	        Matrix4 rotation = Matrix4.Rotate(axis, angRadCCW);
-			m_currMatrix = Matrix4.Mult(m_currMatrix, rotation);
+			Matrix4 rotation = Matrix4.CreateFromAxisAngle(axis, angRadCCW);
+			if (rightMultiply)
+			{
+				m_currMatrix = Matrix4.Mult(m_currMatrix, rotation);
+			}
+			else
+			{
+				m_currMatrix = Matrix4.Mult(rotation, m_currMatrix);
+			}
 	    }
 	
 	    ///Applies a rotation matrix about the +X axis, with the given angle in degrees.
@@ -146,7 +161,14 @@ namespace GlslTutorials
 	    public void Scale(Vector3 scaleVec)
 	    {
 			Matrix4 scaleMatrix = Matrix4.CreateScale(scaleVec);
-			m_currMatrix = Matrix4.Mult(m_currMatrix, scaleMatrix);
+			if (rightMultiply)
+			{
+				m_currMatrix = Matrix4.Mult(m_currMatrix, scaleMatrix);
+			}
+			else
+			{
+				m_currMatrix = Matrix4.Mult(scaleMatrix, m_currMatrix);
+			}
 	    }
 	    ///Applies a scale matrix, with the given values as the axis scales.
 	    public void Scale(float scaleX, float scaleY, float scaleZ)
@@ -170,7 +192,14 @@ namespace GlslTutorials
 	    ///Applies a translation matrix, with the given glm::vec3 as the offset.
 	    public void Translate(Vector3 offsetVec)
 	    {
-			m_currMatrix = Matrix4.Mult(m_currMatrix, Matrix4.CreateTranslation(offsetVec));
+			if (rightMultiply)
+			{
+				m_currMatrix = Matrix4.Mult(m_currMatrix, Matrix4.CreateTranslation(offsetVec));
+			}
+			else
+			{
+				m_currMatrix = Matrix4.Mult(Matrix4.CreateTranslation(offsetVec), m_currMatrix);
+			}
 	    }
 	    ///Applies a translation matrix, with the given X, Y and Z values as the offset.
 	    public void Translate(float transX, float transY, float transZ)
@@ -199,7 +228,14 @@ namespace GlslTutorials
 	    void LookAt(Vector3 cameraPos, Vector3 lookatPos, Vector3 upDir)
 	    {
 	        Matrix4 look_at = Matrix4.LookAt(cameraPos, lookatPos, upDir);
-			m_currMatrix = Matrix4.Mult(m_currMatrix, look_at);
+			if (rightMultiply)
+			{
+				m_currMatrix = Matrix4.Mult(m_currMatrix, look_at);
+			}
+			else
+			{
+				m_currMatrix = Matrix4.Mult(look_at, m_currMatrix);
+			}
 	    }
 	    ///@}
 	
@@ -231,7 +267,14 @@ namespace GlslTutorials
 	    {
 	        Matrix4 persp = Matrix4.CreatePerspectiveFieldOfView(
 	                (float)Math.PI / 180 * degFOV, aspectRatio, zNear, zFar);
-			m_currMatrix = Matrix4.Mult(m_currMatrix, persp);
+			if (rightMultiply)
+			{
+				m_currMatrix = Matrix4.Mult(m_currMatrix, persp);
+			}
+			else
+			{
+				m_currMatrix = Matrix4.Mult(persp, m_currMatrix);
+			}
  	    }
 	
 	    /**
@@ -247,7 +290,14 @@ namespace GlslTutorials
 	    void Orthographic(float left, float right, float bottom, float top, float zNear, float zFar)
 	    {
 	        Matrix4 orth = Matrix4.CreateOrthographic(right - left, top-bottom, zNear, zFar);
-			m_currMatrix = Matrix4.Mult(m_currMatrix, orth);
+			if (rightMultiply)
+			{
+				m_currMatrix = Matrix4.Mult(m_currMatrix, orth);
+			}
+			else
+			{
+				m_currMatrix = Matrix4.Mult(orth, m_currMatrix);
+			}
 	    }
 	
 	    void Orthographic(float left, float right, float bottom, float top)
@@ -292,7 +342,14 @@ namespace GlslTutorials
 	    ///@{
 	    public void ApplyMatrix(Matrix4 theMatrix)
 	    {
-			m_currMatrix = Matrix4.Mult(m_currMatrix, theMatrix);
+			if (rightMultiply)
+			{
+				m_currMatrix = Matrix4.Mult(m_currMatrix, theMatrix);
+			}
+			else
+			{
+				m_currMatrix = Matrix4.Mult(theMatrix, m_currMatrix);
+			}
 	    }
 	    ///@}
 	

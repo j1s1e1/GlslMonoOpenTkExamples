@@ -100,8 +100,24 @@ namespace GlslTutorials
 
 		ViewPole g_viewPole = new ViewPole(g_initialViewData,
 			g_viewScale, MouseButtons.MB_LEFT_BTN);
-			
-		Matrix4 cameraToClipMatrix;
+
+		public override void MouseMotion(int x, int y)
+		{
+			Framework.ForwardMouseMotion<ViewProvider>(g_viewPole, x, y);
+			Framework.ForwardMouseMotion(g_viewPole, x, y);
+		}
+
+		public override void MouseButton(int button, int state, int x, int y)
+		{
+			Framework.ForwardMouseButton<ViewProvider>(g_viewPole, button, state, x, y);
+			Framework.ForwardMouseButton(g_viewPole, button, state, x, y);
+		}
+
+		void MouseWheel(int wheel, int direction, int x, int y)
+		{
+			Framework.ForwardMouseWheel<ViewProvider>(g_viewPole, wheel, direction, x, y);
+			Framework.ForwardMouseWheel(g_viewPole, wheel, direction, x, y);
+		}
 
 		Vector4 g_skyDaylightColor = new Vector4(0.65f, 0.65f, 1.0f, 1.0f);
 
@@ -171,6 +187,7 @@ namespace GlslTutorials
 
 			reshape();
 			SetupDepthAndCull();
+			MatrixStack.rightMultiply = false;
 		}
 
 		bool g_bDrawCameraPos = false;
@@ -204,7 +221,7 @@ namespace GlslTutorials
 			GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
 			MatrixStack modelMatrix = new MatrixStack();
-			//modelMatrix.SetMatrix(g_viewPole.CalcMatrix());
+			modelMatrix.SetMatrix(g_viewPole.CalcMatrix());
 
 			Matrix4 worldToCamMat = modelMatrix.Top();
 			LightBlock lightData = g_lights.GetLightInformationGamma(worldToCamMat);
@@ -290,8 +307,8 @@ namespace GlslTutorials
 			MatrixStack persMatrix = new MatrixStack();
 			persMatrix.Perspective(45.0f, (width / (float)height), g_fzNear, g_fzFar);
 			// added
-			//persMatrix.Translate(-0.5f, 0.0f, -3f);
-			//persMatrix.Scale(0.01f);
+			persMatrix.Translate(-0.5f, 0.0f, -3f);
+			persMatrix.Scale(0.01f);
 			// end added
 			ProjectionBlock projData = new ProjectionBlock();
 			projData.cameraToClipMatrix = persMatrix.Top();

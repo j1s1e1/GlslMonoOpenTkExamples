@@ -201,6 +201,8 @@
     <Compile Include="ProgramData\ProgramSets.cs" />
     <Compile Include="ProgramData\ProgramSet.cs" />
     <Compile Include="View\IPole.cs" />
+    <Compile Include="Tutorials\Tut_RelativePositions.cs" />
+    <Compile Include="Tutorials\Tut_06_Hierarchy.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />

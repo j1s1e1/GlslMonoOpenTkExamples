@@ -44,7 +44,7 @@ namespace GlslTutorials
 			GL.SamplerParameter(g_samplers[1], SamplerParameterName.TextureWrapT, (int)All.ClampToBorder);
 
 
-			float[] color = new float[]{0.0f, 0.0f, 0.0f, 1.0f};
+			//float[] color = new float[]{0.0f, 0.0f, 0.0f, 1.0f};
 			// FIXME GL.SamplerParameter(g_samplers[1], SamplerParameterName.bor  GL_TEXTURE_BORDER_COLOR, color);
 		}
 
@@ -125,14 +125,11 @@ namespace GlslTutorials
 		ViewPole g_viewPole = new ViewPole(g_initialView, g_initialViewScale, MouseButtons.MB_LEFT_BTN);
 		ViewPole g_lightViewPole = new ViewPole(g_initLightView, g_initLightViewScale, MouseButtons.MB_RIGHT_BTN, true);
 
-
-
 		FrameworkScene g_pScene;
 		List<NodeRef> g_nodes;
 		FrameworkTimer g_timer = new FrameworkTimer(FrameworkTimer.Type.TT_LOOP, 10.0f);
 
 		UniformIntBinder g_lightNumBinder;
-		TextureBinder g_stoneTexBinder;
 		UniformMat4Binder g_lightProjMatBinder;
 		UniformVec3Binder g_camLightPosBinder;
 
@@ -188,6 +185,7 @@ namespace GlslTutorials
 
 			//No more things that can throw.
 			g_spinBarOrient = nodes[3].NodeGetOrient();
+
 			g_unlitProg = unlit;
 			g_unlitModelToCameraMatrixUnif = GL.GetUniformLocation(unlit, "modelToCameraMatrix");
 			g_unlitCameraToClipMatrixUnif  = GL.GetUniformLocation(unlit, "cameraToClipMatrix");
@@ -230,13 +228,8 @@ namespace GlslTutorials
 				MessageBox.Show("Error loading scene " + ex.ToString());
 			}
 			reshape();
-			// Added
-			GL.Enable(EnableCap.Texture2D);
-			//Basically enables the alpha channel to be used in the color buffer
-			GL.Enable(EnableCap.Blend);
-			//The operation/order to blend
-			GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
-			// End Added
+			Textures.EnableTextures();
+			MatrixStack.rightMultiply = false;
 		}
 			
 		int g_currSampler = 0;
@@ -302,7 +295,7 @@ namespace GlslTutorials
 
 			g_nodes[0].NodeSetOrient(Quaternion.FromAxisAngle(new Vector3(0.0f, 1.0f, 0.0f), 
 				360.0f *  g_timer.GetAlpha()));
-			g_nodes[3].NodeSetOrient(Quaternion.FromAxisAngle(new Vector3(0.0f, 0.0f, 1.0f), 
+			g_nodes[3].NodeSetOrient(g_spinBarOrient * Quaternion.FromAxisAngle(new Vector3(0.0f, 0.0f, 1.0f), 
 				360.0f * g_timer.GetAlpha()));
 				
 			{

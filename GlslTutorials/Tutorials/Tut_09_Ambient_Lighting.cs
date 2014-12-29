@@ -233,7 +233,7 @@ namespace GlslTutorials
 					//modelMatrix.Scale(new Vector3(10f, 10f, 1f));
 					//modelMatrix.ApplyMatrix(g_objtPole.CalcMatrix());
 
-					modelMatrix.Translate(new Vector3(0f, 0f, -10f));
+					//modelMatrix.Translate(new Vector3(0f, 0f, -10f));
 
                     Matrix4 mm =  modelMatrix.Top();
 					planeModelmatrix = mm;
@@ -255,7 +255,7 @@ namespace GlslTutorials
                 {
                     modelMatrix.ApplyMatrix(g_objtPole.CalcMatrix());
 					//modelMatrix.Scale(0.05f);
-					modelMatrix.Translate(new Vector3(0f, 0.5f, -10f));
+					modelMatrix.Translate(new Vector3(0f, 0.0f, -10f));
 					coloredCylinderModelmatrix = modelMatrix.Top ();
                     if(g_bDrawColoredCyl)
                     {					

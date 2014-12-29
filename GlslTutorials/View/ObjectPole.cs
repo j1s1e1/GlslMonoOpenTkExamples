@@ -14,6 +14,10 @@ namespace GlslTutorials
 
 	public class ObjectPole : IPole 
 	{
+		bool rightMultiply()
+		{
+			return MatrixStack.rightMultiply;
+		}
 	    private ObjectData initialPosition;
 	    private float rotateScale;
 	    private bool isDragging;
@@ -50,8 +54,14 @@ namespace GlslTutorials
 	    {
 			Matrix4 translateMat = Matrix4.Identity;
 			translateMat.Row3 = new Vector4(m_po.position, 1.0f);
-
-			return Matrix4.Mult(translateMat, Matrix4.CreateFromQuaternion(m_po.orientation));
+			if (rightMultiply())
+			{
+				return Matrix4.Mult(translateMat, Matrix4.CreateFromQuaternion(m_po.orientation));
+			}
+			else
+			{
+				return Matrix4.Mult(Matrix4.CreateFromQuaternion(m_po.orientation), translateMat);
+			}
 	    }
 	
 	    /**
@@ -235,8 +245,14 @@ namespace GlslTutorials
 	    {
 			if(!m_bIsDragging)
 				bFromInitial = false;
-
-			m_po.orientation = (rot * (bFromInitial ? m_startDragOrient : m_po.orientation)).Normalized();
+			if (rightMultiply())
+			{
+				m_po.orientation = ((bFromInitial ? m_startDragOrient : m_po.orientation) * rot).Normalized();
+			}
+			else
+			{
+				m_po.orientation = (rot * (bFromInitial ? m_startDragOrient : m_po.orientation)).Normalized();
+			}
 	    }
 	
 	    void RotateLocalDegrees(Quaternion rot)
@@ -248,8 +264,14 @@ namespace GlslTutorials
 	    {
 			if(!m_bIsDragging)
 				bFromInitial = false;
-
-			m_po.orientation = ((bFromInitial ? m_startDragOrient : m_po.orientation) * rot).Normalized();
+			if (rightMultiply())
+			{
+				m_po.orientation = ((bFromInitial ? m_startDragOrient : m_po.orientation) * rot).Normalized();
+			}
+			else
+			{
+				m_po.orientation = (rot * (bFromInitial ? m_startDragOrient : m_po.orientation)).Normalized();
+			}
 	    }
 	
 	    void RotateViewDegrees(Quaternion rot)
@@ -269,9 +291,18 @@ namespace GlslTutorials
 				invViewQuat.Conjugate();
 				// FIXME check multipy order
 				Quaternion result = bFromInitial ? m_startDragOrient : m_po.orientation;
-				result = Quaternion.Multiply(viewQuat, result);
-				result = Quaternion.Multiply(rot, result);
-				result = Quaternion.Multiply(invViewQuat, result);
+				if (rightMultiply())
+				{
+					result = Quaternion.Multiply(result, viewQuat);
+					result = Quaternion.Multiply(result, rot);
+					result = Quaternion.Multiply(result, invViewQuat);
+				}
+				else
+				{
+					result = Quaternion.Multiply(viewQuat, result);
+					result = Quaternion.Multiply(rot, result);
+					result = Quaternion.Multiply(invViewQuat, result);
+				}
 				result.Normalize();
 
 				m_po.orientation = result;

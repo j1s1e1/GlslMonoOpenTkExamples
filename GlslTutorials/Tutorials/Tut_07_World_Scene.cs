@@ -72,17 +72,11 @@ namespace GlslTutorials
 	
 	        try
 	        {
-				string XmlFilesDirectory = GlsTutorialsClass.ProjectDirectory + @"/XmlFilesForMeshes";
-	            Stream UnitConeTint = File.OpenRead(XmlFilesDirectory + @"/unitconetint.xml");
-	            g_pConeMesh = new Mesh(UnitConeTint);
-	            Stream UnitCylinderTint =  File.OpenRead(XmlFilesDirectory + @"/unitcylindertint.xml");
-	            g_pCylinderMesh = new Mesh(UnitCylinderTint);
-	            Stream UnitCubeTint = File.OpenRead(XmlFilesDirectory + @"/unitcubetint.xml");
-	            g_pCubeTintMesh = new Mesh(UnitCubeTint);
-	            Stream UnitCubeColor = File.OpenRead(XmlFilesDirectory + @"/unitcubecolorworldscene.xml");
-	            g_pCubeColorMesh = new Mesh(UnitCubeColor);
-	            Stream UnitPlane = File.OpenRead(XmlFilesDirectory + @"/unitplaneworldscene.xml");
-	            g_pPlaneMesh = new Mesh(UnitPlane);
+				g_pConeMesh = new Mesh("unitconetint.xml");
+				g_pCylinderMesh = new Mesh("unitcylindertint.xml");
+				g_pCubeTintMesh = new Mesh("unitcubetint.xml");
+				g_pCubeColorMesh = new Mesh("unitcubecolorworldscene.xml");
+				g_pPlaneMesh = new Mesh("unitplaneworldscene.xml");
 	        }
 	        catch (Exception ex)
 	        {
@@ -98,8 +92,7 @@ namespace GlslTutorials
 	        GL.DepthFunc(DepthFunction.Lequal);
 	        GL.DepthRange(0.0f, 1.0f);
 	
-	        //GL.Enable(EnableCap.DepthClamp);
-			//GLES20.GL_CLAMP_TO_EDGE);
+			MatrixStack.rightMultiply = false;
 	    }
 	
 	    //Trees are 3x3 in X/Z, and fTrunkHeight+fConeHeight in the Y.

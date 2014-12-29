@@ -8,6 +8,11 @@ namespace GlslTutorials
 {
 	public class ViewPole : ViewProvider 
 	{
+		bool rightMultiply()
+		{
+			return MatrixStack.rightMultiply;
+		}
+
 		ViewData m_currView;
 
 		//Used when rotating.
@@ -59,20 +64,40 @@ namespace GlslTutorials
 	        //In this space, we are facing in the correct direction. Which means that the camera point
 	        //is directly behind us by the radius number of units.
 	        Matrix4 translation = Matrix4.CreateTranslation(new Vector3(0.0f, 0.0f, -m_currView.radius));
-	
-	        theMat = Matrix4.Mult(theMat, translation);
+			if (rightMultiply())
+			{
+	        	theMat = Matrix4.Mult(theMat, translation);
+			}
+			else
+			{
+				theMat = Matrix4.Mult(translation, theMat);
+			}
 	
 	        //Rotate the world to look in the right direction..
 	        Quaternion fullRotation =
-				Quaternion.Mult(new Quaternion(new Vector3(0.0f, 0.0f, 1.0f), m_currView.radSpinRotation),
+				Quaternion.Multiply(new Quaternion(new Vector3(0.0f, 0.0f, 1.0f), m_currView.radSpinRotation),
 	                m_currView.orient);
-	        theMat = Matrix4.Mult(theMat, Matrix4.CreateFromQuaternion(fullRotation));
+			if (rightMultiply())
+			{
+				theMat = Matrix4.Mult(theMat, Matrix4.CreateFromQuaternion(fullRotation));
+			}
+			else
+			{
+				theMat = Matrix4.Mult(Matrix4.CreateFromQuaternion(fullRotation), theMat);
+			}
 	
 	        //Translate the world by the negation of the lookat point, placing the origin at the
 	        //lookat point.
 	        translation  = Matrix4.CreateTranslation(Vector3.Multiply(m_currView.targetPos, -1f));
-	        theMat = Matrix4.Mult(theMat, translation);
-	
+
+			if (rightMultiply())
+			{
+				theMat = Matrix4.Mult(theMat, translation);
+			}
+			else
+			{
+				theMat = Matrix4.Mult(translation, theMat);
+			}
 	        return theMat;
 	    }
 	
@@ -166,6 +191,8 @@ namespace GlslTutorials
 
 		public override void MouseMove(Point position)
 		{
+			if(m_bIsDragging)
+				OnDragRotate(new Vector2(position.X, position.Y));
 		}
 		public override void MouseWheel(int direction, int modifiers, Point p)
 		{
@@ -271,7 +298,15 @@ namespace GlslTutorials
 			float degAngleDiff = (iXDiff * m_viewScale.rotationScale);
 
 			//Rotate about the world-space Y axis.
-			m_currView.orient = m_startDragOrient * Quaternion.FromAxisAngle(new Vector3(0.0f, 1.0f, 0.0f), degAngleDiff);
+			if (rightMultiply())
+			{
+				m_currView.orient = m_startDragOrient * Quaternion.FromAxisAngle(new Vector3(0.0f, 1.0f, 0.0f), degAngleDiff);
+			}
+			else
+			{
+				m_currView.orient = Quaternion.FromAxisAngle(new Vector3(0.0f, 1.0f, 0.0f), degAngleDiff) * m_startDragOrient;
+
+			}
 		}
 	
 	    void ProcessYChange(float iYDiff)
@@ -284,7 +319,14 @@ namespace GlslTutorials
 			float degAngleDiff = (iYDiff * m_viewScale.rotationScale);
 
 			//Rotate about the local-space X axis.
-			m_currView.orient = Quaternion.FromAxisAngle(new Vector3(1.0f, 0.0f, 0.0f), degAngleDiff) * m_startDragOrient;
+			if (rightMultiply())
+			{
+				m_currView.orient = Quaternion.FromAxisAngle(new Vector3(1.0f, 0.0f, 0.0f), degAngleDiff) * m_startDragOrient;
+			}
+			else
+			{
+				m_currView.orient = m_startDragOrient * Quaternion.FromAxisAngle(new Vector3(1.0f, 0.0f, 0.0f), degAngleDiff);
+			}
 	    }
 	    void ProcessXYChange(float iXDiff, float iYDiff)
 	    {
@@ -292,9 +334,23 @@ namespace GlslTutorials
 			float degYAngleDiff = (iYDiff * m_viewScale.rotationScale);
 
 			//Rotate about the world-space Y axis.
-			m_currView.orient = m_startDragOrient * Quaternion.FromAxisAngle(new Vector3(0.0f, 1.0f, 0.0f), degXAngleDiff);
+			if (rightMultiply())
+			{
+				m_currView.orient = m_startDragOrient * Quaternion.FromAxisAngle(new Vector3(0.0f, 1.0f, 0.0f), degXAngleDiff);
+			}
+			else
+			{
+				m_currView.orient = Quaternion.FromAxisAngle(new Vector3(0.0f, 1.0f, 0.0f), degXAngleDiff) * m_startDragOrient;
+			}
 			//Rotate about the local-space X axis.
-			m_currView.orient = Quaternion.FromAxisAngle(new Vector3(1.0f, 0.0f, 0.0f), degYAngleDiff) * m_currView.orient;
+			if (rightMultiply())
+			{
+				m_currView.orient = Quaternion.FromAxisAngle(new Vector3(1.0f, 0.0f, 0.0f), degYAngleDiff) * m_currView.orient;
+			}
+			else
+			{
+				m_currView.orient =  m_currView.orient * Quaternion.FromAxisAngle(new Vector3(1.0f, 0.0f, 0.0f), degYAngleDiff);
+			}
 	    }
 	
 	    void ProcessSpinAxis(float iXDiff, float iYDiff)
