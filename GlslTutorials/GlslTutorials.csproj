@@ -158,7 +158,6 @@
     <Compile Include="Movement\KeyboardMovement.cs" />
     <Compile Include="Tutorials\Tut_Remote.cs" />
     <Compile Include="Material\MaterialBlock.cs" />
-    <Compile Include="Tutorials\Tut_14_Basic_Textures_Test.cs" />
     <Compile Include="Tutorials\Tut_10_Fragment_Attenuation.cs" />
     <Compile Include="Tutorials\Tut_12_HDR_Lighting.cs" />
     <Compile Include="Light\LightManager.cs" />

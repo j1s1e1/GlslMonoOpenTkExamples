@@ -9,10 +9,6 @@ namespace GlslTutorials
 {
 	public class Tut_14_Basic_Textures : TutorialBase
 	{
-		public Tut_14_Basic_Textures ()
-		{
-		}
-		
 		class ProgramData
 		{
 			public int theProgram;
@@ -86,10 +82,6 @@ namespace GlslTutorials
 
 		static void InitializePrograms()
 		{
-			//Shader.compileShader(ShaderType.VertexShader, VertexShaders.BasicTexture_PN);
-			//Shader.compileShader(ShaderType.FragmentShader, FragmentShaders.ShaderGaussian);
-			//Shader.compileShader(ShaderType.FragmentShader, FragmentShaders.TextureGaussian);
-			
 			g_litShaderProg = LoadStandardProgram(VertexShaders.BasicTexture_PN, FragmentShaders.ShaderGaussian);
 			g_litTextureProg = LoadStandardProgram(VertexShaders.BasicTexture_PN, FragmentShaders.TextureGaussian);
 		
@@ -124,19 +116,19 @@ namespace GlslTutorials
 	
 	    public static ObjectPole g_objtPole;
 		
-		void MouseMotion(int x, int y)
+		public override void MouseMotion(int x, int y)
 	    {
 	        Framework.ForwardMouseMotion(g_viewPole, x, y);
 	        Framework.ForwardMouseMotion(g_objtPole, x, y);
 	    }
 	
-	    void MouseButton(int button, int state, int x, int y)
+		public override void MouseButton(int button, int state, int x, int y)
 	    {
 	        Framework.ForwardMouseButton(g_viewPole, button, state, x, y);
 	        Framework.ForwardMouseButton(g_objtPole, button, state, x, y);
 	    }
 	
-	    void MouseWheel(int wheel, int direction, int x, int y)
+		public void MouseWheel(int wheel, int direction, int x, int y)
 	    {
 	        Framework.ForwardMouseWheel(g_viewPole, wheel, direction, x, y);
 	        Framework.ForwardMouseWheel(g_objtPole, wheel, direction, x, y);
@@ -231,56 +223,21 @@ namespace GlslTutorials
 				MessageBox.Show("Error creating meshes " + ex.ToString());
 				throw;
 			}
-		
-			//glutMouseFunc(MouseButton);
-			//glutMotionFunc(MouseMotion);
-			//glutMouseWheelFunc(MouseWheel);
-			
-			GL.Enable(EnableCap.CullFace);
-	        GL.CullFace(CullFaceMode.Back);
-	        GL.FrontFace(FrontFaceDirection.Cw);
-		
-			const float depthZNear = 0.0f;
-			const float depthZFar = 1.0f;
-			
-			GL.Enable(EnableCap.DepthTest);
-	        GL.DepthMask(true);
-	        GL.DepthFunc(DepthFunction.Lequal);
-	        GL.DepthRange(depthZNear, depthZFar);
+
+			SetupDepthAndCull();
+			MatrixStack.rightMultiply = false;
 	        reshape();
+			GL.Enable(EnableCap.Texture1D);
 		
 			//Setup our Uniform Buffers
 			MaterialBlock mtl = new MaterialBlock();
 			mtl.diffuseColor = new Vector4(1.0f, 0.673f, 0.043f, 1.0f);
 			mtl.specularColor = new Vector4(1.0f, 0.673f, 0.043f, 1.0f) * 0.4f;
 			mtl.specularShininess = g_specularShininess;
-			
+
 			g_litShaderProg.materialBlock.Update(mtl);
 			g_litTextureProg.materialBlock.Update(mtl);
-		
-			//GL.GenBuffers(1, out g_materialUniformBuffer);
-			//GL.BindBuffer(BufferTarget.UniformBuffer, g_materialUniformBuffer);
-			//GL.BufferData(BufferTarget.UniformBuffer, (IntPtr)MaterialBlock.Size(), mtl.ToFloat(), BufferUsageHint.StaticDraw);
-		
-			//GL.GenBuffers(1, out g_lightUniformBuffer);
-			//GL.BindBuffer(BufferTarget.UniformBuffer, g_lightUniformBuffer);
-			//GL.BufferData(BufferTarget.UniformBuffer, (IntPtr)LightBlock.Size(NUMBER_OF_LIGHTS), 
-			//              IntPtr.Zero, BufferUsageHint.DynamicDraw);
-		
-			//GL.GenBuffers(1, out g_projectionUniformBuffer);
-			//GL.BindBuffer(BufferTarget.UniformBuffer, g_projectionUniformBuffer);
-			//GL.BufferData(BufferTarget.UniformBuffer, (IntPtr)ProjectionBlock.Size(), IntPtr.Zero, BufferUsageHint.DynamicDraw);					
-			
-			//Bind the static buffers.
-			//GL.BindBufferRange(BufferTarget.UniformBuffer, g_lightBlockIndex, g_lightUniformBuffer, 
-			//                   IntPtr.Zero, (IntPtr)LightBlock.Size(NUMBER_OF_LIGHTS));
-		
-			//GL.BindBufferRange(BufferTarget.UniformBuffer, g_projectionBlockIndex, g_projectionUniformBuffer, IntPtr.Zero, (IntPtr)ProjectionBlock.Size());
-		
-			//GL.BindBufferRange(BufferTarget.UniformBuffer, g_materialBlockIndex, g_materialUniformBuffer, IntPtr.Zero, (IntPtr)MaterialBlock.Size());
-		
-			//GL.BindBuffer(BufferTarget.UniformBuffer, 0);
-		
+	
 			CreateGaussianTextures();
 		}
 	
@@ -288,6 +245,8 @@ namespace GlslTutorials
 		bool g_bDrawLights = true;
 		bool g_bUseTexture = false;
 		int g_currTexture = 0;
+
+		FrameworkTimer g_lightTimer = new FrameworkTimer(FrameworkTimer.Type.TT_LOOP, 6.0f);
 		
 		float g_lightHeight = 1.0f;
 		float g_lightRadius = 3.0f;
@@ -297,7 +256,7 @@ namespace GlslTutorials
 			const float fLoopDuration = 5.0f;
 			const float fScale = 3.14159f * 2.0f;
 		
-	        float fElapsedTime = GetElapsedTime() / 1000f;
+			float fElapsedTime = g_lightTimer.GetAlpha();
 	        float timeThroughLoop = fElapsedTime % fLoopDuration;
 		
 			Vector4 ret = new Vector4(0.0f, g_lightHeight, 0.0f, 1.0f);
@@ -313,7 +272,7 @@ namespace GlslTutorials
 		
 	    public override void display()
 		{
-			//g_lightTimer.Update();
+			g_lightTimer.Update();
 		
 		    GL.ClearColor(0.75f, 0.75f, 1.0f, 1.0f);
 	        GL.ClearDepth(1.0f);
@@ -340,23 +299,17 @@ namespace GlslTutorials
 				lightData.lights[1].lightIntensity = new Vector4(0.4f, 0.4f, 0.4f, 1.0f);
 				
 				g_litShaderProg.lightBlock.Update(lightData);
-		
-				//GL.BindBuffer(BufferTarget.UniformBuffer, g_lightUniformBuffer);
-				GL.BufferSubData(BufferTarget.UniformBuffer, (IntPtr)0, (IntPtr)LightBlock.Size(NUMBER_OF_LIGHTS), 
-				                 lightData.ToFloat());
-				GL.BindBuffer(BufferTarget.UniformBuffer, 0);
+				g_litTextureProg.lightBlock.Update(lightData);
 		
 				using ( PushStack pushstack = new PushStack(modelMatrix))
-				{
-					//GL.BindBufferRange(BufferTarget.UniformBuffer, g_materialBlockIndex, g_materialUniformBuffer,
-					//	IntPtr.Zero, (IntPtr)MaterialBlock.Size());
-		
+				{		
 					modelMatrix.ApplyMatrix(g_objtPole.CalcMatrix());
 					modelMatrix.Scale(2.0f);
-					//modelMatrix.SetMatrix(Matrix4.Identity); // TEST
 		
 					Matrix3 normMatrix = new Matrix3(modelMatrix.Top());
 					normMatrix.Transpose();
+					//TEST
+					normMatrix = Matrix3.Identity;
 					//normMatrix = glm::transpose(glm::inverse(normMatrix));
 		
 					ProgramData prog = g_bUseTexture ? g_litTextureProg : g_litShaderProg;
@@ -376,7 +329,6 @@ namespace GlslTutorials
 					GL.BindTexture(TextureTarget.Texture1D, 0);
 		
 					GL.UseProgram(0);
-					//GL.BindBufferBase(BufferTarget.UniformBuffer, g_materialBlockIndex, 0);
 				}
 		
 				if(g_bDrawLights)
@@ -427,9 +379,6 @@ namespace GlslTutorials
 					}
 				}
 			}
-		
-			//glutPostRedisplay();
-			//glutSwapBuffers();
 		}
 
 		public override void reshape ()
@@ -441,9 +390,15 @@ namespace GlslTutorials
 			projData.cameraToClipMatrix = persMatrix.Top();
 			
 			Matrix4 cm = projData.cameraToClipMatrix;
+			GL.UseProgram(g_litShaderProg.theProgram);
 			GL.UniformMatrix4(g_litShaderProg.cameraToClipMatrixUnif, false, ref cm);
+			GL.UseProgram(0);
+			GL.UseProgram(g_litTextureProg.theProgram);
 			GL.UniformMatrix4(g_litTextureProg.cameraToClipMatrixUnif, false, ref cm);
+			GL.UseProgram(0);
+			GL.UseProgram(g_Unlit.theProgram);
 			GL.UniformMatrix4(g_Unlit.cameraToClipMatrixUnif, false, ref cm);
+			GL.UseProgram(0);
 		
 			GL.Viewport(0, 0, width, height);
 		}
@@ -459,9 +414,9 @@ namespace GlslTutorials
 					g_pCubeMesh = null;
 					break;
 			
-				//case Keys.P: g_lightTimer.TogglePause(); break;
-				//case Keys.Subtract: g_lightTimer.Rewind(0.5f); break;
-				//case Keys.Add: g_lightTimer.Fastforward(0.5f); break;
+				case Keys.P: g_lightTimer.TogglePause(); break;
+				case Keys.Subtract: g_lightTimer.Rewind(0.5f); break;
+				case Keys.Add: g_lightTimer.Fastforward(0.5f); break;
 				case Keys.T: g_bDrawCameraPos = !g_bDrawCameraPos; break;
 				case Keys.G: g_bDrawLights = !g_bDrawLights; break;
 				case Keys.Space:

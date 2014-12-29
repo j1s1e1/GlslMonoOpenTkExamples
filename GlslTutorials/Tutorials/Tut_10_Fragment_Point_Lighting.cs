@@ -9,10 +9,6 @@ namespace GlslTutorials
 {
 	public class Tut_10_Fragment_Point_Lighting : TutorialBase
 	{
-		public Tut_10_Fragment_Point_Lighting ()
-		{
-		}
-		
 		struct ProgramData
 		{
 			public int theProgram;
@@ -121,6 +117,24 @@ namespace GlslTutorials
 		public static  ViewProvider g_viewPole;
 	
 	    public static ObjectPole g_objtPole;
+
+		public override void MouseMotion(int x, int y)
+		{
+			Framework.ForwardMouseMotion(g_viewPole, x, y);
+			Framework.ForwardMouseMotion(g_objtPole, x, y);
+		}
+
+		public override void MouseButton(int button, int state, int x, int y)
+		{
+			Framework.ForwardMouseButton(g_viewPole, button, state, x, y);
+			Framework.ForwardMouseButton(g_objtPole, button, state, x, y);
+		}
+
+		void MouseWheel(int wheel, int direction, int x, int y)
+		{
+			Framework.ForwardMouseWheel(g_viewPole, wheel, direction, x, y);
+			Framework.ForwardMouseWheel(g_objtPole, wheel, direction, x, y);
+		}
 		
 		protected override void init()
 		{
@@ -149,7 +163,7 @@ namespace GlslTutorials
 		
 			SetupDepthAndCull();
 			reshape();
-
+			MatrixStack.rightMultiply = false;
 		}
 		
 		static float g_fLightHeight = 1.5f;
@@ -164,7 +178,7 @@ namespace GlslTutorials
 			Vector4 ret = new Vector4(0.0f, g_fLightHeight, 0.0f, 1.0f);
 		
 			ret.X = (float)Math.Cos(fCurrTimeThroughLoop * (3.14159f * 2.0f)) * g_fLightRadius;
-			ret.Z = 10f + (float)Math.Sin(fCurrTimeThroughLoop * (3.14159f * 2.0f)) * g_fLightRadius;
+			ret.Z = (float)Math.Sin(fCurrTimeThroughLoop * (3.14159f * 2.0f)) * g_fLightRadius;
 		
 			return ret;
 		}
@@ -233,7 +247,7 @@ namespace GlslTutorials
 				using (PushStack pushstack = new PushStack(modelMatrix))
 				{
 					modelMatrix.ApplyMatrix(g_objtPole.CalcMatrix());
-					modelMatrix.Translate(new Vector3(0f, 0f, 10f));
+					//modelMatrix.Translate(new Vector3(0f, 0f, 10f));
 					coloredCylinderModelmatrix = modelMatrix.Top();
 					if(g_bScaleCyl)
 						modelMatrix.Scale(1.0f, 1.0f, 0.2f);

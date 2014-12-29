@@ -304,6 +304,9 @@ namespace GlslTutorials
 			"}" +
 			
 			"gl_FragColor = sqrt(accumLighting);" + //2.0 gamma correction
+			//"gl_FragColor = vec4(0.0, 1.0, 0.0, 1.0);" +
+			//"gl_FragColor = Mtl.diffuseColor;" +  // ok
+			//"gl_FragColor = Mtl.diffuseColor  * Lgt.ambientIntensity;" +  // no
 		"}";
 		
 		
@@ -409,6 +412,7 @@ namespace GlslTutorials
 			//"gl_FragColor = vec4(normalize(Lgt.lights[0].cameraSpaceLightPos.xyz), 1.0);" + //OK
 			//"gl_FragColor = Lgt.lights[0].lightIntensity;" + //OK
 			//"gl_FragColor = ComputeLighting(Lgt.lights[1], cameraSpacePosition, vertexNormal);" + //NO
+			//"gl_FragColor =vec4(vertexNormal, 1.0);" + //
 		"}";
 		
 		

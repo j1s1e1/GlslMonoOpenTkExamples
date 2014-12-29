@@ -9,7 +9,7 @@ namespace GlslTutorials
 {
 	public class Tut_10_Fragment_Attenuation : TutorialBase
 	{
-		float lightOffsetDebug = 10f;
+		float lightOffsetDebug = 0f;
 		Matrix4 lightModelmatrix = Matrix4.Identity;
 		public Tut_10_Fragment_Attenuation ()
 		{
@@ -141,6 +141,24 @@ namespace GlslTutorials
 		static ObjectPole g_objtPole = new ObjectPole(g_initialObjectData,
 			90.0f/250.0f, MouseButtons.MB_RIGHT_BTN, g_viewPole);
 
+		public override void MouseMotion(int x, int y)
+		{
+			Framework.ForwardMouseMotion(g_viewPole, x, y);
+			Framework.ForwardMouseMotion(g_objtPole, x, y);
+		}
+
+		public override void MouseButton(int button, int state, int x, int y)
+		{
+			Framework.ForwardMouseButton(g_viewPole, button, state, x, y);
+			Framework.ForwardMouseButton(g_objtPole, button, state, x, y);
+		}
+
+		void MouseWheel(int wheel, int direction, int x, int y)
+		{
+			Framework.ForwardMouseWheel(g_viewPole, wheel, direction, x, y);
+			Framework.ForwardMouseWheel(g_objtPole, wheel, direction, x, y);
+		}
+
 		class UnProjectionBlock
 		{
 			public Matrix4 clipToCameraMatrix;
@@ -168,6 +186,7 @@ namespace GlslTutorials
 			}
 
 			SetupDepthAndCull();
+			MatrixStack.rightMultiply = false;
 			reshape();
 		}
 
