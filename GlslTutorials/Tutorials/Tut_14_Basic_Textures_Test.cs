@@ -41,7 +41,7 @@ namespace GlslTutorials
 		
 		static int g_gaussTexUnit = 0;
 		
-		int NUMBER_OF_LIGHTS = 2;
+		static int NUMBER_OF_LIGHTS = 2;
 		
 		static UnlitProgData LoadUnlitProgram(String strVertexShader, String strFragmentShader)
 		{
@@ -70,7 +70,7 @@ namespace GlslTutorials
 			data.cameraToClipMatrixUnif = GL.GetUniformLocation(data.theProgram, "cameraToClipMatrix");
 	
 			// Replace uniform buffers
-			data.lightBlock = new LightBlock();
+			data.lightBlock = new LightBlock(NUMBER_OF_LIGHTS);
 			data.lightBlock.SetUniforms(data.theProgram);	
 			
 			data.materialBlock = new MaterialBlock();
@@ -317,7 +317,7 @@ namespace GlslTutorials
 				modelMatrix.SetMatrix(g_viewPole.CalcMatrix());
 				Matrix4 worldToCamMat = modelMatrix.Top();
 		
-				LightBlock lightData = new LightBlock();
+				LightBlock lightData = new LightBlock(NUMBER_OF_LIGHTS);
 		
 				lightData.ambientIntensity = new Vector4(0.2f, 0.2f, 0.2f, 1.0f);
 				lightData.lightAttenuation = g_fLightAttenuation;

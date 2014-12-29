@@ -9,6 +9,7 @@ namespace GlslTutorials
 {
 	public class Tut_12_HDR_Lighting : TutorialBase
 	{
+		bool renderSun = true;
 		public Tut_12_HDR_Lighting ()
 		{
 		}
@@ -89,7 +90,7 @@ namespace GlslTutorials
 		static ViewData g_initialViewData = new ViewData
 		(
 			new Vector3(-59.5f, 44.0f, 95.0f),
-			new Quaternion(0.92387953f, 0.3826834f, 0.0f, 0.0f), //  (1.0f, 0.0f, 0.0f, 0.0f), // no 45 degree angle
+			new Quaternion(0.92387953f, 0.3826834f, 0.0f, 0.0f),
 			50.0f,
 			0.0f
 		);
@@ -104,6 +105,24 @@ namespace GlslTutorials
 
 		ViewPole g_viewPole = new ViewPole(g_initialViewData,
 			g_viewScale, MouseButtons.MB_LEFT_BTN);
+
+		public override void MouseMotion(int x, int y)
+		{
+			Framework.ForwardMouseMotion<ViewProvider>(g_viewPole, x, y);
+			Framework.ForwardMouseMotion(g_viewPole, x, y);
+		}
+
+		public override void MouseButton(int button, int state, int x, int y)
+		{
+			Framework.ForwardMouseButton<ViewProvider>(g_viewPole, button, state, x, y);
+			Framework.ForwardMouseButton(g_viewPole, button, state, x, y);
+		}
+
+		void MouseWheel(int wheel, int direction, int x, int y)
+		{
+			Framework.ForwardMouseWheel<ViewProvider>(g_viewPole, wheel, direction, x, y);
+			Framework.ForwardMouseWheel(g_viewPole, wheel, direction, x, y);
+		}
 
 		Vector4 g_skyDaylightColor = new Vector4(0.65f, 0.65f, 1.0f, 1.0f);
 
@@ -190,6 +209,7 @@ namespace GlslTutorials
 
 			reshape();
 			SetupDepthAndCull();
+			MatrixStack.rightMultiply = false;
 		}
 
 		bool g_bDrawCameraPos = false;
@@ -205,7 +225,7 @@ namespace GlslTutorials
 			MatrixStack modelMatrix = new MatrixStack();
 			// TEST  
 			g_viewPole_CalcMatrix = g_viewPole.CalcMatrix();
-			//modelMatrix.SetMatrix(g_viewPole.CalcMatrix());
+			modelMatrix.SetMatrix(g_viewPole.CalcMatrix());
 
 			Matrix4 worldToCamMat = modelMatrix.Top();
 			LightBlock lightData = g_lights.GetLightInformationHDR(worldToCamMat);
@@ -225,23 +245,24 @@ namespace GlslTutorials
 
 			{
 				//Render the sun
-				using ( PushStack pushstack = new PushStack(modelMatrix))
+				if (renderSun)
 				{
-					Vector3 sunlightDir = new Vector3(g_lights.GetSunlightDirection());
-					modelMatrix.Translate(sunlightDir * 500.0f);
-					//TEST 
-					modelMatrix.Scale(30.0f, 30.0f, 30.0f);
+					using ( PushStack pushstack = new PushStack(modelMatrix))
+					{
+						Vector3 sunlightDir = new Vector3(g_lights.GetSunlightDirection());
+						modelMatrix.Translate(sunlightDir * 500.0f);
+						//TEST 
+						modelMatrix.Scale(30.0f, 30.0f, 30.0f);
 
-					GL.UseProgram(g_Unlit.theProgram);
-					Matrix4 mm = modelMatrix.Top();
-					sunModelToCameraMatrix = mm;
-					GL.UniformMatrix4(g_Unlit.modelToCameraMatrixUnif, false, ref mm);
+						GL.UseProgram(g_Unlit.theProgram);
+						Matrix4 mm = modelMatrix.Top();
+						sunModelToCameraMatrix = mm;
+						GL.UniformMatrix4(g_Unlit.modelToCameraMatrixUnif, false, ref mm);
 
-					Vector4 lightColor = g_lights.GetSunlightIntensity();
-					GL.Uniform4(g_Unlit.objectColorUnif, lightColor);
-					// TEST
-					//g_pScene.GetSphereMesh().Render();
-					g_pScene.GetSphereMesh().Render("flat");
+						Vector4 lightColor = g_lights.GetSunlightIntensity();
+						GL.Uniform4(g_Unlit.objectColorUnif, lightColor);
+						g_pScene.GetSphereMesh().Render("flat");
+					}
 				}
 
 				//Render the lights
@@ -294,8 +315,8 @@ namespace GlslTutorials
 			MatrixStack persMatrix = new MatrixStack();
 			persMatrix.Perspective(45.0f, (width / (float)height), g_fzNear, g_fzFar);
 			// added
-			//persMatrix.Translate(-0.5f, 0.0f, -3f);
-			//persMatrix.Scale(0.001f);
+			persMatrix.Translate(0.0f, 0.0f, -3f);
+			persMatrix.Scale(0.01f);
 			// end added
 			projData = new ProjectionBlock();
 			projData.cameraToClipMatrix = persMatrix.Top();
@@ -349,15 +370,6 @@ namespace GlslTutorials
 
 				result.AppendLine("g_viewPole.CalcMatrix()" + g_viewPole_CalcMatrix.ToString());
 				result.AppendLine(AnalysisTools.CalculateMatrixEffects(g_viewPole_CalcMatrix));
-
-
-
-
-				/*result.AppendLine("cameraToClipMatrix = " + projData.cameraToClipMatrix.ToString());
-				result.AppendLine("coloredCylinderModelmatrix = " + coloredCylinderModelmatrix.ToString());
-				result.AppendLine(AnalysisTools.CalculateMatrixEffects(coloredCylinderModelmatrix));
-				Matrix4 multiply = Matrix4.Mult(projData.cameraToClipMatrix, coloredCylinderModelmatrix);
-				result.Append(AnalysisTools.CalculateMatrixEffects(multiply));*/
 				break;
 
 			case Keys.Space:
@@ -369,6 +381,26 @@ namespace GlslTutorials
 					float sunTimeMinutes = (sunTimeHours - sunHours) * 60.0f;
 					int sunMinutes = (int)(sunTimeMinutes);
 					MessageBox.Show("SunHours " + sunHours.ToString() + " SunMinutes " + sunMinutes.ToString());
+				}
+				break;
+			case Keys.S:
+				if (renderSun)
+				{ 
+					renderSun = false;
+				}
+				else
+				{
+					renderSun = true;
+				}
+				break;
+			case Keys.L:
+				if (g_bDrawLights)
+				{ 
+					g_bDrawLights = false;
+				}
+				else
+				{
+					g_bDrawLights = true;
 				}
 				break;
 			}

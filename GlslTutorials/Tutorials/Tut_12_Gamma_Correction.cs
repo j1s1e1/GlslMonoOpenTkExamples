@@ -9,6 +9,7 @@ namespace GlslTutorials
 {
 	public class Tut_12_Gamma_Correction : TutorialBase
 	{
+		bool renderSun = true;
 		public Tut_12_Gamma_Correction ()
 		{
 		}
@@ -228,7 +229,6 @@ namespace GlslTutorials
 
 			lightData.gamma = gamma;
 
-			// test
 			foreach (SceneProgramData spd in g_Programs)
 			{
 				spd.lightBlock.Update(lightData);
@@ -243,21 +243,22 @@ namespace GlslTutorials
 			}
 
 			//Render the sun
-			using ( PushStack pushstack = new PushStack(modelMatrix))
+			if (renderSun)
 			{
-				Vector3 sunlightDir = new Vector3(g_lights.GetSunlightDirection());
-				modelMatrix.Translate(sunlightDir * 500.0f);
-				modelMatrix.Scale(30.0f, 30.0f, 30.0f);
+				using ( PushStack pushstack = new PushStack(modelMatrix))
+				{
+					Vector3 sunlightDir = new Vector3(g_lights.GetSunlightDirection());
+					modelMatrix.Translate(sunlightDir * 500.0f);
+					modelMatrix.Scale(30.0f, 30.0f, 30.0f);
 
-				GL.UseProgram(g_Unlit.theProgram);
-				Matrix4 mm = modelMatrix.Top();
-				GL.UniformMatrix4(g_Unlit.modelToCameraMatrixUnif, false, ref mm);
+					GL.UseProgram(g_Unlit.theProgram);
+					Matrix4 mm = modelMatrix.Top();
+					GL.UniformMatrix4(g_Unlit.modelToCameraMatrixUnif, false, ref mm);
 
-				Vector4 lightColor = GammaCorrect(g_lights.GetSunlightIntensity(), gamma);
-				GL.Uniform4(g_Unlit.objectColorUnif, lightColor);
-				//TEST
-				g_pScene.GetSphereMesh().Render();
-				//g_pScene.GetSphereMesh().Render("flat");
+					Vector4 lightColor = GammaCorrect(g_lights.GetSunlightIntensity(), gamma);
+					GL.Uniform4(g_Unlit.objectColorUnif, lightColor);
+					g_pScene.GetSphereMesh().Render("flat");
+				}
 			}
 
 			//Render the lights
@@ -379,6 +380,16 @@ namespace GlslTutorials
 					float sunTimeMinutes = (sunTimeHours - sunHours) * 60.0f;
 					int sunMinutes = (int)(sunTimeMinutes);
 					MessageBox.Show("SunHours " + sunHours.ToString() + " SunMinutes " + sunMinutes.ToString());
+				}
+				break;
+			case Keys.S:
+				if (renderSun)
+				{ 
+					renderSun = false;
+				}
+				else
+				{
+					renderSun = true;
 				}
 				break;
 			}

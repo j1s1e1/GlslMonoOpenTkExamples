@@ -10,6 +10,8 @@ namespace GlslTutorials
 {
 	public class Tut_17_DoubleProjection  : TutorialBase
 	{
+		static int NUMBER_OF_LIGHTS = 2;
+		bool rightMultiply;
 		public Tut_17_DoubleProjection ()
 		{
 		}
@@ -56,6 +58,22 @@ namespace GlslTutorials
 		ViewPole g_viewPole = new ViewPole(g_initialView, g_initialViewScale, MouseButtons.MB_LEFT_BTN);
 		ViewPole g_persViewPole = new ViewPole(g_initPersView, g_initPersViewScale, MouseButtons.MB_RIGHT_BTN);
 
+		public override void MouseMotion(int x, int y)
+		{
+			Framework.ForwardMouseMotion(g_viewPole, x, y);
+			Framework.ForwardMouseMotion(g_persViewPole, x, y);
+		}
+
+		public override void MouseButton(int button, int state, int x, int y)
+		{
+			Framework.ForwardMouseButton(g_viewPole, button, state, x, y);
+			Framework.ForwardMouseButton(g_persViewPole, button, state, x, y);
+		}
+
+		void MouseWheel(int wheel, int direction, int x, int y)
+		{
+			Framework.ForwardMouseWheel(g_viewPole, wheel, direction, x, y);
+		}
 
 		FrameworkScene g_pScene = null;
 
@@ -110,8 +128,6 @@ namespace GlslTutorials
 			g_pScene = pScene;
 		}
 
-		const int MAX_NUMBER_OF_LIGHTS = 4;
-
 		protected override void init()
 		{
 			SetupDepthAndCull();
@@ -125,22 +141,17 @@ namespace GlslTutorials
 			{
 				MessageBox.Show("Failed to load scene: " + ex.ToString());
 			}
-			reshape();
-			Textures.EnableTextures();
+			//reshape();
 			MatrixStack.rightMultiply = false;
+			rightMultiply = false;
 		}
-			
-		int g_currSampler = 0;
 
 		bool g_bDrawCameraPos = true;
 		bool g_bDepthClampProj = true;
 
-		int g_displayWidth = 700;
-		int g_displayHeight = 350;
-
-		void BuildLights(Matrix4 camMatrix )
+		void BuildLights(Matrix4 camMatrix)
 		{
-			LightBlock lightData = new LightBlock(4);
+			LightBlock lightData = new LightBlock(NUMBER_OF_LIGHTS);
 			lightData.ambientIntensity = new Vector4(0.2f, 0.2f, 0.2f, 1.0f);
 			lightData.lightAttenuation = 1.0f / (5.0f * 5.0f);
 			lightData.maxIntensity = 3.0f;
@@ -153,10 +164,6 @@ namespace GlslTutorials
 
 			g_lightNumBinder.SetValue(2);
 
-			// FIXME glBindBuffer(GL_UNIFORM_BUFFER, g_lightUniformBuffer);
-			// FIXME glBufferData(GL_UNIFORM_BUFFER, sizeof(LightBlock), &lightData, GL_STREAM_DRAW);
-
-			// Update in used programs
 			lightData.SetUniforms(g_unlitProg);
 			lightData.UpdateInternal();
 
@@ -181,22 +188,33 @@ namespace GlslTutorials
 
 			BuildLights(modelMatrix.Top());
 
-			g_nodes[0].NodeSetOrient(Quaternion.FromAxisAngle(new Vector3(0.0f, 1.0f, 0.0f), 
-				360.0f *  g_timer.GetAlpha()));
-			g_nodes[3].NodeSetOrient(Quaternion.Multiply(g_spinBarOrient,
-				Quaternion.FromAxisAngle(new Vector3(0.0f, 0.0f, 1.0f), 360.0f * g_timer.GetAlpha())));
+			if (rightMultiply)
+			{
+				g_nodes[0].NodeSetOrient(Quaternion.FromAxisAngle(new Vector3(0.0f, 1.0f, 0.0f), 
+					360.0f *  g_timer.GetAlpha()));
+				g_nodes[3].NodeSetOrient(Quaternion.Multiply(g_spinBarOrient,
+					Quaternion.FromAxisAngle(new Vector3(0.0f, 0.0f, 1.0f), 360.0f * g_timer.GetAlpha())));
+			}
+			else
+			{
+				g_nodes[0].NodeSetOrient(Quaternion.FromAxisAngle(new Vector3(0.0f, 1.0f, 0.0f), 
+					360.0f *  g_timer.GetAlpha()));
+				g_nodes[3].NodeSetOrient(Quaternion.Multiply(
+					Quaternion.FromAxisAngle(new Vector3(0.0f, 0.0f, 1.0f), 360.0f * g_timer.GetAlpha()), 
+					g_spinBarOrient));
+			}
 
 			{
 				MatrixStack persMatrix = new MatrixStack();
-				persMatrix.Perspective(60.0f, (width / height), g_fzNear, g_fzFar);
-
-				ProjectionBlock projData = new ProjectionBlock();
-				projData.cameraToClipMatrix = persMatrix.Top();
+				persMatrix.Perspective(60.0f, (width/2f / height), g_fzNear, g_fzFar);
 
 				// added
 				persMatrix.Translate(0.0f, 0.0f, -5f);
-				persMatrix.Scale(0.02f);
+				persMatrix.Scale(0.01f);
 				// end added
+
+				ProjectionBlock projData = new ProjectionBlock();
+				projData.cameraToClipMatrix = persMatrix.Top();
 
 				GL.UseProgram(g_unlitProg);
 				GL.UniformMatrix4(g_unlitCameraToClipMatrixUnif, false, ref projData.cameraToClipMatrix);
@@ -207,7 +225,7 @@ namespace GlslTutorials
 				GL.UseProgram(0);
 			}
 
-			GL.Viewport(0, 0, width, height);
+			GL.Viewport(0, 0, width/2, height);
 			g_pScene.Render(modelMatrix.Top());
 
 			if(g_bDrawCameraPos)
@@ -237,12 +255,13 @@ namespace GlslTutorials
 				Matrix4 applyMatrix = g_persViewPole.CalcMatrix();
 				applyMatrix.Row3 = Vector4.Zero;
 				applyMatrix.Column3 = Vector4.Zero;
+				applyMatrix.M44 = 1f;
 				persMatrix.ApplyMatrix(applyMatrix);
-				persMatrix.Perspective(60.0f, (width / height), g_fzNear, g_fzFar);
+				persMatrix.Perspective(60.0f, (width/2f / height), g_fzNear, g_fzFar);
 
 				// added
 				persMatrix.Translate(0.0f, 0.0f, -5f);
-				persMatrix.Scale(0.02f);
+				persMatrix.Scale(0.01f);
 				// end added
 
 				ProjectionBlock projData = new ProjectionBlock();
@@ -260,7 +279,7 @@ namespace GlslTutorials
 
 			if(!g_bDepthClampProj)
 				GL.Disable(EnableCap.DepthClamp);
-			GL.Viewport(width + (width % 2), 0, width, height);
+			GL.Viewport(width/2, 0, width/2, height);
 			g_pScene.Render(modelMatrix.Top());
 			GL.Enable(EnableCap.DepthClamp);
 		}

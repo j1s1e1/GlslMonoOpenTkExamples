@@ -241,7 +241,7 @@ namespace GlslTutorials
 
 		public LightBlock GetLightInformation( Matrix4 worldToCameraMat )
 		{
-			LightBlock lightData = new LightBlock();
+			LightBlock lightData = new LightBlock(NUMBER_OF_LIGHTS);
 
 			lightData.ambientIntensity = m_ambientInterpolator.Interpolate(m_sunTimer.GetAlpha()).GetValue();
 			lightData.lightAttenuation = g_fLightAttenuation;

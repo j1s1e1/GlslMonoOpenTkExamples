@@ -10,6 +10,7 @@ namespace GlslTutorials
 {
 	public class Tut_17_Projected_Light : TutorialBase
 	{
+		static int NUMBER_OF_LIGHTS = 4;
 		public Tut_17_Projected_Light ()
 		{
 		}
@@ -245,7 +246,7 @@ namespace GlslTutorials
 
 		void BuildLights(Matrix4 camMatrix )
 		{
-			LightBlock lightData = new LightBlock();
+			LightBlock lightData = new LightBlock(NUMBER_OF_LIGHTS);
 			lightData.ambientIntensity = new Vector4(0.2f, 0.2f, 0.2f, 1.0f);
 			lightData.lightAttenuation = 1.0f / (30.0f * 30.0f);
 			lightData.maxIntensity = 2.0f;

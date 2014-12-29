@@ -738,7 +738,7 @@ namespace GlslTutorials
 		"uniform Light Lgt;";
 
 		private static String CalcAttenuation =
-		"float CalcAttenuation(vec3 cameraSpacePosition, vec3 cameraSpaceLightPos, vec3 lightDirection)" +
+		"float CalcAttenuation(vec3 cameraSpacePosition, vec3 cameraSpaceLightPos, out vec3 lightDirection)" +
 		"{" +
 			"vec3 lightDifference =  cameraSpaceLightPos - cameraSpacePosition;" +
 			"float lightDistanceSqr = dot(lightDifference, lightDifference);" +
@@ -803,6 +803,7 @@ namespace GlslTutorials
 			"}" +
 
 			"gl_FragColor = accumLighting / Lgt.maxIntensity;" +
+			//"gl_FragColor = accumLighting;" +
 		"}";
 
 		public static String DiffuseOnlyHDR =
@@ -850,7 +851,7 @@ namespace GlslTutorials
 			"}" +
 
 			"gl_FragColor = accumLighting / Lgt.maxIntensity;" +
-		"}";
+		"}"; // DiffuseOnlyHDR
 
 		public static String DiffuseSpecularMtlHDR =
 		"varying vec3 vertexNormal;" +
@@ -1355,9 +1356,9 @@ namespace GlslTutorials
 			"accumLighting += ComputeLighting(diffuseColor, currLight);" +
 
 			"gl_FragColor = accumLighting / Lgt.maxIntensity;" +
-			//"gl_FragColor = diffuseColor;" +
+			"gl_FragColor = diffuseColor;" +
 			//"gl_FragColor = vec4(colorCoord, 0.0, 1.0);" +
-		"}";
+		"}"; // projlight
 
 	}
 }

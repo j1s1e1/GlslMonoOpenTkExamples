@@ -10,6 +10,7 @@ namespace GlslTutorials
 {
 	public class Tut_MoveMeshItem : TutorialBase 
 	{
+		static int NUMBER_OF_LIGHTS = 2;
 		bool renderWithString = false;
 		string renderString = "";
 		Vector3 initialScale = new Vector3(50f, 50f, 50f);
@@ -165,7 +166,7 @@ namespace GlslTutorials
 
 			// Test shader lights and materials
 			GL.UseProgram(g_litShaderProg.theProgram);
-			g_litShaderProg.lightBlock = new LightBlock();
+			g_litShaderProg.lightBlock = new LightBlock(NUMBER_OF_LIGHTS);
 			g_litShaderProg.lightBlock.SetUniforms(g_litShaderProg.theProgram);
 
 			g_litShaderProg.lightBlock.ambientIntensity = new Vector4(0.1f, 0.1f, 0.1f, 1.0f);

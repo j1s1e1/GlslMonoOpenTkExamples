@@ -9,6 +9,7 @@ namespace GlslTutorials
 {
 	public class Tut_Tennis3D : TutorialBase 
 	{
+		static int NUMBER_OF_LIGHTS = 2;
 		bool pause = false;
 		Vector3 position = new Vector3(0f, 0f, 0f);
 		Vector3 velocity = new Vector3(0.1f, 0.15f, 0.05f);
@@ -186,7 +187,7 @@ namespace GlslTutorials
 
 			// Test shader lights and materials
 			GL.UseProgram(g_litShaderProg.theProgram);
-			g_litShaderProg.lightBlock = new LightBlock();
+			g_litShaderProg.lightBlock = new LightBlock(NUMBER_OF_LIGHTS);
 			g_litShaderProg.lightBlock.SetUniforms(g_litShaderProg.theProgram);
 
 			g_litShaderProg.lightBlock.ambientIntensity = new Vector4(0.1f, 0.1f, 0.1f, 1.0f);

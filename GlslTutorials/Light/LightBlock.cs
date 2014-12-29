@@ -6,7 +6,7 @@ namespace GlslTutorials
 {
 	public class LightBlock
 	{
-		public LightBlock(int NUMBER_OF_LIGHTS_IN = 2)
+		public LightBlock(int NUMBER_OF_LIGHTS_IN)
 		{
 			NUMBER_OF_LIGHTS = NUMBER_OF_LIGHTS_IN;
 			lights = new PerLight[NUMBER_OF_LIGHTS];
@@ -51,21 +51,6 @@ namespace GlslTutorials
 			}
 			return result;
 		}
-		/*
-		"struct PerLight" +
-		"{" +
-			"vec4 cameraSpaceLightPos;" +
-			"vec4 lightIntensity;" +
-		"};" +
-		
-		"struct Light" +
-		"{" +
-			"vec4 ambientIntensity;" +
-			"float lightAttenuation;" +
-			"float maxIntensity;" +
-			"PerLight lights[4];" +
-		"};" +
-		*/
 		
 		int programNumber;
 		int ambientIntensityUnif;

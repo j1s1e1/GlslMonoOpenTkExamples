@@ -5,10 +5,9 @@ namespace GlslTutorials
 {
 	public enum TutorialsEnum
 	{
-		Tut_12_Gamma_Correction,
 		Tut_17_DoubleProjection,
 		Tut_17_Projected_Light,
-		Tut_12_HDR_Lighting,
+
 		Tut_Texture,
 		Tut_Tennis3D,
 
@@ -45,6 +44,8 @@ namespace GlslTutorials
 		Tut_09_Ambient_Lighting,
 		Tut_10_Fragment_Point_Lighting,
 		Tut_10_Fragment_Attenuation,
+		Tut_12_Gamma_Correction,
+		Tut_12_HDR_Lighting,
 		Tut_CheckObjects,
 		Tut_RelativePositions,
 		Tut_MoveMeshItem,
