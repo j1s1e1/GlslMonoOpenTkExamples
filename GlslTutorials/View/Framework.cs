@@ -8,6 +8,7 @@ namespace GlslTutorials
 		static int GLUT_ACTIVE_SHIFT = 0x0001;
 		static int GLUT_ACTIVE_CTRL  = 0x0002;
 		static int GLUT_ACTIVE_ALT   = 0x0004;
+		static int modifiers;
 
 		public static void ForwardMouseMotion<T>(T forward, int x, int y) where T : IPole
 	    {
@@ -37,7 +38,7 @@ namespace GlslTutorials
 	
 		public static void ForwardMouseButton<T>(T forward, int button, int state, int x, int y) where T : IPole
 	    {
-			int modifiers = calc_glut_modifiers(state);
+			modifiers = calc_glut_modifiers(state);
 
 			Point mouseLoc = new Point(x, y);
 
@@ -74,7 +75,7 @@ namespace GlslTutorials
 	
 		public static void ForwardMouseWheel<T>(T forward, int wheel, int direction, int x, int y) where T : IPole
 	    {
-	        forward.MouseWheel(wheel, direction, new Point(x, y));
+			forward.MouseWheel(direction, modifiers, new Point(x, y));
 	    }
 	
 	}

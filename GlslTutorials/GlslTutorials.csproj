@@ -202,6 +202,8 @@
     <Compile Include="View\IPole.cs" />
     <Compile Include="Tutorials\Tut_RelativePositions.cs" />
     <Compile Include="Tutorials\Tut_06_Hierarchy.cs" />
+    <Compile Include="Tutorials\Tut_Projected_Light_Test.cs" />
+    <Compile Include="Tutorials\Tut_Quaternion.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -245,6 +247,7 @@
     <Folder Include="Movement\" />
     <Folder Include="Material\" />
     <Folder Include="Scene\" />
+    <Folder Include="XmlFilesForMeshes\SceneVersions\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="XmlFilesForMeshes\unitplane.xml" />
@@ -288,5 +291,7 @@
     <None Include="XmlFilesForMeshes\unitaxes.xml" />
     <None Include="Textures\flashlight.png" />
     <None Include="Textures\wood4_rotate.png" />
+    <None Include="XmlFilesForMeshes\SceneVersions\unitcube.xml" />
+    <None Include="XmlFilesForMeshes\SceneVersions\unitplane.xml" />
   </ItemGroup>
 </Project>

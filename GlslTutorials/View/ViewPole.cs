@@ -8,6 +8,13 @@ namespace GlslTutorials
 {
 	public class ViewPole : ViewProvider 
 	{
+		enum MouseModifiers
+		{
+			MM_KEY_SHIFT =	0x01,	///<One of the shift keys.
+			MM_KEY_CTRL =	0x02,	///<One of the control keys.
+			MM_KEY_ALT =	0x04,	///<One of the alt keys.
+		};
+
 		bool rightMultiply()
 		{
 			return MatrixStack.rightMultiply;
@@ -145,6 +152,10 @@ namespace GlslTutorials
 	    }
 	    public void MouseWheel(int direction, int modifiers, Vector2 position)
 	    {
+			if(direction > 0)
+				this.MoveCloser((modifiers & (int)MouseModifiers.MM_KEY_SHIFT) == 0);
+			else
+				this.MoveAway((modifiers & (int)MouseModifiers.MM_KEY_SHIFT) == 0);
 	    }
 
 		public override void MouseButton(int button, int state, int x, int y)

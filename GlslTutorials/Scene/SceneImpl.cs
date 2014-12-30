@@ -500,15 +500,15 @@ namespace GlslTutorials
 			GL.SamplerParameter(samplers[3], SamplerParameterName.TextureMagFilter, (int)All.Linear);
 			GL.SamplerParameter(samplers[3], SamplerParameterName.TextureMinFilter, (int)All.LinearMipmapLinear);
 
-			float maxAniso = 4.0f;
-			// FIXME GL.GetFloat(GL_MAX_TEXTURE_MAX_ANISOTROPY_EXT, &maxAniso);
+			float maxAniso = 0.0f;
+			GL.GetFloat((GetPName)ExtTextureFilterAnisotropic.TextureMaxAnisotropyExt, out maxAniso);
 
-			GL.SamplerParameter(samplers[4], SamplerParameterName.TextureMagFilter, (int)All.Linear);
-			GL.SamplerParameter(samplers[4], SamplerParameterName.TextureMinFilter, (int)All.LinearMipmapLinear);
+			GL.SamplerParameter(samplers[4], SamplerParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
+			GL.SamplerParameter(samplers[4], SamplerParameterName.TextureMinFilter, (int)TextureMinFilter.LinearMipmapLinear);
 			GL.SamplerParameter(samplers[4], SamplerParameterName.TextureMaxAnisotropyExt, maxAniso / 2.0f);
 
-			GL.SamplerParameter(samplers[5], SamplerParameterName.TextureMagFilter, (int)All.Linear);
-			GL.SamplerParameter(samplers[5], SamplerParameterName.TextureMinFilter, (int)All.LinearMipmapLinear);
+			GL.SamplerParameter(samplers[5], SamplerParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
+			GL.SamplerParameter(samplers[5], SamplerParameterName.TextureMinFilter, (int)TextureMinFilter.LinearMipmapLinear);
 			GL.SamplerParameter(samplers[5], SamplerParameterName.TextureMaxAnisotropyExt, maxAniso);
 		}
 

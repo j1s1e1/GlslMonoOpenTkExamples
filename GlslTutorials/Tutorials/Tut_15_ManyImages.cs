@@ -92,10 +92,8 @@ namespace GlslTutorials
 			GL.SamplerParameter(g_samplers[4], SamplerParameterName.TextureMaxAnisotropyExt, 4.0f);
 
 			//Max anisotropic
-			float maxAniso = 8.0f;
-			// FIXME GL.GetFloat(GL_MAX_TEXTURE_MAX_ANISOTROPY_EXT, &maxAniso);
-
-			//printf("Maximum anisotropy: %f\n", maxAniso);
+			float maxAniso = 0.0f;
+			GL.GetFloat((GetPName)ExtTextureFilterAnisotropic.TextureMaxAnisotropyExt, out maxAniso);
 
 			GL.SamplerParameter(g_samplers[5], SamplerParameterName.TextureMagFilter, (int)All.Linear);
 			GL.SamplerParameter(g_samplers[5], SamplerParameterName.TextureMinFilter, (int)All.LinearMipmapLinear);

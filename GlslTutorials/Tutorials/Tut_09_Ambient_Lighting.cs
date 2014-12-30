@@ -125,7 +125,7 @@ namespace GlslTutorials
 	
 		public override void MouseMotion(int x, int y)
 	    {
-			Framework.ForwardMouseMotion<ViewProvider>(g_viewPole, x, y);
+			Framework.ForwardMouseMotion(g_viewPole, x, y);
 	        Framework.ForwardMouseMotion(g_objtPole, x, y);
 	    }
 	

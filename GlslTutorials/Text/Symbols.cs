@@ -7,13 +7,32 @@ namespace GlslTutorials
 	{
 		public static float[] Dash;
 		public static float[] Space;
+		public static float[] Period;
 		
 		static Symbols()
 		{
 			AddDash();
 			AddSpace();
+			AddPeriod();
 		}
-		
+
+		private static float[] MoveX(float[] input, float distance)
+		{
+			for (int i = 0; i < input.Length; i = i + 3)
+			{
+				input[i] = input[i] + distance;
+			}
+			return input;
+		}
+
+		private static float[] MoveY(float[] input, float distance)
+		{
+			for (int i = 1; i < input.Length; i = i + 3)
+			{
+				input[i] = input[i] + distance;
+			}
+			return input;
+		}		
 		
 		private static void AddVertex(float[] symbol, int vertexNumber, Vector3 vertex)
 		{
@@ -54,6 +73,11 @@ namespace GlslTutorials
 			Space = new float[9]; // Zero Size Triangle
 		}
 	
+		private static void AddPeriod()
+		{
+			Period = Rectangle(2f, 2f);
+			Period = MoveY(Period, -5f);
+		}
 	}
 }
 

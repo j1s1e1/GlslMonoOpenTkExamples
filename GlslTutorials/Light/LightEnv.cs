@@ -90,12 +90,13 @@ namespace GlslTutorials
 
    		    time = float.Parse(((XmlElement)sunNode).GetAttribute("time"));
 
-			//m_fLightAttenuation = rapidxml::get_attrib_float(root, "atten", m_fLightAttenuation);
+			string attenString = ((XmlElement)sunNode).GetAttribute("atten");
+			if (attenString != "") m_fLightAttenuation = float.Parse(attenString);
 			m_fLightAttenuation = 1.0f / (m_fLightAttenuation * m_fLightAttenuation);
 
 			//PARSE_THROW(pSunNode, "lightenv node must have a first child that is called `sun`.");
 			
-			m_sunTimer = new FrameworkTimer(FrameworkTimer.Type.TT_LOOP, time);
+			m_sunTimer = new FrameworkTimer(FrameworkTimer.Type.TT_LOOP, time / 4f); // speed up
 		
 			List<LightData> ambient = new List<LightData>();
 			List<LightData> light = new List<LightData>();

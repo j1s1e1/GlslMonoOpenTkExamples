@@ -1,34 +1,28 @@
 ﻿<Properties GitUserInfo="UsingGIT">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="GlslTutorials/Tutorials/Tut_12_HDR_Lighting.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="GlslTutorials/Tutorials/Tut_Quaternion.cs">
     <Files>
-      <File FileName="GlslTutorials/Menu.cs" Line="23" Column="23" />
-      <File FileName="GlslTutorials/Tutorials/Tut_12_HDR_Lighting.cs" Line="38" Column="38" />
-      <File FileName="GlslTutorials/Tutorials/Tut_12_Gamma_Correction.cs" Line="32" Column="32" />
-      <File FileName="GlslTutorials/GL_Helpers/VertexShaders.cs" Line="3" Column="3" />
-      <File FileName="GlslTutorials/GL_Helpers/FragmentShaders.cs" Line="15" Column="15" />
-      <File FileName="GlslTutorials/Scene/SceneImpl.cs" Line="25" Column="25" />
-      <File FileName="GlslTutorials/Tutorials/Tut_14_Basic_Textures.cs" Line="42" Column="42" />
-      <File FileName="GlslTutorials/Scene/Scene.cs" Line="35" Column="35" />
-      <File FileName="GlslTutorials/Material/MaterialBlock.cs" Line="4" Column="4" />
-      <File FileName="GlslTutorials/Light/LightManager.cs" Line="42" Column="42" />
-      <File FileName="GlslTutorials/Light/LightBlock.cs" Line="1" Column="1" />
-      <File FileName="GlslTutorials/GL_Helpers/Textures.cs" Line="4" Column="4" />
+      <File FileName="GlslTutorials/Tutorials/Tut_Quaternion.cs" Line="8" Column="8" />
+      <File FileName="GlslTutorials/Tutorials/Tut_MoveMeshItem.cs" Line="1" Column="1" />
+      <File FileName="GlslTutorials/ProgramData/ProgramSets.cs" Line="32" Column="32" />
+      <File FileName="GlslTutorials/GL_Helpers/FragmentShaders.cs" Line="2" Column="2" />
+      <File FileName="GlslTutorials/GL_Helpers/VertexShaders.cs" Line="11" Column="11" />
+      <File FileName="GlslTutorials/Tutorials/TutorialBase.cs" Line="10" Column="10" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
       <Breakpoint file="/home/jamie/repos/CSharp/GlslTutorials/GlslTutorials/Creatures/Movement.cs" line="28" column="1" />
       <Breakpoint file="/home/jamie/repos/CSharp/GlslTutorials/GlslTutorials/Attributes/AttributesClass.cs" line="59" column="1" />
-      <Breakpoint file="/home/jamie/repos/CSharp/GlslTutorials/GlslTutorials/Tutorials/Tut_14_Basic_Textures.cs" line="231" column="1" />
+      <Breakpoint file="/home/jamie/repos/CSharp/GlslTutorials/GlslTutorials/Tutorials/Tut_14_Basic_Textures.cs" line="223" column="1" />
       <Breakpoint file="/home/jamie/repos/CSharp/GlslTutorials/GlslTutorials/GL_Helpers/Shader.cs" line="71" column="1" />
       <Breakpoint file="/home/jamie/repos/CSharp/GlslTutorials/GlslTutorials/GL_Helpers/Shader.cs" line="34" column="1" />
       <Breakpoint file="/home/jamie/repos/CSharp/GlslTutorials/GlslTutorials/Scene/SceneImpl.cs" line="352" column="1" />
       <Breakpoint file="/home/jamie/repos/CSharp/GlslTutorials/GlslTutorials/Scene/SceneImpl.cs" line="307" column="1" />
       <Breakpoint file="/home/jamie/repos/CSharp/GlslTutorials/GlslTutorials/Scene/TextureBinder.cs" line="26" column="1" />
-      <Breakpoint file="/home/jamie/repos/CSharp/GlslTutorials/GlslTutorials/Tutorials/Tut_Tennis3D.cs" line="225" column="1" />
-      <Breakpoint file="/home/jamie/repos/CSharp/GlslTutorials/GlslTutorials/Tutorials/Tut_Tennis3D.cs" line="231" column="1" />
-      <Breakpoint file="/home/jamie/repos/CSharp/GlslTutorials/GlslTutorials/ProgramData/ProgramSets.cs" line="59" column="1" />
+      <Breakpoint file="/home/jamie/repos/CSharp/GlslTutorials/GlslTutorials/Tutorials/Tut_Tennis3D.cs" line="226" column="1" />
+      <Breakpoint file="/home/jamie/repos/CSharp/GlslTutorials/GlslTutorials/Tutorials/Tut_Tennis3D.cs" line="232" column="1" />
+      <Breakpoint file="/home/jamie/repos/CSharp/GlslTutorials/GlslTutorials/ProgramData/ProgramSets.cs" line="63" column="1" />
       <Breakpoint file="/home/jamie/repos/CSharp/GlslTutorials/GlslTutorials/Tutorials/Tut_06_Hierarchy.cs" line="244" column="1" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>

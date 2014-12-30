@@ -5,10 +5,13 @@ namespace GlslTutorials
 {
 	public enum TutorialsEnum
 	{
-
+		Tut_Quaternion,
+		Tut_Projected_Light_Test,
+		Tut_17_Projected_Light,
+		Tut_16_Gamma_Landscape,
 
 		Tut_17_DoubleProjection,
-		Tut_17_Projected_Light,
+
 
 		Tut_Texture,
 		Tut_Tennis3D,
@@ -17,7 +20,7 @@ namespace GlslTutorials
 
 
 		Tut_15_ManyImages,
-		Tut_16_Gamma_Landscape,
+
 		Tut_Tennis,
 		Tut_Tanks,
 		Tut_Spheres,
@@ -123,7 +126,9 @@ namespace GlslTutorials
 				case TutorialsEnum.Tut_MoveMeshItem: currentTutorial = new Tut_MoveMeshItem(); break;
 				case TutorialsEnum.Tut_MeshTransforms: currentTutorial = new Tut_MeshTransforms(); break;
 				case TutorialsEnum.Tut_Tennis3D: currentTutorial = new Tut_Tennis3D(); break;
+				case TutorialsEnum.Tut_Projected_Light_Test: currentTutorial = new Tut_Projected_Light_Test(); break;
 				case TutorialsEnum.Tut_RelativePositions: currentTutorial = new Tut_RelativePositions(); break;
+				case TutorialsEnum.Tut_Quaternion: currentTutorial = new Tut_Quaternion(); break;
 
 			}
 		}

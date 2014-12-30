@@ -12,6 +12,9 @@ namespace GlslTutorials
 			programs.Add(new ProgramSet("PosOnlyWorldTransform_vert ColorUniform_frag", 
 				VertexShaders.PosOnlyWorldTransform_vert, FragmentShaders.ColorUniform_frag));
 
+			programs.Add(new ProgramSet("ObjectPositionColor", 
+				VertexShaders.worldTransformObjectPositionColor, FragmentShaders.ObjectPositionColor));
+
 			programs.Add(new ProgramSet("PosColorWorldTransform_vert ColorMultUniform_frag", 
 				VertexShaders.PosColorWorldTransform_vert, FragmentShaders.ColorMultUniform_frag));
 
@@ -44,6 +47,7 @@ namespace GlslTutorials
 			programs.Add(new ProgramSet("HDR_PCN DiffuseOnlyMtlHDR", 
 				VertexShaders.HDR_PCN, FragmentShaders.DiffuseOnlyMtlHDR));
 
+			programs.Add(new ProgramSet("projlight", VertexShaders.projlight, FragmentShaders.projlight));
 		}
 
 		public static ProgramSet Find(string name)

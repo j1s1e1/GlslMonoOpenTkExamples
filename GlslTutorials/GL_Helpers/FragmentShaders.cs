@@ -16,6 +16,14 @@ namespace GlslTutorials
 	        "gl_FragColor = baseColor;" +
 			//"gl_FragColor =  vec4(1.0, 1.0, 1.0, 1.0);" +
 	    "}";
+
+		public static String ObjectPositionColor =
+		"varying vec4 objectPosition;" +
+
+		"void main()" +
+		"{" +
+			"gl_FragColor = vec4(objectPosition.xyz, 1.0);" +
+		"}";
 		
 		public static String lms_fragmentShaderCode =
         "uniform vec4 baseColor;" +
@@ -665,8 +673,8 @@ namespace GlslTutorials
 			"}" +
 			
 			"gl_FragColor = accumLighting / Lgt.maxIntensity;" +
-		
-		"}";
+			//"gl_FragColor = vec4(1.0, 0.0, 1.0, 1.0);" +
+		"}"; // litTexture
 		
 		public static String SimpleTexture =
 	
@@ -1288,9 +1296,9 @@ namespace GlslTutorials
 			"}" +
 
 			"gl_FragColor = accumLighting / Lgt.maxIntensity;" +
-			//"gl_FragColor = diffuseColor;" +
-			//"gl_FragColor = vec4(colorCoord, 0.0, 1.0);" +
-		"}";
+			//"gl_FragColor = vec4(diffuseColor.xyz, 1.0);" + // no bad with some samplers
+			//"gl_FragColor = vec4(colorCoord, 0.0, 1.0);" + // ok
+		"}"; // littexture
 
 		public static String colored =
 
@@ -1358,10 +1366,17 @@ namespace GlslTutorials
 			"}" +
 
 			"accumLighting += ComputeLighting(diffuseColor, currLight);" +
-
-			"gl_FragColor = accumLighting / Lgt.maxIntensity;" +
-			"gl_FragColor = diffuseColor;" +
-			//"gl_FragColor = vec4(colorCoord, 0.0, 1.0);" +
+			"if ((accumLighting.x + accumLighting.y + accumLighting.z) == 0.0)" +
+			"{" +
+				"discard;" +
+			"}" +
+			"gl_FragColor = accumLighting / Lgt.maxIntensity;" + // ok
+			//"gl_FragColor = lightProjPosition;" + // 
+			//"gl_FragColor = currLight.cameraSpaceLightPos;" +  // 
+			//"gl_FragColor = currLight.lightIntensity;" + // ok 
+			//"gl_FragColor = diffuseColor;" + // ok
+			//"gl_FragColor = vec4(colorCoord, 0.0, 1.0);" + // ok
+			//"gl_FragColor = vec4(0.6, 0.6, 0.03, 1.0);" +
 		"}"; // projlight
 
 	}

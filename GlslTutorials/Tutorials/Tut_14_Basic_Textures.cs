@@ -430,6 +430,13 @@ namespace GlslTutorials
 				case Keys.D2: g_currTexture = 1; break;
 				case Keys.D3: g_currTexture = 2; break;
 				case Keys.D4: g_currTexture = 3; break;
+				case Keys.Q:
+					MouseWheel(1, 0, 10, 10);
+					break;
+				case Keys.W:
+					MouseWheel(1, 1, 10, 10);
+					break;
+
 			}
 			result.AppendLine("Angle Resolution:  " + CalcCosAngResolution(g_currTexture).ToString());
 			return result.ToString();

@@ -16,6 +16,7 @@ namespace GlslTutorials
 			public int modelToCameraMatrixUnif;
 			public int numberOfLightsUnif;
 			public int cameraToClipMatrixUnif;
+			public LightBlock lightBlock;
 		};
 
 		class UnlitProgData
@@ -32,15 +33,10 @@ namespace GlslTutorials
 		static ProgramData g_progStandard;
 		static UnlitProgData g_progUnlit;
 
-		static int g_projectionBlockIndex = 0;
-		static int g_lightBlockIndex = 1;
 		static int g_colorTexUnit = 0;
 
 		ProgramData LoadProgram(String strVertexShader, String strFragmentShader)
 		{
-			//int test1 = Shader.compileShader(ShaderType.VertexShader, strVertexShader);
-			//int test2 = Shader.compileShader(ShaderType.FragmentShader, strFragmentShader);
-			
 			ProgramData data = new ProgramData();
 			int vertex_shader = Shader.compileShader(ShaderType.VertexShader, strVertexShader);
 	        int fragment_shader = Shader.compileShader(ShaderType.FragmentShader, strFragmentShader);
@@ -53,8 +49,8 @@ namespace GlslTutorials
 			//GL.UniformBlockBinding(data.theProgram, projectionBlock, g_projectionBlockIndex);
 			data.cameraToClipMatrixUnif = GL.GetUniformLocation(data.theProgram, "cameraToClipMatrix");	
 		
-			int lightBlockIndex = GL.GetUniformBlockIndex(data.theProgram, "Light");
-			GL.UniformBlockBinding(data.theProgram, lightBlockIndex, g_lightBlockIndex);
+			data.lightBlock = new LightBlock(NUMBER_OF_LIGHTS);
+			data.lightBlock.SetUniforms(data.theProgram);
 		
 			int colorTextureUnif = GL.GetUniformLocation(data.theProgram, "diffuseColorTex");
 			GL.UseProgram(data.theProgram);
@@ -82,11 +78,8 @@ namespace GlslTutorials
 			g_progStandard = LoadProgram(VertexShaders.PNT, FragmentShaders.litTexture);
 			g_progUnlit = LoadUnlitProgram(VertexShaders.PosTransform, FragmentShaders.ColorUniform_frag);
 		}
-		
-		int g_projectionUniformBuffer = 0;
-		int g_lightUniformBuffer = 0;
+
 		int g_linearTexture = 0;
-		// uint g_gammaTexture = 0;
 		
 		const int NUM_SAMPLERS = 2;
 		int[] g_samplers = new int[NUM_SAMPLERS];
@@ -125,8 +118,7 @@ namespace GlslTutorials
 		{
 			try
 			{
-				g_linearTexture = Textures.CreateMipMapTexture("terrain_tex.png", 2);
-
+				g_linearTexture = Textures.CreateMipMapTexture("terrain_tex.png", 4);
 			}
 			catch(Exception ex)
 			{
@@ -157,24 +149,19 @@ namespace GlslTutorials
 		
 		public static  ViewPole g_viewPole;
 		
-		public static ObjectPole g_objtPole;
-		
-		void MouseMotion(int x, int y)
+		public override void MouseMotion(int x, int y)
 	    {
 	        Framework.ForwardMouseMotion(g_viewPole, x, y);
-	        Framework.ForwardMouseMotion(g_objtPole, x, y);
 	    }
 	
-	    void MouseButton(int button, int state, int x, int y)
+		public override void MouseButton(int button, int state, int x, int y)
 	    {
 	        Framework.ForwardMouseButton(g_viewPole, button, state, x, y);
-	        Framework.ForwardMouseButton(g_objtPole, button, state, x, y);
 	    }
 	
 	    void MouseWheel(int wheel, int direction, int x, int y)
 	    {
 	        Framework.ForwardMouseWheel(g_viewPole, wheel, direction, x, y);
-	        Framework.ForwardMouseWheel(g_objtPole, wheel, direction, x, y);
 	    }
 		
 		LightEnv g_pLightEnv;
@@ -207,42 +194,12 @@ namespace GlslTutorials
 				return;
 			}
 		
-			//glutMouseFunc(MouseButton);
-			//glutMotionFunc(MouseMotion);
-			//glutMouseWheelFunc(MouseWheel);
-		
-			GL.Enable(EnableCap.CullFace);
-	        GL.CullFace(CullFaceMode.Back);
-	        GL.FrontFace(FrontFaceDirection.Cw);
-		
-			const float depthZNear = 0.0f;
-			const float depthZFar = 1.0f;
-		
-			GL.Enable(EnableCap.DepthTest);
-	        GL.DepthMask(true);
-	        GL.DepthFunc(DepthFunction.Lequal);
-	        GL.DepthRange(depthZNear, depthZFar);
-			GL.Enable(EnableCap.DepthClamp);
-		
-			//Setup our Uniform Buffers
-			GL.GenBuffers(1, out g_projectionUniformBuffer);
-			GL.BindBuffer(BufferTarget.UniformBuffer, g_projectionUniformBuffer);
-			GL.BufferData(BufferTarget.UniformBuffer, (IntPtr)ProjectionBlock.Size(), IntPtr.Zero, BufferUsageHint.DynamicDraw);
-		
-			GL.BindBufferRange(BufferTarget.UniformBuffer, g_projectionBlockIndex, g_projectionUniformBuffer,
-				(IntPtr)0, (IntPtr)ProjectionBlock.Size());
-		
-			GL.GenBuffers(1, out g_lightUniformBuffer);
-			GL.BindBuffer(BufferTarget.UniformBuffer, g_lightUniformBuffer);
-			GL.BufferData(BufferTarget.UniformBuffer, (IntPtr)LightBlock.Size(NUMBER_OF_LIGHTS), IntPtr.Zero, BufferUsageHint.StreamDraw);
-		
-			GL.BindBufferRange(BufferTarget.UniformBuffer, g_lightBlockIndex, g_lightUniformBuffer,
-				(IntPtr)0, (IntPtr)LightBlock.Size(NUMBER_OF_LIGHTS));
-		
-			GL.BindBuffer(BufferTarget.UniformBuffer, 0);
+			SetupDepthAndCull();
 		
 			LoadTextures();
 			CreateSamplers();
+			MatrixStack.rightMultiply = false;
+			reshape();
 		}
 		
 		int g_currSampler = 0;
@@ -276,10 +233,7 @@ namespace GlslTutorials
 		
 			LightBlock lightData = g_pLightEnv.GetLightBlock(g_viewPole.CalcMatrix());
 		
-			GL.BindBuffer(BufferTarget.UniformBuffer, g_lightUniformBuffer);
-			GL.BufferData(BufferTarget.UniformBuffer, (IntPtr)LightBlock.Size(NUMBER_OF_LIGHTS), 
-			              lightData.ToFloat(), BufferUsageHint.StreamDraw);
-			GL.BindBuffer(BufferTarget.UniformBuffer, 0);
+			g_progStandard.lightBlock.Update(lightData);
 		
 			if((g_pSphere != null) && (g_pTerrain != null))
 			{
@@ -363,29 +317,28 @@ namespace GlslTutorials
 		
 		//Called whenever the window is resized. The new window size is given, in pixels.
 		//This is an opportunity to call glViewport or glScissor to keep up with the change in size.
-		public override void reshape ()
+		public override void reshape()
 		{
 			MatrixStack persMatrix = new MatrixStack();
 			persMatrix.Perspective(60.0f, (width / (float)height), g_fzNear, g_fzFar);
-		
+
 			ProjectionBlock projData = new ProjectionBlock();
 			projData.cameraToClipMatrix = persMatrix.Top();
 			
 			Matrix4 cm = projData.cameraToClipMatrix;
+			GL.UseProgram(g_progStandard.theProgram);
 			GL.UniformMatrix4(g_progStandard.cameraToClipMatrixUnif, false, ref cm);
+			GL.UseProgram(g_progUnlit.theProgram);
 			GL.UniformMatrix4(g_progUnlit.cameraToClipMatrixUnif, false, ref cm);
-		
-			//GL.BindBuffer(BufferTarget.UniformBuffer, g_projectionUniformBuffer);
-			//GL.BufferSubData(BufferTarget.UniformBuffer, (IntPtr)0, (IntPtr)ProjectionBlock.Size(), projData.ToFloat());
-			//GL.BindBuffer(BufferTarget.UniformBuffer, 0);
+			GL.UseProgram(0);
 		
 			GL.Viewport(0, 0, width, height);
-			//glutPostRedisplay();
 		}
 		
 		public override String keyboard(Keys keyCode, int x, int y)
 		{
 			StringBuilder result = new StringBuilder();
+			result.AppendLine(keyCode.ToString());
 			switch (keyCode)
 			{
 				case Keys.Escape:
@@ -397,22 +350,25 @@ namespace GlslTutorials
 					break;
 				case Keys.Space:
 					g_useGammaDisplay = !g_useGammaDisplay;
+					if (g_useGammaDisplay)
+					{
+						result.AppendLine("g_useGammaDisplay");
+					}
 					break;
-				case Keys.Subtract: g_pLightEnv.RewindTime(1.0f); break;
-				case Keys.Add: g_pLightEnv.FastForwardTime(1.0f); break;
+				//case Keys.Subtract: g_pLightEnv.RewindTime(1.0f); break;
+				//case Keys.Add: g_pLightEnv.FastForwardTime(1.0f); break;
 				case Keys.T: g_bDrawCameraPos = !g_bDrawCameraPos; break;
 				case Keys.P:g_pLightEnv.TogglePause(); break;
 				case Keys.D1: g_currSampler = 0; break;
 				case Keys.D2: g_currSampler = 1; break;
-				case Keys.D3: g_currSampler = 2; break;
-				case Keys.D4: g_currSampler = 3; break;
-				case Keys.D5: g_currSampler = 4; break;
-				case Keys.D6: g_currSampler = 5; break;
-				case Keys.D7: g_currSampler = 6; break;
-				case Keys.D8: g_currSampler = 7; break;
-				case Keys.D9: g_currSampler = 8; break;
+			case Keys.Subtract:
+				MouseWheel(1, 0, 10, 10);
+				break;
+			case Keys.Add:
+				MouseWheel(1, 1, 10, 10);
+				break;
 			}		
-			//g_viewPole.CharPress(keyCode);
+			g_viewPole.CharPress((char)keyCode);
 			return result.ToString();
 		}
 

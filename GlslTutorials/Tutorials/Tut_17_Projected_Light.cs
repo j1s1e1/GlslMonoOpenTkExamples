@@ -10,7 +10,9 @@ namespace GlslTutorials
 {
 	public class Tut_17_Projected_Light : TutorialBase
 	{
-		static int NUMBER_OF_LIGHTS = 4;
+		Vector3 translateVector = new Vector3(0f, 0f, 0f);
+		float scaleFactor = 0.02f;
+		static int NUMBER_OF_LIGHTS = 2;
 		public Tut_17_Projected_Light ()
 		{
 		}
@@ -126,6 +128,23 @@ namespace GlslTutorials
 		ViewPole g_viewPole = new ViewPole(g_initialView, g_initialViewScale, MouseButtons.MB_LEFT_BTN);
 		ViewPole g_lightViewPole = new ViewPole(g_initLightView, g_initLightViewScale, MouseButtons.MB_RIGHT_BTN, true);
 
+		public override void MouseMotion(int x, int y)
+		{
+			Framework.ForwardMouseMotion(g_viewPole, x, y);
+			Framework.ForwardMouseMotion(g_lightViewPole, x, y);
+		}
+
+		public override void MouseButton(int button, int state, int x, int y)
+		{
+			Framework.ForwardMouseButton(g_viewPole, button, state, x, y);
+			Framework.ForwardMouseButton(g_lightViewPole, button, state, x, y);
+		}
+
+		void MouseWheel(int wheel, int direction, int x, int y)
+		{
+			Framework.ForwardMouseWheel(g_viewPole, wheel, direction, x, y);
+		}
+
 		FrameworkScene g_pScene;
 		List<NodeRef> g_nodes;
 		FrameworkTimer g_timer = new FrameworkTimer(FrameworkTimer.Type.TT_LOOP, 10.0f);
@@ -216,6 +235,8 @@ namespace GlslTutorials
 			SetupDepthAndCull();
 
 			GL.Enable(EnableCap.FramebufferSrgb);
+			GL.Enable(EnableCap.Texture2D);
+			MatrixStack.rightMultiply = false;
 
 			CreateSamplers();
 			LoadTextures();
@@ -228,9 +249,6 @@ namespace GlslTutorials
 			{
 				MessageBox.Show("Error loading scene " + ex.ToString());
 			}
-			reshape();
-			Textures.EnableTextures();
-			MatrixStack.rightMultiply = false;
 		}
 			
 		int g_currSampler = 0;
@@ -256,13 +274,6 @@ namespace GlslTutorials
 			lightData.lights[1].lightIntensity = new Vector4(3.5f, 6.5f, 3.0f, 1.0f) * 0.5f;
 			lightData.lights[1].cameraSpaceLightPos = 
 				Vector4.Transform(new Vector4(5.0f, 6.0f, 0.5f, 1.0f), camMatrix);
-
-			/* FIXME
-			if(g_bShowOtherLights)
-				g_lightNumBinder.SetValue(2);
-			else
-				g_lightNumBinder.SetValue(0);
-				*/
 
 			// Update in used programs
 			lightData.SetUniforms(g_unlitProg);
@@ -303,8 +314,8 @@ namespace GlslTutorials
 				MatrixStack persMatrix = new MatrixStack();
 				persMatrix.Perspective(60.0f, (g_displayWidth / (float)g_displayHeight), g_fzNear, g_fzFar);
 				// added
-				persMatrix.Translate(5f, 0.0f, -5f);
-				persMatrix.Scale(0.5f);
+				persMatrix.Scale(scaleFactor);
+				persMatrix.Translate(translateVector);
 				// end added
 
 				ProjectionBlock projData = new ProjectionBlock();
@@ -449,6 +460,12 @@ namespace GlslTutorials
 			case Keys.D3:
 				g_currTextureIndex = 2;
 				result.AppendLine("Current Texture = " + g_texDefs[g_currTextureIndex].name);
+				break;
+			case Keys.Subtract:
+				MouseWheel(1, 0, 10, 10);
+				break;
+			case Keys.Add:
+				MouseWheel(1, 1, 10, 10);
 				break;
 			}
 

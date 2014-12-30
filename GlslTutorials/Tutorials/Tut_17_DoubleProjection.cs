@@ -10,6 +10,9 @@ namespace GlslTutorials
 {
 	public class Tut_17_DoubleProjection  : TutorialBase
 	{
+		Vector3 translateVector = new Vector3(0f, 0f, -10f);
+		float scaleFactor = 0.02f;
+		float reduceSpeed = 10f;
 		static int NUMBER_OF_LIGHTS = 2;
 		bool rightMultiply;
 		public Tut_17_DoubleProjection ()
@@ -37,7 +40,6 @@ namespace GlslTutorials
 			2.0f, 0.5f,
 			90.0f/250.0f
 		);
-
 
 		static ViewData g_initPersView = new ViewData
 		(
@@ -132,7 +134,7 @@ namespace GlslTutorials
 		{
 			SetupDepthAndCull();
 			GL.Enable(EnableCap.FramebufferSrgb);
-
+			GL.Enable(EnableCap.Texture2D); // must be before scene??
 			try
 			{
 				LoadAndSetupScene();
@@ -143,7 +145,7 @@ namespace GlslTutorials
 			}
 			//reshape();
 			MatrixStack.rightMultiply = false;
-			rightMultiply = false;
+			rightMultiply = true;
 		}
 
 		bool g_bDrawCameraPos = true;
@@ -191,16 +193,16 @@ namespace GlslTutorials
 			if (rightMultiply)
 			{
 				g_nodes[0].NodeSetOrient(Quaternion.FromAxisAngle(new Vector3(0.0f, 1.0f, 0.0f), 
-					360.0f *  g_timer.GetAlpha()));
+					360.0f *  g_timer.GetAlpha()/reduceSpeed));
 				g_nodes[3].NodeSetOrient(Quaternion.Multiply(g_spinBarOrient,
-					Quaternion.FromAxisAngle(new Vector3(0.0f, 0.0f, 1.0f), 360.0f * g_timer.GetAlpha())));
+					Quaternion.FromAxisAngle(new Vector3(0.0f, 0.0f, 1.0f), 360.0f * g_timer.GetAlpha()/reduceSpeed)));
 			}
 			else
 			{
 				g_nodes[0].NodeSetOrient(Quaternion.FromAxisAngle(new Vector3(0.0f, 1.0f, 0.0f), 
-					360.0f *  g_timer.GetAlpha()));
+					360.0f *  g_timer.GetAlpha()/reduceSpeed));
 				g_nodes[3].NodeSetOrient(Quaternion.Multiply(
-					Quaternion.FromAxisAngle(new Vector3(0.0f, 0.0f, 1.0f), 360.0f * g_timer.GetAlpha()), 
+					Quaternion.FromAxisAngle(new Vector3(0.0f, 0.0f, 1.0f), 360.0f * g_timer.GetAlpha()/reduceSpeed), 
 					g_spinBarOrient));
 			}
 
@@ -209,8 +211,8 @@ namespace GlslTutorials
 				persMatrix.Perspective(60.0f, (width/2f / height), g_fzNear, g_fzFar);
 
 				// added
-				persMatrix.Translate(0.0f, 0.0f, -5f);
-				persMatrix.Scale(0.01f);
+				persMatrix.Translate(translateVector);
+				persMatrix.Scale(scaleFactor);
 				// end added
 
 				ProjectionBlock projData = new ProjectionBlock();
@@ -260,8 +262,8 @@ namespace GlslTutorials
 				persMatrix.Perspective(60.0f, (width/2f / height), g_fzNear, g_fzFar);
 
 				// added
-				persMatrix.Translate(0.0f, 0.0f, -5f);
-				persMatrix.Scale(0.01f);
+				persMatrix.Translate(translateVector);
+				persMatrix.Scale(scaleFactor);
 				// end added
 
 				ProjectionBlock projData = new ProjectionBlock();

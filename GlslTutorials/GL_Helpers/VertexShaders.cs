@@ -33,6 +33,24 @@ namespace GlslTutorials
 	        "temp = worldToCameraMatrix * temp;" +
 	        "gl_Position = cameraToClipMatrix * temp;" +
 	    " }";
+
+		public static String worldTransformObjectPositionColor =
+		"attribute vec4 position;" +
+
+		"uniform mat4 cameraToClipMatrix;" +
+		"uniform mat4 worldToCameraMatrix;" +
+		"uniform mat4 modelToWorldMatrix;" +
+
+		"varying vec4 objectPosition;" +
+
+		"void main()" +
+		"{" +
+			"objectPosition = vec4(abs(position));" +
+			"objectPosition = clamp(objectPosition, 0.0, 1.0);" +
+			"vec4 temp = modelToWorldMatrix *  position;" +
+			"temp = worldToCameraMatrix * temp;" +
+			"gl_Position = cameraToClipMatrix * temp;" +
+		" }";
 		
 		public static string lms_vertexShaderCode =
         "attribute vec4 position;" +
@@ -589,7 +607,10 @@ namespace GlslTutorials
 		public static String projlight =
 
 		"attribute vec3 position;" +
+		"attribute vec3 dummy1;" +  // preserve spacing
 		"attribute vec3 normal;" +
+		"attribute vec3 dummy3;" +  // preserve spacing
+		"attribute vec3 dummy4;" +  // preserve spacing
 		"attribute vec2 texCoord;" +
 
 		"varying vec2 colorCoord;" +
@@ -605,13 +626,17 @@ namespace GlslTutorials
 
 		"void main()" +
 		"{" +
-			"cameraSpacePosition = (modelToCameraMatrix * vec4(position, 1.0)).xyz;" +
+			"cameraSpacePosition = dummy1 + dummy3 + dummy4;" +
+			"cameraSpacePosition = (modelToCameraMatrix * vec4(position, 1.0)).xyz + 0.0001 * cameraSpacePosition;" +
 			"gl_Position = cameraToClipMatrix * vec4(cameraSpacePosition, 1.0);" +
 			"cameraSpaceNormal = normalize(normalModelToCameraMatrix * normal);" +
 			"lightProjPosition = cameraToLightProjMatrix * vec4(cameraSpacePosition, 1.0);" +
+			//"lightProjPosition = vec4(position, 1.0);" +
 
 			"colorCoord = texCoord;" +
-		"}";
+			//"gl_Position = modelToCameraMatrix * vec4(position, 1.0);" +
+			//"gl_Position = vec4(position, 1.0);" +
+			"}"; // projlight
 
 		
 	}

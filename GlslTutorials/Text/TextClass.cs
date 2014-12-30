@@ -141,6 +141,7 @@ namespace GlslTutorials
 	            case (char)'9': result = Numbers.Nine; break;
 				
 				case (char)' ': result = Symbols.Space; break;
+				case (char)'.': result = Symbols.Period; break;
 				
 	            default:  result = Symbols.Dash; break;
 	        }

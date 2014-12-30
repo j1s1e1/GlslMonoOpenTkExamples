@@ -8,7 +8,7 @@ namespace GlslTutorials
 	{
 		public SceneTexture(string fileName, uint creationFlags)
 		{
-			m_texObj = Textures.Load(fileName, 1);  //FIXME add options
+			m_texObj = Textures.CreateMipMapTexture(fileName, 6);  //FIXME add options
 			m_texType = TextureTarget.Texture2D;
 		}
 
