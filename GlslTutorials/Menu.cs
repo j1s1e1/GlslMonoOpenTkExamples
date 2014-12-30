@@ -5,6 +5,10 @@ namespace GlslTutorials
 {
 	public enum TutorialsEnum
 	{
+		Tut_ViewPoleQuaternion,
+		Tut_ObjectPoleQuaternion,
+		Tut_TransformOrder,
+
 		Tut_Quaternion,
 		Tut_Projected_Light_Test,
 		Tut_17_Projected_Light,
@@ -129,6 +133,10 @@ namespace GlslTutorials
 				case TutorialsEnum.Tut_Projected_Light_Test: currentTutorial = new Tut_Projected_Light_Test(); break;
 				case TutorialsEnum.Tut_RelativePositions: currentTutorial = new Tut_RelativePositions(); break;
 				case TutorialsEnum.Tut_Quaternion: currentTutorial = new Tut_Quaternion(); break;
+				case TutorialsEnum.Tut_ObjectPoleQuaternion: currentTutorial = new Tut_ObjectPoleQuaternion(); break;
+				case TutorialsEnum.Tut_TransformOrder: currentTutorial = new Tut_TransformOrder(); break;
+				case TutorialsEnum.Tut_ViewPoleQuaternion: currentTutorial = new Tut_ViewPoleQuaternion(); break;
+
 
 			}
 		}

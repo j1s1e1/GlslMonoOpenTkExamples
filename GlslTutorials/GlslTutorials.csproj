@@ -204,6 +204,9 @@
     <Compile Include="Tutorials\Tut_06_Hierarchy.cs" />
     <Compile Include="Tutorials\Tut_Projected_Light_Test.cs" />
     <Compile Include="Tutorials\Tut_Quaternion.cs" />
+    <Compile Include="Tutorials\Tut_ObjectPoleQuaternion.cs" />
+    <Compile Include="Tutorials\Tut_TransformOrder.cs" />
+    <Compile Include="Tutorials\Tut_ViewPoleQuaternion.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />

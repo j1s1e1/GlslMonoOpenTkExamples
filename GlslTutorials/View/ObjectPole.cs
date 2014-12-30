@@ -72,6 +72,7 @@ namespace GlslTutorials
 	     **/
 	    void SetRotationScale(float rotateScale)
 	    {
+			m_rotateScale = rotateScale;
 	    }
 	    ///Gets the current scaling factor for orientation changes.
 	    float GetRotationScale()
@@ -80,10 +81,37 @@ namespace GlslTutorials
 	    }
 	
 	    ///Retrieves the current position and orientation of the object.
-	    ObjectData GetPosOrient()
+	    public ObjectData GetPosOrient()
 	    {
 	        return m_po;
 	    }
+
+		public void Move(float x, float y, float z)
+		{
+			m_po.position += new Vector3(x, y, z);
+		}
+
+		public void Move(Vector3 v)
+		{
+			m_po.position += v;
+		}
+
+		public void SetOrient(Quaternion newOrientation)
+		{
+			m_po.orientation = newOrientation;
+		}
+
+		public void Rotate(Quaternion rotation)
+		{
+			if (rightMultiply())
+			{
+				m_po.orientation = Quaternion.Multiply(m_po.orientation, rotation);
+			}
+			else
+			{
+				m_po.orientation = Quaternion.Multiply(rotation, m_po.orientation);
+			}
+		}
 	
 	    ///Resets the object to the initial position/orientation. Will fail if currently dragging.
 	    void Reset()
@@ -293,9 +321,9 @@ namespace GlslTutorials
 				Quaternion result = bFromInitial ? m_startDragOrient : m_po.orientation;
 				if (rightMultiply())
 				{
-					result = Quaternion.Multiply(result, viewQuat);
-					result = Quaternion.Multiply(result, rot);
 					result = Quaternion.Multiply(result, invViewQuat);
+					result = Quaternion.Multiply(result, rot);
+					result = Quaternion.Multiply(result, viewQuat);
 				}
 				else
 				{

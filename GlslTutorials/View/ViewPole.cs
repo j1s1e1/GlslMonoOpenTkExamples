@@ -74,35 +74,26 @@ namespace GlslTutorials
 			if (rightMultiply())
 			{
 	        	theMat = Matrix4.Mult(theMat, translation);
-			}
-			else
-			{
-				theMat = Matrix4.Mult(translation, theMat);
-			}
-	
-	        //Rotate the world to look in the right direction..
-	        Quaternion fullRotation =
-				Quaternion.Multiply(new Quaternion(new Vector3(0.0f, 0.0f, 1.0f), m_currView.radSpinRotation),
-	                m_currView.orient);
-			if (rightMultiply())
-			{
+				//Rotate the world to look in the right direction..
+				Quaternion fullRotation =
+					Quaternion.Multiply(m_currView.orient, 
+						new Quaternion(new Vector3(0.0f, 0.0f, 1.0f), m_currView.radSpinRotation) );
 				theMat = Matrix4.Mult(theMat, Matrix4.CreateFromQuaternion(fullRotation));
-			}
-			else
-			{
-				theMat = Matrix4.Mult(Matrix4.CreateFromQuaternion(fullRotation), theMat);
-			}
-	
-	        //Translate the world by the negation of the lookat point, placing the origin at the
-	        //lookat point.
-	        translation  = Matrix4.CreateTranslation(Vector3.Multiply(m_currView.targetPos, -1f));
-
-			if (rightMultiply())
-			{
+				//Translate the world by the negation of the lookat point, placing the origin at the
+				//lookat point.
+				translation  = Matrix4.CreateTranslation(Vector3.Multiply(m_currView.targetPos, -1f));
 				theMat = Matrix4.Mult(theMat, translation);
 			}
 			else
 			{
+				theMat = Matrix4.Mult(translation, theMat);
+				Quaternion fullRotation =
+					Quaternion.Multiply(new Quaternion(new Vector3(0.0f, 0.0f, 1.0f), m_currView.radSpinRotation),
+						m_currView.orient);
+				theMat = Matrix4.Mult(Matrix4.CreateFromQuaternion(fullRotation), theMat);
+				//Translate the world by the negation of the lookat point, placing the origin at the
+				//lookat point.
+				translation  = Matrix4.CreateTranslation(Vector3.Multiply(m_currView.targetPos, -1f));
 				theMat = Matrix4.Mult(translation, theMat);
 			}
 	        return theMat;
@@ -130,6 +121,33 @@ namespace GlslTutorials
 	    {
 	        return m_currView;
 	    }
+
+		public void Move(float x, float y, float z)
+		{
+			m_currView.targetPos += new Vector3(x, y, z);
+		}
+
+		public void Move(Vector3 v)
+		{
+			m_currView.targetPos += v;
+		}
+
+		public void SetOrient(Quaternion newOrientation)
+		{
+			m_currView.orient = newOrientation;
+		}
+
+		public void Rotate(Quaternion rotation)
+		{
+			if (rightMultiply())
+			{
+				m_currView.orient  = Quaternion.Multiply(m_currView.orient, rotation);
+			}
+			else
+			{
+				m_currView.orient = Quaternion.Multiply(rotation, m_currView.orient );
+			}
+		}
 	
 	    ///Resets the view to the initial view. Will fail if currently dragging.
 	    public void Reset()
