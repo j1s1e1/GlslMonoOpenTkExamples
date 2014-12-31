@@ -9,6 +9,12 @@ namespace GlslTutorials
 {
 	public class Tut_Tennis3D : TutorialBase 
 	{
+		static float g_fzNear = 10.0f;
+		static float g_fzFar = 1000.0f;
+
+		float perspectiveAngle = 60f;
+		float newPerspectiveAngle = 60f;
+
 		static int NUMBER_OF_LIGHTS = 2;
 		bool pause = false;
 		Vector3 position = new Vector3(0f, 0f, 0f);
@@ -66,9 +72,6 @@ namespace GlslTutorials
 			}
 	    };
 	
-	    static float g_fzNear = 10.0f;
-	    static float g_fzFar = 1000.0f;
-	
 	    static ProgramData UniformColor;
 	    static ProgramData ObjectColor;
 	    static ProgramData UniformColorTint;
@@ -85,9 +88,6 @@ namespace GlslTutorials
 		
 		static Vector4 g_lightDirection = new Vector4(0.866f, 0.5f, 0.0f, 0.0f);
 		Vector3 dirToLight = new Vector3(0.5f, 0.5f, 1f);
-
-		float perspectiveAngle = 60f;
-		float newPerspectiveAngle = 60f;
 	
 	    ProgramData LoadProgram(String strVertexShader, String strFragmentShader)
 	    {
@@ -249,20 +249,25 @@ namespace GlslTutorials
 	        Camera.MoveTarget(0f, 0f, 0.0f);
 	        reshape();
 			current_mesh = g_unitSphereMesh;
-			frontWall.Move(0f, 0f, 0f);
-			frontWall.Scale(2f);
-			backWall.Move(0f, 0f, -0.9f);
-			backWall.Scale(0.5f);
+			frontWall.Move(0f, 0f, 1f);
+			frontWall.Scale(50f);
 
-			leftWall.Move(-0.8f, 0f, 0f);
-			leftWall.RotateShape(Vector3.UnitY, 70f);
-			rightWall.Move(0.8f, 0f, 0f);
-			rightWall.RotateShape(Vector3.UnitY, -70f);
+			backWall.Move(0f, 0f, -1f);
+			backWall.Scale(50f);
 
-			topWall.Move(0f, 0.8f, 0f);
-			topWall.RotateShape(Vector3.UnitX, 70f);
-			bottomWall.Move(0f, -0.8f, 0f);
-			bottomWall.RotateShape(Vector3.UnitX, -70f);
+			leftWall.Move(-1f, 0f, 0f);
+			leftWall.Scale(50f);
+			leftWall.RotateShape(Vector3.UnitY, 90f);
+			rightWall.Move(1f, 0f, 0f);
+			rightWall.Scale(50f);
+			rightWall.RotateShape(Vector3.UnitY, -90f);
+
+			topWall.Move(0f, 1f, 0f);
+			topWall.Scale(50f);
+			topWall.RotateShape(Vector3.UnitX, 90f);
+			bottomWall.Move(0f, -1f, 0f);
+			bottomWall.Scale(50f);
+			bottomWall.RotateShape(Vector3.UnitX, -90f);
 	    }
 	
 	    public override void display()
@@ -290,7 +295,7 @@ namespace GlslTutorials
 
                     if (noWorldMatrix) 
 					{
-                        Matrix4 cm2 = Matrix4.Mult(mm, cm);
+						Matrix4 cm2 = Matrix4.Mult(mm, worldToCameraMatrix);
                         GL.UniformMatrix4(currentProgram.modelToCameraMatrixUnif, false, ref cm2);
 						if (currentProgram.normalModelToCameraMatrixUnif != 0)
 						{
@@ -370,14 +375,17 @@ namespace GlslTutorials
 	    static Vector3 axis = new Vector3(1f, 1f, 0);
 	    static float angle = 0;
 	
-	    static Matrix4 pm;
-	    static Matrix4 cm;
+		static Matrix4 cameraToClipMatrix;
+		static Matrix4 worldToCameraMatrix;
 	
 	    static private void SetGlobalMatrices(ProgramData program)
 	    {
+			Shape.worldToCamera = worldToCameraMatrix;
+			Shape.cameraToClip = cameraToClipMatrix;
+
 	        GL.UseProgram(program.theProgram);
-	        GL.UniformMatrix4(program.cameraToClipMatrixUnif, false, ref pm);  // this one is first
-	        GL.UniformMatrix4(program.worldToCameraMatrixUnif, false, ref cm); // this is the second one
+			GL.UniformMatrix4(program.cameraToClipMatrixUnif, false, ref cameraToClipMatrix);  // this one is first
+			GL.UniformMatrix4(program.worldToCameraMatrixUnif, false, ref worldToCameraMatrix); // this is the second one
 	        GL.UseProgram(0);
 	    }
 	
@@ -386,11 +394,11 @@ namespace GlslTutorials
 	        MatrixStack camMatrix = new MatrixStack();
 	        camMatrix.SetMatrix(Camera.GetLookAtMatrix());
 	
-	        cm = camMatrix.Top();
+			worldToCameraMatrix = camMatrix.Top();
 	
 	        MatrixStack persMatrix = new MatrixStack();
 	        persMatrix.Perspective(perspectiveAngle, (width / (float)height), g_fzNear, g_fzFar);
-	        pm = persMatrix.Top();
+			cameraToClipMatrix = persMatrix.Top();
 
 	        SetGlobalMatrices(currentProgram);
 	
@@ -476,6 +484,12 @@ namespace GlslTutorials
                 //timer.Enabled = false;
                 break;
             case Keys.Space:
+				newPerspectiveAngle = perspectiveAngle + 5f;
+				if (newPerspectiveAngle > 120f)
+				{
+					newPerspectiveAngle = 30f;
+				}
+				break;
                 break;
 			case Keys.Z:
 				break;

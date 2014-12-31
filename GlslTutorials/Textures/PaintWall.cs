@@ -19,7 +19,7 @@ namespace GlslTutorials
 			{
 				for (int row = 0; row < height; row++)
 				{
-					if ((Math.Abs(row - 128) < clearWidth) & (Math.Abs(col - clearWidth) < 100))
+					if ((Math.Abs(row - 128) < clearWidth) & (Math.Abs(col - 128) < clearWidth))
 					{
 						// clear pixels
 					}

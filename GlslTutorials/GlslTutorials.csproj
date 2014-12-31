@@ -207,6 +207,7 @@
     <Compile Include="Tutorials\Tut_ObjectPoleQuaternion.cs" />
     <Compile Include="Tutorials\Tut_TransformOrder.cs" />
     <Compile Include="Tutorials\Tut_ViewPoleQuaternion.cs" />
+    <Compile Include="Tutorials\Tut_RotateTexture.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
