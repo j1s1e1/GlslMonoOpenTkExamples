@@ -9,6 +9,7 @@ namespace GlslTutorials
 {
 	public class Tut_RotateTexture : TutorialBase
 	{
+		bool cull = true;
 		static TextureElement wood;
 		bool drawWood = true;
 
@@ -94,6 +95,20 @@ namespace GlslTutorials
 				wood.SetRotation(Matrix3.CreateFromAxisAngle(new Vector3(1f, 0f, 0f), 0f));
 				break;
 			case Keys.A:
+				break;
+			case Keys.C:
+				if (cull)
+				{
+					cull = false;
+					GL.Disable(EnableCap.CullFace);
+					result.AppendLine("cull disabled");
+				}
+				else
+				{
+					cull = true;
+					GL.Enable(EnableCap.CullFace);
+					result.AppendLine("cull enabled");
+				}
 				break;
 			case Keys.F:
 				break;

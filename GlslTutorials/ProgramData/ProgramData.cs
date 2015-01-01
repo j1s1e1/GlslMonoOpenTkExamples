@@ -113,16 +113,15 @@ namespace GlslTutorials
 			return ((vertexShaderIn == vertexShader) & (fragmentShader == fragmentShaderIn));
 		}
 		
-		public void Draw(int[] vertexBufferObject, int[] indexBufferObject,
-		                 Matrix4 cameraToClip, Matrix4 worldToCamera, Matrix4 mm,
-		                 int indexDataLength, float[] color)
+		public void Draw(int[] vertexBufferObject, int[] indexBufferObject, Matrix4 mm, int indexDataLength, 
+			float[] color)
 		{
 			GL.UseProgram(theProgram);	
 			GL.BindBuffer(BufferTarget.ArrayBuffer, vertexBufferObject[0]);
 			GL.BindBuffer(BufferTarget.ElementArrayBuffer, indexBufferObject[0]);
 			
-	        GL.UniformMatrix4(cameraToClipMatrixUnif, false, ref cameraToClip);
-	        GL.UniformMatrix4(worldToCameraMatrixUnif, false, ref worldToCamera);
+	        GL.UniformMatrix4(cameraToClipMatrixUnif, false, ref Shape.cameraToClip);
+	        GL.UniformMatrix4(worldToCameraMatrixUnif, false, ref Shape.worldToCamera);
 	        
 			if (modelToWorldMatrixUnif != -1) GL.UniformMatrix4(modelToWorldMatrixUnif, false, ref mm);
 	        if (modelToCameraMatrixUnif != -1) GL.UniformMatrix4(modelToCameraMatrixUnif, false, ref mm);

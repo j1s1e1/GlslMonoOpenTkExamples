@@ -40,12 +40,9 @@ namespace GlslTutorials
 		}
 		
 		public static void Draw(int program, int[] vertexBufferObject, int[] indexBufferObject,
-		                 Matrix4 cameraToClip, Matrix4 worldToCamera, Matrix4 mm,
-		                 int indexDataLength, float[] color)
+		                 Matrix4 mm, int indexDataLength, float[] color)
 		{
-			ActivePrograms[program].Draw (vertexBufferObject, indexBufferObject,
-		                 cameraToClip, worldToCamera, mm,
-		                 indexDataLength, color);
+			ActivePrograms[program].Draw (vertexBufferObject, indexBufferObject, mm, indexDataLength, color);
 		}
 		
 		public static void SetUniformColor(int program, Vector4 color)

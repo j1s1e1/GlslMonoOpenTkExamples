@@ -78,8 +78,7 @@ namespace GlslTutorials
 			mm.M43 = offset.Z;	
 			mm = Matrix4.Mult(mm, Matrix4.CreateScale(scale));
 			Programs.SetTexture(programNumber, texture);
-			Programs.Draw(programNumber, vertexBufferObject, indexBufferObject, cameraToClip, worldToCamera, mm,
-				indexData.Length, color);
+			Programs.Draw(programNumber, vertexBufferObject, indexBufferObject, mm, indexData.Length, color);
 		}
 			
 	}

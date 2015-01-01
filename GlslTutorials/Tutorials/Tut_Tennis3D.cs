@@ -9,6 +9,22 @@ namespace GlslTutorials
 {
 	public class Tut_Tennis3D : TutorialBase 
 	{
+		Random random = new Random();
+		int playerNumber = 0;
+		int lastPlayer = 5;
+		Ball ball; 
+		Vector3[] playerRotations = new Vector3[]
+		{
+			new Vector3(0f, 0f, 0f),
+			new Vector3(90f, 0f, 0f),
+			new Vector3(-90f, 0f, 0f),
+			new Vector3(0f, 90f, 0f),
+			new Vector3(0f, -90f, 0f),
+			new Vector3(0f, 0f, 180f),
+
+		};
+		bool cull = true;
+		bool rotateWorld = false;
 		static float g_fzNear = 10.0f;
 		static float g_fzFar = 1000.0f;
 
@@ -76,10 +92,8 @@ namespace GlslTutorials
 	    static ProgramData ObjectColor;
 	    static ProgramData UniformColorTint;
 	
-	    static ProgramData g_WhiteDiffuseColor;
 	    static ProgramData g_VertexDiffuseColor;
 	    static ProgramData g_WhiteAmbDiffuseColor;
-	    static ProgramData g_VertexAmbDiffuseColor;
 		static ProgramData g_Unlit;
 		static ProgramData g_litShaderProg;
 	
@@ -148,9 +162,6 @@ namespace GlslTutorials
 	        GL.UseProgram(UniformColorTint.theProgram);
 	        GL.Uniform4(UniformColorTint.baseColorUnif, 0.5f, 0.5f, 0f, 1.0f);
 	        GL.UseProgram(0);
-	
-	        g_WhiteDiffuseColor = LoadProgram(VertexShaders.PosColorLocalTransform_vert, 
-			                                  FragmentShaders.ColorPassthrough_frag);
 			
 	        g_WhiteAmbDiffuseColor = LoadProgram(VertexShaders.DirAmbVertexLighting_PN_vert, 
 			                                     FragmentShaders.ColorPassthrough_frag);
@@ -211,32 +222,17 @@ namespace GlslTutorials
 	        currentProgram = ObjectColor;
 	    }
 	    static Mesh current_mesh;
-	    static Mesh g_pCubeColorMesh;
-	    static Mesh g_pCylinderMesh;
-		static Mesh g_pPlaneMesh;
-		static Mesh g_pInfinityMesh;
 		static Mesh g_unitSphereMesh;
 	
 	    //Called after the window and OpenGL are initialized. Called exactly once, before the main loop.
 	    protected override void init()
 	    {
+			ball = new Ball();
+			ball.SetLimits(new Vector3(-1f, -1f, -1f), new Vector3(1f, 1f, 1f));
 	        InitializeProgram();
 	        try 
 	        {
-				string XmlFilesDirectory = GlsTutorialsClass.ProjectDirectory + @"/XmlFilesForMeshes";
-	            Stream UnitCubeColor =  File.OpenRead(XmlFilesDirectory + @"/unitcubecolor.xml");
-				g_pCubeColorMesh = new Mesh(UnitCubeColor);
-	            Stream UnitCylinder = File.OpenRead(XmlFilesDirectory + @"/unitcylinder.xml");
-	            g_pCylinderMesh = new Mesh(UnitCylinder);
-				
-				Stream unitplane = File.OpenRead(XmlFilesDirectory + @"/unitplane.xml");
-	            g_pPlaneMesh = new Mesh(unitplane);
-				
-				Stream infinity = File.OpenRead(XmlFilesDirectory + @"/infinity.xml");
-				g_pInfinityMesh = new Mesh(infinity);
-
-				Stream unitSphere = File.OpenRead(XmlFilesDirectory + @"/unitsphere12.xml");
-				g_unitSphereMesh = new Mesh(unitSphere);
+				g_unitSphereMesh = new Mesh("unitsphere12.xml");
 				
 	        } catch (Exception ex) {
 	            throw new Exception("Error " + ex.ToString());
@@ -279,6 +275,8 @@ namespace GlslTutorials
 			rightWall.Draw();
 			topWall.Draw();
 			bottomWall.Draw();
+
+			ball.Draw();
 	
 	        if (current_mesh != null)
 	        {
@@ -334,8 +332,46 @@ namespace GlslTutorials
 				}
 	        }
 			frontWall.Draw();
-			if (pause == false) UpdatePosition();
+			if (pause == false)
+			{
+				UpdatePosition();
+				if (rotateWorld)
+				{
+					RotateWorldSub();
+				}
+			}
 	    }
+
+		private void RotateWorldSub()
+		{
+			Matrix4 rotX = Matrix4.CreateRotationX(0.05f * (float)random.NextDouble());
+			Matrix4 rotY = Matrix4.CreateRotationY(0.05f * (float)random.NextDouble());
+			Matrix4 rotZ = Matrix4.CreateRotationZ(0.05f * (float)random.NextDouble());
+			//worldToCameraMatrix = Matrix4.Mult(worldToCameraMatrix, rot);
+			worldToCameraMatrix = Matrix4.Mult(rotX, worldToCameraMatrix);
+			worldToCameraMatrix = Matrix4.Mult(rotY, worldToCameraMatrix);
+			worldToCameraMatrix = Matrix4.Mult(rotZ, worldToCameraMatrix);
+			//cameraToClipMatrix = Matrix4.Mult(cameraToClipMatrix, rot);
+			//cameraToClipMatrix = Matrix4.Mult(rot, cameraToClipMatrix);
+			SetGlobalMatrices(currentProgram);
+		}
+
+		private void ChangePlayerView()
+		{
+			MatrixStack camMatrix = new MatrixStack();
+			camMatrix.SetMatrix(Camera.GetLookAtMatrix());
+			worldToCameraMatrix = camMatrix.Top();
+			Matrix4 rotX = Matrix4.CreateRotationX(playerRotations[playerNumber].X * (float)Math.PI / 180f);
+			Matrix4 rotY = Matrix4.CreateRotationY(playerRotations[playerNumber].Y * (float)Math.PI / 180f);
+			Matrix4 rotZ = Matrix4.CreateRotationZ(playerRotations[playerNumber].Z * (float)Math.PI / 180f);
+			//worldToCameraMatrix = Matrix4.Mult(worldToCameraMatrix, rot);
+			worldToCameraMatrix = Matrix4.Mult(rotX, worldToCameraMatrix);
+			worldToCameraMatrix = Matrix4.Mult(rotY, worldToCameraMatrix);
+			worldToCameraMatrix = Matrix4.Mult(rotZ, worldToCameraMatrix);
+			//cameraToClipMatrix = Matrix4.Mult(cameraToClipMatrix, rot);
+			//cameraToClipMatrix = Matrix4.Mult(rot, cameraToClipMatrix);
+			SetGlobalMatrices(currentProgram);
+		}
 
 		private void UpdatePosition()
 		{
@@ -399,7 +435,7 @@ namespace GlslTutorials
 	        MatrixStack persMatrix = new MatrixStack();
 	        persMatrix.Perspective(perspectiveAngle, (width / (float)height), g_fzNear, g_fzFar);
 			cameraToClipMatrix = persMatrix.Top();
-
+			ChangePlayerView();
 	        SetGlobalMatrices(currentProgram);
 	
 	        GL.Viewport(0, 0, width, height);
@@ -455,30 +491,31 @@ namespace GlslTutorials
                 break;			
 			case Keys.D6:
 				break;
-            case Keys.A:
-				renderWithString = false;
-                current_mesh = g_pCylinderMesh;
-                break;
-            case Keys.B:
-				renderWithString = false;
-                current_mesh = g_pCubeColorMesh;
-                break;
 			case Keys.C:
-				renderWithString = false;
-				current_mesh = g_pPlaneMesh;
+				if (cull)
+				{
+					cull = false;
+					GL.Disable(EnableCap.CullFace);
+					result.AppendLine("cull disabled");
+				}
+				else
+				{
+					cull = true;
+					GL.Enable(EnableCap.CullFace);
+					result.AppendLine("cull enabled");
+				}
 				break;
-			case Keys.D:
-				renderWithString = false;
-				current_mesh = g_pInfinityMesh;
-				break;
-			case Keys.E:
-				renderWithString = false;
-				current_mesh = g_unitSphereMesh;
-				break;
-			case Keys.F:
-				renderWithString = true;
-				renderString = "flat";
-				current_mesh = g_unitSphereMesh;
+			case Keys.R:
+				if (rotateWorld)
+				{
+					rotateWorld = false;
+					result.AppendLine("rotateWorld disabled");
+				}
+				else
+				{
+					rotateWorld = true;
+					result.AppendLine("rotateWorld enabled");
+				}
 				break;
             case Keys.Escape:
                 //timer.Enabled = false;
@@ -521,10 +558,16 @@ namespace GlslTutorials
 					pause = true;
 				}
 				break;
+			case Keys.V:
+				playerNumber++;
+				if (playerNumber > lastPlayer)
+				{
+					playerNumber = 0;
+				}
+				ChangePlayerView();
+				result.AppendLine("Player number = " + playerNumber.ToString());
+				break;
 	        }
-			
-	        reshape();
-	        display();
 	        return result.ToString();
 	    }
 	

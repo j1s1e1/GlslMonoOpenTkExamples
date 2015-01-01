@@ -64,7 +64,7 @@ namespace GlslTutorials
 			mm.M42 = offset.Y;
 			mm.M43 = offset.Z;	
 			
-			Programs.Draw(programNumber, vertexBufferObject, indexBufferObject, cameraToClip, worldToCamera, mm,
+			Programs.Draw(programNumber, vertexBufferObject, indexBufferObject, mm,
 			              indexData.Length, color);
 	    }
 	

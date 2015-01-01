@@ -244,8 +244,7 @@ namespace GlslTutorials
 			
 			if (updateLock == false)
 	        {
-	            Programs.Draw(programNumber, vertexBufferObject, indexBufferObject, cameraToClip, wtc, mm,
-	                    indexData.Length, color);
+	            Programs.Draw(programNumber, vertexBufferObject, indexBufferObject, mm, indexData.Length, color);
 				waitingForUpdate = false;
 	        }
 	        else

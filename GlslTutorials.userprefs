@@ -1,9 +1,14 @@
 ﻿<Properties GitUserInfo="UsingGIT">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="GlslTutorials/Tutorials/Tut_ViewPoleQuaternion.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="GlslTutorials/GL_Helpers/FragmentShaders.cs">
     <Files>
-      <File FileName="GlslTutorials/Tutorials/Tut_ObjectPoleQuaternion.cs" Line="5" Column="5" />
-      <File FileName="GlslTutorials/Tutorials/Tut_ViewPoleQuaternion.cs" Line="1" Column="1" />
+      <File FileName="GlslTutorials/Tutorials/Tut_RotateTexture.cs" Line="1" Column="1" />
+      <File FileName="GlslTutorials/Shapes/Shape.cs" Line="1" Column="1" />
+      <File FileName="GlslTutorials/Textures/TextureElement.cs" Line="1" Column="1" />
+      <File FileName="GlslTutorials/GL_Helpers/VertexShaders.cs" Line="1" Column="1" />
+      <File FileName="GlslTutorials/Tutorials/Tut_Tennis3D.cs" Line="1" Column="1" />
+      <File FileName="GlslTutorials/Menu.cs" Line="1" Column="1" />
+      <File FileName="GlslTutorials/GL_Helpers/FragmentShaders.cs" Line="18" Column="18" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
@@ -24,6 +29,7 @@
       <Breakpoint file="/home/jamie/repos/CSharp/GlslTutorials/GlslTutorials/View/ObjectPole.cs" line="276" column="8" />
       <Breakpoint file="/home/jamie/repos/CSharp/GlslTutorials/GlslTutorials/View/ObjectPole.cs" line="295" column="8" />
       <Breakpoint file="/home/jamie/repos/CSharp/GlslTutorials/GlslTutorials/View/ObjectPole.cs" line="322" column="9" />
+      <Breakpoint file="/home/jamie/repos/CSharp/GlslTutorials/GlslTutorials/Tutorials/Tut_RotateTexture.cs" line="60" column="1" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
