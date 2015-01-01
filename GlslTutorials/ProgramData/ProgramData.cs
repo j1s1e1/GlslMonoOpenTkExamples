@@ -208,7 +208,6 @@ namespace GlslTutorials
 		{
 			current_texture = texture;
 		}
-
 		
 		public void SetLightPosition(Vector3 lightPosition)
 		{

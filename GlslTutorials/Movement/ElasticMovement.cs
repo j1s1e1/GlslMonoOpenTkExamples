@@ -62,6 +62,11 @@ namespace GlslTutorials
 		{
 			otherObjects = paddles;
 		}
+
+		public void SetSpeed(Vector3 speedIn)
+		{
+			speed = speedIn;
+		}
 		                    
 	}
 }

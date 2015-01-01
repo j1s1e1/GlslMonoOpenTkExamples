@@ -6,6 +6,9 @@ namespace GlslTutorials
 	public enum TutorialsEnum
 	{
 		Tut_Tennis3D,
+		Tut_Tennis,
+
+
 		Tut_RotateTexture,
 		Tut_Texture,
 		Tut_ViewPoleQuaternion,
@@ -23,7 +26,7 @@ namespace GlslTutorials
 
 		Tut_15_ManyImages,
 
-		Tut_Tennis,
+
 		Tut_Tanks,
 		Tut_Spheres,
 		Tut_TextureSphere,
@@ -80,7 +83,7 @@ namespace GlslTutorials
 		public static void StartTutorial(ref TutorialBase currentTutorial, TutorialsEnum tutorialSelection)
 		{
 			Programs.reset();
-			Shape.resetWorldToCameraMatrix();
+			Shape.ResetWorldToCameraMatrix();
 			MatrixStack.rightMultiply = true;
 			switch (tutorialSelection)
 			{

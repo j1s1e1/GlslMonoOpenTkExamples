@@ -18,10 +18,11 @@ namespace GlslTutorials
 		Vector3 lowLimits = new Vector3(-1f, -1f, 0f);
 		Vector3 highLimits = new Vector3(1f, 1f, 1f);
 		List<Paddle> otherObjects;
-		public Ball()
+		Vector3 speed;
+		public Ball(float radius = 0.05f)
 		{
 			otherObjects = new List<Paddle>();
-			body = new LitMatrixSphere2(0.05f);
+			body = new LitMatrixSphere2(radius);
 			float xOffset = 0f; // random.Next(20)/10f - 1f;
 			float yOffset = 0f; // random.Next(20)/10f - 1f;
 			float zOffset = 0f; // random.Next(10)/10f - 0.5f;
@@ -81,6 +82,13 @@ namespace GlslTutorials
 		{
 			body.SetProgram(newProgram);
 		}
+
+		public void SetElasticControl()
+		{
+			movement = new ElasticMovement();
+			movement.SetLimits(lowLimits, highLimits);
+			if (speed != null) SetSpeed(speed);
+		}
 		
 		public void SetRandomControl()
 		{
@@ -126,6 +134,15 @@ namespace GlslTutorials
 			otherObjects.Add(paddle);
 			ElasticMovement em = (ElasticMovement) movement;
 			em.SetPaddles(otherObjects);
+		}
+
+		public void SetSpeed(Vector3 speedIn)
+		{
+			speed = speedIn;
+			if (movement is ElasticMovement)
+			{
+				((ElasticMovement)movement).SetSpeed(speedIn);
+			}
 		}
 	}
 }

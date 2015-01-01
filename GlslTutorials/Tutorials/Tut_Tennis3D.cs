@@ -9,10 +9,18 @@ namespace GlslTutorials
 {
 	public class Tut_Tennis3D : TutorialBase 
 	{
+		bool drawWalls = true;
 		Random random = new Random();
 		int playerNumber = 0;
 		int lastPlayer = 5;
 		Ball ball; 
+		float ballRadius = 5f;
+		float ballSpeedFactor = 25f;
+		static float ballLimit = 50f;
+		Vector3 ballLimitLow = new Vector3(-ballLimit, -ballLimit, -ballLimit);
+		Vector3 ballLimitHigh = new Vector3(ballLimit, ballLimit, ballLimit);
+		Vector3 ballSpeed;
+		int ballProgram;
 		Vector3[] playerRotations = new Vector3[]
 		{
 			new Vector3(0f, 0f, 0f),
@@ -220,6 +228,8 @@ namespace GlslTutorials
 
 	        ObjectColor = LoadProgram(VertexShaders.PosColorWorldTransform_vert, FragmentShaders.ColorPassthrough_frag);
 	        currentProgram = ObjectColor;
+
+			ballProgram = Programs.AddProgram(VertexShaders.PosColorWorldTransform_vert, FragmentShaders.ColorPassthrough_frag);
 	    }
 	    static Mesh current_mesh;
 		static Mesh g_unitSphereMesh;
@@ -227,9 +237,17 @@ namespace GlslTutorials
 	    //Called after the window and OpenGL are initialized. Called exactly once, before the main loop.
 	    protected override void init()
 	    {
-			ball = new Ball();
-			ball.SetLimits(new Vector3(-1f, -1f, -1f), new Vector3(1f, 1f, 1f));
-	        InitializeProgram();
+			InitializeProgram();
+
+			ball = new Ball(ballRadius);
+			ball.SetLimits(ballLimitLow, ballLimitHigh);
+			ballSpeed = new Vector3(
+				ballSpeedFactor + ballSpeedFactor * (float)random.NextDouble(), 
+				ballSpeedFactor + ballSpeedFactor * (float)random.NextDouble(), 
+				ballSpeedFactor + ballSpeedFactor * (float)random.NextDouble());
+			ball.SetSpeed(ballSpeed);
+			//ball.SetProgram(ballProgram);
+
 	        try 
 	        {
 				g_unitSphereMesh = new Mesh("unitsphere12.xml");
@@ -270,11 +288,11 @@ namespace GlslTutorials
 	    {
 			GL.Disable(EnableCap.DepthTest);
 	        ClearDisplay();
-			backWall.Draw();
-			leftWall.Draw();
-			rightWall.Draw();
-			topWall.Draw();
-			bottomWall.Draw();
+			if (drawWalls) backWall.Draw();
+			if (drawWalls) leftWall.Draw();
+			if (drawWalls) rightWall.Draw();
+			if (drawWalls) topWall.Draw();
+			if (drawWalls) bottomWall.Draw();
 
 			ball.Draw();
 	
@@ -331,7 +349,7 @@ namespace GlslTutorials
 					reshape();
 				}
 	        }
-			frontWall.Draw();
+			if (drawWalls) frontWall.Draw();
 			if (pause == false)
 			{
 				UpdatePosition();
@@ -526,14 +544,8 @@ namespace GlslTutorials
 				{
 					newPerspectiveAngle = 30f;
 				}
-				break;
                 break;
 			case Keys.Z:
-				break;
-
-			case Keys.W:
-				currentProgram = ObjectColor;
-				reshape();
 				break;
 			case Keys.X:
 				noWorldMatrix = true;
@@ -567,7 +579,39 @@ namespace GlslTutorials
 				ChangePlayerView();
 				result.AppendLine("Player number = " + playerNumber.ToString());
 				break;
-	        }
+			case Keys.I:
+				result.AppendLine("cameraToClipMatrix " + cameraToClipMatrix.ToString());
+				result.AppendLine(AnalysisTools.CalculateMatrixEffects(cameraToClipMatrix));
+				result.AppendLine("worldToCameraMatrix " + worldToCameraMatrix.ToString());
+				result.AppendLine(AnalysisTools.CalculateMatrixEffects(worldToCameraMatrix));
+
+				Matrix4 cameraToClipMatrixTimesWorldToCameraMatrix =
+					Matrix4.Mult(cameraToClipMatrix, worldToCameraMatrix);
+				result.AppendLine("cameraToClipMatrixTimesWorldToCameraMatrix " + 
+					cameraToClipMatrixTimesWorldToCameraMatrix.ToString());
+				result.AppendLine(AnalysisTools.CalculateMatrixEffects(cameraToClipMatrixTimesWorldToCameraMatrix));
+
+				Matrix4 worldToCameraMatrixTimesCameraToClipMatrix =
+					Matrix4.Mult(worldToCameraMatrix, cameraToClipMatrix);
+				result.AppendLine("worldToCameraMatrixTimesCameraToClipMatrix " + 
+					worldToCameraMatrixTimesCameraToClipMatrix.ToString());
+				result.AppendLine(AnalysisTools.CalculateMatrixEffects(worldToCameraMatrixTimesCameraToClipMatrix));
+				break;
+			case Keys.S:
+				ball.SetSocketControl();
+				result.AppendLine("Socket Control");
+				break;
+			case Keys.E:
+				ball.SetElasticControl();
+				result.AppendLine("Socket Control");
+				break;
+			case Keys.W:
+				if (drawWalls)
+					drawWalls = false;
+				else
+					drawWalls = true;
+				break;
+			}
 	        return result.ToString();
 	    }
 	

@@ -67,10 +67,15 @@ namespace GlslTutorials
 			programNumber = newProgram;
 		}
 		
-		public static void resetWorldToCameraMatrix()
+		public static void ResetWorldToCameraMatrix()
 	    {
 	        worldToCamera = Matrix4.Identity;
 	    }
+
+		public static void ResetCameraToClipMatrix()
+		{
+			cameraToClip = Matrix4.Identity;
+		}
 
 
         protected void SetupVertexBuffer()

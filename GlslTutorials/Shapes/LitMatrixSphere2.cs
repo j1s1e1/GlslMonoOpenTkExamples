@@ -31,7 +31,7 @@ namespace GlslTutorials
 		
 		private float[] GetCircleCoords(float radius) 
 		{
-	        float[] coords = Icosahedron.CloneTriangles();
+	        float[] coords = Icosahedron.GetDividedTriangles(4);
 	        float[] coords_with_normals = new float[2*coords.Length];
 	        int j = 0;
 	        for (int i = 0; i < coords.Length * 2; i++)

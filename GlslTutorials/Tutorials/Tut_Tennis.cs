@@ -2,6 +2,7 @@ using System;
 using System.Text;
 using System.Windows.Forms;
 using OpenTK;
+using OpenTK.Graphics.OpenGL;
 
 namespace GlslTutorials
 {
@@ -21,6 +22,10 @@ namespace GlslTutorials
 		
 		protected override void init()
 	    {
+			// Tests for failure after 3D
+			//Shape.ResetWorldToCameraMatrix();
+			Shape.ResetCameraToClipMatrix();
+			// End Tests
 			ball = new Ball();
 			ball.SetLimits(new Vector3(-1f, -1f, 0.5f), new Vector3(1f, 1f, 0.5f));
 			topPaddle = new Paddle();	
