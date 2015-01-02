@@ -429,9 +429,6 @@ namespace GlslTutorials
 	    static Vector3 axis = new Vector3(1f, 1f, 0);
 	    static float angle = 0;
 	
-		static Matrix4 cameraToClipMatrix;
-		static Matrix4 worldToCameraMatrix;
-	
 	    static private void SetGlobalMatrices(ProgramData program)
 	    {
 			Shape.worldToCamera = worldToCameraMatrix;

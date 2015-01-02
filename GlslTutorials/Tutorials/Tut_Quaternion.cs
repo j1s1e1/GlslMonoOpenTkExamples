@@ -147,7 +147,7 @@ namespace GlslTutorials
 			quaternion.ToAxisAngle(out axis, out angle);
 			quaternionText.UpdateText(QuaternionString());
 			axisAngleText.UpdateText(AxisAngeString());
-			GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.One);
+			GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
 		}
 
 		Vector3 axis = new Vector3();

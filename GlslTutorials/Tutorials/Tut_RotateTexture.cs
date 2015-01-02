@@ -26,8 +26,6 @@ namespace GlslTutorials
 			Textures.EnableTextures();
 			MatrixStack.rightMultiply = true;
 		}
-			
-		static Matrix4 cameraToClipMatrix;
 
 		static private void SetGlobalMatrices()
 		{

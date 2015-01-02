@@ -117,7 +117,7 @@ namespace GlslTutorials
 	    }
 	
 	    public static ObjectData g_initialObjectData = new ObjectData(new Vector3(0.0f, 0.5f, 0.0f),
-	            new Quaternion(1.0f, 0.0f, 0.0f, 0.0f));
+	            new Quaternion(0.0f, 0.0f, 0.0f, 1.0f));
 	
 		public static  ViewPole g_viewPole;
 	
@@ -291,9 +291,7 @@ namespace GlslTutorials
 	    }
 	
 	    static ProjectionBlock projData = new ProjectionBlock();
-		
-	    //Called whenever the window is resized. The new window size is given, in pixels.
-	    //This is an opportunity to call glViewport or glScissor to keep up with the change in size.
+
 	    public override void reshape ()
 	    {
 	        MatrixStack persMatrix = new MatrixStack();
@@ -308,10 +306,6 @@ namespace GlslTutorials
 	        GL.Viewport(0, 0, width, height);
 	    }
 	
-	    //Called whenever a key on the keyboard was pressed.
-	    //The key is given by the ''key'' parameter, which is in ASCII.
-	    //It's often a good idea to have the escape key (ASCII value 27) call glutLeaveMainLoop() to 
-	    //exit the program.
 	    public override String keyboard(Keys keyCode, int x, int y)
 	    {
 	        StringBuilder result = new StringBuilder();

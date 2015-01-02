@@ -18,7 +18,7 @@ namespace GlslTutorials
 		
 		public static Matrix4 worldToCamera = Matrix4.Identity;
 		protected Matrix4 modelToWorld = Matrix4.Identity;
-		public static  Matrix4 cameraToClip = Matrix4.Identity;
+		public static Matrix4 cameraToClip = Matrix4.Identity;
 
         protected float x = 0;
         protected float y = 0;

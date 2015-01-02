@@ -32,7 +32,8 @@ namespace GlslTutorials
 	    protected int  		modelToCameraMatrixUnif;
 	    protected int		cameraToClipMatrixUnif;
 	    protected int  		baseColorUnif;
-	    protected Matrix4 cameraToClipMatrix = new Matrix4();
+	    protected static Matrix4 cameraToClipMatrix = new Matrix4();
+		protected static Matrix4 worldToCameraMatrix = new Matrix4();
 
 	    protected short[] elementSB;
 	    protected float[] vertexDataFB;

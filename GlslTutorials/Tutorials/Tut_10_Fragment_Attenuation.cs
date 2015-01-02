@@ -133,7 +133,7 @@ namespace GlslTutorials
 		static ObjectData g_initialObjectData = new ObjectData
 		(
 				new Vector3(0.0f, 0.5f, 0.0f),
-				new Quaternion(1.0f, 0.0f, 0.0f, 0.0f)
+				new Quaternion(0.0f, 0.0f, 0.0f, 1.0f)
 		);
 
 		static ViewPole g_viewPole = new ViewPole(g_initialViewData,
