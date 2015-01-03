@@ -396,7 +396,6 @@ namespace GlslTutorials
 					newPerspectiveAngle = 30f;
 				}
 				break;
-
 			case Keys.S:
 				renderWithString = true;
 				renderString = "flat";

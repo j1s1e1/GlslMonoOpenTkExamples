@@ -127,40 +127,21 @@ namespace GlslTutorials
 
 		void LoadMipmapTexture()
 		{
-			GL.GenTextures(1, out g_mipmapTestTexture);
-			GL.BindTexture(TextureTarget.Texture2D, g_mipmapTestTexture);
-
-			int oldAlign = 0;
-			GL.GetInteger(GetPName.UnpackAlignment, out oldAlign);
-			GL.PixelStore(PixelStoreParameter.UnpackAlignment, 1);
-
-			for(int mipmapLevel = 0; mipmapLevel < 8; mipmapLevel++)
+			try
 			{
-				int width = 128 >> mipmapLevel;
-				int height = 128 >> mipmapLevel;
-				List<byte> buffer = new List<byte>();
-
-				byte[] pCurrColor = new byte[3];
-				Array.Copy(mipmapColors, mipmapLevel * 3, pCurrColor, 0, 3);
-				FillWithColor(buffer, pCurrColor[0], pCurrColor[1], pCurrColor[2], width, height);
-
-				byte[] bufferArray = buffer.ToArray();
-				GL.TexImage2D(TextureTarget.Texture2D, mipmapLevel, PixelInternalFormat.Rgb8, width, height, 0,
-					PixelFormat.Rgb, PixelType.Byte, bufferArray);
+				g_mipmapTestTexture = Textures.CreateMipMapTexture("checker.png", 6);
 			}
-
-			GL.PixelStore(PixelStoreParameter.UnpackAlignment, oldAlign);
-
-			GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureBaseLevel, 0);
-			GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMaxLevel, 7);
-			GL.BindTexture(TextureTarget.Texture2D, 0);
+			catch(Exception ex)
+			{
+				MessageBox.Show("Error loading textures " + ex.ToString());
+			}
 		}
 
 		void LoadCheckerTexture()
 		{
 			try
 			{
-				g_checkerTexture = Textures.CreateMipMapTexture("checker.png", 6);
+				g_checkerTexture = Textures.Load("checker.png");
 			}
 			catch(Exception ex)
 			{
@@ -188,18 +169,7 @@ namespace GlslTutorials
 				MessageBox.Show("Error creating meshes " + ex.ToString());
 			}
 
-			GL.Enable(EnableCap.CullFace);
-			GL.CullFace(CullFaceMode.Back);
-			GL.FrontFace(FrontFaceDirection.Cw);
-
-			const float depthZNear = 0.0f;
-			const float depthZFar = 1.0f;
-
-			GL.Enable(EnableCap.DepthTest);
-			GL.DepthMask(true);
-			GL.DepthFunc(DepthFunction.Lequal);
-			GL.DepthRange(depthZNear, depthZFar);
-			GL.Enable(EnableCap.DepthClamp);
+			SetupDepthAndCull();
 		
 			LoadCheckerTexture();
 			LoadMipmapTexture();
@@ -209,8 +179,8 @@ namespace GlslTutorials
 		FrameworkTimer g_camTimer = new FrameworkTimer(FrameworkTimer.Type.TT_LOOP, 5.0f);
 		int g_currSampler = 0;
 
-		bool g_useMipmapTexture = false;
-		bool g_drawCorridor = false;
+		bool g_useMipmapTexture = true;
+		bool g_drawCorridor = true;
 
 		public override void display()
 		{
@@ -296,6 +266,10 @@ namespace GlslTutorials
 				break;
 			case Keys.Space:
 				g_useMipmapTexture = !g_useMipmapTexture;
+				if (g_useMipmapTexture)
+					result.AppendLine("Using mipmap texture");
+				else
+					result.AppendLine("Not using mipmap texture");
 				break;
 			case Keys.Y:
 				g_drawCorridor = !g_drawCorridor;

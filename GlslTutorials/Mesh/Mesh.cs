@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Xml;
+using System.Windows.Forms;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 
@@ -348,7 +349,7 @@ namespace GlslTutorials
 	                    GL.BindVertexArray(0);
 	                    GL.BindBuffer(BufferTarget.ElementArrayBuffer, 0);
 	                } else {
-	                    //throw new Exception("Empty Index Buffer for VAO");
+						//MessageBox.Show("Empty Index Buffer for VAO");
 	                }
 	            }
 	        }

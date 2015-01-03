@@ -86,7 +86,7 @@ namespace GlslTutorials
 		static ViewData g_initialViewData = new ViewData
 		(
 			new Vector3(-59.5f, 44.0f, 95.0f),
-				new Quaternion(0.92387953f, 0.3826834f, 0.0f, 0.0f), //  (1.0f, 0.0f, 0.0f, 0.0f), // no 45 degree angle
+				new Quaternion(0.3826834f, 0.0f, 0.0f, 0.92387953f), //  (1.0f, 0.0f, 0.0f, 0.0f), // no 45 degree angle
 			50.0f,
 			0.0f
 		);

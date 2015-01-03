@@ -5,6 +5,7 @@ namespace GlslTutorials
 {
 	public enum TutorialsEnum
 	{
+		Tut_12_HDR_Lighting,
 		Tut_Tennis3D,
 		Tut_Tennis,
 
@@ -55,7 +56,7 @@ namespace GlslTutorials
 		Tut_10_Fragment_Attenuation,
 
 		Tut_12_Gamma_Correction,
-		Tut_12_HDR_Lighting,
+
 		Tut_14_Basic_Textures,
 		Tut_CheckObjects,
 		Tut_RelativePositions,

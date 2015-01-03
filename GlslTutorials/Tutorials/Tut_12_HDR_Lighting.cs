@@ -10,6 +10,7 @@ namespace GlslTutorials
 	public class Tut_12_HDR_Lighting : TutorialBase
 	{
 		bool renderSun = true;
+		bool initializationComlete = false;
 		public Tut_12_HDR_Lighting ()
 		{
 		}
@@ -90,7 +91,7 @@ namespace GlslTutorials
 		static ViewData g_initialViewData = new ViewData
 		(
 			new Vector3(-59.5f, 44.0f, 95.0f),
-			new Quaternion(0.92387953f, 0.3826834f, 0.0f, 0.0f),
+			Quaternion.FromAxisAngle(new Vector3(1.0f, 0f, 0f), 0f),
 			50.0f,
 			0.0f
 		);
@@ -207,9 +208,11 @@ namespace GlslTutorials
 
 			g_lights.CreateTimer("tetra", FrameworkTimer.Type.TT_LOOP, 2.5f);
 
-			reshape();
 			SetupDepthAndCull();
 			MatrixStack.rightMultiply = false;
+			reshape();
+			MatrixStack.rightMultiply = false;
+			initializationComlete = true;
 		}
 
 		bool g_bDrawCameraPos = false;
@@ -217,6 +220,7 @@ namespace GlslTutorials
 
 		public override void display()
 		{
+			if (!initializationComlete) return;
 			g_lights.UpdateTime();
 			Vector4 bkg = g_lights.GetBackgroundColor();
 			GL.ClearColor(bkg[0], bkg[1], bkg[2], bkg[3]);
@@ -241,9 +245,7 @@ namespace GlslTutorials
 				{
 					g_pScene.Draw(modelMatrix, g_materialBlockIndex, g_lights.GetTimerValue("tetra"));
 				}
-			}
 
-			{
 				//Render the sun
 				if (renderSun)
 				{
@@ -315,8 +317,8 @@ namespace GlslTutorials
 			MatrixStack persMatrix = new MatrixStack();
 			persMatrix.Perspective(45.0f, (width / (float)height), g_fzNear, g_fzFar);
 			// added
-			persMatrix.Translate(0.0f, 0.0f, -3f);
-			persMatrix.Scale(0.01f);
+			//persMatrix.Translate(0.0f, 0.0f, -3f);
+			//persMatrix.Scale(0.01f);
 			// end added
 			projData = new ProjectionBlock();
 			projData.cameraToClipMatrix = persMatrix.Top();
@@ -370,6 +372,7 @@ namespace GlslTutorials
 
 				result.AppendLine("g_viewPole.CalcMatrix()" + g_viewPole_CalcMatrix.ToString());
 				result.AppendLine(AnalysisTools.CalculateMatrixEffects(g_viewPole_CalcMatrix));
+				result.AppendLine("ViewData orientation = " + g_viewPole.GetView().orient.ToString());
 				break;
 
 			case Keys.Space:
@@ -402,6 +405,12 @@ namespace GlslTutorials
 				{
 					g_bDrawLights = true;
 				}
+				break;
+			case Keys.R:
+				MatrixStack.rightMultiply = true;
+				break;
+			case Keys.Q:
+				MatrixStack.rightMultiply = false;
 				break;
 			}
 

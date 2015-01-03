@@ -51,22 +51,11 @@ namespace GlslTutorials
 
 		public Scene()
 		{
-			string XmlFilesDirectory = GlsTutorialsClass.ProjectDirectory + @"/XmlFilesForMeshes";
-
-			Stream ground =  File.OpenRead(XmlFilesDirectory + @"/ground.xml");
-			m_pTerrainMesh = new Mesh(ground);
-
-			Stream unitcube =  File.OpenRead(XmlFilesDirectory + @"/unitcubehdr.xml");
-			m_pCubeMesh = new Mesh(unitcube);
-
-			Stream unittetrahedron =  File.OpenRead(XmlFilesDirectory + @"/unittetrahedron.xml");
-			m_pTetraMesh = new Mesh(unittetrahedron);
-
-			Stream unitcylinder =  File.OpenRead(XmlFilesDirectory + @"/unitcylinder.xml");
-			m_pCylMesh = new Mesh(unitcylinder);
-
-			Stream unitsphere =  File.OpenRead(XmlFilesDirectory + @"/unitsphere12.xml");
-			m_pSphereMesh = new Mesh(unitsphere);
+			m_pTerrainMesh = new Mesh("ground.xml");
+			m_pCubeMesh = new Mesh("unitcubehdr.xml");
+			m_pTetraMesh = new Mesh("unittetrahedron.xml");
+			m_pCylMesh = new Mesh("unitcylinder.xml");
+			m_pSphereMesh = new Mesh("unitsphere12.xml");
 
 			////Align the size of each MaterialBlock to the uniform buffer alignment.
 			//int uniformBufferAlignSize = 0;

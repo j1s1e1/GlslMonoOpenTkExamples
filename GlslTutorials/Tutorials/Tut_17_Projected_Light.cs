@@ -95,7 +95,7 @@ namespace GlslTutorials
 		static ViewData g_initialView = new ViewData
 		(
 			new Vector3(0.0f, 0.0f, 10.0f),
-			new Quaternion(0.909845f, 0.16043f, -0.376867f, -0.0664516f),
+			new Quaternion(0.16043f, -0.376867f, -0.0664516f, 0.909845f),
 			25.0f,
 			0.0f
 		);
@@ -112,7 +112,7 @@ namespace GlslTutorials
 		static ViewData g_initLightView = new ViewData
 		(
 			new Vector3(0.0f, 0.0f, 20.0f),
-				new Quaternion(1.0f, 0.0f, 0.0f, 0.0f),
+			new Quaternion(0.0f, 0.0f, 0.0f, 1.0f),
 			5.0f,
 			0.0f
 		);
@@ -314,8 +314,8 @@ namespace GlslTutorials
 				MatrixStack persMatrix = new MatrixStack();
 				persMatrix.Perspective(60.0f, (g_displayWidth / (float)g_displayHeight), g_fzNear, g_fzFar);
 				// added
-				persMatrix.Scale(scaleFactor);
-				persMatrix.Translate(translateVector);
+				//persMatrix.Scale(scaleFactor);
+				//persMatrix.Translate(translateVector);
 				// end added
 
 				ProjectionBlock projData = new ProjectionBlock();

@@ -22,9 +22,9 @@ namespace GlslTutorials
 	        g_allAttributeTypes[1] = new AttribType("uint", false, 	 DrawElementsType.UnsignedInt,
 			                                        VertexAttribPointerType.Int, 4);
 	        g_allAttributeTypes[2] = new AttribType("short", false,  DrawElementsType.UnsignedShort,
-			                                        VertexAttribPointerType.Short, 2); // just using int size
+			                                        VertexAttribPointerType.Short, 2);
 	        g_allAttributeTypes[3] = new AttribType("ushort", false, DrawElementsType.UnsignedShort, 
-			                                        VertexAttribPointerType.UnsignedShort, 2);  // just using int size
+			                                        VertexAttribPointerType.UnsignedShort, 2);
 			// fix add vertex types
 	    }
 	    /*
