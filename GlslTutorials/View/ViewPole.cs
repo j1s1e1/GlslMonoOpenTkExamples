@@ -77,7 +77,7 @@ namespace GlslTutorials
 				//Rotate the world to look in the right direction..
 				Quaternion fullRotation =
 					Quaternion.Multiply(m_currView.orient, 
-						new Quaternion(new Vector3(0.0f, 0.0f, 1.0f), m_currView.radSpinRotation) );
+						Quaternion.FromAxisAngle(new Vector3(0.0f, 0.0f, 1.0f), m_currView.radSpinRotation) );
 				theMat = Matrix4.Mult(theMat, Matrix4.CreateFromQuaternion(fullRotation));
 				//Translate the world by the negation of the lookat point, placing the origin at the
 				//lookat point.
@@ -88,7 +88,7 @@ namespace GlslTutorials
 			{
 				theMat = Matrix4.Mult(translation, theMat);
 				Quaternion fullRotation =
-					Quaternion.Multiply(new Quaternion(new Vector3(0.0f, 0.0f, 1.0f), m_currView.radSpinRotation),
+					Quaternion.Multiply(Quaternion.FromAxisAngle(new Vector3(0.0f, 0.0f, 1.0f), m_currView.radSpinRotation),
 						m_currView.orient);
 				theMat = Matrix4.Mult(Matrix4.CreateFromQuaternion(fullRotation), theMat);
 				//Translate the world by the negation of the lookat point, placing the origin at the
