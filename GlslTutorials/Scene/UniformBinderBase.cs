@@ -4,13 +4,8 @@ using OpenTK.Graphics.OpenGL;
 
 namespace GlslTutorials
 {
-	public class UniformBinderBase : StateBinder
+	public abstract class UniformBinderBase : StateBinder
 	{
-		public UniformBinderBase()
-		{
-
-		}
-
 		public void AssociateWithProgram(int prog, string unifName)
 		{
 			m_progUnifLoc[prog] = GL.GetUniformLocation(prog, unifName);

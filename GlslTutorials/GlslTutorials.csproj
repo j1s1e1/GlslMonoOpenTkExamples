@@ -208,6 +208,7 @@
     <Compile Include="Tutorials\Tut_TransformOrder.cs" />
     <Compile Include="Tutorials\Tut_ViewPoleQuaternion.cs" />
     <Compile Include="Tutorials\Tut_RotateTexture.cs" />
+    <Compile Include="Tutorials\Tut_TexturePerspective.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -297,5 +298,7 @@
     <None Include="Textures\wood4_rotate.png" />
     <None Include="XmlFilesForMeshes\SceneVersions\unitcube.xml" />
     <None Include="XmlFilesForMeshes\SceneVersions\unitplane.xml" />
+    <None Include="XmlFilesForMeshes\halfinfinity.xml" />
+    <None Include="XmlFilesForMeshes\miniinfinity.xml" />
   </ItemGroup>
 </Project>

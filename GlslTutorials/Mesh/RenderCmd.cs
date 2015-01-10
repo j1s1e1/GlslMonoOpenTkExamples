@@ -27,6 +27,26 @@ namespace GlslTutorials
 	            throw new Exception("Error rendering mesh: " + ex.ToString());
 	        }
 	    }
+
+		public void Render(int triangles)
+		{
+			int vertexes = 3 * triangles;
+			if (vertexes > elemCount)
+			{
+				vertexes = elemCount;
+			}
+			try
+			{
+				if (bIsIndexedCmd)
+					GL.DrawElements(ePrimType, vertexes, eIndexDataType, start);
+				else
+					GL.DrawArrays(ePrimType, start, vertexes);
+			}
+			catch (Exception ex)
+			{
+				throw new Exception("Error rendering mesh: " + ex.ToString());
+			}
+		}
 	}
 
 }

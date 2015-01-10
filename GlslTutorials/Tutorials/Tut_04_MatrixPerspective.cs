@@ -48,101 +48,104 @@ namespace GlslTutorials
 	
 	    static float[] vertexData = new float[]{
 	
-	            0.25f,  0.25f, 0.75f, 1.0f,
-	            0.25f, -0.25f, 0.75f, 1.0f,
-	            -0.25f,  0.25f, 0.75f, 1.0f,
-	
-	            0.25f, -0.25f, 0.75f, 1.0f,
-	            -0.25f, -0.25f, 0.75f, 1.0f,
-	            -0.25f,  0.25f, 0.75f, 1.0f,
-	
-	            0.25f,  0.25f, -0.75f, 1.0f,
-	            -0.25f,  0.25f, -0.75f, 1.0f,
-	            0.25f, -0.25f, -0.75f, 1.0f,
-	
-	            0.25f, -0.25f, -0.75f, 1.0f,
-	            -0.25f,  0.25f, -0.75f, 1.0f,
-	            -0.25f, -0.25f, -0.75f, 1.0f,
-	
-	            -0.25f,  0.25f,  0.75f, 1.0f,
-	            -0.25f, -0.25f,  0.75f, 1.0f,
-	            -0.25f, -0.25f, -0.75f, 1.0f,
-	
-	            -0.25f,  0.25f,  0.75f, 1.0f,
-	            -0.25f, -0.25f, -0.75f, 1.0f,
-	            -0.25f,  0.25f, -0.75f, 1.0f,
-	
-	            0.25f,  0.25f,  0.75f, 1.0f,
-	            0.25f, -0.25f, -0.75f, 1.0f,
-	            0.25f, -0.25f,  0.75f, 1.0f,
-	
-	            0.25f,  0.25f,  0.75f, 1.0f,
-	            0.25f,  0.25f, -0.75f, 1.0f,
-	            0.25f, -0.25f, -0.75f, 1.0f,
-	
-	            0.25f,  0.25f, -0.75f, 1.0f,
-	            0.25f,  0.25f,  0.75f, 1.0f,
-	            -0.25f,  0.25f,  0.75f, 1.0f,
-	
-	            0.25f,  0.25f, -0.75f, 1.0f,
-	            -0.25f,  0.25f,  0.75f, 1.0f,
-	            -0.25f,  0.25f, -0.75f, 1.0f,
-	
-	            0.25f, -0.25f, -0.75f, 1.0f,
-	            -0.25f, -0.25f,  0.75f, 1.0f,
-	            0.25f, -0.25f,  0.75f, 1.0f,
-	
-	            0.25f, -0.25f, -0.75f, 1.0f,
-	            -0.25f, -0.25f, -0.75f, 1.0f,
-	            -0.25f, -0.25f,  0.75f, 1.0f,
-	
-	            0.0f, 0.0f, 1.0f, 1.0f,
-	            0.0f, 0.0f, 1.0f, 1.0f,
-	            0.0f, 0.0f, 1.0f, 1.0f,
-	
-	            0.0f, 0.0f, 1.0f, 1.0f,
-	            0.0f, 0.0f, 1.0f, 1.0f,
-	            0.0f, 0.0f, 1.0f, 1.0f,
-	
-	            0.8f, 0.8f, 0.8f, 1.0f,
-	            0.8f, 0.8f, 0.8f, 1.0f,
-	            0.8f, 0.8f, 0.8f, 1.0f,
-	
-	            0.8f, 0.8f, 0.8f, 1.0f,
-	            0.8f, 0.8f, 0.8f, 1.0f,
-	            0.8f, 0.8f, 0.8f, 1.0f,
-	
-	            0.0f, 1.0f, 0.0f, 1.0f,
-	            0.0f, 1.0f, 0.0f, 1.0f,
-	            0.0f, 1.0f, 0.0f, 1.0f,
-	
-	            0.0f, 1.0f, 0.0f, 1.0f,
-	            0.0f, 1.0f, 0.0f, 1.0f,
-	            0.0f, 1.0f, 0.0f, 1.0f,
-	
-	            0.5f, 0.5f, 0.0f, 1.0f,
-	            0.5f, 0.5f, 0.0f, 1.0f,
-	            0.5f, 0.5f, 0.0f, 1.0f,
-	
-	            0.5f, 0.5f, 0.0f, 1.0f,
-	            0.5f, 0.5f, 0.0f, 1.0f,
-	            0.5f, 0.5f, 0.0f, 1.0f,
-	
-	            1.0f, 0.0f, 0.0f, 1.0f,
-	            1.0f, 0.0f, 0.0f, 1.0f,
-	            1.0f, 0.0f, 0.0f, 1.0f,
-	
-	            1.0f, 0.0f, 0.0f, 1.0f,
-	            1.0f, 0.0f, 0.0f, 1.0f,
-	            1.0f, 0.0f, 0.0f, 1.0f,
-	
-	            0.0f, 1.0f, 1.0f, 1.0f,
-	            0.0f, 1.0f, 1.0f, 1.0f,
-	            0.0f, 1.0f, 1.0f, 1.0f,
-	
-	            0.0f, 1.0f, 1.0f, 1.0f,
-	            0.0f, 1.0f, 1.0f, 1.0f,
-	            0.0f, 1.0f, 1.0f, 1.0f,
+			0.25f,  0.25f, -1.25f, 1.0f,
+			0.25f, -0.25f, -1.25f, 1.0f,
+			-0.25f,  0.25f, -1.25f, 1.0f,
+
+			0.25f, -0.25f, -1.25f, 1.0f,
+			-0.25f, -0.25f, -1.25f, 1.0f,
+			-0.25f,  0.25f, -1.25f, 1.0f,
+
+			0.25f,  0.25f, -2.75f, 1.0f,
+			-0.25f,  0.25f, -2.75f, 1.0f,
+			0.25f, -0.25f, -2.75f, 1.0f,
+
+			0.25f, -0.25f, -2.75f, 1.0f,
+			-0.25f,  0.25f, -2.75f, 1.0f,
+			-0.25f, -0.25f, -2.75f, 1.0f,
+
+			-0.25f,  0.25f, -1.25f, 1.0f,
+			-0.25f, -0.25f, -1.25f, 1.0f,
+			-0.25f, -0.25f, -2.75f, 1.0f,
+
+			-0.25f,  0.25f, -1.25f, 1.0f,
+			-0.25f, -0.25f, -2.75f, 1.0f,
+			-0.25f,  0.25f, -2.75f, 1.0f,
+
+			0.25f,  0.25f, -1.25f, 1.0f,
+			0.25f, -0.25f, -2.75f, 1.0f,
+			0.25f, -0.25f, -1.25f, 1.0f,
+
+			0.25f,  0.25f, -1.25f, 1.0f,
+			0.25f,  0.25f, -2.75f, 1.0f,
+			0.25f, -0.25f, -2.75f, 1.0f,
+
+			0.25f,  0.25f, -2.75f, 1.0f,
+			0.25f,  0.25f, -1.25f, 1.0f,
+			-0.25f,  0.25f, -1.25f, 1.0f,
+
+			0.25f,  0.25f, -2.75f, 1.0f,
+			-0.25f,  0.25f, -1.25f, 1.0f,
+			-0.25f,  0.25f, -2.75f, 1.0f,
+
+			0.25f, -0.25f, -2.75f, 1.0f,
+			-0.25f, -0.25f, -1.25f, 1.0f,
+			0.25f, -0.25f, -1.25f, 1.0f,
+
+			0.25f, -0.25f, -2.75f, 1.0f,
+			-0.25f, -0.25f, -2.75f, 1.0f,
+			-0.25f, -0.25f, -1.25f, 1.0f,
+
+
+
+
+			0.0f, 0.0f, 1.0f, 1.0f,
+			0.0f, 0.0f, 1.0f, 1.0f,
+			0.0f, 0.0f, 1.0f, 1.0f,
+
+			0.0f, 0.0f, 1.0f, 1.0f,
+			0.0f, 0.0f, 1.0f, 1.0f,
+			0.0f, 0.0f, 1.0f, 1.0f,
+
+			0.8f, 0.8f, 0.8f, 1.0f,
+			0.8f, 0.8f, 0.8f, 1.0f,
+			0.8f, 0.8f, 0.8f, 1.0f,
+
+			0.8f, 0.8f, 0.8f, 1.0f,
+			0.8f, 0.8f, 0.8f, 1.0f,
+			0.8f, 0.8f, 0.8f, 1.0f,
+
+			0.0f, 1.0f, 0.0f, 1.0f,
+			0.0f, 1.0f, 0.0f, 1.0f,
+			0.0f, 1.0f, 0.0f, 1.0f,
+
+			0.0f, 1.0f, 0.0f, 1.0f,
+			0.0f, 1.0f, 0.0f, 1.0f,
+			0.0f, 1.0f, 0.0f, 1.0f,
+
+			0.5f, 0.5f, 0.0f, 1.0f,
+			0.5f, 0.5f, 0.0f, 1.0f,
+			0.5f, 0.5f, 0.0f, 1.0f,
+
+			0.5f, 0.5f, 0.0f, 1.0f,
+			0.5f, 0.5f, 0.0f, 1.0f,
+			0.5f, 0.5f, 0.0f, 1.0f,
+
+			1.0f, 0.0f, 0.0f, 1.0f,
+			1.0f, 0.0f, 0.0f, 1.0f,
+			1.0f, 0.0f, 0.0f, 1.0f,
+
+			1.0f, 0.0f, 0.0f, 1.0f,
+			1.0f, 0.0f, 0.0f, 1.0f,
+			1.0f, 0.0f, 0.0f, 1.0f,
+
+			0.0f, 1.0f, 1.0f, 1.0f,
+			0.0f, 1.0f, 1.0f, 1.0f,
+			0.0f, 1.0f, 1.0f, 1.0f,
+
+			0.0f, 1.0f, 1.0f, 1.0f,
+			0.0f, 1.0f, 1.0f, 1.0f,
+			0.0f, 1.0f, 1.0f, 1.0f,
 	
 	    };
 	
@@ -163,7 +166,7 @@ namespace GlslTutorials
 	        offsetUniform = GL.GetUniformLocation(theProgram, "offset");
 	        perspectiveMatrixUnif = GL.GetUniformLocation(theProgram, "perspectiveMatrix");
 	
-	        float fFrustumScale = 0.5f;
+	        float fFrustumScale = 1f;
 	        float fzNear = 0.5f;
 	        float fzFar = 3.0f;
 	
@@ -174,8 +177,7 @@ namespace GlslTutorials
 	        theMatrix.M33 = (fzFar + fzNear) / (fzNear - fzFar);
 	        theMatrix.M43 = (2 * fzFar * fzNear) / (fzNear - fzFar);
 	        theMatrix.M34 = -1.0f;
-	
-	        //theMatrix = Matrix4.Identity;
+
 	
 	        GL.UseProgram(theProgram);
 	        GL.UniformMatrix4(perspectiveMatrixUnif, false, ref theMatrix);
@@ -184,19 +186,15 @@ namespace GlslTutorials
 	        GL.UseProgram(0);
 	    }
 	
-	    //Called after the window and OpenGL are initialized. Called exactly once, before the main loop.
 	    protected override void init()
 	    {
 	        InitializeProgram();
 	        InitializeVertexBuffer(vertexData, indexData);
 	        GL.Enable(EnableCap.CullFace);
-	        GL.CullFace(CullFaceMode.Front);
+			GL.CullFace(CullFaceMode.Back);
 	        GL.FrontFace(FrontFaceDirection.Cw);
 	    } 
 	
-	    //Called to update the display.
-	    //You should call glutSwapBuffers after all of your rendering to display what you rendered.
-	    //If you need continuous updates of the screen, call glutPostRedisplay() at the end of the function.
 	    public override void display()
 	    {
 	        GL.ClearColor(0.0f, 0.0f, 0.0f, 0.0f);

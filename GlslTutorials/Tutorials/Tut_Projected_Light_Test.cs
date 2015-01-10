@@ -215,7 +215,7 @@ namespace GlslTutorials
 		static ViewData g_initialView = new ViewData
 			(
 				new Vector3(0.0f, 0.0f, 1.0f),
-				new Quaternion(0f, 0f, 1f, 0f),
+				Quaternion.FromAxisAngle(new Vector3(1f, 0f, 0f), 0f),
 				25.0f,
 				180.0f
 			);

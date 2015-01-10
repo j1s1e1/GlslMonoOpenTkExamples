@@ -555,7 +555,9 @@ namespace GlslTutorials
 		Quaternion ParseQuaternion(string strQuaternion)
 		{
 			List<float> newFloats = strQuaternion.Split(' ').Select(s => Convert.ToSingle(s)).ToList();
-			Quaternion ret = new Quaternion(newFloats[0], newFloats[1], newFloats[2], newFloats[3]);
+			// FIXME order XYZW or WXYZ
+			//Quaternion ret = new Quaternion(newFloats[0], newFloats[1], newFloats[2], newFloats[3]);
+			Quaternion ret = new Quaternion(newFloats[1], newFloats[2], newFloats[3], newFloats[0]);
 			return ret;
 		}
 	};

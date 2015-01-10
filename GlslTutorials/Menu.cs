@@ -5,8 +5,11 @@ namespace GlslTutorials
 {
 	public enum TutorialsEnum
 	{
-		Tut_12_HDR_Lighting,
+		Tut_TexturePerspective,
 		Tut_Tennis3D,
+		Tut_MeshTransforms,
+		Tut_17_Projected_Light,
+		Tut_17_DoubleProjection,
 		Tut_Tennis,
 
 
@@ -18,12 +21,7 @@ namespace GlslTutorials
 
 		Tut_Quaternion,
 		Tut_Projected_Light_Test,
-		Tut_17_Projected_Light,
 		Tut_16_Gamma_Landscape,
-
-		Tut_17_DoubleProjection,
-
-		Tut_MeshTransforms,
 
 		Tut_15_ManyImages,
 
@@ -56,7 +54,7 @@ namespace GlslTutorials
 		Tut_10_Fragment_Attenuation,
 
 		Tut_12_Gamma_Correction,
-
+		Tut_12_HDR_Lighting,
 		Tut_14_Basic_Textures,
 		Tut_CheckObjects,
 		Tut_RelativePositions,
@@ -139,7 +137,7 @@ namespace GlslTutorials
 				case TutorialsEnum.Tut_TransformOrder: currentTutorial = new Tut_TransformOrder(); break;
 				case TutorialsEnum.Tut_ViewPoleQuaternion: currentTutorial = new Tut_ViewPoleQuaternion(); break;
 				case TutorialsEnum.Tut_RotateTexture: currentTutorial = new Tut_RotateTexture(); break;
-
+				case TutorialsEnum.Tut_TexturePerspective: currentTutorial = new Tut_TexturePerspective(); break;
 			}
 		}
 	}

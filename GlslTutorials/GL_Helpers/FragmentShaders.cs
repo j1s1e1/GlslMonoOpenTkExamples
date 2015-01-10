@@ -603,7 +603,6 @@ namespace GlslTutorials
 		"}";
 		
 		public static String litTexture =
-		//"#version 140\n" +  140 not supported
 		"varying vec2 colorCoord;" +
 		"varying vec3 cameraSpacePosition;" +
 		"varying vec3 cameraSpaceNormal;" +
@@ -673,7 +672,6 @@ namespace GlslTutorials
 			"}" +
 			
 			"gl_FragColor = accumLighting / Lgt.maxIntensity;" +
-			//"gl_FragColor = vec4(1.0, 0.0, 1.0, 1.0);" +
 		"}"; // litTexture
 		
 		public static String SimpleTexture =
@@ -1296,8 +1294,6 @@ namespace GlslTutorials
 			"}" +
 
 			"gl_FragColor = accumLighting / Lgt.maxIntensity;" +
-			//"gl_FragColor = vec4(diffuseColor.xyz, 1.0);" + // no bad with some samplers
-			//"gl_FragColor = vec4(colorCoord, 0.0, 1.0);" + // ok
 		"}"; // littexture
 
 		public static String colored =

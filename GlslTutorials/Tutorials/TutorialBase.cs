@@ -45,6 +45,9 @@ namespace GlslTutorials
 	    protected int height = 512;
 		
 		protected int fzFar;
+
+		protected float g_fzNear = 1.0f;
+		protected float g_fzFar = 10f;
 		
 	    public TutorialBase()
 	    {
@@ -136,7 +139,7 @@ namespace GlslTutorials
 	    //This is an opportunity to call glViewport or glScissor to keep up with the change in size.
 	    public virtual void reshape()
 	    {
-	        //GLES20.glViewport(0, 0, width, height);
+	        //GL.Viewport(0, 0, width, height);
 	    }
 	
 	    public virtual void display()
@@ -217,6 +220,169 @@ namespace GlslTutorials
 			GL.ClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 	        GL.ClearDepth(1.0f);
 	        GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
+		}
+
+		bool info = false;
+		protected bool displayOptions = false;
+		bool updateCull = false;
+		bool updateDepth = false;
+		bool updateDepthMask = false;
+		bool updateAlpha = false;
+		bool updateCcw = false;
+		bool updateBlend = false;
+		bool blend = false;
+		bool ccw = false;
+		bool updateCullFace = false;
+		int cullFaceSelection = 0;
+		bool cull = true;
+		bool depth = true;
+		bool depthMask = true;
+		bool alpha = false;
+
+		bool callReshape = false;
+
+		string logDisplayState()
+		{
+			StringBuilder result = new StringBuilder();
+			result.AppendLine("alpha " +  alpha.ToString());
+			result.AppendLine("cull " +  cull.ToString());
+			result.AppendLine("cullFaceSelection " +  cullFaceSelection.ToString());
+			result.AppendLine("depth " + depth.ToString());
+			result.AppendLine("blend " + blend.ToString());
+			return result.ToString();
+		}
+
+		protected void SetDisplayOptions(Keys keyCode)
+		{
+			switch (keyCode) {
+			case Keys.Enter:
+				displayOptions = false;
+				break;
+			case Keys.A:
+				updateAlpha = true;
+				break;
+			case Keys.C:
+				updateCull = true;
+				break;
+			case Keys.D:
+				updateDepth = true;
+				break;
+			case Keys.M:
+				updateDepthMask = true;
+				break;
+			case Keys.D1:
+				g_fzNear = 1f;
+				g_fzFar = 10;
+				callReshape = true;
+				break;
+			case Keys.D2:
+				g_fzNear = 1f;
+				g_fzFar = 100;
+				callReshape = true;
+				break;
+			case Keys.D3:
+				g_fzNear = 10f;
+				g_fzFar = 100;
+				callReshape = true;
+				break;
+			case Keys.D4:
+				g_fzNear = 10f;
+				g_fzFar = 1000;
+				callReshape = true;
+				break;
+			case Keys.D5:
+				g_fzNear = 0.1f;
+				g_fzFar = 2f;
+				callReshape = true;
+				break;
+			}
+		}
+
+		protected string UpdateDisplayOptions() {
+			StringBuilder result = new StringBuilder();
+			if (updateAlpha) {
+				updateAlpha = false;
+				if (alpha) {
+					alpha = false;
+					GL.BlendEquation(BlendEquationMode.FuncAdd);
+					GL.BlendFunc(BlendingFactorSrc.One, BlendingFactorDest.One);
+					result.AppendLine("alpha disabled");
+				} else {
+					alpha = true;
+					GL.BlendEquation(BlendEquationMode.FuncAdd);
+					GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrc1Color);
+					result.AppendLine("alpha enabled");
+				}
+			}
+			if (updateBlend) {
+				updateBlend = false;
+				if (blend) {
+					blend = false;
+					GL.Disable(EnableCap.Blend);
+					result.AppendLine("blend disabled");
+				} else {
+					blend = true;
+					GL.Enable(EnableCap.Blend);
+					result.AppendLine("blend enabled");
+				}
+			}
+			if (updateCull) {
+				updateCull = false;
+				if (cull) {
+					cull = false;
+					GL.Disable(EnableCap.CullFace);
+					result.AppendLine("cull disabled");
+				} else {
+					cull = true;
+					GL.Enable(EnableCap.CullFace);
+					result.AppendLine("cull enabled");
+				}
+			}
+			if (updateDepth)
+			{
+				updateDepth = false;
+				if (depth)
+				{
+					depth = false;
+					GL.Disable(EnableCap.DepthTest);
+					GL.DepthMask(false);
+					result.AppendLine("depth disabled");
+				}
+				else
+				{
+					depth = true;
+					GL.Enable(EnableCap.DepthTest);
+					GL.DepthMask(true);
+					result.AppendLine("depth enabled");
+				}
+			}
+			if (updateCullFace)
+			{
+				updateCullFace = false;
+				cullFaceSelection++;
+				if (cullFaceSelection > 2) cullFaceSelection = 0;
+				switch (cullFaceSelection) {
+				case 0:
+					GL.CullFace(CullFaceMode.FrontAndBack);
+					result.AppendLine("cull face GL_FRONT_AND_BACK");
+					break;
+				case 1:
+					GL.CullFace(CullFaceMode.Front);
+					result.AppendLine("cull face GL_FRONT");
+					break;
+				case 2:
+					GL.CullFace(CullFaceMode.Back);
+					result.AppendLine("cull face GL_BACK");
+					break;
+				}
+			}
+			if (callReshape)
+			{
+				callReshape = false;
+				reshape();
+			}
+			if (info) result.Append(logDisplayState());
+			return result.ToString();
 		}
 	}
 }

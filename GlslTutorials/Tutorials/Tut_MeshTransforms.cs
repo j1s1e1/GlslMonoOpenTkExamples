@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Windows.Forms;
@@ -13,7 +14,10 @@ namespace GlslTutorials
 		Vector3 translate = new Vector3();
 		Vector3 scale = new Vector3(15f, 15f, 15f);
 		Vector3 rotate = new Vector3();
-
+		bool alpha = false;
+		bool cull = true;
+		bool limitTriangles = false;
+		int triangleCount = 0;
 		bool rotateNotTranslate = false;
 
 		bool renderWithString = false;
@@ -203,12 +207,9 @@ namespace GlslTutorials
 	        ObjectColor = LoadProgram(VertexShaders.PosColorWorldTransform_vert, FragmentShaders.ColorPassthrough_frag);
 	        currentProgram = ObjectColor;
 	    }
-	    static Mesh current_mesh;
-	    static Mesh g_pCubeColorMesh;
-	    static Mesh g_pCylinderMesh;
-		static Mesh g_pPlaneMesh;
-		static Mesh g_pInfinityMesh;
-		static Mesh g_unitSphereMesh;
+
+		int currentMesh = 0;
+		List<Mesh> meshes = new List<Mesh>();
 	
 	    //Called after the window and OpenGL are initialized. Called exactly once, before the main loop.
 	    protected override void init()
@@ -217,21 +218,16 @@ namespace GlslTutorials
 	
 	        try 
 	        {
-				string XmlFilesDirectory = GlsTutorialsClass.ProjectDirectory + @"/XmlFilesForMeshes";
-	            Stream UnitCubeColor =  File.OpenRead(XmlFilesDirectory + @"/unitcubecolor.xml");
-				g_pCubeColorMesh = new Mesh(UnitCubeColor);
-	            Stream UnitCylinder = File.OpenRead(XmlFilesDirectory + @"/unitcylinder.xml");
-	            g_pCylinderMesh = new Mesh(UnitCylinder);
-				
-				Stream unitplane = File.OpenRead(XmlFilesDirectory + @"/unitplane.xml");
-	            g_pPlaneMesh = new Mesh(unitplane);
-				
-				Stream infinity = File.OpenRead(XmlFilesDirectory + @"/infinity.xml");
-				g_pInfinityMesh = new Mesh(infinity);
-
-				Stream unitSphere = File.OpenRead(XmlFilesDirectory + @"/unitsphere12.xml");
-				g_unitSphereMesh = new Mesh(unitSphere);
-				
+				meshes.Add(new Mesh("unitcubecolor.xml"));
+				meshes.Add(new Mesh("unitcylinder.xml"));
+				meshes.Add(new Mesh("unitplane.xml"));
+				meshes.Add(new Mesh("infinity.xml"));
+				meshes.Add(new Mesh("miniinfinity.xml"));
+				meshes.Add(new Mesh("halfinfinity.xml"));
+				meshes.Add(new Mesh("unitsphere12.xml"));
+				meshes.Add(new Mesh("unitcylinder9.xml"));
+				meshes.Add(new Mesh("unitdiorama.xml"));
+				meshes.Add(new Mesh("ground.xml"));
 	        } catch (Exception ex) {
 	            throw new Exception("Error " + ex.ToString());
 	        }
@@ -241,14 +237,13 @@ namespace GlslTutorials
 			Camera.Move(0f, 0f, 0f);
 	        Camera.MoveTarget(0f, 0f, 0.0f);
 	        reshape();
-	        current_mesh = g_pCubeColorMesh;
 	    }
 	
 	    public override void display()
 	    {
 	        ClearDisplay();
 	
-	        if (current_mesh != null)
+			if (meshes[currentMesh] != null)
 	        {
 	            MatrixStack modelMatrix = new MatrixStack();
                 using (PushStack pushstack = new PushStack(modelMatrix)) 
@@ -289,11 +284,26 @@ namespace GlslTutorials
                 }
 				if (renderWithString)
 				{
-					current_mesh.Render(renderString);
+					try
+					{
+						meshes[currentMesh].Render(renderString);
+					}
+					catch (Exception ex)
+					{
+						renderWithString = false;
+						MessageBox.Show("Error displaying mesh wih render string " + renderString + " " + ex.ToString());
+					}
 				}
 				else
 				{
-                	current_mesh.Render();
+					if (limitTriangles)
+					{
+						meshes[currentMesh].Render(triangleCount);
+					}
+					else
+					{
+						meshes[currentMesh].Render();
+					}
 				}
                 GL.UseProgram(0);
 				if (perspectiveAngle != newPerspectiveAngle)
@@ -391,36 +401,17 @@ namespace GlslTutorials
 					newPerspectiveAngle = 30f;
 				}
 				break;
-            case Keys.A:
+			case Keys.M:
 				renderWithString = false;
-                current_mesh = g_pCylinderMesh;
-                break;
-            case Keys.B:
-				renderWithString = false;
-                current_mesh = g_pCubeColorMesh;
-                break;
-			case Keys.C:
-				renderWithString = false;
-				current_mesh = g_pPlaneMesh;
+				currentMesh++;
+				if (currentMesh > meshes.Count - 1) currentMesh = 0;
+				result.AppendLine("Mesh = " + meshes[currentMesh].fileName);
 				break;
-			case Keys.D:
-				renderWithString = false;
-				current_mesh = g_pInfinityMesh;
-				break;
-			case Keys.E:
-				renderWithString = false;
-				current_mesh = g_unitSphereMesh;
-				break;
-			case Keys.F:
-				renderWithString = true;
-				renderString = "flat";
-				current_mesh = g_unitSphereMesh;
-				break;
-			case Keys.I:
+			case Keys.H:
                 result.AppendLine("I Decrease g_camTarget.X");
                 Camera.MoveTarget(-4.0f, 0, 0);
                 break;
-            case Keys.M:
+            case Keys.I:
                 result.AppendLine("M Increase g_camTarget.X");
                 Camera.MoveTarget(4.0f, 0, 0);
                 break;
@@ -476,6 +467,47 @@ namespace GlslTutorials
 				break;
 			case Keys.T:
 				rotateNotTranslate = false;
+				break;
+			case Keys.A:
+				if (alpha)
+				{
+					alpha = false;
+					GL.Disable(EnableCap.AlphaTest);
+					result.AppendLine("alpha disabled");
+				}
+				else
+				{
+					alpha = true;
+					GL.Enable(EnableCap.AlphaTest);
+					result.AppendLine("alpha enabled");
+				}
+				break;
+			case Keys.C:
+				if (cull)
+				{
+					cull = false;
+					GL.Disable(EnableCap.CullFace);
+					result.AppendLine("cull disabled");
+				}
+				else
+				{
+					cull = true;
+					GL.Enable(EnableCap.CullFace);
+					result.AppendLine("cull enabled");
+				}
+				break;
+			case Keys.N:
+				limitTriangles = true;
+				triangleCount += 1;
+				result.AppendLine("Triangle Count = " + triangleCount.ToString());
+				break;
+			case Keys.O:
+				if (triangleCount > 0)
+				{
+					triangleCount -= 1;
+				}
+				result.AppendLine("Triangle Count = " + triangleCount.ToString());
+				limitTriangles = false;
 				break;
 	        }
 			

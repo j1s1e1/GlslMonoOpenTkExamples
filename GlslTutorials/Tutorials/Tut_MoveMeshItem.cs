@@ -224,6 +224,7 @@ namespace GlslTutorials
 				meshes.Add(new Mesh("unitcylinder.xml"));
 				meshes.Add(new Mesh("unitplane.xml"));
 				meshes.Add(new Mesh("infinity.xml"));
+				meshes.Add(new Mesh("miniinfinity.xml"));
 				meshes.Add(new Mesh("unitsphere12.xml"));
 				meshes.Add(new Mesh("unitcylinder9.xml"));
 				meshes.Add(new Mesh("unitdiorama.xml"));

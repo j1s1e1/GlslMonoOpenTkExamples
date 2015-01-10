@@ -207,16 +207,22 @@ namespace GlslTutorials
 			g_spinBarOrient = nodes[3].NodeGetOrient();
 
 			g_unlitProg = unlit;
+			GL.UseProgram(unlit);
 			g_unlitModelToCameraMatrixUnif = GL.GetUniformLocation(unlit, "modelToCameraMatrix");
 			g_unlitCameraToClipMatrixUnif  = GL.GetUniformLocation(unlit, "cameraToClipMatrix");
 			g_unlitObjectColorUnif = GL.GetUniformLocation(unlit, "objectColor");
+			GL.UseProgram(0);
 
 			g_colroedProg = colored;
+			GL.UseProgram(colored);
 			g_coloredCameraToClipMatrixUnif= GL.GetUniformLocation(colored, "cameraToClipMatrix");
 			g_coloredModelToCameraMatrixUnif = GL.GetUniformLocation(colored, "modelToCameraMatrix");
+			GL.UseProgram(0);
 
 			g_projLightProg = projLight;
+			GL.UseProgram(projLight);
 			g_projLightCameraToClipMatrixUnif= GL.GetUniformLocation(projLight, "cameraToClipMatrix");
+			GL.UseProgram(0);
 
 			g_nodes = nodes;
 

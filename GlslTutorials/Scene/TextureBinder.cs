@@ -3,7 +3,7 @@ using OpenTK.Graphics.OpenGL;
 
 namespace GlslTutorials
 {
-	public class TextureBinder
+	public class TextureBinder : UniformBinderBase
 	{
 		public TextureBinder()
 		{

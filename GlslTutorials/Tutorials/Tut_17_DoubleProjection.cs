@@ -117,12 +117,16 @@ namespace GlslTutorials
 			g_spinBarOrient = nodes[3].NodeGetOrient();
 
 			g_unlitProg = unlit;
+			GL.UseProgram(unlit);
 			g_unlitModelToCameraMatrixUnif = GL.GetUniformLocation(unlit, "modelToCameraMatrix");
 			g_unlitCameraToClipMatrixUnif  = GL.GetUniformLocation(unlit, "cameraToClipMatrix");
 			g_unlitObjectColorUnif = GL.GetUniformLocation(unlit, "objectColor");
+			GL.UseProgram(0);
 
 			g_litProg = lit;
+			GL.UseProgram(lit);
 			g_litCameraToClipMatrixUnif  = GL.GetUniformLocation(lit, "cameraToClipMatrix");
+			GL.UseProgram(0);
 
 			g_nodes = nodes;
 			g_pSphereMesh = pSphereMesh;
@@ -143,9 +147,9 @@ namespace GlslTutorials
 			{
 				MessageBox.Show("Failed to load scene: " + ex.ToString());
 			}
-			//reshape();
 			MatrixStack.rightMultiply = false;
 			rightMultiply = true;
+			reshape();
 		}
 
 		bool g_bDrawCameraPos = true;
@@ -211,8 +215,8 @@ namespace GlslTutorials
 				persMatrix.Perspective(60.0f, (width/2f / height), g_fzNear, g_fzFar);
 
 				// added
-				persMatrix.Translate(translateVector);
-				persMatrix.Scale(scaleFactor);
+				//persMatrix.Translate(translateVector);
+				//persMatrix.Scale(scaleFactor);
 				// end added
 
 				ProjectionBlock projData = new ProjectionBlock();

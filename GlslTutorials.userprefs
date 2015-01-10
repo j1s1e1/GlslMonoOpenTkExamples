@@ -1,40 +1,14 @@
-﻿<Properties GitUserInfo="UsingGIT">
+﻿<Properties GitUserInfo="UsingMD">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="GlslTutorials/Attributes/AttributesClass.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="GlslTutorials/GL_Helpers/VertexShaders.cs">
     <Files>
-      <File FileName="GlslTutorials/Mesh/Mesh.cs" Line="23" Column="23" />
-      <File FileName="GlslTutorials/Light/LightManager.cs" Line="5" Column="5" />
-      <File FileName="GlslTutorials/Tutorials/Tut_12_HDR_Lighting.cs" Line="4" Column="4" />
-      <File FileName="GlslTutorials/Scene/Scene.cs" Line="4" Column="4" />
-      <File FileName="GlslTutorials/Menu.cs" Line="22" Column="22" />
-      <File FileName="GlslTutorials/Light/FrameworkTimer.cs" Line="1" Column="1" />
-      <File FileName="GlslTutorials/Interpolator/WeightedLinearInterpolator.cs" Line="1" Column="1" />
-      <File FileName="GlslTutorials/Attributes/AttribType.cs" Line="1" Column="1" />
-      <File FileName="GlslTutorials/Attributes/AttributesClass.cs" Line="86" Column="86" />
+      <File FileName="GlslTutorials/Tutorials/Tut_Tennis3D.cs" Line="44" Column="44" />
+      <File FileName="GlslTutorials/Textures/TextureElement.cs" Line="1" Column="1" />
+      <File FileName="GlslTutorials/GL_Helpers/VertexShaders.cs" Line="50" Column="50" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore>
-      <Breakpoint file="/home/jamie/repos/CSharp/GlslTutorials/GlslTutorials/Creatures/Movement.cs" line="28" column="1" />
-      <Breakpoint file="/home/jamie/repos/CSharp/GlslTutorials/GlslTutorials/Attributes/AttributesClass.cs" line="59" column="1" />
-      <Breakpoint file="/home/jamie/repos/CSharp/GlslTutorials/GlslTutorials/Tutorials/Tut_14_Basic_Textures.cs" line="223" column="1" />
-      <Breakpoint file="/home/jamie/repos/CSharp/GlslTutorials/GlslTutorials/GL_Helpers/Shader.cs" line="71" column="1" />
-      <Breakpoint file="/home/jamie/repos/CSharp/GlslTutorials/GlslTutorials/GL_Helpers/Shader.cs" line="34" column="1" />
-      <Breakpoint file="/home/jamie/repos/CSharp/GlslTutorials/GlslTutorials/Scene/SceneImpl.cs" line="352" column="1" />
-      <Breakpoint file="/home/jamie/repos/CSharp/GlslTutorials/GlslTutorials/Scene/SceneImpl.cs" line="307" column="1" />
-      <Breakpoint file="/home/jamie/repos/CSharp/GlslTutorials/GlslTutorials/Scene/TextureBinder.cs" line="26" column="1" />
-      <Breakpoint file="/home/jamie/repos/CSharp/GlslTutorials/GlslTutorials/ProgramData/ProgramSets.cs" line="63" column="1" />
-      <Breakpoint file="/home/jamie/repos/CSharp/GlslTutorials/GlslTutorials/Tutorials/Tut_06_Hierarchy.cs" line="244" column="1" />
-      <Breakpoint file="/home/jamie/repos/CSharp/GlslTutorials/GlslTutorials/View/ObjectPole.cs" line="317" column="1" />
-      <Breakpoint file="/home/jamie/repos/CSharp/GlslTutorials/GlslTutorials/View/ObjectPole.cs" line="276" column="8" />
-      <Breakpoint file="/home/jamie/repos/CSharp/GlslTutorials/GlslTutorials/View/ObjectPole.cs" line="295" column="8" />
-      <Breakpoint file="/home/jamie/repos/CSharp/GlslTutorials/GlslTutorials/View/ObjectPole.cs" line="322" column="9" />
-      <Breakpoint file="/home/jamie/repos/CSharp/GlslTutorials/GlslTutorials/Tutorials/Tut_RotateTexture.cs" line="59" column="1" />
-      <Breakpoint file="/home/jamie/repos/CSharp/GlslTutorials/GlslTutorials/Tutorials/Tut_12_HDR_Lighting.cs" line="200" column="1" />
-      <Breakpoint file="/home/jamie/repos/CSharp/GlslTutorials/GlslTutorials/Scene/Scene.cs" line="57" column="1" />
-      <Breakpoint file="/home/jamie/repos/CSharp/GlslTutorials/GlslTutorials/Scene/Scene.cs" line="58" column="1" />
-      <Breakpoint file="/home/jamie/repos/CSharp/GlslTutorials/GlslTutorials/Tutorials/Tut_12_HDR_Lighting.cs" line="203" column="1" />
-    </BreakpointStore>
+    <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
 </Properties>

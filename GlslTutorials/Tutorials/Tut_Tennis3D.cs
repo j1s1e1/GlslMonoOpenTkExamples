@@ -48,12 +48,12 @@ namespace GlslTutorials
 		Matrix4 ballModelMatrix = Matrix4.Identity;
 		bool renderWithString = false;
 		string renderString = "";
-		PaintWall frontWall = new PaintWall();
-		PaintWall backWall = new PaintWall();
-		PaintWall leftWall = new PaintWall();
-		PaintWall rightWall = new PaintWall();
-		PaintWall topWall = new PaintWall();
-		PaintWall bottomWall = new PaintWall();
+		PaintWall frontWall;
+		PaintWall backWall;
+		PaintWall leftWall;
+		PaintWall rightWall;
+		PaintWall topWall;
+		PaintWall bottomWall;
 
 	    class ProgramData
 	    {
@@ -237,6 +237,12 @@ namespace GlslTutorials
 	    //Called after the window and OpenGL are initialized. Called exactly once, before the main loop.
 	    protected override void init()
 	    {
+			frontWall = new PaintWall();
+			backWall = new PaintWall();
+			topWall = new PaintWall();
+			bottomWall = new PaintWall();
+			leftWall = new PaintWall();
+			rightWall = new PaintWall();
 			InitializeProgram();
 
 			ball = new Ball(ballRadius);
@@ -611,7 +617,6 @@ namespace GlslTutorials
 			}
 	        return result.ToString();
 	    }
-	
 	}
 }
 

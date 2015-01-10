@@ -382,9 +382,12 @@ namespace GlslTutorials
 	        }
 	    }
 	
+		public void Render()
+		{
+			Render(-1);
+		}
 	
-	
-	    public void Render()
+		public void Render(int triangles)
 	    {
 	        if (m_pData.oVAO[0] == 0)
 	        if (m_pData.oIndexBuffer[0] == 0)
@@ -413,10 +416,16 @@ namespace GlslTutorials
 	                    VertexAttribPointerType.Float, false, m_pData.normalStride, m_pData.normalOffset);
 	        }
 	
-	
 	        foreach (RenderCmd renderCmd in m_pData.primatives)
 	        {
-	            renderCmd.Render();
+				if (triangles > 0)
+				{
+					renderCmd.Render(triangles);
+				}
+				else
+				{
+	            	renderCmd.Render();
+				}
 	        }
 	        if (m_pData.positionAttribute != -1) GL.DisableVertexAttribArray(m_pData.positionAttribute);
 	        if (m_pData.colorAttribute != -1) GL.DisableVertexAttribArray(m_pData.colorAttribute);

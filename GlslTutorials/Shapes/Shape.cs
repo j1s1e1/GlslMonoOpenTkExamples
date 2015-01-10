@@ -355,6 +355,11 @@ namespace GlslTutorials
 		{
 			cameraToClip = m;
 		}
+
+		public void SetWorldToCameraMatrix(Matrix4 m)
+		{
+			worldToCamera = m;
+		}
 	}
 }
 
