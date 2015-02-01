@@ -27,7 +27,6 @@ namespace GlslTutorials
 
     	static short[] indexData = new short[]{ 0, 1, 2 };
 
-    	private static int POSITION_STRIDE = POSITION_DATA_SIZE_IN_ELEMENTS * BYTES_PER_FLOAT;
     	private static int POSITION_START = 0;
 
 	    void UpdateVertexBuffer(float[] data)
@@ -50,6 +49,7 @@ namespace GlslTutorials
 	    //Called after the window and OpenGL are initialized. Called exactly once, before the main loop.
 	    protected override void init()
 	    {
+			POSITION_STRIDE = POSITION_DATA_SIZE_IN_ELEMENTS * BYTES_PER_FLOAT;
 	        InitializeProgram();
 	        InitializeVertexBuffer(vertexData, indexData);
 	    }

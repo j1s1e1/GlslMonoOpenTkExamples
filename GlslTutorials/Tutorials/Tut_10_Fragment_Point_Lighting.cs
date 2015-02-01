@@ -27,9 +27,6 @@ namespace GlslTutorials
 			public int cameraToClipMatrixUnif;
 		};
 		
-		float g_fzNear = 1.0f;
-		float g_fzFar = 1000.0f;
-		
 		ProgramData g_WhiteDiffuseColor;
 		ProgramData g_VertexDiffuseColor;
 		ProgramData g_FragWhiteDiffuseColor;
@@ -138,6 +135,8 @@ namespace GlslTutorials
 		
 		protected override void init()
 		{
+			g_fzNear = 1.0f;
+			g_fzFar = 1000.0f;
 			InitializeGInitialViewData();
 	        InitializeGViewScale();
 	        g_viewPole = new ViewPole(g_initialViewData, g_viewScale, MouseButtons.MB_LEFT_BTN);

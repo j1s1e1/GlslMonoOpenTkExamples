@@ -7,11 +7,6 @@ namespace GlslTutorials
 {
 	public class TextClass : Shape
 	{
-		string VertexShader = VertexShaders.PosOnlyWorldTransform_vert;
-		string FragmentShader = FragmentShaders.ColorUniform_frag;
-		
-		int progarmNumber;
-	
 	    float scaleFactor;
 	    float letter_offset;
 	    int current_letter;

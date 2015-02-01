@@ -95,7 +95,7 @@ namespace GlslTutorials
 			programNumber = Programs.AddProgram(VertexShader, FragmentShader);
 		}
 		
-		public void Scale(Vector3 size)
+		public override void Scale(Vector3 size)
 		{
 			modelToWorld.M11 = size.X;
 			modelToWorld.M22 = size.Y;

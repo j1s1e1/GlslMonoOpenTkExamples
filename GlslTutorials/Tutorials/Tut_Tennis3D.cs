@@ -33,8 +33,6 @@ namespace GlslTutorials
 		};
 		bool cull = true;
 		bool rotateWorld = false;
-		static float g_fzNear = 10.0f;
-		static float g_fzFar = 1000.0f;
 
 		float perspectiveAngle = 60f;
 		float newPerspectiveAngle = 60f;
@@ -237,6 +235,8 @@ namespace GlslTutorials
 	    //Called after the window and OpenGL are initialized. Called exactly once, before the main loop.
 	    protected override void init()
 	    {
+			g_fzNear = 10.0f;
+			g_fzFar = 1000.0f;
 			frontWall = new PaintWall();
 			backWall = new PaintWall();
 			topWall = new PaintWall();

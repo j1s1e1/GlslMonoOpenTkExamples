@@ -17,9 +17,6 @@ namespace GlslTutorials
 		{
 		}
 
-		const float g_fzNear = 1.0f;
-		const float g_fzFar = 1000.0f;
-
 		const int g_projectionBlockIndex = 0;
 		const int g_lightBlockIndex = 1;
 		const int g_lightProjTexUnit = 3;
@@ -238,6 +235,8 @@ namespace GlslTutorials
 		//Called after the window and OpenGL are initialized. Called exactly once, before the main loop.
 		protected override void init()
 		{
+			g_fzNear = 1.0f;
+			g_fzFar = 1000.0f;
 			SetupDepthAndCull();
 
 			GL.Enable(EnableCap.FramebufferSrgb);

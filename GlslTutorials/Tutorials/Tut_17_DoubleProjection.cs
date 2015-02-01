@@ -18,8 +18,6 @@ namespace GlslTutorials
 		public Tut_17_DoubleProjection ()
 		{
 		}
-		const float g_fzNear = 1.0f;
-		const float g_fzFar = 1000.0f;
 
 		const int g_colorTexUnit = 0;
 
@@ -136,6 +134,8 @@ namespace GlslTutorials
 
 		protected override void init()
 		{
+			g_fzNear = 1.0f;
+			g_fzFar = 1000.0f;
 			SetupDepthAndCull();
 			GL.Enable(EnableCap.FramebufferSrgb);
 			GL.Enable(EnableCap.Texture2D); // must be before scene??

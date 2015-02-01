@@ -27,9 +27,6 @@ namespace GlslTutorials
 			public int cameraToClipMatrixUnif;
 		};
 
-		static float g_fzNear = 1.0f;
-		static float g_fzFar = 1000.0f;
-
 		static ProgramData g_litShaderProg;
 		static ProgramData g_litTextureProg;
 
@@ -202,6 +199,8 @@ namespace GlslTutorials
 		//Called after the window and OpenGL are initialized. Called exactly once, before the main loop.
 		protected override void init()
 		{
+			g_fzNear = 1.0f;
+			g_fzFar = 1000.0f;
 		    InitializeGInitialViewData();
 	        InitializeGViewScale();
 			g_viewPole = new ViewPole(g_initialViewData, g_viewScale, MouseButtons.MB_LEFT_BTN);

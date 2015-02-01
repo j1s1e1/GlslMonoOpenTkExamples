@@ -22,9 +22,6 @@ namespace GlslTutorials
 			public int cameraToClipMatrixUnif;
 		};
 
-		float g_fzNear = 1.0f;
-		float g_fzFar = 1000.0f;
-
 		ProgramData g_program;
 
 		const int g_projectionBlockIndex = 0;
@@ -154,6 +151,8 @@ namespace GlslTutorials
 
 		protected override void init ()
 		{
+			g_fzNear = 1.0f;
+			g_fzFar = 1000.0f;
 			InitializePrograms();
 
 			try

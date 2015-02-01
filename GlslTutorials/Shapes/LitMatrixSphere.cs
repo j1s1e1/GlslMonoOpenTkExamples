@@ -16,11 +16,10 @@ namespace GlslTutorials
 	
 		float radius;
 		
-		string VertexShader = VertexShaders.PosOnlyWorldTransform_vert;
-		string FragmentShader = FragmentShaders.ColorUniform_frag;
-		
 		public LitMatrixSphere (float radius_in)
 		{
+			VertexShader = VertexShaders.PosOnlyWorldTransform_vert;
+			FragmentShader = FragmentShaders.ColorUniform_frag;
 			radius = radius_in;
         	vertexCoords = GetCircleCoords(radius);
         	vertexCount = vertexCoords.Length / COORDS_PER_VERTEX / 2;
@@ -84,8 +83,6 @@ namespace GlslTutorials
 		
 	    private void DrawSub(int first_triangle, int last_triangle)
 	    {
-	        int newVertexCount = (last_triangle - first_triangle + 1) * 3 * 3 / COORDS_PER_VERTEX;
-	        // Add program to OpenGL environment
 	        GL.UseProgram(mProgram);
 			
 		 	Matrix4 mm = Rotate(modelToWorld, axis, angle);

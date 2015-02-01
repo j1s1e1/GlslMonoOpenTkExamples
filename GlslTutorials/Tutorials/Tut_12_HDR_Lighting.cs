@@ -34,9 +34,6 @@ namespace GlslTutorials
 			}
 		};
 
-		float g_fzNear = 1.0f;
-		float g_fzFar = 1000.0f;
-
 		SceneProgramData[] g_Programs = new SceneProgramData[(int)LightingProgramTypes.LP_MAX_LIGHTING_PROGRAM_TYPES];
 		ShadersNames[] g_ShaderFiles = new ShadersNames[(int)LightingProgramTypes.LP_MAX_LIGHTING_PROGRAM_TYPES]
 		{
@@ -191,6 +188,8 @@ namespace GlslTutorials
 
 		protected override void init()
 		{
+			g_fzNear = 1.0f;
+			g_fzFar = 1000.0f;
 			InitializePrograms();
 
 			try

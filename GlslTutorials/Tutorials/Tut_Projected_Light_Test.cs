@@ -73,9 +73,6 @@ namespace GlslTutorials
 			}
 		};
 
-		static float g_fzNear = 10.0f;
-		static float g_fzFar = 1000.0f;
-
 		int currentProgram = 0;
 		List<ProgramData> programs = new List<ProgramData>();
 
@@ -179,6 +176,8 @@ namespace GlslTutorials
 			
 		protected override void init()
 		{
+			g_fzNear = 10.0f;
+			g_fzFar = 1000.0f;
 			InitializeProgram();
 			GL.Enable(EnableCap.Texture2D);
 			CreateTextures();

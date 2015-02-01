@@ -382,7 +382,7 @@ namespace GlslTutorials
 			modelToWorld.Row3 = modelToWorld.Row3 + new Vector4(offset, 0);
 		}
 
-		public void Scale(Vector3 scale)
+		public virtual void Scale(Vector3 scale)
 		{
 			modelToWorld = Matrix4.Mult(modelToWorld, Matrix4.CreateScale(scale));
 		}

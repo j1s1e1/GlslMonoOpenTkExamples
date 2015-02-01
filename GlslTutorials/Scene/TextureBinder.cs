@@ -21,14 +21,14 @@ namespace GlslTutorials
 			m_samplerObj = samplerObj;
 		}
 
-		public virtual void BindState(int prog)
+		public override void BindState(int prog)
 		{
 			GL.ActiveTexture(TextureUnit.Texture0 + m_texUnit);
 			GL.BindTexture(m_texType, m_texObj);
 			GL.BindSampler(m_texUnit, m_samplerObj);
 		}
 
-		public virtual void UnbindState(int prog)
+		public override void UnbindState(int prog)
 		{
 			GL.ActiveTexture(TextureUnit.Texture0 + m_texUnit);
 			GL.BindTexture(m_texType, 0);

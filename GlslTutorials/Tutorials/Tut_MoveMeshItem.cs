@@ -57,9 +57,6 @@ namespace GlslTutorials
 				return result.ToString();
 			}
 	    };
-	
-	    static float g_fzNear = 10.0f;
-	    static float g_fzFar = 1000.0f;
 
 		int currentOtherProgram = 0;
 		List<ProgramData> otherPrograms = new List<ProgramData>();
@@ -216,6 +213,8 @@ namespace GlslTutorials
 	    //Called after the window and OpenGL are initialized. Called exactly once, before the main loop.
 	    protected override void init()
 	    {
+			g_fzNear = 10.0f;
+			g_fzFar = 1000.0f;
 	        InitializeProgram();
 	
 	        try 
