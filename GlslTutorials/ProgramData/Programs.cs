@@ -42,7 +42,13 @@ namespace GlslTutorials
 		public static void Draw(int program, int[] vertexBufferObject, int[] indexBufferObject,
 		                 Matrix4 mm, int indexDataLength, float[] color)
 		{
-			ActivePrograms[program].Draw (vertexBufferObject, indexBufferObject, mm, indexDataLength, color);
+			ActivePrograms[program].Draw(vertexBufferObject, indexBufferObject, mm, indexDataLength, color);
+		}
+
+		public static void DrawWireFrame(int program, int[] vertexBufferObject, int[] indexBufferObject,
+			Matrix4 mm, int indexDataLength, float[] color)
+		{
+			ActivePrograms[program].DrawWireFrame(vertexBufferObject, indexBufferObject, mm, indexDataLength, color);
 		}
 		
 		public static void SetUniformColor(int program, Vector4 color)
@@ -53,6 +59,11 @@ namespace GlslTutorials
 		public static void SetUniformTexture(int program, int colorTexUnit)
 		{
 			ActivePrograms[program].SetUniformTexture(colorTexUnit);
+		}
+
+		public static void SetUniformScale(int program, float scale)
+		{
+			ActivePrograms[program].SetUniformScale(scale);
 		}
 		
 		public static void SetTexture(int program, string texture, bool oneTwenty)
@@ -98,6 +109,16 @@ namespace GlslTutorials
 		public static void SetModelToCameraMatrix(int program, Matrix4 modelToCameraMatrix)
 		{
 			ActivePrograms[program].SetModelToCameraMatrix(modelToCameraMatrix);
+		}
+
+		public static void SetUpLightBlock(int program, int numberOfLights)
+		{
+			ActivePrograms[program].SetUpLightBlock(numberOfLights);
+		}
+
+		public static void UpdateLightBlock(int program, LightBlock lb)
+		{
+			ActivePrograms[program].UpdateLightBlock(lb);
 		}
 		
 		// for testing only.  This should be calculated

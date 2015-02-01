@@ -83,6 +83,11 @@ namespace GlslTutorials
 			body.SetProgram(newProgram);
 		}
 
+		public void SetLightPosition(Vector3 lightPosition)
+		{
+			body.SetLightPosition(lightPosition);
+		}
+			
 		public void SetElasticControl()
 		{
 			movement = new ElasticMovement();

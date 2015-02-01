@@ -53,6 +53,11 @@ namespace GlslTutorials
 	        }
 	        return coords_with_normals;
     	}
+
+		public void SetLightPosition(Vector3 lightPosition)
+		{
+			Programs.SetLightPosition(programNumber, lightPosition);
+		}
 		
 	    private void DrawSub(int first_triangle, int last_triangle)
 	    {

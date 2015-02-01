@@ -10,7 +10,7 @@ namespace GlslTutorials
 		int width = 256;
 		int height = 256;
 		int clearWidth = 120;
-		TextureElement textureElement;
+		TextureElement2 textureElement;
 		Random random;
 		public PaintWall ()
 		{
@@ -29,7 +29,7 @@ namespace GlslTutorials
 					}
 				}
 			}
-			textureElement = new TextureElement(bitmap);
+			textureElement = new TextureElement2(bitmap);
 			random = new Random();
 		}
 
@@ -105,6 +105,16 @@ namespace GlslTutorials
 		public void RotateShape(Vector3 axis, float angle)
 		{
 			textureElement.RotateShape(axis, angle);
+		}
+
+		public void RotateShape(Vector3 offset, Vector3 axis, float angle)
+		{
+			textureElement.RotateShape(offset, axis, angle);
+		}
+
+		public void SetLightPosition(Vector3 v)
+		{
+			textureElement.SetLightPosition(v);
 		}
 
 		public void Draw()

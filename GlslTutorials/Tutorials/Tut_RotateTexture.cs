@@ -10,16 +10,21 @@ namespace GlslTutorials
 	public class Tut_RotateTexture : TutorialBase
 	{
 		bool cull = true;
-		static TextureElement wood;
+		static TextureElement2 wood;
 		bool drawWood = true;
 
 		float perspectiveAngle = 60f;
 		float newPerspectiveAngle = 60f;
+
+		int newProgram;
+
+		static int numberOfLights = 2;
+		LightBlock lightBlock = new LightBlock(numberOfLights);
 		
 		protected override void init ()
 		{
 		    GL.ClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-			wood = new TextureElement("wood4_rotate.png");
+			wood = new TextureElement2("wood4_rotate.png");
 			wood.Scale(0.5f);
 			wood.Move(0f, 0f, -0.2f);
 			SetupDepthAndCull();
@@ -29,11 +34,8 @@ namespace GlslTutorials
 
 		static private void SetGlobalMatrices()
 		{
-			wood.SetCameraToClipMatrix(cameraToClipMatrix);
+			Shape.SetCameraToClipMatrix(cameraToClipMatrix);
 		}
-
-		float g_fzNear = 1.0f;
-		float g_fzFar = 10f;
 
 		public override void reshape()
 		{
@@ -84,10 +86,25 @@ namespace GlslTutorials
 				wood.RotateShape(Vector3.UnitZ, -5f);
 				break;
 			case Keys.D7:
+				newProgram = Programs.AddProgram(VertexShaders.MatrixTexture, FragmentShaders.MatrixTextureScale);
+				wood.SetProgram(newProgram);
 				break;
 			case Keys.D8:
+				newProgram = Programs.AddProgram(VertexShaders.MatrixTexture, FragmentShaders.TextureMultipleLightScale);
+				wood.SetProgram(newProgram);
+				Programs.SetUpLightBlock(newProgram, numberOfLights);
+				lightBlock.ambientIntensity = new Vector4(0.1f, 0.1f, 0.1f, 1.0f);
+				lightBlock.lightAttenuation = 0.1f;
+				lightBlock.maxIntensity = 0.5f;
+				lightBlock.lights[0].cameraSpaceLightPos = new Vector4(0.5f, 0.0f, 0.0f, 1f);
+				lightBlock.lights[0].lightIntensity = new Vector4(0.0f, 0.0f, 0.6f, 1.0f);
+				lightBlock.lights[1].cameraSpaceLightPos = new Vector4(0.0f, 0.5f, 1.0f, 1f);
+				lightBlock.lights[1].lightIntensity = new Vector4(0.4f, 0.0f, 0.0f, 1.0f);
+				Programs.UpdateLightBlock(newProgram, lightBlock);
 				break;
 			case Keys.D9:
+				newProgram = Programs.AddProgram(VertexShaders.MatrixTexture, FragmentShaders.Test);
+				wood.SetProgram(newProgram);
 				break;
 			case Keys.D0:
 				wood.SetRotation(Matrix3.CreateFromAxisAngle(new Vector3(1f, 0f, 0f), 0f));
@@ -108,7 +125,21 @@ namespace GlslTutorials
 					result.AppendLine("cull enabled");
 				}
 				break;
+			case Keys.D:
+				lightBlock.MoveLight(0, new Vector3(0.25f, 0f, 0f));
+				Programs.UpdateLightBlock(newProgram, lightBlock);
+				break;
+			case Keys.E:
+				lightBlock.MoveLight(0, new Vector3(-0.25f, 0f, 0f));
+				Programs.UpdateLightBlock(newProgram, lightBlock);
+				break;
 			case Keys.F:
+				lightBlock.MoveLight(1, new Vector3(0f, 0.25f, 0f));
+				Programs.UpdateLightBlock(newProgram, lightBlock);
+				break;
+			case Keys.G:
+				lightBlock.MoveLight(1, new Vector3(0f, -0.25f, 0f));
+				Programs.UpdateLightBlock(newProgram, lightBlock);
 				break;
 			case Keys.P:
 				newPerspectiveAngle = perspectiveAngle + 5f;

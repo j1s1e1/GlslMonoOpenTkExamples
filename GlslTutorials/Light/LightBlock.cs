@@ -24,7 +24,6 @@ namespace GlslTutorials
 		public float padding;
 		public PerLight[] lights;
 		
-		
 		public static int Size(int numberOfLights)
 		{
 			int size = 0;
@@ -108,6 +107,11 @@ namespace GlslTutorials
 			}
 			if (numberOfLightsUnif != -1) GL.Uniform1(numberOfLightsUnif, NUMBER_OF_LIGHTS);
 			GL.UseProgram(programNumber);
+		}
+
+		public void MoveLight(int light, Vector3 v)
+		{
+			lights[light].cameraSpaceLightPos += new Vector4(v, 0.0f);
 		}
 	};
 }

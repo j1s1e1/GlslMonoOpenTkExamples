@@ -7,32 +7,28 @@ using OpenTK.Graphics.OpenGL;
 
 namespace GlslTutorials
 {
-	public class Tut_TexturePerspective : TutorialBase
+	public class Tut_WireFramePerspective : TutorialBase
 	{
-		static TextureElement wood;
-		bool drawWood = true;
+		WireFrameBlock wireFrameBlock;
+		bool drawWireFrame = true;
 
-		float perspectiveAngle = 90f;
-		float newPerspectiveAngle = 90f;
-
-		float textureRotation = -90f;
+		float perspectiveAngle = 160f;
+		float newPerspectiveAngle = 160f;
 
 		protected override void init ()
 		{
 			GL.ClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-			wood = new TextureElement("wood4_rotate.png");
-			wood.Scale(1f);
-			wood.RotateShape(new Vector3(1f, 0f, 0f), textureRotation);
-			wood.Move(0f, -1f, -2f);
+			wireFrameBlock = new WireFrameBlock(new Vector3(5f, 5f, 5f), Colors.RED_COLOR);
+			wireFrameBlock.RotateShape(new Vector3(1f, 0f, 0f), 60f);
+			wireFrameBlock.Move(0f, 0f, -5f);
 
 			SetupDepthAndCull();
-			Textures.EnableTextures();
 			g_fzNear = 0.5f;
 			g_fzFar = 10f;
 			reshape();
 		}
 
-		static private void SetGlobalMatrices()
+		private void SetGlobalMatrices()
 		{
 			Shape.SetCameraToClipMatrix(cameraToClipMatrix);
 			Shape.SetWorldToCameraMatrix(worldToCameraMatrix);
@@ -41,13 +37,12 @@ namespace GlslTutorials
 		public override void reshape()
 		{
 			MatrixStack persMatrix = new MatrixStack();
-			width = 1280;
-			height = 800;
 			persMatrix.Perspective(perspectiveAngle, (width / (float)height), g_fzNear, g_fzFar);
 
 			worldToCameraMatrix = persMatrix.Top();
 
 			cameraToClipMatrix = Matrix4.Identity;
+			//cameraToClipMatrix.M34 = -1f;
 
 			SetGlobalMatrices();
 
@@ -58,7 +53,7 @@ namespace GlslTutorials
 		public override void display()
 		{
 			ClearDisplay();
-			if (drawWood) wood.Draw();
+			if (drawWireFrame) wireFrameBlock.Draw();
 			if (perspectiveAngle != newPerspectiveAngle)
 			{
 				perspectiveAngle = newPerspectiveAngle;
@@ -81,24 +76,22 @@ namespace GlslTutorials
 					displayOptions = true;
 					break;
 				case Keys.D1:
-					wood.RotateShape(Vector3.UnitX, 5f);
-					textureRotation += 5f;
+					wireFrameBlock.RotateShape(Vector3.UnitX, 5f);
 					break;
 				case Keys.D2:
-					wood.RotateShape(Vector3.UnitY, 5f);
+					wireFrameBlock.RotateShape(Vector3.UnitY, 5f);
 					break;
 				case Keys.D3:
-					wood.RotateShape(Vector3.UnitZ, 5f);
+					wireFrameBlock.RotateShape(Vector3.UnitZ, 5f);
 					break;
 				case Keys.D4:
-					wood.RotateShape(Vector3.UnitX, -5f);
-					textureRotation -= 5f;
+					wireFrameBlock.RotateShape(Vector3.UnitX, -5f);
 					break;
 				case Keys.D5:
-					wood.RotateShape(Vector3.UnitY, -5f);
+					wireFrameBlock.RotateShape(Vector3.UnitY, -5f);
 					break;
 				case Keys.D6:
-					wood.RotateShape(Vector3.UnitZ, -5f);
+					wireFrameBlock.RotateShape(Vector3.UnitZ, -5f);
 					break;
 				case Keys.D7:
 					break;
@@ -107,7 +100,7 @@ namespace GlslTutorials
 				case Keys.D9:
 					break;
 				case Keys.D0:
-					wood.SetRotation(Matrix3.Identity);
+					wireFrameBlock.SetRotation(Matrix3.Identity);
 					break;
 				case Keys.F:
 					break;
@@ -115,7 +108,6 @@ namespace GlslTutorials
 					result.AppendLine("g_fzNear = " + g_fzNear.ToString());
 					result.AppendLine("g_fzFar = " + g_fzFar.ToString());
 					result.AppendLine("perspectiveAngle = " + perspectiveAngle.ToString());
-					result.AppendLine("textureRotation = " + textureRotation.ToString());
 					break;
 				case Keys.P:
 					newPerspectiveAngle = perspectiveAngle + 5f;
@@ -124,10 +116,13 @@ namespace GlslTutorials
 					}
 					break;
 				case Keys.W:
-					if (drawWood)
-						drawWood = false;
+					if (drawWireFrame)
+						drawWireFrame = false;
 					else
-						drawWood = true;
+						drawWireFrame = true;
+					break;
+				case Keys.Z:
+					wireFrameBlock.Scale(new Vector3(1.1f, 1.1f, 1.1f));
 					break;
 				}
 			}

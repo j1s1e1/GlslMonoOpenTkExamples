@@ -26,6 +26,7 @@ namespace GlslTutorials
         private int normalAttribute;
 		private int texCoordAttribute;
 		private int colorTextureUnif;
+		private int scaleUniform;
 		
 		private int sampler = 0;
 		private int texUnit = 0;
@@ -43,6 +44,8 @@ namespace GlslTutorials
 		int TEXTURE_DATA_SIZE_IN_ELEMENTS = 2;
 		int TEXTURE_START = 3 * 4 + 3 * 4;
 		protected int vertexStride = 3 * 4; // bytes per vertex default to only 3 position floats
+
+		LightBlock lightBlock;
 		
 		public ProgramData(string vertexShaderIn, string fragmentShaderIn)
 	    {
@@ -98,6 +101,7 @@ namespace GlslTutorials
 				vertexStride = 3 * 4 * 2 + 2 * 4;
 			} 
 			colorTextureUnif = GL.GetUniformLocation(theProgram, "diffuseColorTex");
+			scaleUniform = GL.GetUniformLocation(theProgram, "scaleFactor");
 	    }
 		
 		void CreateSampler()
@@ -165,6 +169,62 @@ namespace GlslTutorials
 			GL.BindBuffer(BufferTarget.ElementArrayBuffer, 0);
 	        GL.UseProgram(0);	
 		}
+
+		public void DrawWireFrame(int[] vertexBufferObject, int[] indexBufferObject, Matrix4 mm, int indexDataLength, 
+			float[] color)
+		{
+			GL.UseProgram(theProgram);	
+			GL.BindBuffer(BufferTarget.ArrayBuffer, vertexBufferObject[0]);
+			GL.BindBuffer(BufferTarget.ElementArrayBuffer, indexBufferObject[0]);
+
+			GL.UniformMatrix4(cameraToClipMatrixUnif, false, ref Shape.cameraToClip);
+			GL.UniformMatrix4(worldToCameraMatrixUnif, false, ref Shape.worldToCamera);
+
+			if (modelToWorldMatrixUnif != -1) GL.UniformMatrix4(modelToWorldMatrixUnif, false, ref mm);
+			if (modelToCameraMatrixUnif != -1) GL.UniformMatrix4(modelToCameraMatrixUnif, false, ref mm);
+			if (baseColorUnif != -1) GL.Uniform4(baseColorUnif, 1, color);
+
+
+			GL.EnableVertexAttribArray(positionAttribute);
+			// Prepare the triangle coordinate data
+			GL.VertexAttribPointer(positionAttribute, POSITION_DATA_SIZE_IN_ELEMENTS, 
+				VertexAttribPointerType.Float, false, vertexStride, (IntPtr)0);
+
+			if (normalAttribute != -1)
+			{
+				GL.EnableVertexAttribArray(normalAttribute);
+				GL.VertexAttribPointer(normalAttribute, NORMAL_DATA_SIZE_IN_ELEMENTS, 
+					VertexAttribPointerType.Float, false, vertexStride, (IntPtr)NORMAL_START);
+			}
+
+			if (texCoordAttribute != -1)
+			{
+				GL.Enable(EnableCap.Texture2D);
+				GL.EnableVertexAttribArray(texCoordAttribute);
+				GL.VertexAttribPointer(texCoordAttribute, TEXTURE_DATA_SIZE_IN_ELEMENTS, 
+					VertexAttribPointerType.Float, false, vertexStride, (IntPtr)TEXTURE_START);
+				GL.BindTexture(TextureTarget.Texture2D, current_texture);
+				GL.BindSampler(texUnit, sampler);
+			}			
+
+			// Draw the wireframes
+			for (int i = 0; i < indexDataLength; i += 3)
+			{
+				GL.DrawElements(PrimitiveType.LineLoop, 3, DrawElementsType.UnsignedShort, i * sizeof(ushort));
+			}
+
+			// Disable vertex array
+			GL.DisableVertexAttribArray(positionAttribute);
+			if (normalAttribute != -1) GL.DisableVertexAttribArray(normalAttribute);
+			if (texCoordAttribute != -1)
+			{
+				GL.DisableVertexAttribArray(texCoordAttribute);
+			}
+
+			GL.BindBuffer(BufferTarget.ArrayBuffer, 0);
+			GL.BindBuffer(BufferTarget.ElementArrayBuffer, 0);
+			GL.UseProgram(0);	
+		}
 			
 		public override string ToString()
 		{
@@ -198,7 +258,14 @@ namespace GlslTutorials
 			GL.Uniform1(colorTextureUnif, colorTexUnit);
 			GL.UseProgram(0);
 		}
-		
+
+		public void SetUniformScale(float scale)
+		{
+			GL.UseProgram(theProgram);
+			GL.Uniform1(scaleUniform, scale);
+			GL.UseProgram(0);
+		}
+			
 		public void SetTexture(string texture, bool oneTwenty)
 		{
 			current_texture = Textures.Load(texture, 1, false, false, oneTwenty);
@@ -256,6 +323,17 @@ namespace GlslTutorials
 			GL.UseProgram(theProgram);
 			GL.UniformMatrix4(modelToCameraMatrixUnif, false, ref modelToCameraMatrix);
 			GL.UseProgram(0); 
+		}
+
+		public void SetUpLightBlock(int numberOfLights)
+		{
+			lightBlock = new LightBlock(numberOfLights);
+			lightBlock.SetUniforms(theProgram);	
+		}
+
+		public void UpdateLightBlock(LightBlock lb)
+		{
+			lightBlock.Update(lb);
 		}
 		
 		public void SetVertexStride(int vertexStrideIn)

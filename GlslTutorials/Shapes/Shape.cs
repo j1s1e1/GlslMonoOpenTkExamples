@@ -17,7 +17,7 @@ namespace GlslTutorials
         public static float global_z_rotate = 0;
 		
 		public static Matrix4 worldToCamera = Matrix4.Identity;
-		protected Matrix4 modelToWorld = Matrix4.Identity;
+		public Matrix4 modelToWorld = Matrix4.Identity;
 		public static Matrix4 cameraToClip = Matrix4.Identity;
 
         protected float x = 0;
@@ -337,11 +337,54 @@ namespace GlslTutorials
 			Matrix4 rotation = Matrix4.CreateFromAxisAngle(rotationAxis, (float)Math.PI / 180.0f * angleDeg);
 			worldToCamera = Matrix4.Mult(worldToCamera, rotation);
 		}
+
+		public static void RotateWorld(Vector3 offset, Vector3 rotationAxis, float angleDeg)
+		{
+			Matrix4 rotation = Matrix4.CreateFromAxisAngle(rotationAxis, (float)Math.PI / 180.0f * angleDeg);
+			worldToCamera.Row3 = worldToCamera.Row3 + new Vector4(offset, 0);
+			worldToCamera = Matrix4.Mult(worldToCamera, rotation);
+			worldToCamera.Row3 = worldToCamera.Row3 - new Vector4(offset, 0);
+		}
+
+		public static void SetCameraOffset(Vector3 v)
+		{
+			worldToCamera.M41 = v.X;
+			worldToCamera.M42 = v.Y;
+			worldToCamera.M43 = v.Z;
+		}
+
+		public static void RotateCamera(Vector3 focalPoint, Vector3 axis, float angleDeg)
+		{
+			Vector3 currentCameraPosition = new Vector3(worldToCamera.M41, worldToCamera.M42, worldToCamera.M43);
+		}
+
+		public static void SetCameraRotation(Quaternion q)
+		{
+		}
+
+		public static void SetCameraRotation()
+		{
+
+		}
 		
 		public void RotateShape(Vector3 rotationAxis, float angleDeg)
 		{
 			Matrix4 rotation = Matrix4.CreateFromAxisAngle(rotationAxis, (float)Math.PI / 180.0f * angleDeg);
 			modelToWorld = Matrix4.Mult(modelToWorld, rotation);			
+		}
+
+		public void RotateShape(Vector3 offset, Vector3 rotationAxis, float angleDeg)
+		{
+			Matrix4 rotation = Matrix4.CreateFromAxisAngle(rotationAxis, (float)Math.PI / 180.0f * angleDeg);
+			//rotation.Row3 = rotation.Row3 - new Vector4(offset, 0);
+			modelToWorld.Row3 = modelToWorld.Row3 - new Vector4(offset, 0);
+			modelToWorld = Matrix4.Mult(modelToWorld, rotation);
+			modelToWorld.Row3 = modelToWorld.Row3 + new Vector4(offset, 0);
+		}
+
+		public void Scale(Vector3 scale)
+		{
+			modelToWorld = Matrix4.Mult(modelToWorld, Matrix4.CreateScale(scale));
 		}
 
 		public void SetRotation(Matrix3 rotation)
@@ -351,12 +394,12 @@ namespace GlslTutorials
 			modelToWorld.Row2 = new Vector4(rotation.Row2, modelToWorld.M34);
 		}
 
-		public void SetCameraToClipMatrix(Matrix4 m)
+		public static void SetCameraToClipMatrix(Matrix4 m)
 		{
 			cameraToClip = m;
 		}
 
-		public void SetWorldToCameraMatrix(Matrix4 m)
+		public static void SetWorldToCameraMatrix(Matrix4 m)
 		{
 			worldToCamera = m;
 		}

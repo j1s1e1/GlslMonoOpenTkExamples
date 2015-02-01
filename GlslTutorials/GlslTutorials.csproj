@@ -209,6 +209,18 @@
     <Compile Include="Tutorials\Tut_ViewPoleQuaternion.cs" />
     <Compile Include="Tutorials\Tut_RotateTexture.cs" />
     <Compile Include="Tutorials\Tut_TexturePerspective.cs" />
+    <Compile Include="Tutorials\Tut_WireFramePerspective.cs" />
+    <Compile Include="Shapes\WireFrameBlock.cs" />
+    <Compile Include="Tutorials\Tut_PaintBox.cs" />
+    <Compile Include="Textures\PaintBox.cs" />
+    <Compile Include="Tutorials\Tut_Stars.cs" />
+    <Compile Include="Objects\Star.cs" />
+    <Compile Include="Tutorials\Tut_Buildings.cs" />
+    <Compile Include="Objects\Building.cs" />
+    <Compile Include="Tutorials\Tut_PaintBox2.cs" />
+    <Compile Include="Tutorials\Tut_RotationTest.cs" />
+    <Compile Include="Shapes\LitMatrixBlock3.cs" />
+    <Compile Include="Textures\TextureElement2.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />

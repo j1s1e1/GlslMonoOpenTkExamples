@@ -295,6 +295,28 @@ namespace GlslTutorials
 				g_fzFar = 2f;
 				callReshape = true;
 				break;
+
+			case Keys.D6:
+				g_fzNear = 0.05f;
+				g_fzFar = 2f;
+				callReshape = true;
+				break;
+			case Keys.D7:
+				g_fzNear = 0.25f;
+				g_fzFar = 2f;
+				callReshape = true;
+				break;
+
+			case Keys.D8:
+				g_fzNear = 0.5f;
+				g_fzFar = 2f;
+				callReshape = true;
+				break;
+			case Keys.D9:
+				g_fzNear = 1f;
+				g_fzFar = 2f;
+				callReshape = true;
+				break;
 			}
 		}
 

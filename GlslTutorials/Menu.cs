@@ -5,15 +5,24 @@ namespace GlslTutorials
 {
 	public enum TutorialsEnum
 	{
+		Tut_PaintBox2,
+		Tut_RotationTest,
+		Tut_RotateTexture,
+
+		Tut_PaintBox,
+
+		Tut_Buildings,
+		Tut_Stars,
+
 		Tut_TexturePerspective,
+		Tut_WireFramePerspective,
+
 		Tut_Tennis3D,
 		Tut_MeshTransforms,
 		Tut_17_Projected_Light,
 		Tut_17_DoubleProjection,
 		Tut_Tennis,
 
-
-		Tut_RotateTexture,
 		Tut_Texture,
 		Tut_ViewPoleQuaternion,
 		Tut_ObjectPoleQuaternion,
@@ -138,6 +147,13 @@ namespace GlslTutorials
 				case TutorialsEnum.Tut_ViewPoleQuaternion: currentTutorial = new Tut_ViewPoleQuaternion(); break;
 				case TutorialsEnum.Tut_RotateTexture: currentTutorial = new Tut_RotateTexture(); break;
 				case TutorialsEnum.Tut_TexturePerspective: currentTutorial = new Tut_TexturePerspective(); break;
+				case TutorialsEnum.Tut_WireFramePerspective: currentTutorial = new Tut_WireFramePerspective(); break;
+				case TutorialsEnum.Tut_PaintBox: currentTutorial = new Tut_PaintBox(); break;
+				case TutorialsEnum.Tut_PaintBox2: currentTutorial = new Tut_PaintBox2(); break;
+				case TutorialsEnum.Tut_Stars: currentTutorial = new Tut_Stars(); break;
+				case TutorialsEnum.Tut_Buildings: currentTutorial = new Tut_Buildings(); break;
+				case TutorialsEnum.Tut_RotationTest: currentTutorial = new Tut_RotationTest(); break;
+
 			}
 		}
 	}
