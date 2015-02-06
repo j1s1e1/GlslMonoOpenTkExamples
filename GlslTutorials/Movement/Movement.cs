@@ -55,6 +55,16 @@ namespace GlslTutorials
 			zLimitLow = low.Z;
 			zLimitHigh = high.Z;
 		}
+
+		public void MoveLimits(Vector3 v)
+		{
+			xLimitLow += v.X;
+			xLimitHigh += v.X;
+			yLimitLow += v.Y;
+			yLimitHigh += v.Y;
+			zLimitLow += v.Z;
+			zLimitHigh += v.Z;
+		}
 	}
 }
 

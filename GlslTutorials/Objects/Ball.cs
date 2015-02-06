@@ -128,6 +128,13 @@ namespace GlslTutorials
 			highLimits = high;
 			movement.SetLimits(lowLimits, highLimits);
 		}
+
+		public void MoveLimits(Vector3 v)
+		{
+			lowLimits += v;
+			highLimits += v;
+			movement.MoveLimits(v);
+		}
 		
 		public Vector3 GetOffset()
 		{

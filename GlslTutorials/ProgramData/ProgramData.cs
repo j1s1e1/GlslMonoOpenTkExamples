@@ -46,6 +46,7 @@ namespace GlslTutorials
 		protected int vertexStride = 3 * 4; // bytes per vertex default to only 3 position floats
 
 		LightBlock lightBlock;
+		MaterialBlock materialBlock;
 		
 		public ProgramData(string vertexShaderIn, string fragmentShaderIn)
 	    {
@@ -331,9 +332,20 @@ namespace GlslTutorials
 			lightBlock.SetUniforms(theProgram);	
 		}
 
+		public void SetUpMaterialBlock()
+		{
+			materialBlock = new MaterialBlock();
+			materialBlock.SetUniforms(theProgram);	
+		}
+
 		public void UpdateLightBlock(LightBlock lb)
 		{
 			lightBlock.Update(lb);
+		}
+
+		public void UpdateMaterialBlock(MaterialBlock mb)
+		{
+			materialBlock.Update(mb);
 		}
 		
 		public void SetVertexStride(int vertexStrideIn)

@@ -12,7 +12,8 @@ namespace GlslTutorials
 		float[] vertexDataWithTextureCoordinates;
 		static int g_colorTexUnit = 0;
 		string texture = "Venus_Magellan_C3-MDIR_ClrTopo_Global_Mosaic_1024.jpg";
-		
+		Vector3 center = new Vector3();
+
 		public TextureSphere(float radiusIn, string textureIn = "")
 		{
 			radius = radiusIn;
@@ -132,27 +133,20 @@ namespace GlslTutorials
 			}
 			vertexData = vertexDataWithTextureCoordinates;
 		}
-		
-	    private void DrawSub(int first_triangle, int last_triangle)
-	    {
-	        int newVertexCount = (last_triangle - first_triangle + 1) * 3 * 3 / COORDS_PER_VERTEX;
-	        // Add program to OpenGL environment
 
-		 	Matrix4 mm = Rotate(modelToWorld, axis, angle);
-			mm.M41 = offset.X;
-			mm.M42 = offset.Y;
-			mm.M43 = offset.Z;	
-			
-			Programs.Draw(programNumber, vertexBufferObject, indexBufferObject, mm, indexData.Length, color);
-	    }
+		public override void Move (Vector3 v)
+		{
+			base.Move (v);
+			center += v;
+		}
+
+		public void RotateAboutCenter(Vector3 axis, float angle)
+		{
+			RotateShape(center, axis, angle);
+		}
 	
 	    public override void Draw() {
-	        DrawSub(0, 19);
-	    }
-	
-	    public void DrawSemi(int first_triangle, int last_triangle) 
-		{
-	        DrawSub(first_triangle, last_triangle);
+			Programs.Draw(programNumber, vertexBufferObject, indexBufferObject, modelToWorld, indexData.Length, color);
 	    }
 	}
 }

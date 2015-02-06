@@ -116,9 +116,19 @@ namespace GlslTutorials
 			ActivePrograms[program].SetUpLightBlock(numberOfLights);
 		}
 
+		public static void SetUpMaterialBlock(int program)
+		{
+			ActivePrograms[program].SetUpMaterialBlock();
+		}
+
 		public static void UpdateLightBlock(int program, LightBlock lb)
 		{
 			ActivePrograms[program].UpdateLightBlock(lb);
+		}
+
+		public static void UpdateMaterialBlock(int program, MaterialBlock mb)
+		{
+			ActivePrograms[program].UpdateMaterialBlock(mb);
 		}
 		
 		// for testing only.  This should be calculated

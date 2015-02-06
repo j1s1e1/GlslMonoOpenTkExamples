@@ -9,7 +9,7 @@ namespace GlslTutorials
 {
 	public class Tut_TexturePerspective : TutorialBase
 	{
-		static TextureElement wood;
+		static TextureElement2 wood;
 		bool drawWood = true;
 
 		float perspectiveAngle = 90f;
@@ -20,7 +20,7 @@ namespace GlslTutorials
 		protected override void init ()
 		{
 			GL.ClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-			wood = new TextureElement("wood4_rotate.png");
+			wood = new TextureElement2("wood4_rotate.png");
 			wood.Scale(1f);
 			wood.RotateShape(new Vector3(1f, 0f, 0f), textureRotation);
 			wood.Move(0f, -1f, -2f);

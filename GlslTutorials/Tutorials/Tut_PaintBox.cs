@@ -13,25 +13,33 @@ namespace GlslTutorials
 		Ball ball;
 		float ballRadius = 0.25f;
 		float ballSpeedFactor = 1f;
-		static float ballLimit = 0.9f;
+		static float ballLimit = 0.75f;
 		static Vector3 ballOffset = new Vector3(0f, 0f, -1f);
 		Vector3 ballLimitLow = ballOffset + new Vector3(-ballLimit, -ballLimit, -ballLimit);
 		Vector3 ballLimitHigh = ballOffset + new Vector3(ballLimit, ballLimit, ballLimit);
+		Vector3 boxLimitLow;
+		Vector3 boxLimitHigh;
+
 		Vector3 ballSpeed;
 
 		float perspectiveAngle = 90f;
 		float newPerspectiveAngle = 90f;
 
 		float textureRotation = -90f;
-		float epsilon = 0.01f;
-
-		float moveZ = -1f;
+		float epsilon = 0.251f;
 
 		bool rotateWorld = false;
+		int ballProgram;
+		int numberOfLights = 2;
 
 		protected override void init ()
 		{
 			GL.ClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+
+			boxLimitLow = new Vector3();
+			boxLimitLow = ballLimitLow - new Vector3(ballRadius, ballRadius, ballRadius);
+			boxLimitHigh = new Vector3();
+			boxLimitHigh = ballLimitHigh + new Vector3(ballRadius, ballRadius, ballRadius);
 
 			paintBox = new PaintBox();
 			ball = new Ball();
@@ -44,9 +52,12 @@ namespace GlslTutorials
 			ball.SetSpeed(ballSpeed);
 			ball.SetLightPosition(new Vector3(0f, 0f, -1f));
 
-			paintBox.SetLimits(ballLimitLow, ballLimitHigh, new Vector3(epsilon, epsilon, epsilon));
+			paintBox.SetLimits(boxLimitLow, boxLimitHigh, new Vector3(epsilon, epsilon, epsilon));
+			paintBox.Move(new Vector3(0f, 0f, -1f));
+			ball.MoveLimits(new Vector3(0f, 0f, -1f));
 
 			SetupDepthAndCull();
+			GL.Disable(EnableCap.CullFace);
 			Textures.EnableTextures();
 			g_fzNear = 0.5f;
 			g_fzFar = 100f;
@@ -131,9 +142,11 @@ namespace GlslTutorials
 					break;
 				case Keys.D1:
 					paintBox.Move(new Vector3(0f, 0f, 0.1f));
+					ball.MoveLimits(new Vector3(0f, 0f, 0.1f));
 					break;
 				case Keys.D2:
 					paintBox.Move(new Vector3(0f, 0f, -0.1f));
+					ball.MoveLimits(new Vector3(0f, 0f, -0.1f));
 					break;
 				case Keys.D3:
 					paintBox.MoveFront(new Vector3(0f, 0f, 0.1f));
@@ -142,16 +155,16 @@ namespace GlslTutorials
 					paintBox.MoveFront(new Vector3(0f, 0f, -0.1f));
 					break;
 				case Keys.D5:
-					Shape.RotateWorld(Vector3.UnitX, 5f);
-					result.AppendLine("RotateWorld 5X");
+					paintBox.RotateShapeOffset(Vector3.UnitX, 5f);
+					result.AppendLine("RotateShapeOffset 5X");
 					break;
 				case Keys.D6:
-					Shape.RotateWorld(Vector3.UnitY, 5f);
-					result.AppendLine("RotateWorld 5Y");
+					paintBox.RotateShapeOffset(Vector3.UnitY, 5f);
+					result.AppendLine("RotateShapeOffset 5Y");
 					break;
 				case Keys.D7:
-					Shape.RotateWorld(Vector3.UnitZ, 5f);
-					result.AppendLine("RotateWorld 5Z");
+					paintBox.RotateShapeOffset(Vector3.UnitZ, 5f);
+					result.AppendLine("RotateShapeOffset 5Z");
 					break;
 				case Keys.D8:
 					break;
@@ -160,10 +173,34 @@ namespace GlslTutorials
 				case Keys.D0:
 					break;
 				case Keys.A:
+					ballProgram = Programs.AddProgram(VertexShaders.HDR_PCN2, 
+						FragmentShaders.DiffuseSpecularHDR);
+					ball.SetProgram(ballProgram);
+					Programs.SetUpLightBlock(ballProgram, numberOfLights);
+					LightBlock	lightBlock = new LightBlock(numberOfLights);
+					lightBlock.ambientIntensity = new Vector4(0.1f, 0.1f, 0.1f, 1.0f);
+					lightBlock.lightAttenuation = 0.1f;
+					lightBlock.maxIntensity = 0.5f;
+					lightBlock.lights[0].cameraSpaceLightPos = new Vector4(0.5f, 0.0f, 0.0f, 1f);
+					lightBlock.lights[0].lightIntensity = new Vector4(0.0f, 0.0f, 0.6f, 1.0f);
+					lightBlock.lights[1].cameraSpaceLightPos = new Vector4(0.0f, 0.5f, 1.0f, 1f);
+					lightBlock.lights[1].lightIntensity = new Vector4(0.4f, 0.0f, 0.0f, 1.0f);
+					Programs.UpdateLightBlock(ballProgram, lightBlock);
+
+					MaterialBlock materialBlock = new MaterialBlock();
+					materialBlock.diffuseColor = new Vector4(1.0f, 0.673f, 0.043f, 1.0f);
+					materialBlock.specularColor = new Vector4(1.0f, 0.673f, 0.043f, 1.0f) * 0.4f;
+					materialBlock.specularShininess = 0.2f;
+
+					Programs.SetUpMaterialBlock(ballProgram);
+					Programs.UpdateMaterialBlock(ballProgram, materialBlock);
+
+					Programs.SetNormalModelToCameraMatrix(ballProgram, Matrix3.Identity);
 					break;
 				case Keys.B:
 					break;
 				case Keys.C:
+					paintBox.Clear();
 					break;
 				case Keys.D:
 					break;

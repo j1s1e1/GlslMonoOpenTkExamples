@@ -53,6 +53,8 @@ namespace GlslTutorials
 		PaintWall topWall;
 		PaintWall bottomWall;
 
+		int paintWidth = 50;
+
 	    class ProgramData
 	    {
 	        public int theProgram;
@@ -401,32 +403,32 @@ namespace GlslTutorials
 		{
 			if (ballModelMatrix.M41 < positionLimitLow.X)
 			{
-				leftWall.Paint(ballModelMatrix.M43/positionLimitHigh.X, ballModelMatrix.M42/positionLimitHigh.Y);
+				leftWall.Paint(ballModelMatrix.M43/positionLimitHigh.X, ballModelMatrix.M42/positionLimitHigh.Y, paintWidth);
 				if (velocity.X < 0) velocity.X *= -1;
 			}
 			if (ballModelMatrix.M41 > positionLimitHigh.X)
 			{
-				rightWall.Paint(ballModelMatrix.M43/positionLimitHigh.X, ballModelMatrix.M42/positionLimitHigh.Y);
+				rightWall.Paint(ballModelMatrix.M43/positionLimitHigh.X, ballModelMatrix.M42/positionLimitHigh.Y, paintWidth);
 				if (velocity.X > 0) velocity.X *= -1;
 			}
 			if (ballModelMatrix.M42 < positionLimitLow.Y)
 			{
-				bottomWall.Paint(ballModelMatrix.M41/positionLimitHigh.X, ballModelMatrix.M43/positionLimitHigh.Y);
+				bottomWall.Paint(ballModelMatrix.M41/positionLimitHigh.X, ballModelMatrix.M43/positionLimitHigh.Y,paintWidth);
 				if (velocity.Y < 0) velocity.Y *= -1;
 			}
 			if (ballModelMatrix.M42 > positionLimitHigh.Y)
 			{
-				topWall.Paint(ballModelMatrix.M41/positionLimitHigh.X, ballModelMatrix.M43/positionLimitHigh.Y);
+				topWall.Paint(ballModelMatrix.M41/positionLimitHigh.X, ballModelMatrix.M43/positionLimitHigh.Y, paintWidth);
 				if (velocity.Y > 0) velocity.Y *= -1;
 			}
 			if (ballModelMatrix.M43 < positionLimitLow.Z)
 			{
-				backWall.Paint(ballModelMatrix.M41/positionLimitHigh.X, ballModelMatrix.M42/positionLimitHigh.Y);
+				backWall.Paint(ballModelMatrix.M41/positionLimitHigh.X, ballModelMatrix.M42/positionLimitHigh.Y, paintWidth);
 				if (velocity.Z < 0) velocity.Z *= -1;
 			}
 			if (ballModelMatrix.M43 > positionLimitHigh.Z)
 			{
-				frontWall.Paint(ballModelMatrix.M41/positionLimitHigh.X, ballModelMatrix.M42/positionLimitHigh.Y);
+				frontWall.Paint(ballModelMatrix.M41/positionLimitHigh.X, ballModelMatrix.M42/positionLimitHigh.Y, paintWidth);
 				if (velocity.Z > 0) velocity.Z *= -1;
 			}
 			position += velocity;

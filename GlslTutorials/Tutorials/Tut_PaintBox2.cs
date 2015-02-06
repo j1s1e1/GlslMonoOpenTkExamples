@@ -14,7 +14,6 @@ namespace GlslTutorials
 		static Vector3 ballOffset = new Vector3(0f, 0f, -1f);
 		Vector3 ballLimitLow = ballOffset + new Vector3(-ballLimit, -ballLimit, -ballLimit);
 		Vector3 ballLimitHigh = ballOffset + new Vector3(ballLimit, ballLimit, ballLimit);
-		Vector3 ballSpeed;
 
 		Vector3 offset = new Vector3();
 
@@ -23,8 +22,6 @@ namespace GlslTutorials
 
 		float textureRotation = -90f;
 		float epsilon = 0.01f;
-
-		float moveZ = -1f;
 
 		bool rotateWorld = false;
 

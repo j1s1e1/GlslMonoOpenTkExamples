@@ -143,10 +143,7 @@ namespace GlslTutorials
 
 		public virtual void Move (Vector3 v)
 		{
-			offset = offset + v;
-			x = x + v.X;
-			y = y + v.Y;
-			z = z + v.Z;
+			modelToWorld.Row3 += new Vector4(v, 0f); 
 		}
 		
 		protected Vector3 offset = new Vector3(0);
@@ -351,6 +348,13 @@ namespace GlslTutorials
 			worldToCamera.M41 = v.X;
 			worldToCamera.M42 = v.Y;
 			worldToCamera.M43 = v.Z;
+		}
+
+		public static void MoveWorld(Vector3 v)
+		{
+			worldToCamera.M41 += v.X;
+			worldToCamera.M42 += v.Y;
+			worldToCamera.M43 += v.Z;
 		}
 
 		public static void RotateCamera(Vector3 focalPoint, Vector3 axis, float angleDeg)

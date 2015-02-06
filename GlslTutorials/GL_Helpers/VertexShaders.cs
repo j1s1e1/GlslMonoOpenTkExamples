@@ -533,6 +533,36 @@ namespace GlslTutorials
 			"cameraSpacePosition = vec3(tempCamPosition);" +
 		"}";
 
+		public static string HDR_PCN2 =
+
+		"attribute vec4 position;" +
+		"attribute vec4 color;" +
+		"attribute vec3 normal;" +
+
+		"varying vec4 diffuseColor;" +
+		"varying vec3 vertexNormal;" +
+		"varying vec3 cameraSpacePosition;" +
+
+		"uniform mat4 cameraToClipMatrix;" +
+		"uniform mat4 worldToCameraMatrix;" +
+		"uniform mat4 modelToWorldMatrix;" +
+
+		"uniform mat3 normalModelToCameraMatrix;" +
+
+		"void main()" +
+		"{" +
+			"vec4 temp = modelToWorldMatrix * position;" +
+			"temp = worldToCameraMatrix * temp;" +
+			"gl_Position = cameraToClipMatrix * temp;" +
+
+			//"vec4 tempCamPosition = (modelToCameraMatrix * vec4(position, 1.0));" +
+			"vec4 tempCamPosition = position;" +
+			"vertexNormal = normalize(normalModelToCameraMatrix * normal);" +
+			"diffuseColor = vec4(1f, 1f, 0f, 1f);" +
+			"cameraSpacePosition = vec3(tempCamPosition);" +
+		"}";
+
+
 		public static string PT =
 		"attribute vec3 position;" +
 		"attribute vec2 texCoord;" +

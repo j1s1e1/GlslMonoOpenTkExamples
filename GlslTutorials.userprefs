@@ -2,18 +2,18 @@
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
   <MonoDevelop.Ide.Workbench ActiveDocument="GlslTutorials/Textures/PaintBox.cs">
     <Files>
-      <File FileName="GlslTutorials/Tutorials/Tut_RotateTexture.cs" Line="1" Column="1" />
-      <File FileName="GlslTutorials/Textures/TextureElement.cs" Line="1" Column="1" />
-      <File FileName="GlslTutorials/Menu.cs" Line="1" Column="1" />
-      <File FileName="GlslTutorials/Tutorials/Tut_PaintBox2.cs" Line="1" Column="1" />
-      <File FileName="GlslTutorials/Textures/PaintBox.cs" Line="1" Column="1" />
-      <File FileName="GlslTutorials/Shapes/Shape.cs" Line="1" Column="1" />
+      <File FileName="GlslTutorials/Tutorials/Tut_PaintBox.cs" Line="5" Column="5" />
+      <File FileName="GlslTutorials/Textures/PaintBox.cs" Line="35" Column="35" />
+      <File FileName="GlslTutorials/Textures/PaintWall.cs" Line="36" Column="36" />
+      <File FileName="GlslTutorials/Objects/Ball.cs" Line="11" Column="11" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
       <Breakpoint file="/home/jamie/repos/CSharp/GlslTutorials/GlslTutorials/Tutorials/Tut_TexturePerspective.cs" line="52" column="1" />
-      <Breakpoint file="/home/jamie/repos/CSharp/GlslTutorials/GlslTutorials/Shapes/Shape.cs" line="351" column="4" />
+      <Breakpoint file="/home/jamie/repos/CSharp/GlslTutorials/GlslTutorials/Shapes/Shape.cs" line="348" column="4" />
+      <Breakpoint file="/home/jamie/repos/CSharp/GlslTutorials/GlslTutorials/Textures/PaintBox.cs" line="142" column="56" />
+      <Breakpoint file="/home/jamie/repos/CSharp/GlslTutorials/GlslTutorials/Tutorials/Tut_SolarSystem.cs" line="112" column="1" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />

@@ -5,11 +5,14 @@ namespace GlslTutorials
 {
 	public enum TutorialsEnum
 	{
+		Tut_PaintBox,
 		Tut_PaintBox2,
+		Tut_SolarSystem,
+		Tut_Horizon,
+		Tut_Tanks,
+
 		Tut_RotationTest,
 		Tut_RotateTexture,
-
-		Tut_PaintBox,
 
 		Tut_Buildings,
 		Tut_Stars,
@@ -34,8 +37,6 @@ namespace GlslTutorials
 
 		Tut_15_ManyImages,
 
-
-		Tut_Tanks,
 		Tut_Spheres,
 		Tut_TextureSphere,
 		Tut_ShaderTexture,
@@ -153,6 +154,8 @@ namespace GlslTutorials
 				case TutorialsEnum.Tut_Stars: currentTutorial = new Tut_Stars(); break;
 				case TutorialsEnum.Tut_Buildings: currentTutorial = new Tut_Buildings(); break;
 				case TutorialsEnum.Tut_RotationTest: currentTutorial = new Tut_RotationTest(); break;
+				case TutorialsEnum.Tut_Horizon: currentTutorial = new Tut_Horizon(); break;
+				case TutorialsEnum.Tut_SolarSystem: currentTutorial = new Tut_SolarSystem(); break;
 
 			}
 		}

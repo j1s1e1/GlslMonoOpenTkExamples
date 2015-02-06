@@ -221,6 +221,8 @@
     <Compile Include="Tutorials\Tut_RotationTest.cs" />
     <Compile Include="Shapes\LitMatrixBlock3.cs" />
     <Compile Include="Textures\TextureElement2.cs" />
+    <Compile Include="Tutorials\Tut_Horizon.cs" />
+    <Compile Include="Tutorials\Tut_SolarSystem.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />

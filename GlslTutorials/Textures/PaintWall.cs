@@ -71,7 +71,7 @@ namespace GlslTutorials
 			Paint(colStart, rowStart, 9, color);
 		}
 
-		public void Paint(float x, float y)
+		public void Paint(float x, float y, int radius)
 		{
 			int colStart = (int)(width/2 + x * width/2);
 			int rowStart = (int)(height/2 + y * width/2);
@@ -79,7 +79,7 @@ namespace GlslTutorials
 			int green = random.Next(256);
 			int blue = random.Next(256);
 			Color color = Color.FromArgb(red, green, blue);
-			Paint(colStart, rowStart, 50, color);
+			Paint(colStart, rowStart, radius, color);
 		}
 
 		public void Move(float x, float y, float z)
@@ -115,6 +115,26 @@ namespace GlslTutorials
 		public void SetLightPosition(Vector3 v)
 		{
 			textureElement.SetLightPosition(v);
+		}
+
+		public void Clear()
+		{
+			bitmap = new Bitmap(width, height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+			for (int col = 0; col < width; col++)
+			{
+				for (int row = 0; row < height; row++)
+				{
+					if ((Math.Abs(row - 128) < clearWidth) & (Math.Abs(col - 128) < clearWidth))
+					{
+						// clear pixels
+					}
+					else
+					{
+						bitmap.SetPixel(col, row, Color.Blue);
+					}
+				}
+			}
+			textureElement.Replace(bitmap);
 		}
 
 		public void Draw()

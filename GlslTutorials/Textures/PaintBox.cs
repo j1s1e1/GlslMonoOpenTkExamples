@@ -28,6 +28,8 @@ namespace GlslTutorials
 		Vector3 rightWallOffset;
 		Vector3 leftWallOffset;
 
+		int paintWidth = 15;
+
 
 		public PaintBox()
 		{
@@ -85,29 +87,30 @@ namespace GlslTutorials
 
 		public void Paint(Vector3 position)
 		{
+			Vector3 wallSpot = position - center;
 			if (position.X < lowLimits.X)
 			{
-				leftWall.Paint(position.Y, position.Z);
+				leftWall.Paint(-wallSpot.Z, wallSpot.Y, paintWidth);
 			}
 			if (position.X > highLimits.X)
 			{
-				rightWall.Paint(position.Y, position.Z);
+				rightWall.Paint(wallSpot.Z, wallSpot.Y, paintWidth);
 			}
 			if (position.Y < lowLimits.Y)
 			{
-				bottomWall.Paint(position.X, position.Z);
+				bottomWall.Paint(wallSpot.X, -wallSpot.Z, paintWidth);
 			}
 			if (position.Y > highLimits.Y)
 			{
-				topWall.Paint(position.X, position.Z);
+				topWall.Paint(wallSpot.X, wallSpot.Z, paintWidth);
 			}
 			if (position.Z < lowLimits.Z)
 			{
-				backWall.Paint(position.X, position.Y);
+				backWall.Paint(wallSpot.X, wallSpot.Y, paintWidth);
 			}
 			if (position.Z > highLimits.Z)
 			{
-				frontWall.Paint(position.X, position.Y);
+				frontWall.Paint(wallSpot.X, wallSpot.Y, paintWidth);
 			}
 		}
 
@@ -120,6 +123,8 @@ namespace GlslTutorials
 			topWall.Move(v);
 			leftWall.Move(v);
 			frontWall.Move(v);
+			lowLimits += v;
+			highLimits += v;
 		}
 
 		public void RotateShape(Vector3 r, float a)
@@ -145,6 +150,16 @@ namespace GlslTutorials
 		public void MoveFront(Vector3 v)
 		{
 			frontWall.Move(v);
+		}
+
+		public void Clear()
+		{
+			backWall.Clear();
+			bottomWall.Clear();
+			rightWall.Clear();
+			topWall.Clear();
+			leftWall.Clear();
+			frontWall.Clear();
 		}
 
 		public void Draw()
