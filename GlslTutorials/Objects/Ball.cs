@@ -140,6 +140,11 @@ namespace GlslTutorials
 		{
 			return body.GetOffset();
 		}
+
+		public String GetLimits()
+		{
+			return movement.GetLimits();
+		}
 		
 		public void AddPaddle(Paddle paddle)
 		{

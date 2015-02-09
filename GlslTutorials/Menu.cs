@@ -7,6 +7,7 @@ namespace GlslTutorials
 	{
 		Tut_PaintBox,
 		Tut_PaintBox2,
+		Tut_Ball,
 		Tut_SolarSystem,
 		Tut_Horizon,
 		Tut_Tanks,
@@ -156,6 +157,7 @@ namespace GlslTutorials
 				case TutorialsEnum.Tut_RotationTest: currentTutorial = new Tut_RotationTest(); break;
 				case TutorialsEnum.Tut_Horizon: currentTutorial = new Tut_Horizon(); break;
 				case TutorialsEnum.Tut_SolarSystem: currentTutorial = new Tut_SolarSystem(); break;
+				case TutorialsEnum.Tut_Ball: currentTutorial = new Tut_Ball(); break;
 
 			}
 		}

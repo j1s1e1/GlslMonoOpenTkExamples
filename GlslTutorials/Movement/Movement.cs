@@ -65,6 +65,13 @@ namespace GlslTutorials
 			zLimitLow += v.Z;
 			zLimitHigh += v.Z;
 		}
+
+		public String GetLimits()
+		{
+			Vector3 low = new Vector3(xLimitLow, yLimitLow, zLimitLow);
+			Vector3 high = new Vector3(xLimitHigh, yLimitHigh, zLimitHigh);
+			return low.ToString() + " " + high.ToString();
+		}
 	}
 }
 

@@ -6,9 +6,8 @@ using OpenTK.Graphics.OpenGL;
 
 namespace GlslTutorials
 {
-	public class Tut_PaintBox : TutorialBase
+	public class Tut_Ball : TutorialBase
 	{
-		static PaintBox paintBox;
 		Random random = new Random();
 		Ball ball;
 		float ballRadius = 0.25f;
@@ -17,9 +16,6 @@ namespace GlslTutorials
 		static Vector3 ballOffset = new Vector3(0f, 0f, -1f);
 		Vector3 ballLimitLow = ballOffset + new Vector3(-ballLimit, -ballLimit, -ballLimit);
 		Vector3 ballLimitHigh = ballOffset + new Vector3(ballLimit, ballLimit, ballLimit);
-		Vector3 boxLimitLow;
-		Vector3 boxLimitHigh;
-
 		Vector3 ballSpeed;
 
 		float perspectiveAngle = 90f;
@@ -36,12 +32,6 @@ namespace GlslTutorials
 		{
 			GL.ClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 
-			boxLimitLow = new Vector3();
-			boxLimitLow = ballLimitLow - new Vector3(ballRadius, ballRadius, ballRadius);
-			boxLimitHigh = new Vector3();
-			boxLimitHigh = ballLimitHigh + new Vector3(ballRadius, ballRadius, ballRadius);
-
-			paintBox = new PaintBox();
 			ball = new Ball();
 			ball = new Ball(ballRadius);
 			ball.SetLimits(ballLimitLow, ballLimitHigh);
@@ -52,8 +42,6 @@ namespace GlslTutorials
 			ball.SetSpeed(ballSpeed);
 			ball.SetLightPosition(new Vector3(0f, 0f, -1f));
 
-			paintBox.SetLimits(boxLimitLow, boxLimitHigh, new Vector3(epsilon, epsilon, epsilon));
-			paintBox.Move(new Vector3(0f, 0f, -1f));
 			ball.MoveLimits(new Vector3(0f, 0f, -1f));
 
 			SetupDepthAndCull();
@@ -88,14 +76,12 @@ namespace GlslTutorials
 		public override void display()
 		{
 			GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
-			paintBox.Draw();
 			ball.Draw();
 			if (perspectiveAngle != newPerspectiveAngle)
 			{
 				perspectiveAngle = newPerspectiveAngle;
 				reshape();
 			}
-			paintBox.Paint(ball.GetOffset());
 			UpdateDisplayOptions();
 			if (rotateWorld)
 			{
@@ -141,30 +127,18 @@ namespace GlslTutorials
 					displayOptions = true;
 					break;
 				case Keys.D1:
-					paintBox.Move(new Vector3(0f, 0f, 0.1f));
-					ball.MoveLimits(new Vector3(0f, 0f, 0.1f));
 					break;
 				case Keys.D2:
-					paintBox.Move(new Vector3(0f, 0f, -0.1f));
-					ball.MoveLimits(new Vector3(0f, 0f, -0.1f));
 					break;
 				case Keys.D3:
-					paintBox.MoveFront(new Vector3(0f, 0f, 0.1f));
 					break;
 				case Keys.D4:
-					paintBox.MoveFront(new Vector3(0f, 0f, -0.1f));
 					break;
 				case Keys.D5:
-					paintBox.RotateShapeOffset(Vector3.UnitX, 5f);
-					result.AppendLine("RotateShapeOffset 5X");
 					break;
 				case Keys.D6:
-					paintBox.RotateShapeOffset(Vector3.UnitY, 5f);
-					result.AppendLine("RotateShapeOffset 5Y");
 					break;
 				case Keys.D7:
-					paintBox.RotateShapeOffset(Vector3.UnitZ, 5f);
-					result.AppendLine("RotateShapeOffset 5Z");
 					break;
 				case Keys.D8:
 					break;
@@ -200,7 +174,6 @@ namespace GlslTutorials
 				case Keys.B:
 					break;
 				case Keys.C:
-					paintBox.Clear();
 					break;
 				case Keys.D:
 					break;
@@ -213,7 +186,6 @@ namespace GlslTutorials
 					result.AppendLine("textureRotation = " + textureRotation.ToString());
 					result.AppendLine("BallPosition = " + ball.GetOffset().ToString());
 					result.AppendLine("BallLimits = " + ball.GetLimits());
-					result.AppendLine("BoxLimits = " + paintBox.GetLimits());
 					break;
 				case Keys.P:
 					newPerspectiveAngle = perspectiveAngle + 5f;

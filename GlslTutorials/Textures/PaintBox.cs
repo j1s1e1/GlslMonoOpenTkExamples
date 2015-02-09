@@ -85,6 +85,11 @@ namespace GlslTutorials
 			highLimits = high - epsilon;
 		}
 
+		public string GetLimits()
+		{
+			return lowLimits.ToString() + " " + highLimits.ToString();
+		}
+
 		public void Paint(Vector3 position)
 		{
 			Vector3 wallSpot = position - center;

@@ -33,7 +33,6 @@
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
     <Compile Include="GlslTutorials.cs" />
-    <Compile Include="main.cs" />
     <Compile Include="GlsTutorials.Designer.cs" />
     <Compile Include="Tutorials\Tut_TiltBall.cs" />
     <Compile Include="Tutorials\TutorialBase.cs" />
@@ -223,6 +222,10 @@
     <Compile Include="Textures\TextureElement2.cs" />
     <Compile Include="Tutorials\Tut_Horizon.cs" />
     <Compile Include="Tutorials\Tut_SolarSystem.cs" />
+    <Compile Include="Tutorials\Tut_Ball.cs" />
+    <Compile Include="Tutorials\main.cs">
+      <DependentUpon>Tut_ViewPoleQuaternion.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -292,10 +295,7 @@
     <None Include="Blender\test_with_normals.bin" />
     <None Include="XmlFilesForMeshes\lightenv.xml" />
     <None Include="XmlFilesForMeshes\unitsphere.xml" />
-    <None Include="Textures\Mars_MGS_colorhillshade_mola_1024.jpg" />
-    <None Include="Textures\Venus_Magellan_C3-MDIR_ClrTopo_Global_Mosaic_1024.jpg" />
     <None Include="XmlFilesForMeshes\infinity.xml" />
-    <None Include="Textures\terrain_tex.png" />
     <None Include="XmlFilesForMeshes\unitcubebasictexture.xml" />
     <None Include="XmlFilesForMeshes\terrain.xml" />
     <None Include="XmlFilesForMeshes\ground.xml" />
@@ -308,8 +308,6 @@
     <None Include="XmlFilesForMeshes\longbar.xml" />
     <None Include="XmlFilesForMeshes\unitdiorama.xml" />
     <None Include="XmlFilesForMeshes\unitaxes.xml" />
-    <None Include="Textures\flashlight.png" />
-    <None Include="Textures\wood4_rotate.png" />
     <None Include="XmlFilesForMeshes\SceneVersions\unitcube.xml" />
     <None Include="XmlFilesForMeshes\SceneVersions\unitplane.xml" />
     <None Include="XmlFilesForMeshes\halfinfinity.xml" />
