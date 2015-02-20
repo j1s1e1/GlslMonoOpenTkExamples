@@ -22,6 +22,7 @@ namespace GlslTutorials
 		protected float maxZmovement = 0.1f;
 		
 		protected Vector3 speed = new Vector3(0f, 0f, 0f);
+		protected Vector3 currentPosition = new Vector3(0f, 0f, 0f);
 		
 		virtual public Vector3 NewOffset(Vector3 oldOffset)
 		{

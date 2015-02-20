@@ -65,10 +65,10 @@ namespace GlslTutorials
 		{
 			ActivePrograms[program].SetUniformScale(scale);
 		}
-		
-		public static void SetTexture(int program, string texture, bool oneTwenty)
+
+		public static int SetTexture(int program, string texture, bool oneTwenty)
 		{
-			ActivePrograms[program].SetTexture(texture, oneTwenty);
+			return ActivePrograms[program].SetTexture(texture, oneTwenty);
 		}
 
 		public static void SetTexture(int program, int texture)

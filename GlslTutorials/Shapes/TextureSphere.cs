@@ -13,6 +13,7 @@ namespace GlslTutorials
 		static int g_colorTexUnit = 0;
 		string texture = "Venus_Magellan_C3-MDIR_ClrTopo_Global_Mosaic_1024.jpg";
 		Vector3 center = new Vector3();
+		int textureInt = 0;
 
 		public TextureSphere(float radiusIn, string textureIn = "")
 		{
@@ -32,7 +33,7 @@ namespace GlslTutorials
 			programNumber = Programs.AddProgram(VertexShaders.MatrixTexture, 
               	FragmentShaders.MatrixTexture);
 			Programs.SetUniformTexture(programNumber, g_colorTexUnit);
-			Programs.SetTexture(programNumber, "Venus_Magellan_C3-MDIR_ClrTopo_Global_Mosaic_1024.jpg", true);
+			textureInt = Programs.SetTexture(programNumber, texture, true);
 			
 		}
 		
@@ -144,8 +145,15 @@ namespace GlslTutorials
 		{
 			RotateShape(center, axis, angle);
 		}
+
+		public override Vector3 GetOffset()
+		{
+			return new Vector3(modelToWorld.M41, modelToWorld.M42, modelToWorld.M43);
+		}
 	
-	    public override void Draw() {
+	    public override void Draw() 
+		{
+			Programs.SetTexture(programNumber, textureInt);
 			Programs.Draw(programNumber, vertexBufferObject, indexBufferObject, modelToWorld, indexData.Length, color);
 	    }
 	}

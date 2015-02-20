@@ -1,18 +1,22 @@
-﻿<Properties GitUserInfo="UsingMD">
+﻿<Properties GitUserInfo="UsingMD" StartupItem="GlslTutorials/GlslTutorials.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="GlslTutorials/Menu.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="GlslTutorials/Tutorials/Tut_SolarSystem.cs">
     <Files>
-      <File FileName="GlslTutorials/Tutorials/Tut_PaintBox.cs" Line="23" Column="23" />
-      <File FileName="GlslTutorials/Menu.cs" Line="12" Column="12" />
+      <File FileName="GlslTutorials/Tutorials/Tut_SolarSystem.cs" Line="54" Column="54" />
+      <File FileName="GlslTutorials/Objects/Planet.cs" Line="11" Column="11" />
+      <File FileName="GlslTutorials/Shapes/TextureSphere.cs" Line="3" Column="3" />
+      <File FileName="GlslTutorials/GL_Helpers/FragmentShaders.cs" Line="4" Column="4" />
+      <File FileName="GlslTutorials/ProgramData/ProgramData.cs" Line="84" Column="84" />
+      <File FileName="GlslTutorials/Shapes/Shape.cs" Line="10" Column="10" />
+      <File FileName="GlslTutorials/GL_Helpers/Textures.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
       <Breakpoint file="/home/jamie/repos/CSharp/GlslTutorials/GlslTutorials/Tutorials/Tut_TexturePerspective.cs" line="52" column="1" />
-      <Breakpoint file="/home/jamie/repos/CSharp/GlslTutorials/GlslTutorials/Shapes/Shape.cs" line="348" column="4" />
-      <Breakpoint file="/home/jamie/repos/CSharp/GlslTutorials/GlslTutorials/Textures/PaintBox.cs" line="142" column="56" />
-      <Breakpoint file="/home/jamie/repos/CSharp/GlslTutorials/GlslTutorials/Tutorials/Tut_SolarSystem.cs" line="112" column="1" />
-      <Breakpoint file="/home/jamie/repos/CSharp/GlslTutorials/GlslTutorials/ProgramData/ProgramData.cs" line="124" column="1" />
+      <Breakpoint file="/home/jamie/repos/CSharp/GlslTutorials/GlslTutorials/Shapes/Shape.cs" line="350" column="4" />
+      <Breakpoint file="/home/jamie/repos/CSharp/GlslTutorials/GlslTutorials/Textures/PaintBox.cs" line="147" column="56" />
+      <Breakpoint file="/home/jamie/repos/CSharp/GlslTutorials/GlslTutorials/Objects/Can.cs" line="161" column="1" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />

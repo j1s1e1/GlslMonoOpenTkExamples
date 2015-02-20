@@ -710,7 +710,7 @@ namespace GlslTutorials
             "diffuse = diffuse * (1.0 / distance);" +
 
             // Add ambient lighting"
-            "diffuse = diffuse + 0.2;" +
+            "diffuse = diffuse + 0.2f;" +
 
 			"vec4 textureColor = texture2D(diffuseColorTex, colorCoord);" +
 

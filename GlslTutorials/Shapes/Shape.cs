@@ -144,6 +144,7 @@ namespace GlslTutorials
 		public virtual void Move (Vector3 v)
 		{
 			modelToWorld.Row3 += new Vector4(v, 0f); 
+			//offset += v;
 		}
 		
 		protected Vector3 offset = new Vector3(0);
@@ -151,6 +152,7 @@ namespace GlslTutorials
         public virtual void SetOffset (Vector3 offsetIn)
         {
 			offset = offsetIn;
+			//modelToWorld.Row3 = new Vector4(offset); // test
         }
 		
         public virtual void SetXOffset(float x_in)
@@ -165,7 +167,7 @@ namespace GlslTutorials
         {
              offset.Z = z_in;
         }
-		public Vector3 GetOffset()
+		public virtual Vector3 GetOffset()
 		{
 			return offset;
 		}	

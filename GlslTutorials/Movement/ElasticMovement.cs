@@ -8,13 +8,13 @@ namespace GlslTutorials
 	{
 		public ElasticMovement()
 		{
-			otherObjects = new List<Paddle>();
+			otherObjects = new List<CollisionObject>();
 			speed = new Vector3(minSpeed + random.Next(100)/100f, 
 			        minSpeed + random.Next(100)/100f, minSpeed + random.Next(100)/100f);
 		}
 		
 		static Random random = new Random();
-		List<Paddle> otherObjects;
+		List<CollisionObject> otherObjects;
 		float minSpeed = 0.25f;
 		
 		private float NewValue(float oldValue, float maxMovement, float lowLimit, 
@@ -28,7 +28,7 @@ namespace GlslTutorials
 		
 		private void Bounce(Vector3 oldOffset)
 		{
-			foreach (Paddle p in otherObjects)
+			foreach (CollisionObject p in otherObjects)
 			{
 				Vector3 difference = oldOffset - p.GetOffset();
 				if (Math.Abs(difference.X) < 0.15f)
@@ -58,7 +58,7 @@ namespace GlslTutorials
 			return oldOffset;
 		}
 		
-		public void SetPaddles(List<Paddle> paddles)
+		public void SetPaddles(List<CollisionObject> paddles)
 		{
 			otherObjects = paddles;
 		}
@@ -66,6 +66,11 @@ namespace GlslTutorials
 		public void SetSpeed(Vector3 speedIn)
 		{
 			speed = speedIn;
+		}
+
+		public Vector3 GetSpeed()
+		{
+			return speed;
 		}
 		                    
 	}

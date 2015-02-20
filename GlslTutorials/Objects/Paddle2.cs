@@ -5,27 +5,24 @@ using OpenTK;
 
 namespace GlslTutorials
 {
-	public class Ball  : CollisionObject
-	{
+	public class Paddle2
+	{	
 		LitMatrixSphere2 body;
 		static Random random = new Random();
-		Movement movement = new ElasticMovement();
+		Movement movement = new RandomMovement();
 		Collisions collision = new Collisions();
 		int framesPerMove = 10;
 		int frameCount;
-		float scale = 1f;
+		float scale = 0.5f;
 		bool dead = false;
 		Vector3 lowLimits = new Vector3(-1f, -1f, 0f);
 		Vector3 highLimits = new Vector3(1f, 1f, 1f);
-		List<CollisionObject> otherObjects;
-		Vector3 speed;
-		public Ball(float radius = 0.05f)
+		public Paddle2()
 		{
-			otherObjects = new List<CollisionObject>();
-			body = new LitMatrixSphere2(radius);
-			float xOffset = 0f; // random.Next(20)/10f - 1f;
-			float yOffset = 0f; // random.Next(20)/10f - 1f;
-			float zOffset = 0f; // random.Next(10)/10f - 0.5f;
+			body = new LitMatrixSphere2(0.1f);
+			float xOffset = random.Next(20)/10f - 1f;
+			float yOffset = random.Next(20)/10f - 1f;
+			float zOffset = random.Next(10)/10f - 0.5f;
 			int colorSelection = random.Next(3);
 			switch (colorSelection)
 			{
@@ -82,18 +79,6 @@ namespace GlslTutorials
 		{
 			body.SetProgram(newProgram);
 		}
-
-		public void SetLightPosition(Vector3 lightPosition)
-		{
-			body.SetLightPosition(lightPosition);
-		}
-			
-		public void SetElasticControl()
-		{
-			movement = new ElasticMovement();
-			movement.SetLimits(lowLimits, highLimits);
-			if (speed != null) SetSpeed(speed);
-		}
 		
 		public void SetRandomControl()
 		{
@@ -111,7 +96,13 @@ namespace GlslTutorials
 		{
 			movement = new SocketMovement();
 			movement.SetLimits(lowLimits, highLimits);
-		}		
+		}	
+
+		public void SetMouseControl()
+		{
+			movement = new MouseMovement();
+			movement.SetLimits(lowLimits, highLimits);
+		}
 		
 		public void keyboard(Keys keyCode)
 		{
@@ -121,6 +112,15 @@ namespace GlslTutorials
 				keyboardMovement.keyboard(keyCode);
 			}
 		}
+
+		public void MouseMotion(int mouseX, int mouseY)
+		{
+			if (movement is MouseMovement)
+			{
+				MouseMovement mouseMovement = (MouseMovement) movement;
+				mouseMovement.MouseMotion(mouseX, mouseY);
+			}
+		}
 		
 		public void SetLimits(Vector3 low, Vector3 high)
 		{
@@ -128,52 +128,10 @@ namespace GlslTutorials
 			highLimits = high;
 			movement.SetLimits(lowLimits, highLimits);
 		}
-
-		public void MoveLimits(Vector3 v)
-		{
-			lowLimits += v;
-			highLimits += v;
-			movement.MoveLimits(v);
-		}
 		
 		public Vector3 GetOffset()
 		{
 			return body.GetOffset();
-		}
-
-		public void SetOffset(Vector3 v)
-		{
-			body.SetOffset(v);
-		}
-
-		public String GetLimits()
-		{
-			return movement.GetLimits();
-		}
-		
-		public void AddPaddle(CollisionObject paddle)
-		{
-			otherObjects.Add(paddle);
-			ElasticMovement em = (ElasticMovement) movement;
-			em.SetPaddles(otherObjects);
-		}
-
-		public void SetSpeed(Vector3 speedIn)
-		{
-			speed = speedIn;
-			if (movement is ElasticMovement)
-			{
-				((ElasticMovement)movement).SetSpeed(speedIn);
-			}
-		}
-
-		public void Accelerate(Vector3 acceleration)
-		{
-			if (movement is ElasticMovement)
-			{
-				speed = ((ElasticMovement)movement).GetSpeed() + acceleration;
-				((ElasticMovement)movement).SetSpeed(speed);
-			}
 		}
 	}
 }

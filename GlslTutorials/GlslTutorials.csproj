@@ -226,6 +226,23 @@
     <Compile Include="Tutorials\main.cs">
       <DependentUpon>Tut_ViewPoleQuaternion.cs</DependentUpon>
     </Compile>
+    <Compile Include="Objects\Paddle2.cs" />
+    <Compile Include="Movement\MouseMovement.cs" />
+    <Compile Include="Tutorials\Tut_Marbles.cs" />
+    <Compile Include="Objects\Marble.cs" />
+    <Compile Include="Objects\ElasticObject.cs" />
+    <Compile Include="Objects\CollisionObject.cs" />
+    <Compile Include="Objects\ICollision.cs" />
+    <Compile Include="Tutorials\Tut_Cans.cs" />
+    <Compile Include="Objects\Stool.cs" />
+    <Compile Include="Shapes\Cylinder.cs" />
+    <Compile Include="Shapes\Circle.cs" />
+    <Compile Include="Tutorials\Tut_Throw.cs" />
+    <Compile Include="Objects\Can.cs" />
+    <Compile Include="Tutorials\Tut_Plane.cs" />
+    <Compile Include="Objects\Plane\Plane.cs" />
+    <Compile Include="Objects\Plane\Wing.cs" />
+    <Compile Include="Objects\Planet.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -270,6 +287,7 @@
     <Folder Include="Material\" />
     <Folder Include="Scene\" />
     <Folder Include="XmlFilesForMeshes\SceneVersions\" />
+    <Folder Include="Objects\Plane\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="XmlFilesForMeshes\unitplane.xml" />
@@ -312,5 +330,15 @@
     <None Include="XmlFilesForMeshes\SceneVersions\unitplane.xml" />
     <None Include="XmlFilesForMeshes\halfinfinity.xml" />
     <None Include="XmlFilesForMeshes\miniinfinity.xml" />
+    <None Include="Textures\Venus_Magellan_C3-MDIR_ClrTopo_Global_Mosaic_1024.jpg" />
+    <None Include="Textures\suncyl1.jpg" />
+    <None Include="Textures\mercurymap.jpg" />
+    <None Include="Textures\neptunemap.jpg" />
+    <None Include="Textures\plutomap1k.jpg" />
+    <None Include="Textures\uranusmap.jpg" />
+    <None Include="Textures\saturnmap.jpg" />
+    <None Include="Textures\jup0vss1.jpg" />
+    <None Include="Textures\PathfinderMap.jpg" />
+    <None Include="Textures\Mars_MGS_colorhillshade_mola_1024.jpg" />
   </ItemGroup>
 </Project>

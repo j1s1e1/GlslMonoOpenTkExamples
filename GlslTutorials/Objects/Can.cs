@@ -5,9 +5,9 @@ using OpenTK;
 
 namespace GlslTutorials
 {
-	public class Ball  : CollisionObject
+	public class Can
 	{
-		LitMatrixSphere2 body;
+		Cylinder body;
 		static Random random = new Random();
 		Movement movement = new ElasticMovement();
 		Collisions collision = new Collisions();
@@ -19,10 +19,10 @@ namespace GlslTutorials
 		Vector3 highLimits = new Vector3(1f, 1f, 1f);
 		List<CollisionObject> otherObjects;
 		Vector3 speed;
-		public Ball(float radius = 0.05f)
+		public Can()
 		{
 			otherObjects = new List<CollisionObject>();
-			body = new LitMatrixSphere2(radius);
+			body = new Cylinder();
 			float xOffset = 0f; // random.Next(20)/10f - 1f;
 			float yOffset = 0f; // random.Next(20)/10f - 1f;
 			float zOffset = 0f; // random.Next(10)/10f - 0.5f;
@@ -82,17 +82,12 @@ namespace GlslTutorials
 		{
 			body.SetProgram(newProgram);
 		}
-
-		public void SetLightPosition(Vector3 lightPosition)
-		{
-			body.SetLightPosition(lightPosition);
-		}
 			
 		public void SetElasticControl()
 		{
 			movement = new ElasticMovement();
 			movement.SetLimits(lowLimits, highLimits);
-			if (speed != null) SetSpeed(speed);
+			SetSpeed(speed);
 		}
 		
 		public void SetRandomControl()
@@ -174,6 +169,26 @@ namespace GlslTutorials
 				speed = ((ElasticMovement)movement).GetSpeed() + acceleration;
 				((ElasticMovement)movement).SetSpeed(speed);
 			}
+		}
+
+		public void RotateShape(Vector3 axis, float angle)
+		{
+			body.RotateShape(axis, angle);
+		}
+
+		public void SetColor(float[] color)
+		{
+			body.SetColor(color);
+		}
+
+		public void Move(Vector3 v)
+		{
+			body.Move(v);
+		}
+
+		public void CheckCollisions(Vector3 v, float r)
+		{
+			body.CheckCollisions(v, r);
 		}
 	}
 }

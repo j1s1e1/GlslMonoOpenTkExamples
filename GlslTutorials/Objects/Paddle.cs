@@ -5,7 +5,7 @@ using OpenTK;
 
 namespace GlslTutorials
 {
-	public class Paddle
+	public class Paddle : CollisionObject
 	{	
 		LitMatrixBlock2 body;
 		static Random random = new Random();
@@ -91,6 +91,12 @@ namespace GlslTutorials
 			movement = new KeyboardMovement();
 			movement.SetLimits(lowLimits, highLimits);
 		}
+
+		public void SetMouseControl()
+		{
+			movement = new MouseMovement();
+			movement.SetLimits(lowLimits, highLimits);
+		}
 		
 		public void SetSocketControl()
 		{
@@ -104,6 +110,15 @@ namespace GlslTutorials
 			{
 				KeyboardMovement keyboardMovement = (KeyboardMovement) movement;
 				keyboardMovement.keyboard(keyCode);
+			}
+		}
+
+		public void MouseMotion(int mouseX, int mouseY)
+		{
+			if (movement is MouseMovement)
+			{
+				MouseMovement mouseMovement = (MouseMovement) movement;
+				mouseMovement.MouseMotion(mouseX, mouseY);
 			}
 		}
 		

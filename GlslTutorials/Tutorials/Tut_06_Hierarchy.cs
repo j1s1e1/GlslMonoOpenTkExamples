@@ -8,9 +8,6 @@ namespace GlslTutorials
 {
 	public class Tut_06_Hierarchy : TutorialBase
 	{
-		int positionAttrib;
-		int colorAttrib;
-
 		void InitializeProgram()
 		{	
 			fFrustumScale = CalcFrustumScale(45.0f);

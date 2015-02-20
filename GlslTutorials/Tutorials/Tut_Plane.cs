@@ -1,25 +1,24 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Text;
 using System.Windows.Forms;
 using OpenTK;
 
 namespace GlslTutorials
 {
-	public class Tut_Horizon : TutorialBase
+	public class Tut_Plane : TutorialBase
 	{
-		TextureSphere planet;
+		Plane plane;
 
 		protected override void init()
 		{
-			planet = new TextureSphere(2f);
-			planet.Move(new Vector3(0f, -2f, 1f));
-			SetupDepthAndCull();
+			plane = new Plane();
 		}
 
 		public override void display()
 		{
 			ClearDisplay();
-			planet.Draw();
+			plane.Draw();
 		}
 
 		public override String keyboard(Keys keyCode, int x, int y)
@@ -35,35 +34,38 @@ namespace GlslTutorials
 				case Keys.Enter:
 					displayOptions = true;
 					break;
-				case Keys.D4:
-					planet.RotateAboutCenter(Vector3.UnitX, 5f);
-					result.AppendLine("RotateShape 5X");
-					break;
-				case Keys.D5:
-					planet.RotateAboutCenter(Vector3.UnitY, 5f);
-					result.AppendLine("RotateShape 5Y");
-					break;
-				case Keys.D6:
-					planet.RotateAboutCenter(Vector3.UnitZ, 5f);
-					result.AppendLine("RotateShape 5Z");
-					break;
 				case Keys.NumPad6:
-					planet.Move(new Vector3(0.1f, 0.0f, 0.0f));
+					plane.Move(new Vector3(0.1f, 0.0f, 0.0f));
 					break;
 				case Keys.NumPad4:
-					planet.Move(new Vector3(-0.1f, 0.0f, 0.0f));
+					plane.Move(new Vector3(-0.1f, 0.0f, 0.0f));
 					break;
 				case Keys.NumPad8:
-					planet.Move(new Vector3(0.0f, 0.1f, 0.0f));
+					plane.Move(new Vector3(0.0f, 0.1f, 0.0f));
 					break;
 				case Keys.NumPad2:
-					planet.Move(new Vector3(0.0f, -0.1f, 0.0f));
+					plane.Move(new Vector3(0.0f, -0.1f, 0.0f));
 					break;
 				case Keys.NumPad7:
-					planet.Move(new Vector3(0.0f, 0.0f, 0.1f));
+					plane.Move(new Vector3(0.0f, 0.0f, 0.1f));
 					break;
 				case Keys.NumPad3:
-					planet.Move(new Vector3(0.0f, 0.0f, -0.1f));
+					plane.Move(new Vector3(0.0f, 0.0f, -0.1f));
+					break;
+				case Keys.D1:
+					break;
+				case Keys.D2:
+					break;
+				case Keys.D3:
+					break;
+				case Keys.D4:
+					plane.Rotate(Vector3.UnitX, 5f);
+					break;
+				case Keys.D5:
+					plane.Rotate(Vector3.UnitY, 5f);
+					break;
+				case Keys.D6:
+					plane.Rotate(Vector3.UnitZ, 5f);
 					break;
 				case Keys.A:
 					break;
@@ -79,8 +81,6 @@ namespace GlslTutorials
 					result.AppendLine("worldToCamera");
 					result.AppendLine(Shape.worldToCamera.ToString());
 					result.AppendLine("modelToWorld");
-					result.AppendLine(planet.modelToWorld.ToString());
-					result.AppendLine(AnalysisTools.CalculateMatrixEffects(planet.modelToWorld));
 					break;
 				case Keys.P:
 					break;

@@ -267,9 +267,10 @@ namespace GlslTutorials
 			GL.UseProgram(0);
 		}
 			
-		public void SetTexture(string texture, bool oneTwenty)
+		public int SetTexture(string texture, bool oneTwenty)
 		{
 			current_texture = Textures.Load(texture, 1, false, false, oneTwenty);
+			return current_texture;
 		}
 
 		public void SetTexture(int texture)

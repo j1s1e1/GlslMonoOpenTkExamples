@@ -5,7 +5,7 @@ using OpenTK;
 
 namespace GlslTutorials
 {
-	public class Ball  : CollisionObject
+	public class Marble : CollisionObject
 	{
 		LitMatrixSphere2 body;
 		static Random random = new Random();
@@ -14,18 +14,17 @@ namespace GlslTutorials
 		int framesPerMove = 10;
 		int frameCount;
 		float scale = 1f;
-		bool dead = false;
 		Vector3 lowLimits = new Vector3(-1f, -1f, 0f);
 		Vector3 highLimits = new Vector3(1f, 1f, 1f);
 		List<CollisionObject> otherObjects;
 		Vector3 speed;
-		public Ball(float radius = 0.05f)
+		public Marble(float radius = 0.05f)
 		{
 			otherObjects = new List<CollisionObject>();
 			body = new LitMatrixSphere2(radius);
-			float xOffset = 0f; // random.Next(20)/10f - 1f;
-			float yOffset = 0f; // random.Next(20)/10f - 1f;
-			float zOffset = 0f; // random.Next(10)/10f - 0.5f;
+			float xOffset = random.Next(20)/10f - 1f;
+			float yOffset = random.Next(20)/10f - 1f;
+			float zOffset = random.Next(10)/10f - 0.5f;
 			int colorSelection = random.Next(3);
 			switch (colorSelection)
 			{
@@ -45,11 +44,6 @@ namespace GlslTutorials
 			yOffset = yOffset * scale;
 			zOffset = zOffset * scale;
 			body.SetOffset(new Vector3(xOffset, yOffset, zOffset));
-		}
-		
-		public bool isDead()
-		{
-			return dead;
 		}
 		
 		public void Draw()
@@ -72,7 +66,6 @@ namespace GlslTutorials
 			{
 				if (collision.DetectColisions(body.GetOffset(), m.GetOffsets()))
 				{
-					dead = true;
 					break;
 				}
 			}
@@ -92,7 +85,7 @@ namespace GlslTutorials
 		{
 			movement = new ElasticMovement();
 			movement.SetLimits(lowLimits, highLimits);
-			if (speed != null) SetSpeed(speed);
+			SetSpeed(speed);
 		}
 		
 		public void SetRandomControl()
@@ -136,14 +129,9 @@ namespace GlslTutorials
 			movement.MoveLimits(v);
 		}
 		
-		public Vector3 GetOffset()
+		public override Vector3 GetOffset()
 		{
 			return body.GetOffset();
-		}
-
-		public void SetOffset(Vector3 v)
-		{
-			body.SetOffset(v);
 		}
 
 		public String GetLimits()
@@ -151,9 +139,9 @@ namespace GlslTutorials
 			return movement.GetLimits();
 		}
 		
-		public void AddPaddle(CollisionObject paddle)
+		public void AddOtherObject(CollisionObject oo)
 		{
-			otherObjects.Add(paddle);
+			otherObjects.Add(oo);
 			ElasticMovement em = (ElasticMovement) movement;
 			em.SetPaddles(otherObjects);
 		}
@@ -164,15 +152,6 @@ namespace GlslTutorials
 			if (movement is ElasticMovement)
 			{
 				((ElasticMovement)movement).SetSpeed(speedIn);
-			}
-		}
-
-		public void Accelerate(Vector3 acceleration)
-		{
-			if (movement is ElasticMovement)
-			{
-				speed = ((ElasticMovement)movement).GetSpeed() + acceleration;
-				((ElasticMovement)movement).SetSpeed(speed);
 			}
 		}
 	}

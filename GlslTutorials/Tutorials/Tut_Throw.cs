@@ -7,14 +7,13 @@ using OpenTK.Graphics.OpenGL;
 
 namespace GlslTutorials
 {
-	public class Tut_PaintBox : TutorialBase
+	public class Tut_Throw : TutorialBase
 	{
 		static PaintBox paintBox;
 		List<Paddle2> paddles;
 		Random random = new Random();
 		Ball ball;
 		float ballRadius = 0.25f;
-		float ballSpeedFactor = 1f;
 		static float ballLimit = 0.75f;
 		static Vector3 ballOffset = new Vector3(0f, 0f, -1f);
 		Vector3 ballLimitLow = ballOffset + new Vector3(-ballLimit, -ballLimit, -ballLimit);
@@ -38,6 +37,8 @@ namespace GlslTutorials
 
 		TextClass mousePostion;
 		bool staticText = true;
+		bool gravity = false;
+		Vector3 gravityVector = new Vector3(0f, -0.005f, 0f);
 
 		protected override void init ()
 		{
@@ -51,10 +52,7 @@ namespace GlslTutorials
 			paintBox = new PaintBox();
 			ball = new Ball(ballRadius);
 			ball.SetLimits(ballLimitLow, ballLimitHigh);
-			ballSpeed = new Vector3(
-				ballSpeedFactor + ballSpeedFactor * (float)random.NextDouble(),
-				ballSpeedFactor + ballSpeedFactor * (float)random.NextDouble(),
-				ballSpeedFactor + ballSpeedFactor * (float)random.NextDouble());
+			ballSpeed = new Vector3(0f, 0f, 0f);
 			ball.SetSpeed(ballSpeed);
 			ball.SetLightPosition(new Vector3(0f, 0f, -1f));
 
@@ -109,7 +107,6 @@ namespace GlslTutorials
 				perspectiveAngle = newPerspectiveAngle;
 				reshape();
 			}
-			paintBox.Paint(ball.GetOffset());
 			foreach(Paddle2 paddle in paddles)
 			{
 				paddle.Draw();
@@ -123,6 +120,10 @@ namespace GlslTutorials
 			{
 				mousePostion.UpdateText("MousePosition " + paddles[0].GetOffset());
 				mousePostion.Draw();
+			}
+			if (gravity)
+			{
+				ball.Accelerate(gravityVector);
 			}
 		}
 
@@ -241,6 +242,16 @@ namespace GlslTutorials
 					break;
 				case Keys.F:
 					break;
+				case Keys.G:
+					if (gravity)
+					{ 
+						gravity = false;
+					}
+					else
+					{
+						gravity = true;
+					}
+					break;
 				case Keys.I:
 					result.AppendLine("g_fzNear = " + g_fzNear.ToString());
 					result.AppendLine("g_fzFar = " + g_fzFar.ToString());
@@ -273,6 +284,9 @@ namespace GlslTutorials
 						rotateWorld = true;
 						result.AppendLine("rotateWorld enabled");
 					}
+					break;
+				case Keys.T:
+					ball.Accelerate(new Vector3(0.0f, 0f, 1f));
 					break;
 				}
 			}

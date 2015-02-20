@@ -7,11 +7,7 @@ using OpenTK.Graphics.OpenGL;
 namespace GlslTutorials
 {
 	public class Tut_Tennis : TutorialBase
-	{
-		public Tut_Tennis ()
-		{
-		}
-		
+	{		
 		Paddle topPaddle;
 		Paddle bottomPaddle;
 		Ball ball;
@@ -96,7 +92,9 @@ namespace GlslTutorials
 				case Keys.S:
 					topPaddle.SetSocketControl();
 					break;
-				
+				case Keys.M:
+				topPaddle.SetMouseControl();
+					break;
 	        }
 			topPaddle.keyboard(keyCode);
 	        result.AppendLine(keyCode.ToString());
@@ -104,6 +102,11 @@ namespace GlslTutorials
 	        display();
 	        return result.ToString();
 	    }
+
+		public override void MouseMotion (int x, int y)
+		{
+			topPaddle.MouseMotion(x, y);
+		}
 	}
 }
 
