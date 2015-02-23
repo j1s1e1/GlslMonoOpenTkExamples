@@ -9,6 +9,8 @@ namespace GlslTutorials
 	public class ProgramData
 	{
         private int theProgram;
+		private int vertex_shader;
+		private int fragment_shader;
         private int positionAttribute;
         private int colorAttribute;
         private int modelToCameraMatrixUnif;
@@ -52,8 +54,8 @@ namespace GlslTutorials
 	    {
 			vertexShader = vertexShaderIn;
 			fragmentShader = fragmentShaderIn;
-	        int vertex_shader = Shader.compileShader(ShaderType.VertexShader, vertexShader);
-	        int fragment_shader = Shader.compileShader(ShaderType.FragmentShader, fragmentShader);
+	        vertex_shader = Shader.compileShader(ShaderType.VertexShader, vertexShader);
+	        fragment_shader = Shader.compileShader(ShaderType.FragmentShader, fragmentShader);
 	        theProgram  = Shader.createAndLinkProgram(vertex_shader, fragment_shader);
 	
 	        positionAttribute = GL.GetAttribLocation(theProgram, "position");
@@ -352,6 +354,118 @@ namespace GlslTutorials
 		public void SetVertexStride(int vertexStrideIn)
 		{
 			vertexStride = vertexStrideIn;
+		}
+
+		public int getVertexShader()
+		{
+			return vertex_shader;
+		}
+
+		public String getVertexShaderSource() {
+			return getShaderSource(vertex_shader);
+		}
+
+		public String getFragmentShaderSource() {
+			return getShaderSource(fragment_shader);
+		}
+
+		public String getProgramInfoLog()
+		{
+			GL.ValidateProgram(theProgram);
+			return GL.GetProgramInfoLog(theProgram);
+		}
+
+		public String getVertexShaderInfoLog() {
+			return getShaderInfoLog(vertex_shader);
+		}
+
+		public String getFragmentShaderInfoLog() {
+			return getShaderInfoLog(fragment_shader);
+		}
+
+		private String getShaderInfoLog(int shader)
+		{
+			return GL.GetShaderInfoLog(shader);
+		}
+
+
+
+		private String getShaderSource(int shader)
+		{
+			StringBuilder source;
+			int length;
+			int bufSize = 4096;
+			source = new StringBuilder(bufSize);
+			GL.GetShaderSource(shader, bufSize, out length, source);
+			return source.ToString();
+		}
+
+		public String getVertexAttributes()
+		{
+			StringBuilder result = new StringBuilder();
+			int[] attribCount = new int[1];
+			int size;
+			ActiveAttribType type;
+			GL.GetProgram(theProgram, GetProgramParameterName.ActiveAttributes, attribCount);
+			result.Append("\nattributes " + attribCount[0].ToString());
+			for (int i = 0; i < attribCount[0]; i++) {
+				result.Append("\n" + GL.GetActiveAttrib(theProgram, i, out size, out type));
+			}
+			return result.ToString();
+		}
+
+		private String getUniformFloats(String name, int Length)
+		{
+			int location;
+			location = GL.GetUniformLocation(theProgram, name);
+			StringBuilder result = new StringBuilder();
+			float[] values = new float[Length];
+			GL.GetUniform(theProgram, location, values);
+			for (int i = 0; i < values.Length; i++)
+			{
+				result.Append(values[i].ToString() + " ");
+			}
+			return result.ToString();
+		}
+
+		public String getUniforms()
+		{
+			StringBuilder result = new StringBuilder();
+			int[] uniformCount = new int[1];
+			int size;
+			ActiveUniformType type;
+			GL.GetProgram(theProgram, GetProgramParameterName.ActiveUniforms, uniformCount);
+			result.Append("\nuniforms " + uniformCount[0].ToString());
+			for (int i = 0; i < uniformCount[0]; i++) {
+				String name = GL.GetActiveUniform(theProgram, i, out size, out type);
+				result.Append("\n" + name);
+				String typeString = type.ToString();
+				switch (type) 
+				{
+				case ActiveUniformType.FloatVec2: typeString += getUniformFloats(name, 2); break;
+				case ActiveUniformType.FloatVec3: typeString += getUniformFloats(name, 3); break;
+				case ActiveUniformType.FloatVec4: typeString += getUniformFloats(name, 4); break;
+				case ActiveUniformType.IntVec2: break;
+				case ActiveUniformType.IntVec3: break;
+				case ActiveUniformType.IntVec4: break;
+				case ActiveUniformType.Bool: break;
+				case ActiveUniformType.BoolVec2: break;
+				case ActiveUniformType.BoolVec3: break;
+				case ActiveUniformType.BoolVec4: break;
+				case ActiveUniformType.FloatMat2: typeString += getUniformFloats(name, 4); break;
+				case ActiveUniformType.FloatMat3: typeString += getUniformFloats(name, 9); break;
+				case ActiveUniformType.FloatMat4: typeString += getUniformFloats(name, 16); break;
+				case ActiveUniformType.Sampler2D: break;
+				case ActiveUniformType.SamplerCube: break;
+				}
+				result.Append(" type = " + typeString);
+			}
+			return result.ToString();
+		}
+
+		public int getFragmentShader()
+		{
+			return fragment_shader;
 		}
 	}
 }

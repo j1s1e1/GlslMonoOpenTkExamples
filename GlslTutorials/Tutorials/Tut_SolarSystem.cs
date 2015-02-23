@@ -263,6 +263,9 @@ namespace GlslTutorials
 					break;
 				case Keys.R:
 					break;
+				case Keys.Z:
+					result.Append("ShaderInfo " + Programs.DumpShaders());
+					break;
 				}
 			}
 			return result.ToString();

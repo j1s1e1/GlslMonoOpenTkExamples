@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Text;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 
@@ -135,6 +136,88 @@ namespace GlslTutorials
 		public static void SetVertexStride(int program, int vertexStride)
 		{
 			ActivePrograms[program].SetVertexStride(vertexStride);
+		}
+
+		public static String GetProgramInfoLog(int program)
+		{
+			return ActivePrograms[program].getProgramInfoLog();
+		}
+
+		public static String GetVertexShaderInfoLog(int program)
+		{
+			return ActivePrograms[program].getVertexShaderInfoLog();
+		}
+
+		public static int GetVertexShader(int program)
+		{
+			return ActivePrograms[program].getVertexShader();
+		}
+
+		public static int GetFragmentShader(int program)
+		{
+			return ActivePrograms[program].getFragmentShader();
+		}
+
+		public static String GetVertexAttributes(int program)
+		{
+			return ActivePrograms[program].getVertexAttributes();
+		}
+
+		public static String GetVertexShaderSource(int program)
+		{
+			return ActivePrograms[program].getVertexShaderSource();
+		}
+
+		public static String GetUniforms(int program)
+		{
+			return ActivePrograms[program].getUniforms();
+		}
+
+		public static String GetVertexShaderInfo(int program)
+		{
+			StringBuilder result = new StringBuilder();
+			result.Append("\n");
+			result.Append(GetProgramInfoLog(program));
+			result.Append("\n");
+			result.Append(GetVertexShaderInfoLog(program));
+			result.Append("\n");
+			result.Append("Vertex Shader = " + GetVertexShader(program).ToString());
+			result.Append("\n");
+			result.Append(GetVertexShaderSource(program));
+			result.Append("\n");
+			result.Append(GetVertexAttributes(program));
+			result.Append(GetUniforms(program));
+			return result.ToString();
+		}
+
+		public static String GetFragmentShaderSource(int program)
+		{
+			return ActivePrograms[program].getFragmentShaderSource();
+		}
+
+		public static String GetFragmentShaderInfo(int program)
+		{
+			StringBuilder result = new StringBuilder();
+			result.Append("Fragment Shader = " + GetFragmentShader(program).ToString());
+			result.Append("\n");
+			result.Append(GetFragmentShaderSource(program));
+			result.Append("\n");
+			return result.ToString();
+		}
+			
+		public static String DumpShaders()
+		{
+			StringBuilder result = new StringBuilder();
+			for (int program = 0; program < ActivePrograms.Count; program++) {
+				result.Append("\n");
+				result.Append("Program " + program.ToString());
+				result.Append("\n");
+				result.Append(GetVertexShaderInfo(program));
+				result.Append("\n");
+				result.Append(GetFragmentShaderInfo(program));
+				result.Append("\n");
+			}
+			return result.ToString();
 		}
 	}
 }
