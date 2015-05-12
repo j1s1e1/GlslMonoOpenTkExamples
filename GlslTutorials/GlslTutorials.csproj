@@ -9,6 +9,7 @@
     <OutputType>Exe</OutputType>
     <RootNamespace>GlslTutorials</RootNamespace>
     <AssemblyName>GlslTutorials</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>true</DebugSymbols>
@@ -36,7 +37,6 @@
     <Compile Include="GlsTutorials.Designer.cs" />
     <Compile Include="Tutorials\Tut_TiltBall.cs" />
     <Compile Include="Tutorials\TutorialBase.cs" />
-    <Compile Include="Shapes\LitMatrixBlock.cs" />
     <Compile Include="Shapes\LitMatrixSphere.cs" />
     <Compile Include="Colors.cs" />
     <Compile Include="Tutorials\Tut_02_Vertex_Colors.cs" />
@@ -243,6 +243,16 @@
     <Compile Include="Objects\Plane\Plane.cs" />
     <Compile Include="Objects\Plane\Wing.cs" />
     <Compile Include="Objects\Planet.cs" />
+    <Compile Include="Tutorials\Tut_Orbit.cs" />
+    <Compile Include="Tutorials\Tut_StarMap.cs" />
+    <Compile Include="Tutorials\Tut_Paddle.cs" />
+    <Compile Include="Tutorials\Tut_Collisions.cs" />
+    <Compile Include="Tutorials\Tut_TextureSphere2.cs" />
+    <Compile Include="Tutorials\Tut_TiltBall_3D.cs" />
+    <Compile Include="Movement\ChaseObjectMovement.cs" />
+    <Compile Include="Tutorials\Tut_PaintBoxSlave.cs" />
+    <Compile Include="Movement\RemoteMovement.cs" />
+    <Compile Include="Objects\PaintBox\PaintBoxState.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -288,6 +298,7 @@
     <Folder Include="Scene\" />
     <Folder Include="XmlFilesForMeshes\SceneVersions\" />
     <Folder Include="Objects\Plane\" />
+    <Folder Include="Objects\PaintBox\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="XmlFilesForMeshes\unitplane.xml" />
@@ -340,5 +351,6 @@
     <None Include="Textures\jup0vss1.jpg" />
     <None Include="Textures\PathfinderMap.jpg" />
     <None Include="Textures\Mars_MGS_colorhillshade_mola_1024.jpg" />
+    <None Include="Textures\starmap.png" />
   </ItemGroup>
 </Project>

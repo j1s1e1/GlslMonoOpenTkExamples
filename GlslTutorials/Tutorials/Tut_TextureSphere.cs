@@ -1,5 +1,7 @@
 using System;
 using System.Drawing;
+using System.Text;
+using System.Windows.Forms;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 
@@ -7,10 +9,6 @@ namespace GlslTutorials
 {
 	public class Tut_TextureSphere : TutorialBase
 	{
-		public Tut_TextureSphere()
-		{
-		}
-		
 		private int current_texture;
 		
 		class ProgramData
@@ -31,6 +29,10 @@ namespace GlslTutorials
 		
 		private static int vertexCount;
 		private static int texCoordOffset;
+
+		bool rotatePlanet = false;
+		float rotateSpeed = 1f;
+		Vector3 axis = new Vector3(0f, 1f, 0f);
 		
 		static ProgramData LoadProgram(String strVertexShader, String strFragmentShader)
 		{
@@ -190,6 +192,89 @@ namespace GlslTutorials
 			
 			GL.UseProgram(0);
 		}
+
+		public override String keyboard(Keys keyCode, int x, int y)
+		{
+			StringBuilder result = new StringBuilder();
+			result.AppendLine(keyCode.ToString());
+			if (displayOptions)
+			{
+				SetDisplayOptions(keyCode);
+			}
+			else {
+				switch (keyCode) {
+				case Keys.Enter:
+					displayOptions = true;
+					break;
+				case Keys.D1:
+					Shape.MoveWorld(new Vector3(0f, 0f, 1f));
+					break;
+				case Keys.D2:
+					Shape.MoveWorld(new Vector3(0f, 0f, -1f));
+					break;
+				case Keys.D3:
+					Shape.MoveWorld(new Vector3(0f, 0f, 10f));
+					break;
+				case Keys.D4:
+					Shape.MoveWorld(new Vector3(0f, 0f, -10f));
+					result.AppendLine("RotateShape 5X");
+					break;
+				case Keys.D5:
+					//planet.RotateAboutCenter(Vector3.UnitY, 5f);
+					result.AppendLine("RotateShape 5Y");
+					break;
+				case Keys.D6:
+					//planet.RotateAboutCenter(Vector3.UnitZ, 5f);
+					result.AppendLine("RotateShape 5Z");
+					break;
+				case Keys.NumPad6:
+					Shape.MoveWorld(new Vector3(10f, 0.0f, 0.0f));
+					break;
+				case Keys.NumPad4:
+					Shape.MoveWorld(new Vector3(-10f, 0.0f, 0.0f));
+					break;
+				case Keys.NumPad8:
+					Shape.MoveWorld(new Vector3(0.0f, 10f, 0.0f));
+					break;
+				case Keys.NumPad2:
+					Shape.MoveWorld(new Vector3(0.0f, -10f, 0.0f));
+					break;
+				case Keys.NumPad7:
+					Shape.MoveWorld(new Vector3(0.0f, 0.0f, 10f));
+					break;
+				case Keys.NumPad3:
+					Shape.MoveWorld(new Vector3(0.0f, 0.0f, -10f));
+					break;
+				case Keys.A:
+					break;
+				case Keys.B:
+					break;
+				case Keys.C:
+					break;
+				case Keys.D:
+					break;
+				case Keys.I:
+					result.AppendLine("worldToCamera");
+					result.AppendLine(Shape.worldToCamera.ToString());
+					result.AppendLine("modelToWorld");
+					break;
+				case Keys.N:
+					break;
+				case Keys.P:
+					break;
+				case Keys.R:
+					break;
+				case Keys.V:
+					break;
+				case Keys.F:
+					break;
+				case Keys.Z:
+					break;
+				}
+			}
+			return result.ToString();
+		}
+
 	}
 }
 

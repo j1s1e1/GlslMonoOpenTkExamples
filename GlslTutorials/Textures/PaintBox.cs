@@ -30,6 +30,7 @@ namespace GlslTutorials
 
 		int paintWidth = 15;
 
+		int[] scores;
 
 		public PaintBox()
 		{
@@ -77,6 +78,11 @@ namespace GlslTutorials
 			frontWall.RotateShape(new Vector3(1f, 0f, 0f), 0f);
 			frontWall.Move(frontWallOffset);
 			frontWall.SetLightPosition(new Vector3(0f, 0f, 0.2f));
+			scores = new int[6];
+			for (int i = 0; i < scores.Length; i++)
+			{
+				scores[i] = 1000;
+			}
 		}
 
 		public void SetLimits(Vector3 low, Vector3 high, Vector3 epsilon)
@@ -96,27 +102,43 @@ namespace GlslTutorials
 			if (position.X < lowLimits.X)
 			{
 				leftWall.Paint(-wallSpot.Z, wallSpot.Y, paintWidth);
+				if (scores[0] > 0) scores[0]--;
 			}
 			if (position.X > highLimits.X)
 			{
 				rightWall.Paint(wallSpot.Z, wallSpot.Y, paintWidth);
+				if (scores[1] > 0) scores[1]--;
 			}
 			if (position.Y < lowLimits.Y)
 			{
 				bottomWall.Paint(wallSpot.X, -wallSpot.Z, paintWidth);
+				if (scores[2] > 0) scores[2]--;
 			}
 			if (position.Y > highLimits.Y)
 			{
 				topWall.Paint(wallSpot.X, wallSpot.Z, paintWidth);
+				if (scores[3] > 0) scores[3]--;
 			}
 			if (position.Z < lowLimits.Z)
 			{
 				backWall.Paint(wallSpot.X, wallSpot.Y, paintWidth);
+				if (scores[4] > 0) scores[4]--;
 			}
 			if (position.Z > highLimits.Z)
 			{
 				frontWall.Paint(wallSpot.X, wallSpot.Y, paintWidth);
+				if (scores[5] > 0) scores[5]--;
 			}
+		}
+
+		public int[] GetScores()
+		{
+			return scores;
+		}
+
+		public void AddToScore(int i, int addition)
+		{
+			scores[i] += addition;
 		}
 
 		public void Move(Vector3 v)

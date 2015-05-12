@@ -62,9 +62,14 @@ namespace GlslTutorials
 		protected string FragmentShader = FragmentShaders.ColorUniform_frag;
 		protected int programNumber;
 		
-		public void SetProgram(int newProgram)
+		public virtual void SetProgram(int newProgram)
 		{
 			programNumber = newProgram;
+		}
+
+		public int GetProgram()
+		{
+			return programNumber;
 		}
 		
 		public static void ResetWorldToCameraMatrix()
@@ -144,32 +149,28 @@ namespace GlslTutorials
 		public virtual void Move (Vector3 v)
 		{
 			modelToWorld.Row3 += new Vector4(v, 0f); 
-			//offset += v;
 		}
-		
-		protected Vector3 offset = new Vector3(0);
 
         public virtual void SetOffset (Vector3 offsetIn)
         {
-			offset = offsetIn;
-			//modelToWorld.Row3 = new Vector4(offset); // test
+			modelToWorld.Row3 = new Vector4(offsetIn, 1.0f);
         }
 		
         public virtual void SetXOffset(float x_in)
         {
-            offset.X = x_in;
+			modelToWorld.M41 = x_in;
         }
         public virtual void SetYOffset(float y_in)
         {
-             offset.Y = y_in;
+			modelToWorld.M42 = y_in;
         }
         public virtual void SetZOffset(float z_in)
         {
-             offset.Z = z_in;
+			modelToWorld.M43 = z_in;
         }
 		public virtual Vector3 GetOffset()
 		{
-			return offset;
+			return new Vector3(modelToWorld.M41, modelToWorld.M42, modelToWorld.M43);
 		}	
 		
         protected void SetupIndexBuffer()
@@ -183,13 +184,13 @@ namespace GlslTutorials
         }
 
         // Set color with red, green, blue and alpha (opacity) values
-        public void SetColor(float red, float green, float blue) {
+		public virtual void SetColor(float red, float green, float blue) {
             color[0] = red;
             color[1] = green;
             color[2] = blue;
         }
 		
-		public void SetColor(float[] new_color)
+		public virtual void SetColor(float[] new_color)
 		{
 			color = new_color;
 		}
@@ -368,9 +369,23 @@ namespace GlslTutorials
 		{
 		}
 
-		public static void SetCameraRotation()
+		public static void SetCameraRotation(float xRotation, float yRotation, float zRotation)
 		{
 
+		}
+
+		public static void SetWorldToCameraRotation(float xRotation, float yRotation, float zRotation)
+		{
+			ResetWorldToCameraMatrix();
+			RotateWorld(Vector3.UnitX, xRotation);
+			RotateWorld(Vector3.UnitY, yRotation);
+			RotateWorld(Vector3.UnitZ, zRotation);
+		}
+
+		public void RotateShapeAboutAxis(float angleDeg)
+		{
+			Matrix4 rotation = Matrix4.CreateFromAxisAngle(axis, (float)Math.PI / 180.0f * angleDeg);
+			modelToWorld = Matrix4.Mult(modelToWorld, rotation);			
 		}
 		
 		public void RotateShape(Vector3 rotationAxis, float angleDeg)
@@ -393,6 +408,14 @@ namespace GlslTutorials
 			modelToWorld = Matrix4.Mult(modelToWorld, Matrix4.CreateScale(scale));
 		}
 
+
+		public static void SetScale(float scale)
+		{
+			worldToCamera.M11 = scale;
+			worldToCamera.M22 = scale;
+			worldToCamera.M33 = scale;
+		}
+
 		public void SetRotation(Matrix3 rotation)
 		{
 			modelToWorld.Row0 = new Vector4(rotation.Row0, modelToWorld.M14);
@@ -408,6 +431,11 @@ namespace GlslTutorials
 		public static void SetWorldToCameraMatrix(Matrix4 m)
 		{
 			worldToCamera = m;
+		}
+
+		public void SetLightPosition(Vector3 lightPosition)
+		{
+			Programs.SetLightPosition(programNumber, lightPosition);
 		}
 	}
 }

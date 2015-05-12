@@ -80,10 +80,7 @@ namespace GlslTutorials
 		{
 			Programs.SetLightPosition(programNumber, lightPosition);
 			Programs.SetUniformScale(programNumber, scale);
-			Matrix4 mm = Rotate(modelToWorld, axis, angle);
-			mm.M41 = offset.X;
-			mm.M42 = offset.Y;
-			mm.M43 = offset.Z;	
+			Matrix4 mm = Rotate(modelToWorld, axis, angle);	
 			mm = Matrix4.Mult(mm, Matrix4.CreateScale(scale));
 			Programs.SetTexture(programNumber, texture);
 			Programs.Draw(programNumber, vertexBufferObject, indexBufferObject, mm, indexData.Length, color);

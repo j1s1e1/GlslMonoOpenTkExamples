@@ -7,9 +7,9 @@ using OpenTK.Graphics.OpenGL;
 
 namespace GlslTutorials
 {
-	public class Tut_PaintBox : TutorialBase
+	public class Tut_PaintBoxSlave : TutorialBase
 	{
-		static PaintBoxState paintBoxState = new PaintBoxState();
+		static PaintBoxState paintBoxState;
 		static PaintBox paintBox;
 		List<Paddle2> paddles;
 		List<TextClass> scores;
@@ -43,11 +43,11 @@ namespace GlslTutorials
 
 		bool displayScores = false;
 
+		int[] scoreInts = new int[6];
+
 		bool blockTest = false;
 		bool sphereTest = false;
 		bool blenderTest = false;
-
-		float chaseSpeed = 2.0f;
 
 		const int FRONT_PADDLE = 0;
 		const int BACK_PADDLE = 1;
@@ -92,9 +92,7 @@ namespace GlslTutorials
 		{
 			Paddle2 paddle = new Paddle2();
 			paddle.SetLimits(limitLow, limitHigh);
-			paddle.SetChaseControl();
-			paddle.SetChaseObject(ball);
-			paddle.SetChaseSpeed(chaseSpeed);
+			paddle.SetRemoteControl();
 			paddles.Add(paddle);
 			ball.AddPaddle(paddle);
 		}
@@ -210,13 +208,14 @@ namespace GlslTutorials
 					t.Draw();
 				}
 				int[] newScores = paintBox.GetScores();
-				for (int i = 0; i < paintBoxState.ScoreCount(); i++)
+				for (int i = 0; i < scoreInts.Length; i++)
 				{
-					if (paintBoxState.ScoreChanged(i, newScores[i]))
+					if (scoreInts[i] != newScores[i])
 					{
+						scoreInts[i] = newScores[i];
 						if (scores.Count > i)
 						{
-							scores[i].UpdateText(newScores[i].ToString());
+							scores[i].UpdateText(scoreInts[i].ToString());
 						}
 					}
 				}
@@ -260,7 +259,6 @@ namespace GlslTutorials
 				ball.SetOffset(offset);
 				ball.SetProgram(ballProgram);
 			}
-			paintBoxState.UpdatePositions(ball.GetOffset());
 		}
 
 		private void updateProgram()

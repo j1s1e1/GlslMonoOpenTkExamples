@@ -105,9 +105,6 @@ namespace GlslTutorials
 		public override void Draw()
 		{
 			Matrix4 mm = Rotate(modelToWorld, axis, angle);
-			mm.M41 = offset.X;
-			mm.M42 = offset.Y;
-			mm.M43 = offset.Z;
 			
 			Programs.Draw(programNumber, vertexBufferObject, indexBufferObject, mm, indexData.Length, color);
 		}

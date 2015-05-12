@@ -7,7 +7,7 @@ using OpenTK.Graphics.OpenGL;
 
 namespace GlslTutorials
 {
-	public class Blender
+	public class Blender : Shape
 	{
 		public Blender ()
 		{
@@ -97,7 +97,7 @@ namespace GlslTutorials
 			return blenderObjects.Count;
 		}
 		
-		public void Draw()
+		public override void Draw()
 		{
 			foreach (BlenderObject bo in blenderObjects)
 			{
@@ -105,7 +105,7 @@ namespace GlslTutorials
 			}
 		}
 		
-		public void Scale(Vector3 scale)
+		public override void Scale(Vector3 scale)
 		{
 			foreach (BlenderObject bo in blenderObjects)
 			{
@@ -113,7 +113,7 @@ namespace GlslTutorials
 			}
 		}
 		
-		public void SetOffset(Vector3 offset)
+		public override void SetOffset(Vector3 offset)
 		{
 			currentOffset = offset;
 			foreach (BlenderObject bo in blenderObjects)
@@ -122,12 +122,12 @@ namespace GlslTutorials
 			}
 		}
 		
-		public Vector3 GetOffset()
+		public override Vector3 GetOffset()
 		{
 			return currentOffset;
 		}
 		
-		public void SetColor(float[] color)
+		public override void SetColor(float[] color)
 		{
 			foreach (BlenderObject bo in blenderObjects)
 			{
@@ -143,7 +143,7 @@ namespace GlslTutorials
 			}
 		}
 		
-	 	public void SetProgram(int program)
+		public override void SetProgram(int program)
 	    {
 	        foreach (BlenderObject bo in blenderObjects)
 	        {

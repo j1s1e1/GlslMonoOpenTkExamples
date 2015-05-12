@@ -84,11 +84,6 @@ namespace GlslTutorials
 		{
 			Programs.Draw(programNumber, vertexBufferObject, indexBufferObject, modelToWorld, indexData.Length, color);
 		}
-
-		public override void Move (Vector3 v)
-		{
-			modelToWorld.Row3 += new Vector4(v, 0.0f);
-		}
 	}
 }
 

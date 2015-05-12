@@ -5,15 +5,29 @@ namespace GlslTutorials
 {
 	public enum TutorialsEnum
 	{
+		Tut_PaintBox,
+		Tut_PaintBoxSlave,
+
+		Tut_TiltBall3D,
+		Tut_TextureSphere2,
+		Tut_TextureSphere,
+
+		Tut_Collisions,
+		Tut_Paddle,
+		Tut_TiltBall,
+		Tut_Ball,
+
+		Tut_Orbit,
+		Tut_StarMap,
 		Tut_SolarSystem,
 		Tut_Horizon,
 		Tut_Plane,
 		Tut_Cans,
 		Tut_Throw,
 		Tut_Marbles,
-		Tut_PaintBox,
+
 		Tut_PaintBox2,
-		Tut_Ball,
+
 
 		Tut_Tanks,
 
@@ -44,7 +58,7 @@ namespace GlslTutorials
 		Tut_15_ManyImages,
 
 		Tut_Spheres,
-		Tut_TextureSphere,
+
 		Tut_ShaderTexture,
 		
 		Tut_3D_Shooter2,
@@ -79,7 +93,7 @@ namespace GlslTutorials
 		Tut_Blocks,
 		Tut_Vectors,
 		Tut_Text,
-		Tut_TiltBall,
+
 		Tut_Camera,
 		Tut_Colors,
 
@@ -139,6 +153,7 @@ namespace GlslTutorials
 				case TutorialsEnum.Tut_Texture: currentTutorial = new Tut_Texture(); break;	
 				case TutorialsEnum.Tut_ShaderTexture: currentTutorial = new Tut_ShaderTexture(); break;	
 				case TutorialsEnum.Tut_TextureSphere: currentTutorial = new Tut_TextureSphere(); break;	
+				case TutorialsEnum.Tut_TextureSphere2: currentTutorial = new Tut_TextureSphere2(); break;	
 				case TutorialsEnum.Tut_Colors: currentTutorial = new Tut_Colors(); break;
 				case TutorialsEnum.Tut_Tanks: currentTutorial = new Tut_Tanks(); break;
 				case TutorialsEnum.Tut_Tennis: currentTutorial = new Tut_Tennis(); break;
@@ -167,6 +182,13 @@ namespace GlslTutorials
 				case TutorialsEnum.Tut_Cans: currentTutorial = new Tut_Cans(); break;
 				case TutorialsEnum.Tut_Throw: currentTutorial = new Tut_Throw(); break;
 				case TutorialsEnum.Tut_Plane: currentTutorial = new Tut_Plane(); break;
+				case TutorialsEnum.Tut_Orbit: currentTutorial = new Tut_Orbit(); break;
+				case TutorialsEnum.Tut_StarMap: currentTutorial = new Tut_StarMap(); break;
+				case TutorialsEnum.Tut_Paddle: currentTutorial = new Tut_Paddle(); break;
+				case TutorialsEnum.Tut_Collisions: currentTutorial = new Tut_Collisions(); break;
+				case TutorialsEnum.Tut_TiltBall3D: currentTutorial = new Tut_TiltBall3D(); break;
+				case TutorialsEnum.Tut_PaintBoxSlave: currentTutorial = new Tut_PaintBoxSlave(); break;
+
 			}
 		}
 	}

@@ -558,7 +558,7 @@ namespace GlslTutorials
 			//"vec4 tempCamPosition = (modelToCameraMatrix * vec4(position, 1.0));" +
 			"vec4 tempCamPosition = position;" +
 			"vertexNormal = normalize(normalModelToCameraMatrix * normal);" +
-			"diffuseColor = vec4(1f, 1f, 0f, 1f);" +
+			"diffuseColor = vec4(1.0, 1.0, 0.0, 1.0);" +
 			"cameraSpacePosition = vec3(tempCamPosition);" +
 		"}";
 

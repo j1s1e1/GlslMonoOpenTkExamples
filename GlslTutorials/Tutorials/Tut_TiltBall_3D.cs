@@ -7,14 +7,14 @@ using OpenTK.Graphics.OpenGL;
 
 namespace GlslTutorials
 {
-	public class Tut_TiltBall : TutorialBase
+	public class Tut_TiltBall3D : TutorialBase
 	{
-		public Tut_TiltBall()
+		public Tut_TiltBall3D()
 		{
 		}
 		
 		List<LitMatrixBlock3> maze;
-		LitMatrixSphere ball;
+		LitMatrixSphere2 ball;
 		
 		Vector3 ballPosition = Vector3.Zero;
 		float ballLimit = 0.7f;
@@ -28,7 +28,7 @@ namespace GlslTutorials
 
 		protected override void init()
 		{		
-			ball = new LitMatrixSphere(0.1f);
+			ball = new LitMatrixSphere2(0.1f);
 			ball.SetOffset(new Vector3(0f, 0f, -0.25f));
 			maze = new List<LitMatrixBlock3>();
 			AddBlock(new Vector3(2.0f, 2.0f, 0.1f), new Vector3(0.0f, 0.0f, 0.9f), Colors.BLUE_COLOR);
@@ -163,7 +163,13 @@ namespace GlslTutorials
 				"\nyAngle = " + yAngle.ToString() + 
 				"Offset = " + ballPosition.ToString()
 				);
+			RotateBlocks();
 			return result.ToString();
+		}
+
+		private void RotateBlocks()
+		{
+			Shape.SetWorldToCameraRotation(-yAngle, xAngle, 0f);
 		}
 	}
 

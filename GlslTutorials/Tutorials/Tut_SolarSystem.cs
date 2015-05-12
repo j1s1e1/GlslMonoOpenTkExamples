@@ -11,7 +11,7 @@ namespace GlslTutorials
 	{
 		List<Planet> planets;
 
-		float sunRadius = 100f;
+		float sunRadius = 80f;
 		float mercuryRadius = 2f;
 		float venusRadius = 2f;
 		float earthRadius = 2f;
@@ -25,13 +25,19 @@ namespace GlslTutorials
 		float startZdistance = -1000f;
 
 		int sunProgram = 0;
+		int currentProgram = 0;
+		List<int> programs = new List<int>();
 
 		Vector3 goal;
 		bool moveToGoal = false;
 
-		private void AddPlanet(string file, float radius, Vector3 offset, float angleStep)
+		Vector3 lightPos = new Vector3();
+
+		TextureSphere stars;
+
+		private void AddPlanet(string name, string file, float radius, Vector3 offset, float angleStep)
 		{
-			Planet planet = new Planet(radius, file);
+			Planet planet = new Planet(name, radius, file);
 			planet.Move(offset);
 			planet.SetAngleStep(angleStep);
 			planets.Add(planet);
@@ -39,21 +45,23 @@ namespace GlslTutorials
 
 		protected override void init()
 		{
+			stars = new TextureSphere(5000f, "starmap.png");
 			planets = new List<Planet>();
-			AddPlanet("suncyl1.jpg", sunRadius, new Vector3(0f, 0f, startZdistance), 1f);
+			AddPlanet("Sun", "suncyl1.jpg", sunRadius, new Vector3(0f, 0f, startZdistance), 1f);
 			sunProgram = Programs.AddProgram(VertexShaders.MatrixTexture, 
 				FragmentShaders.MatrixTextureScale);
 			Programs.SetUniformScale(sunProgram, 500f);
+			programs.Add(sunProgram);
 			planets[0].SetProgram(sunProgram);
-			AddPlanet("mercurymap.jpg", mercuryRadius, new Vector3(100f, 0f, startZdistance), 0.05f);
-			AddPlanet("Venus_Magellan_C3-MDIR_ClrTopo_Global_Mosaic_1024.jpg", venusRadius, new Vector3(200f, 0f, startZdistance), -0.025f);
-			AddPlanet("PathfinderMap.jpg", earthRadius, new Vector3(300f, 0f, startZdistance), 0.005f);
-			AddPlanet("Mars_Viking_MDIM21_ClrMosaic_global_1024.jpg", marsRadius, new Vector3(400f, 0f, startZdistance), -0.025f);
-			AddPlanet("jup0vss1.jpg", jupiterRadius, new Vector3(500f, 0f, startZdistance), -0.025f);
-			AddPlanet("saturnmap.jpg", saturnRadius, new Vector3(600f, 0f, startZdistance), -0.005f);
-			AddPlanet("uranusmap.jpg", uranusRadius, new Vector3(700f, 0f, startZdistance), -0.025f);
-			AddPlanet("neptunemap.jpg", neptuneRadius, new Vector3(800f, 0f, startZdistance), -0.025f);
-			AddPlanet("plutomap1k.jpg", plutoRadius, new Vector3(900f, 0f, startZdistance), -0.025f);
+			AddPlanet("Mercury", "mercurymap.jpg", mercuryRadius, new Vector3(100f, 0f, startZdistance), 0.05f);
+			AddPlanet("Venus", "Venus_Magellan_C3-MDIR_ClrTopo_Global_Mosaic_1024.jpg", venusRadius, new Vector3(200f, 0f, startZdistance), -0.025f);
+			AddPlanet("Earth", "PathfinderMap.jpg", earthRadius, new Vector3(300f, 0f, startZdistance), 0.005f);
+			AddPlanet("Mars", "Mars_Viking_MDIM21_ClrMosaic_global_1024.jpg", marsRadius, new Vector3(400f, 0f, startZdistance), -0.025f);
+			AddPlanet("Jupiter", "jup0vss1.jpg", jupiterRadius, new Vector3(500f, 0f, startZdistance), -0.025f);
+			AddPlanet("Saturn", "saturnmap.jpg", saturnRadius, new Vector3(600f, 0f, startZdistance), -0.005f);
+			AddPlanet("Uranus", "uranusmap.jpg", uranusRadius, new Vector3(700f, 0f, startZdistance), -0.025f);
+			AddPlanet("Neptune", "neptunemap.jpg", neptuneRadius, new Vector3(800f, 0f, startZdistance), -0.025f);
+			AddPlanet("Pluto", "plutomap1k.jpg", plutoRadius, new Vector3(900f, 0f, startZdistance), -0.025f);
 			SetupDepthAndCull();
 			g_fzNear = 1f;
 			g_fzFar = 10000f;
@@ -138,6 +146,7 @@ namespace GlslTutorials
 		public override void display()
 		{
 			ClearDisplay();
+			stars.Draw();
 			foreach (Planet planet in planets)
 			{
 				planet.UpdatePosition();
@@ -236,14 +245,16 @@ namespace GlslTutorials
 					Shape.MoveWorld(new Vector3(0.0f, 0.0f, -10f));
 					break;
 				case Keys.A:
+					lightPos += new Vector3(0f, 0f, 1f);
+					Programs.SetLightPosition(programs[currentProgram], lightPos);
 					break;
 				case Keys.B:
+					lightPos += new Vector3(0f, 0f, -1f);
+					Programs.SetLightPosition(programs[currentProgram], lightPos);
 					break;
 				case Keys.C:
 					break;
 				case Keys.D:
-					break;
-				case Keys.F:
 					break;
 				case Keys.I:
 					result.AppendLine("worldToCamera");
@@ -262,6 +273,12 @@ namespace GlslTutorials
 					}
 					break;
 				case Keys.R:
+					break;
+				case Keys.V:
+					result.Append("ShaderInfo " + Programs.GetVertexShaderInfo(programs[currentProgram]));
+					break;
+				case Keys.F:
+					result.Append("ShaderInfo " + Programs.GetFragmentShaderInfo(programs[currentProgram]));
 					break;
 				case Keys.Z:
 					result.Append("ShaderInfo " + Programs.DumpShaders());

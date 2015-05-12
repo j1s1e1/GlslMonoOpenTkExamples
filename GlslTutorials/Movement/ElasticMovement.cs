@@ -28,15 +28,20 @@ namespace GlslTutorials
 		
 		private void Bounce(Vector3 oldOffset)
 		{
-			foreach (CollisionObject p in otherObjects)
+			for (int i = 0; i <  otherObjects.Count; i++)
 			{
-				Vector3 difference = oldOffset - p.GetOffset();
-				if (Math.Abs(difference.X) < 0.15f)
+				CollisionObject p = otherObjects[i];
+				Vector3 offset = p.GetOffset();
+				Vector3 difference = oldOffset - offset;
+				if (difference.Length < 0.55f)
 				{
-					if (Math.Abs(difference.Y) < 0.05f)
+					Vector3 normal = p.GetNormal();
+					Vector3 normalComponent = Vector3.Dot(speed, normal) * normal;
+					// verify speed and normal are in the opposite direction
+					if ((normalComponent + normal).Length < normal.Length)
 					{
-						speed.Y = -speed.Y;
-						return;
+						speed = speed - 2 * normalComponent;
+						Tut_PaintBox.PaddleHitBall(i);
 					}
 				}
 			}

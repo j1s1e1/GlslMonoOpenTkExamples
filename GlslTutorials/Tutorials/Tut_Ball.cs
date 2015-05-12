@@ -18,8 +18,8 @@ namespace GlslTutorials
 		Vector3 ballLimitHigh = ballOffset + new Vector3(ballLimit, ballLimit, ballLimit);
 		Vector3 ballSpeed;
 
-		float perspectiveAngle = 90f;
-		float newPerspectiveAngle = 90f;
+		float perspectiveAngle = 150f;
+		float newPerspectiveAngle = 150f;
 
 		float textureRotation = -90f;
 		float epsilon = 0.251f;
@@ -47,7 +47,7 @@ namespace GlslTutorials
 			SetupDepthAndCull();
 			GL.Disable(EnableCap.CullFace);
 			Textures.EnableTextures();
-			g_fzNear = 0.5f;
+			g_fzNear = 0.1f;
 			g_fzFar = 100f;
 			reshape();
 		}
@@ -62,15 +62,10 @@ namespace GlslTutorials
 		{
 			MatrixStack persMatrix = new MatrixStack();
 			persMatrix.Perspective(perspectiveAngle, (width / (float) height), g_fzNear, g_fzFar);
-
 			worldToCameraMatrix = persMatrix.Top();
-
 			cameraToClipMatrix = Matrix4.Identity;
-
 			SetGlobalMatrices();
-
 			GL.Viewport(0, 0, width, height);
-
 		}
 
 		public override void display()
@@ -192,6 +187,7 @@ namespace GlslTutorials
 					if (newPerspectiveAngle > 170f) {
 						newPerspectiveAngle = 30f;
 					}
+					result.AppendLine("newPerspectiveAngle = " + newPerspectiveAngle.ToString());
 					break;
 				case Keys.R:
 					if (rotateWorld)

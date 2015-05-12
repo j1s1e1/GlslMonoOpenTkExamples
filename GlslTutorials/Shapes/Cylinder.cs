@@ -64,7 +64,7 @@ namespace GlslTutorials
 
 		public void CheckCollisions(Vector3 center, float radius)
 		{
-			float distance = (offset - center).Length;
+			float distance = (GetOffset() - center).Length;
 			if (distance < Math.Abs(radius))
 			{
 				color = Colors.RED_COLOR;

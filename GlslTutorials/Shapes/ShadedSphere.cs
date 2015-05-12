@@ -53,10 +53,7 @@ namespace GlslTutorials
 	        int newVertexCount = (last_triangle - first_triangle + 1) * 3 * 3 / COORDS_PER_VERTEX;
 	        // Add program to OpenGL environment
 
-		 	Matrix4 mm = Rotate(modelToWorld, axis, angle);
-			mm.M41 = offset.X;
-			mm.M42 = offset.Y;
-			mm.M43 = offset.Z;	
+		 	Matrix4 mm = Rotate(modelToWorld, axis, angle);	
 			
 			Programs.Draw(programNumber, vertexBufferObject, indexBufferObject, mm, indexData.Length, color);
 	    }

@@ -14,6 +14,8 @@ namespace GlslTutorials
 		string texture = "Venus_Magellan_C3-MDIR_ClrTopo_Global_Mosaic_1024.jpg";
 		Vector3 center = new Vector3();
 		int textureInt = 0;
+		float lightScale = 1.0f;
+		public static bool reverseNormals = false;
 
 		public TextureSphere(float radiusIn, string textureIn = "")
 		{
@@ -67,6 +69,15 @@ namespace GlslTutorials
 	                case 5:  coords_with_normals[i] = coords[j-1]; break;
 	
 	            }
+				if (reverseNormals)
+				{
+					switch (i % 6)
+					{
+						case 3:  coords_with_normals[i] = -coords_with_normals[i]; break;
+						case 4:  coords_with_normals[i] = -coords_with_normals[i]; break;
+						case 5:  coords_with_normals[i] = -coords_with_normals[i]; break;
+					}
+				}
 	
 	        }
 	        return coords_with_normals;
@@ -135,6 +146,11 @@ namespace GlslTutorials
 			vertexData = vertexDataWithTextureCoordinates;
 		}
 
+		public void SetTexture(int i)
+		{
+			textureInt = i;
+		}
+
 		public override void Move (Vector3 v)
 		{
 			base.Move (v);
@@ -151,8 +167,14 @@ namespace GlslTutorials
 			return new Vector3(modelToWorld.M41, modelToWorld.M42, modelToWorld.M43);
 		}
 	
+		public void SetLightScale(float f)
+		{
+			lightScale = f;
+		}
+
 	    public override void Draw() 
 		{
+			Programs.SetUniformScale(programNumber, lightScale);
 			Programs.SetTexture(programNumber, textureInt);
 			Programs.Draw(programNumber, vertexBufferObject, indexBufferObject, modelToWorld, indexData.Length, color);
 	    }

@@ -226,10 +226,7 @@ namespace GlslTutorials
 	
 	    public override void Draw() 
 		{
-		 	Matrix4 mm = Rotate(modelToWorld, axis, angle);
-			mm.M41 = offset.X;
-			mm.M42 = offset.Y;
-			mm.M43 = offset.Z;	
+		 	Matrix4 mm = Rotate(modelToWorld, axis, angle);	
 			
 			Matrix4 wtc = worldToCamera;
 			if (staticText)

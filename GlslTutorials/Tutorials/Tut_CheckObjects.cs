@@ -11,11 +11,11 @@ namespace GlslTutorials
 		{
 		}
 		
-		LitMatrixBlock lmb;
+		LitMatrixBlock3 lmb;
 		
 		protected override void init()
 	    {
-			lmb = new LitMatrixBlock(new Vector3(0.1f, 0.1f, 0.1f), Colors.BLUE_COLOR);
+			lmb = new LitMatrixBlock3(new Vector3(0.1f, 0.1f, 0.1f), Colors.BLUE_COLOR);
 			MessageBox.Show (lmb.CheckRotations(new Vector3(0,0,0)) + lmb.CheckExtents());
 		}
 	}

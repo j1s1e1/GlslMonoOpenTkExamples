@@ -14,6 +14,7 @@ namespace GlslTutorials
 		bool mouseUpdated = false;
 		Vector3 scale = new Vector3(1f/256f, -1f/256f, 0.01f);
 		Vector3 center = new Vector3(256f, 256f, 0f);
+		float mouseGain = 4f;
 		
 		private float NewValue(float oldValue, float maxMovement, float lowLimit, 
 		                       float highLimit, float speed)
@@ -28,8 +29,8 @@ namespace GlslTutorials
 		{
 			if (mouseUpdated)
 			{
-				xSpeed = (mousePosition.X  * scale.X - currentPosition.X);
-				ySpeed = (mousePosition.Y  * scale.Y - currentPosition.Y);
+				xSpeed = (mousePosition.X  * scale.X - currentPosition.X) * mouseGain;
+				ySpeed = (mousePosition.Y  * scale.Y - currentPosition.Y) * mouseGain;
 			}
 			oldOffset.X = NewValue(oldOffset.X, maxXmovement, xLimitLow, xLimitHigh, xSpeed);
 			oldOffset.Y = NewValue(oldOffset.Y, maxYmovement, yLimitLow, yLimitHigh, ySpeed);

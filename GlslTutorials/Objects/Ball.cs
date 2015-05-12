@@ -7,7 +7,7 @@ namespace GlslTutorials
 {
 	public class Ball  : CollisionObject
 	{
-		LitMatrixSphere2 body;
+		Shape body;
 		static Random random = new Random();
 		Movement movement = new ElasticMovement();
 		Collisions collision = new Collisions();
@@ -92,7 +92,7 @@ namespace GlslTutorials
 		{
 			movement = new ElasticMovement();
 			movement.SetLimits(lowLimits, highLimits);
-			if (speed != null) SetSpeed(speed);
+			SetSpeed(speed);
 		}
 		
 		public void SetRandomControl()
@@ -136,7 +136,7 @@ namespace GlslTutorials
 			movement.MoveLimits(v);
 		}
 		
-		public Vector3 GetOffset()
+		public override Vector3 GetOffset()
 		{
 			return body.GetOffset();
 		}
@@ -167,6 +167,16 @@ namespace GlslTutorials
 			}
 		}
 
+		public void ScaleSpeed(float scale)
+		{
+			speed = speed * scale;
+			if (movement is ElasticMovement)
+			{
+				speed = ((ElasticMovement)movement).GetSpeed() * scale;
+				((ElasticMovement)movement).SetSpeed(speed);
+			}
+		}
+
 		public void Accelerate(Vector3 acceleration)
 		{
 			if (movement is ElasticMovement)
@@ -174,6 +184,59 @@ namespace GlslTutorials
 				speed = ((ElasticMovement)movement).GetSpeed() + acceleration;
 				((ElasticMovement)movement).SetSpeed(speed);
 			}
+		}
+			
+		public void UseBlock(Vector3 size)
+		{
+			int colorSelection = random.Next(3);
+			float[] color;
+			switch (colorSelection)
+			{
+			case 0:
+				color = Colors.RED_COLOR;
+				break;
+			case 1:
+				color = Colors.GREEN_COLOR;
+				break;
+			case 2:
+				color = Colors.BLUE_COLOR;
+				break;
+			default:
+				color = Colors.YELLOW_COLOR;
+				break;
+			}
+			body = new LitMatrixBlock2(size, color);
+		}
+
+		public void UseSphere(float radius)
+		{
+			int colorSelection = random.Next(3);
+			float[] color;
+			switch (colorSelection)
+			{
+			case 0:
+				color = Colors.RED_COLOR;
+				break;
+			case 1:
+				color = Colors.GREEN_COLOR;
+				break;
+			case 2:
+				color = Colors.BLUE_COLOR;
+				break;
+			default:
+				color = Colors.YELLOW_COLOR;
+				break;
+			}
+			body = new LitMatrixSphere2(radius);
+			body.SetColor(color);
+		}
+
+		public void UseBlender(Vector3 size, string fileName)
+		{
+			body = new Blender();
+			((Blender)body).ReadFile(fileName);
+			body.SetColor(Colors.WHITE_COLOR);
+			body.Scale(size);
 		}
 	}
 }

@@ -5,9 +5,9 @@ using OpenTK;
 
 namespace GlslTutorials
 {
-	public class Paddle2
+	public class Paddle2 : CollisionObject
 	{	
-		LitMatrixSphere2 body;
+		Shape body;
 		static Random random = new Random();
 		Movement movement = new RandomMovement();
 		Collisions collision = new Collisions();
@@ -51,6 +51,7 @@ namespace GlslTutorials
 		
 		public void Draw()
 		{
+			body.SetLightPosition(body.GetOffset() - new Vector3(5f, 5f, 5f));
 			body.Draw();
 			if (frameCount < framesPerMove)
 			{
@@ -103,6 +104,34 @@ namespace GlslTutorials
 			movement = new MouseMovement();
 			movement.SetLimits(lowLimits, highLimits);
 		}
+
+		public void SetChaseControl()
+		{
+			movement = new ChaseObjectMovement();
+			movement.SetLimits(lowLimits, highLimits);
+		}
+
+		public void SetRemoteControl()
+		{
+			movement = new RemoteMovement();
+			movement.SetLimits(lowLimits, highLimits);
+		}
+
+		public void SetChaseObject(CollisionObject c)
+		{
+			if (movement is ChaseObjectMovement)
+			{
+				((ChaseObjectMovement) movement).SetChaseObject(c);
+			}
+		}
+
+		public void SetChaseSpeed(float cs)
+		{
+			if (movement is ChaseObjectMovement)
+			{
+				((ChaseObjectMovement) movement).SetSpeedLimit(cs);
+			}
+		}
 		
 		public void keyboard(Keys keyCode)
 		{
@@ -129,9 +158,48 @@ namespace GlslTutorials
 			movement.SetLimits(lowLimits, highLimits);
 		}
 		
-		public Vector3 GetOffset()
+		public override Vector3 GetOffset()
 		{
 			return body.GetOffset();
+		}
+
+		public void SetOffset(Vector3 offset)
+		{
+			body.SetOffset(offset);
+		}
+
+		Vector3 normal = new Vector3(0f, 0f, -1f);
+
+		public void SetNormal(Vector3 n)
+		{
+			normal = n;
+		}
+
+		public override Vector3 GetNormal()
+		{
+			return normal;
+		}
+
+		public void UseBlock(Vector3 size)
+		{
+			int colorSelection = random.Next(3);
+			float[] color;
+			switch (colorSelection)
+			{
+			case 0:
+				color = Colors.RED_COLOR;
+				break;
+			case 1:
+				color = Colors.GREEN_COLOR;
+				break;
+			case 2:
+				color = Colors.BLUE_COLOR;
+				break;
+			default:
+				color = Colors.YELLOW_COLOR;
+				break;
+			}
+			body = new LitMatrixBlock2(size, color);
 		}
 	}
 }

@@ -53,23 +53,12 @@ namespace GlslTutorials
 	        }
 	        return coords_with_normals;
     	}
-
-		public void SetLightPosition(Vector3 lightPosition)
-		{
-			Programs.SetLightPosition(programNumber, lightPosition);
-		}
 		
 	    private void DrawSub(int first_triangle, int last_triangle)
 	    {
 	        int newVertexCount = (last_triangle - first_triangle + 1) * 3 * 3 / COORDS_PER_VERTEX;
-	        // Add program to OpenGL environment
 
-		 	Matrix4 mm = Rotate(modelToWorld, axis, angle);
-			mm.M41 = offset.X;
-			mm.M42 = offset.Y;
-			mm.M43 = offset.Z;	
-			
-			Programs.Draw(programNumber, vertexBufferObject, indexBufferObject, mm,
+			Programs.Draw(programNumber, vertexBufferObject, indexBufferObject, modelToWorld,
 			              indexData.Length, color);
 	    }
 	
