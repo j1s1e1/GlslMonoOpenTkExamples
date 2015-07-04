@@ -11,7 +11,6 @@ namespace GlslTutorials
 		bool cubeLMB = false;
 		Matrix3 rotation;
 		bool rotateCube = true;
-		Vector3 lmb3Scale = new Vector3(0.3f, 0.6f, 0.3f);
 
 		const int GREY = 0;
 		const int  RED = 1;
@@ -85,12 +84,22 @@ namespace GlslTutorials
 
 		float lmb3Offset = -2;
 
+		LitMatrixBlock3 backLMB;
+		LitMatrixBlock3 groundLMB;
+
 		protected override void init()
 		{
 			sCubeProgram = Programs.AddProgram(VertexShaders.sCube, FragmentShaders.sCube);
 			lmb3 = new LitMatrixBlock3(new Vector3(1.0f, 1.0f, 1.0f), Colors.BLUE_COLOR);
-			lmb3.Scale(lmb3Scale);
 			lmb3.SetProgram(sCubeProgram);
+
+			backLMB = new LitMatrixBlock3(new Vector3(0.666f, 0.666f, 0.2f), Colors.YELLOW_COLOR);
+			backLMB.SetProgram(sCubeProgram);
+
+			groundLMB = new LitMatrixBlock3(new Vector3(0.666f, 0.2f, 0.666f), Colors.YELLOW_COLOR);
+			groundLMB.SetProgram(sCubeProgram);
+
+
 			/* setup context */
 			GL.MatrixMode(MatrixMode.Projection);
 			GL.LoadIdentity();
@@ -98,9 +107,10 @@ namespace GlslTutorials
 			float[] projectionMatrixf = new float[16];
 			GL.GetFloat(GetPName.ProjectionMatrix, projectionMatrixf);
 
-			Matrix4 perspectiveOffCenter = Matrix4.CreatePerspectiveOffCenter(-1.0f, 1.0f, -1.0f, 1.0f, 1f, 3f);
+			Matrix4 perspectiveFOV = Matrix4.CreatePerspectiveFieldOfView((float)(Math.PI/2), width/height, 1f, 3f);
+			//Matrix4 perspectiveOffCenter = Matrix4.CreatePerspectiveOffCenter(-1.0f, 1.0f, -1.0f, 1.0f, 1f, 3f);
 
-			Shape.SetCameraToClipMatrix(perspectiveOffCenter);
+			Shape.SetCameraToClipMatrix(perspectiveFOV);
 
 			GL.MatrixMode(MatrixMode.Modelview);
 			GL.LoadIdentity();
@@ -125,8 +135,29 @@ namespace GlslTutorials
 
 		private void DrawGround()
 		{
-			GL.PushMatrix();
+			if (cubeLMB)
 			{
+				for (int x = 0; x < 6; x++)
+				{
+					for (int z = 0; z < 6; z++)
+					{
+						groundLMB.SetOffset(new Vector3(-2f + 0.666f/2f + x * 0.666f,  -1.6f, 
+														-2f + 0.666f/2f + z * 0.666f));
+						if (((x + z) % 2) == 0)
+						{
+							groundLMB.SetColor(Colors.YELLOW_COLOR);
+						}
+						else
+						{
+							groundLMB.SetColor(Colors.BLUE_COLOR);
+						}
+						groundLMB.Draw();
+					}
+				}
+			}
+			else
+			{
+				GL.PushMatrix();
 				Matrix4 testMatrix1 = Matrix4.Identity;
 				Matrix4 translate = Matrix4.CreateTranslation(new Vector3(0.0f, -1.5f, 0.0f));
 				Matrix4 rotate = Matrix4.CreateRotationX((float)(-Math.PI/2.0));
@@ -138,23 +169,44 @@ namespace GlslTutorials
 				GL.MultMatrix(ref testMatrix1);
 
 				drawCheck(6, 6, BLUE, YELLOW);  /* draw ground */
+				GL.PopMatrix();
 			}
-			GL.PopMatrix();
 		}
 
 		private void DrawBack()
 		{
-			GL.PushMatrix();
-			GL.Translate(0.0, 0.0, -0.9);
-			GL.Scale(2.0, 2.0, 2.0);
-
-			drawCheck(6, 6, BLUE, YELLOW);  /* draw back */
-			GL.PopMatrix();
+			if (cubeLMB)
+			{
+				for (int x = 0; x < 6; x++)
+				{
+					for (int y = 0; y < 6; y++)
+					{
+						backLMB.SetOffset(new Vector3(-2f + 0.666f/2f + x * 0.666f, 
+							-2f + 0.666f/2f + y * 0.666f, -1f));
+						if (((x + y) % 2) == 1)
+						{
+							backLMB.SetColor(Colors.YELLOW_COLOR);
+						}
+						else
+						{
+							backLMB.SetColor(Colors.BLUE_COLOR);
+						}
+						backLMB.Draw();
+					}
+				}
+			}
+			else
+			{
+				GL.PushMatrix();
+				GL.Translate(0.0, 0.0, -0.9);
+				GL.Scale(2.0, 2.0, 2.0);
+				drawCheck(6, 6, BLUE, YELLOW);  /* draw back */
+				GL.PopMatrix();
+			}
 		}
 
-		private float[] CalculateCubeXform()
+		private Matrix4 CalculateCubeXform()
 		{
-			float[] cubeXform = new float[16];
 			Matrix4 cubeXformMatrix = new Matrix4();
 			Matrix4 translate2 = Matrix4.CreateTranslation(new Vector3(0.0f, 0.2f, 0.0f));
 			Matrix4 scaleMatrix = Matrix4.CreateScale(new Vector3(0.3f, 0.3f, 0.3f));
@@ -172,54 +224,68 @@ namespace GlslTutorials
 			scaleMatrix = Matrix4.CreateScale(new Vector3(1f, 2f, 1f));
 
 			cubeXformMatrix = Matrix4.Mult(scaleMatrix, cubeXformMatrix);
-			cubeXform = AnalysisTools.CreateFromMatrix(cubeXformMatrix);
-			return cubeXform;
-		}
-
-		private void DrawMainBlock(float[] cubeXform)
-		{
-			Matrix4  cubeXformMatrix;
-			GL.PushMatrix();
-			GL.MultMatrix(cubeXform);
-
 			if (cubeLMB)
 			{
-				//				if (rotateCube)
-				//				{
-				//					rotation = Matrix3.Identity;
-				//					rotation = Matrix3.Mult(rotation, Matrix3.CreateFromAxisAngle(Vector3.UnitX,(360.0f / (30f * 1) * (float)Math.PI/180f) * tick));
-				//					rotation = Matrix3.Mult(rotation, Matrix3.CreateFromAxisAngle(Vector3.UnitY,(360.0f / (30f * 2) * (float)Math.PI/180f) * tick));
-				//					rotation = Matrix3.Mult(rotation, Matrix3.CreateFromAxisAngle(Vector3.UnitZ,(360.0f / (30f * 4) * (float)Math.PI/180f) * tick));
-				//					rotation.Normalize();
-				//					lmb3.SetRotation(rotation);
-				//					lmb3.Scale(lmb3Scale);
-				//				}
-				cubeXformMatrix = Matrix4.Identity;
-				Matrix4 translate2 = Matrix4.CreateTranslation(new Vector3(0.0f, 0.2f, 0.0f));
-				Matrix4 scaleMatrix = Matrix4.CreateScale(new Vector3(0.3f, 0.3f, 0.3f));
-				rotation = Matrix3.Identity;
-				rotation = Matrix3.Mult(Matrix3.CreateFromAxisAngle(Vector3.UnitX,(360.0f / (30f * 1) * (float)Math.PI/180f) * tick), rotation);
-				rotation = Matrix3.Mult(Matrix3.CreateFromAxisAngle(Vector3.UnitY,(360.0f / (30f * 2) * (float)Math.PI/180f) * tick), rotation);
-				rotation = Matrix3.Mult(Matrix3.CreateFromAxisAngle(Vector3.UnitZ,(360.0f / (30f * 4) * (float)Math.PI/180f) * tick), rotation);
-				rotation.Normalize();
-				Matrix4 rotation4 = Matrix4.Identity;
-				rotation4.Row0 = new Vector4(rotation.Row0, 0f);
-				rotation4.Row1 = new Vector4(rotation.Row1, 0f);
-				rotation4.Row2 = new Vector4(rotation.Row2, 0f);
-				cubeXformMatrix = Matrix4.Mult(scaleMatrix, translate2);
-				cubeXformMatrix = Matrix4.Mult(rotation4, cubeXformMatrix);
-				scaleMatrix = Matrix4.CreateScale(new Vector3(1f, 2f, 1f));
+				Matrix4 scale = Matrix4.CreateScale(2.0f);
+				cubeXformMatrix = Matrix4.Mult(scale, cubeXformMatrix);
+			}
+			return cubeXformMatrix;
+		}
 
-				cubeXformMatrix = Matrix4.Mult(scaleMatrix, cubeXformMatrix);
-				Programs.SetModelToCameraMatrix(sCubeProgram, cubeXformMatrix);
+		private void DrawMainBlock(Matrix4 cubeXform)
+		{
+			if (cubeLMB)
+			{
+				lmb3.SetColor(Colors.RED_COLOR);
+				lmb3.modelToWorld = cubeXform;
 				lmb3.Draw();
 			}
 			else
 			{
+				GL.PushMatrix();
+				GL.MultMatrix(ref cubeXform);
 				drawCube(RED);        /* draw cube */
+				GL.PopMatrix();
 			}
+		}
 
-			GL.PopMatrix();
+		private void DrawGroundShadow(Matrix4 cubeXform)
+		{
+			Matrix4 shadowMat = myShadowMatrix(groundPlane, lightPos);
+			Matrix4 modelToWorld = Matrix4.Mult(cubeXform, shadowMat);
+			if (cubeLMB)
+			{
+				lmb3.SetColor(Colors.SHADOW_COLOR);
+				lmb3.modelToWorld = modelToWorld;
+				lmb3.Draw();
+			}
+			else
+			{
+				GL.PushMatrix();
+
+				GL.MultMatrix(ref modelToWorld);
+				drawCube(SHADOW);      /* draw ground shadow */
+				GL.PopMatrix();
+			}
+		}
+
+		private void DrawBackShadow(Matrix4 cubeXform)
+		{
+			Matrix4 shadowMat = myShadowMatrix(backPlane, lightPos);
+			Matrix4 modelToWorld = Matrix4.Mult(cubeXform, shadowMat);
+			if (cubeLMB)
+			{
+				lmb3.SetColor(Colors.SHADOW_COLOR);
+				lmb3.modelToWorld = modelToWorld;
+				lmb3.Draw();
+			}
+			else
+			{
+				GL.PushMatrix();
+				GL.MultMatrix(ref modelToWorld);
+				drawCube(SHADOW);      /* draw back shadow */
+				GL.PopMatrix();
+			}
 		}
 
 		public override void display()
@@ -228,7 +294,7 @@ namespace GlslTutorials
 
 			DrawGround();
 			DrawBack();
-			float[] cubeXform = CalculateCubeXform();
+			Matrix4 cubeXform = CalculateCubeXform();
 
 			DrawMainBlock(cubeXform);
 
@@ -236,50 +302,8 @@ namespace GlslTutorials
 
 			GL.Enable(EnableCap.Blend);
 
-			GL.PushMatrix();
-			//myShadowMatrix(groundPlane, lightPos);
-			Matrix4 change = myShadowMatrix(groundPlane, lightPos);
-
-			if (cubeLMB)
-			{
-				if (rotateCube)
-				{
-					rotation = Matrix3.Identity;
-					rotation = Matrix3.Mult(rotation, Matrix3.CreateFromAxisAngle(Vector3.UnitX,(360.0f / (30f * 1) * (float)Math.PI/180f) * tick));
-					rotation = Matrix3.Mult(rotation, Matrix3.CreateFromAxisAngle(Vector3.UnitY,(360.0f / (30f * 2) * (float)Math.PI/180f) * tick));
-					rotation = Matrix3.Mult(rotation, Matrix3.CreateFromAxisAngle(Vector3.UnitZ,(360.0f / (30f * 4) * (float)Math.PI/180f) * tick));
-					rotation.Normalize();
-					lmb3.SetRotation(rotation);
-					lmb3.Scale(lmb3Scale);
-				}
-				Matrix4 remember = lmb3.modelToWorld;
-				lmb3.SetColor(Colors.SHADOW_COLOR);
-				lmb3.modelToWorld = Matrix4.Mult(change, lmb3.modelToWorld);
-				//lmb3.SetProgram(sCubeProgram);
-				lmb3.Draw();
-				//lmb3.SetProgram(lmbProgram);
-				lmb3.modelToWorld = remember;
-				lmb3.SetColor(Colors.BLUE_COLOR);
-
-//				Matrix4 remember = Shape.worldToCamera;
-//				Shape.worldToCamera = Matrix4.Mult(remember, change);
-//				lmb3.Draw();
-//				Shape.worldToCamera = remember;
-			}
-			else
-			{
-				GL.MultMatrix(cubeXform);
-				drawCube(SHADOW);      /* draw ground shadow */
-			}
-
-			GL.PopMatrix();
-
-			GL.PushMatrix();
-			myShadowMatrix(backPlane, lightPos);
-			GL.MultMatrix(cubeXform);
-
-			drawCube(SHADOW);      /* draw back shadow */
-			GL.PopMatrix();
+			DrawGroundShadow(cubeXform);
+			DrawBackShadow(cubeXform);
 
 			GL.DepthMask(true);
 
@@ -402,7 +426,6 @@ namespace GlslTutorials
 			shadowMat.Row3 = shadowMat.Row3 - lightVector.W * groundVector;
 
 			shadowMat.Transpose();
-			GL.MultMatrix(ref shadowMat);
 			return shadowMat;
 		}
 

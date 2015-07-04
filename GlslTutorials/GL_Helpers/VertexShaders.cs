@@ -696,15 +696,11 @@ namespace GlslTutorials
 			"uniform mat4 modelToCameraMatrix;" +
 			"uniform vec4 offset = vec4(0.0, 0.0, -2.0, 0.0);" +
 
-			"varying vec4 theColor;" +
-
 			"void main()" +
 			"{" +
 				"vec4 cameraPos = modelToCameraMatrix * position;" +
+				"cameraPos = cameraPos + offset;" +
 				"gl_Position = cameraToClipMatrix * cameraPos;" +
-				"gl_Position = gl_Position + offset;" + 
-				//"gl_Position = cameraToClipMatrix * cameraPos;" +
-				"theColor = vec4(0.0, 1.0, 0.0, 1.0);" +
 			"}";
 		
 	}

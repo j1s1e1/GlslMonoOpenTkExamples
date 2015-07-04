@@ -1608,11 +1608,11 @@ namespace GlslTutorials
 
 		public static String sCube = 
 			"#version 120\n" +
-			"varying vec4 theColor;" +
+			"uniform vec4 baseColor;" +
 
 			"void main()" +
 			"{" +
-				"gl_FragColor = theColor;" +
+				"gl_FragColor = baseColor;" +
 			"}";
 		
 
