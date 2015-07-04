@@ -17,53 +17,53 @@ namespace GlslTutorials
 
 		static float planetGain = 5f;
 
-		float mercuryRadius = 2f * planetGain;
-		float venusRadius = 2f * planetGain;
-		float earthRadius = 2f * planetGain;
-		float marsRadius = 2f * planetGain;
-		float jupiterRadius = 2f * planetGain;
-		float saturnRadius = 2f * planetGain;
-		float uranusRadius = 2f * planetGain;
-		float neptuneRadius = 2f * planetGain;
-		float plutoRadius = 2f * planetGain;
+		public float mercuryRadius = 2f * planetGain;
+		public float venusRadius = 2f * planetGain;
+		public float earthRadius = 2f * planetGain;
+		public float marsRadius = 2f * planetGain;
+		public float jupiterRadius = 2f * planetGain;
+		public float saturnRadius = 2f * planetGain;
+		public float uranusRadius = 2f * planetGain;
+		public float neptuneRadius = 2f * planetGain;
+		public float plutoRadius = 2f * planetGain;
 
 		static float speedGain = 1f;
 
-		float mercurySpeed = 5f * speedGain;
-		float venusSpeed = 0.1f * speedGain;
-		float earthSpeed = 0.2f * speedGain;
-		float marsSpeed = 0.1f * speedGain;
-		float jupiterSpeed = 0.05f * speedGain;
-		float saturnSpeed  = 0.4f * speedGain;
-		float uranusSpeed  = 0.3f * speedGain;
-		float neptuneSpeed  = 0.5f * speedGain;
-		float plutoSpeed  = 0.2f * speedGain;
+		public float mercurySpeed = 5f * speedGain;
+		public float venusSpeed = 0.1f * speedGain;
+		public float earthSpeed = 0.2f * speedGain;
+		public float marsSpeed = 0.1f * speedGain;
+		public float jupiterSpeed = 0.05f * speedGain;
+		public float saturnSpeed  = 0.4f * speedGain;
+		public float uranusSpeed  = 0.3f * speedGain;
+		public float neptuneSpeed  = 0.5f * speedGain;
+		public float plutoSpeed  = 0.2f * speedGain;
 
 		static float startZdistance = -1000f;
 
 		static float offsetX = 500f;
 		static float offsetY = 500f;
 
-		Vector3 mercuryOffset = new Vector3(-offsetX, 0f, startZdistance);
-		Vector3 venusOffset = new Vector3(-2f * offsetX, 0f, startZdistance);
-		Vector3 earthOffset = new Vector3(offsetX, 0f, startZdistance);
-		Vector3 marsOffset = new Vector3(-offsetX, -offsetY, startZdistance);
-		Vector3 jupiterOffset = new Vector3(0f, -offsetY, startZdistance);
-		Vector3 saturnOffset = new Vector3(offsetX, offsetY, startZdistance);
-		Vector3 uranusOffset = new Vector3(-offsetX, -offsetY, startZdistance);
-		Vector3 neptuneOffset = new Vector3(0f, offsetY, startZdistance);
-		Vector3 plutoOffset = new Vector3(offsetX, offsetY, startZdistance);
+		public Vector3 mercuryOffset = new Vector3(-offsetX, 0f, startZdistance);
+		public Vector3 venusOffset = new Vector3(-2f * offsetX, 0f, startZdistance);
+		public Vector3 earthOffset = new Vector3(offsetX, 0f, startZdistance);
+		public Vector3 marsOffset = new Vector3(-offsetX, -offsetY, startZdistance);
+		public Vector3 jupiterOffset = new Vector3(0f, -offsetY, startZdistance);
+		public Vector3 saturnOffset = new Vector3(offsetX, offsetY, startZdistance);
+		public Vector3 uranusOffset = new Vector3(-offsetX, -offsetY, startZdistance);
+		public Vector3 neptuneOffset = new Vector3(0f, offsetY, startZdistance);
+		public Vector3 plutoOffset = new Vector3(offsetX, offsetY, startZdistance);
 
 		static float initialSpeedScale = 3f;
-		Vector3 mercuryInitialSpeed = new Vector3(0, -3f, 0f);
-		Vector3 venusInitialSpeed = new Vector3(0, -4.5f, 0f);
-		Vector3 earthInitialSpeed = new Vector3(0, 1f, 0f);
-		Vector3 marsInitialSpeed = new Vector3(-1 * initialSpeedScale, 1f * initialSpeedScale, 0f);
-		Vector3 jupiterInitialSpeed = new Vector3(0, 0f, 0f);
-		Vector3 saturnInitialSpeed = new Vector3(0, 0f, 0f);
-		Vector3 uranusInitialSpeed = new Vector3(0, 0f, 0f);
-		Vector3 neptuneInitialSpeed = new Vector3(0, 0f, 0f);
-		Vector3 plutoInitialSpeed = new Vector3(0, 3f, 0f);
+		public Vector3 mercuryInitialSpeed = new Vector3(0, -3f, 0f);
+		public Vector3 venusInitialSpeed = new Vector3(0, -4.5f, 0f);
+		public Vector3 earthInitialSpeed = new Vector3(0, 1f, 0f);
+		public Vector3 marsInitialSpeed = new Vector3(-1 * initialSpeedScale, 1f * initialSpeedScale, 0f);
+		public Vector3 jupiterInitialSpeed = new Vector3(0, 0f, 0f);
+		public Vector3 saturnInitialSpeed = new Vector3(0, 0f, 0f);
+		public Vector3 uranusInitialSpeed = new Vector3(0, 0f, 0f);
+		public Vector3 neptuneInitialSpeed = new Vector3(0, 0f, 0f);
+		public Vector3 plutoInitialSpeed = new Vector3(0, 3f, 0f);
 
 		int sunProgram = 0;
 
@@ -74,7 +74,6 @@ namespace GlslTutorials
 		bool queryVertexShaderInfo = false;
 		bool queryFragmentShaderInfo = false;
 		bool setLightPosition = false;
-		int lightPosSelection = 0;
 		bool setScale = false;
 
 		Vector3 lightPos = new Vector3();
@@ -92,8 +91,6 @@ namespace GlslTutorials
 		Vector3 injectVector;
 		bool AddPlanet = false;
 		bool enableAddPlanet = false;
-
-		bool logOn = false;
 
 		TextureSphere stars;
 
@@ -297,7 +294,6 @@ namespace GlslTutorials
 			if (planet > 9) planet = 0;
 			//Log.i("nextPlanet", "planet = " + String.valueOf(planet));
 			updateGoal();
-			Vector3 sunLocatoin =  planets[0].GetLocation();
 			Shape.worldToCamera.M41 = 0;
 			Shape.worldToCamera.M42 = 0;
 			Shape.worldToCamera.M43 = - 1000f;

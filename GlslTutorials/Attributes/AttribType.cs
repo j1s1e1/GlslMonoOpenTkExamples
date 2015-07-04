@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Windows.Forms;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 
@@ -63,7 +64,9 @@ namespace GlslTutorials
 		                    }
 						}
 	                    attrib_data.Add(ad);
-	                } catch (Exception ex) {
+					} catch
+					{
+						// No error here skip white space in files MessageBox.Show("Error " + ex.ToString());
 	                }
 	            }
 	

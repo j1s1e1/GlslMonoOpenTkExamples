@@ -10,18 +10,14 @@ namespace GlslTutorials
 		int stories;
 		static Random random = new Random();
 		List<LitMatrixBlock2> floors;
-		float angle;
 		Vector3 center;
-		Vector3 axis;
 		static Vector3 offsetScale = new Vector3(1f, 1f, 1f);
 
 		public Building()
 		{
 			floors = new List<LitMatrixBlock2>();
 			float x = (float)random.NextDouble() * 2f - 1f;
-			float y = (float)random.NextDouble() * 2f - 1f;
 			float z = (float)random.NextDouble() * 2;
-			angle = 360f * (float)random.NextDouble();
 			center = new Vector3(x * offsetScale.X, 0, z * offsetScale.Z);
 			stories = random.Next(maxStories);
 			for (int i = 0; i < stories; i++)
@@ -33,9 +29,7 @@ namespace GlslTutorials
 			}
 
 			x = (float)random.NextDouble()/4;
-			y = (float)random.NextDouble()/4;
 			z = (float)random.NextDouble()/8;
-			axis = new Vector3(x, y, z);
 		}
 
 		public void Draw()

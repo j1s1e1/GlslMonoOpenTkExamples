@@ -138,6 +138,11 @@ namespace GlslTutorials
 			ActivePrograms[program].SetVertexStride(vertexStride);
 		}
 
+		public static void SetShadowMap(int program, int shadowMap)
+		{
+			ActivePrograms[program].SetShadowMap(shadowMap);
+		}
+
 		public static String GetProgramInfoLog(int program)
 		{
 			return ActivePrograms[program].getProgramInfoLog();
@@ -218,6 +223,26 @@ namespace GlslTutorials
 				result.Append("\n");
 			}
 			return result.ToString();
+		}
+
+		public static int GetProgram(int program)
+		{
+			return ActivePrograms[program].GetProgram();
+		}
+
+		public static int GetModelToCameraMatrixUnif(int program)
+		{
+			return ActivePrograms[program].GetModelToCameraMatrixUnif();
+		}
+
+		public static int GetCameraToClipMatrixUniform(int program)
+		{
+			return ActivePrograms[program].GetCameraToClipMatrixUniform();
+		}
+
+		public static int GetShadowMapUniform(int program)
+		{
+			return ActivePrograms[program].GetShadowMapUniform();
 		}
 	}
 }

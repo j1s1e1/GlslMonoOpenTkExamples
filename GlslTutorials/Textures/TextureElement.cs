@@ -27,6 +27,7 @@ namespace GlslTutorials
 
 		private void Setup()
 		{
+			Textures.EnableTextures();
 			vertexData = new float[]{	
 				// x y z xn yn zn tx ty
 				-1f, -1f, 0f, 0f, 0f, 1f, 0f, 0f,
@@ -71,9 +72,19 @@ namespace GlslTutorials
 			lightPosition = lightPosition * scale;
 		}
 
-		public void SetLightPosition(Vector3 v)
+		public override void SetLightPosition(Vector3 v)
 		{
 			lightPosition = v;
+		}
+
+		public int GetTexture()
+		{
+			return texture;
+		}
+
+		public void SetTexture(int i)
+		{
+			texture = i;
 		}
 
 		public override void Draw()
@@ -82,6 +93,7 @@ namespace GlslTutorials
 			Programs.SetUniformScale(programNumber, scale);
 			Matrix4 mm = Rotate(modelToWorld, axis, angle);	
 			mm = Matrix4.Mult(mm, Matrix4.CreateScale(scale));
+			Programs.SetUniformTexture(programNumber, texUnit);
 			Programs.SetTexture(programNumber, texture);
 			Programs.Draw(programNumber, vertexBufferObject, indexBufferObject, mm, indexData.Length, color);
 		}

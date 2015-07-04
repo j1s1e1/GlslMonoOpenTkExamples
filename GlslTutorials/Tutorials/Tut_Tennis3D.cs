@@ -20,7 +20,6 @@ namespace GlslTutorials
 		Vector3 ballLimitLow = new Vector3(-ballLimit, -ballLimit, -ballLimit);
 		Vector3 ballLimitHigh = new Vector3(ballLimit, ballLimit, ballLimit);
 		Vector3 ballSpeed;
-		int ballProgram;
 		Vector3[] playerRotations = new Vector3[]
 		{
 			new Vector3(0f, 0f, 0f),
@@ -105,10 +104,8 @@ namespace GlslTutorials
 		static ProgramData g_Unlit;
 		static ProgramData g_litShaderProg;
 	
-	
 	    static ProgramData currentProgram;
 		
-		static Vector4 g_lightDirection = new Vector4(0.866f, 0.5f, 0.0f, 0.0f);
 		Vector3 dirToLight = new Vector3(0.5f, 0.5f, 1f);
 	
 	    ProgramData LoadProgram(String strVertexShader, String strFragmentShader)
@@ -228,8 +225,6 @@ namespace GlslTutorials
 
 	        ObjectColor = LoadProgram(VertexShaders.PosColorWorldTransform_vert, FragmentShaders.ColorPassthrough_frag);
 	        currentProgram = ObjectColor;
-
-			ballProgram = Programs.AddProgram(VertexShaders.PosColorWorldTransform_vert, FragmentShaders.ColorPassthrough_frag);
 	    }
 	    static Mesh current_mesh;
 		static Mesh g_unitSphereMesh;

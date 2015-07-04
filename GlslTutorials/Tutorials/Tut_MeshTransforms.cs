@@ -18,7 +18,6 @@ namespace GlslTutorials
 		bool cull = true;
 		bool limitTriangles = false;
 		int triangleCount = 0;
-		bool rotateNotTranslate = false;
 
 		bool renderWithString = false;
 		string renderString = "";
@@ -70,14 +69,12 @@ namespace GlslTutorials
 	    static ProgramData g_WhiteDiffuseColor;
 	    static ProgramData g_VertexDiffuseColor;
 	    static ProgramData g_WhiteAmbDiffuseColor;
-	    static ProgramData g_VertexAmbDiffuseColor;
-		static ProgramData g_Unlit;
+	    static ProgramData g_Unlit;
 		static ProgramData g_litShaderProg;
 	
 	
 	    static ProgramData currentProgram;
 		
-		static Vector4 g_lightDirection = new Vector4(0.866f, 0.5f, 0.0f, 0.0f);
 		Vector3 dirToLight = new Vector3(0.5f, 0.5f, 1f);
 
 		float perspectiveAngle = 60f;
@@ -313,7 +310,6 @@ namespace GlslTutorials
 	        }
 	    }
 	
-	    static Vector3 axis = new Vector3(1f, 1f, 0);
 	    static float angle = 0;
 	
 	    static Matrix4 pm;
@@ -376,15 +372,12 @@ namespace GlslTutorials
 				translate.Z -= 0.5f;
 				break;
 			case Keys.D1:
-				axis = Vector3.UnitX;
 				angle = angle + 1;
 	            break;	
 	        case Keys.D2:
-				axis = Vector3.UnitY;
 				angle = angle + 1;
 	            break;		
 	        case Keys.D3:
-				axis = Vector3.UnitZ;
 				angle = angle + 1;
 	            break;				
             case Keys.D4:
@@ -460,12 +453,6 @@ namespace GlslTutorials
 			case Keys.Z:
 				rotate.Z += 10f;
 				if (rotate.Z > 360f) rotate.Z = 0f;
-				break;
-			case Keys.R:
-				rotateNotTranslate = true;
-				break;
-			case Keys.T:
-				rotateNotTranslate = false;
 				break;
 			case Keys.A:
 				if (alpha)

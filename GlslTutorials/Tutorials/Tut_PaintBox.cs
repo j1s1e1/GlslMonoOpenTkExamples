@@ -165,6 +165,8 @@ namespace GlslTutorials
 
 			AddScore(new Vector3(0.0f, 0.25f, -1f), new Vector3(1.0f, -0f, 0f), 0f);
 			AddScore(new Vector3(0.0f, -0.85f, -1f), new Vector3(1.0f, -0f, 0f), 0f);
+
+			SetupServer();
 		}
 
 		static private void SetGlobalMatrices()
@@ -441,6 +443,10 @@ namespace GlslTutorials
 		public override void MouseMotion (int x, int y)
 		{
 			paddles[0].MouseMotion(x, y);
+		}
+
+		private void SetupServer()
+		{
 		}
 	}
 }

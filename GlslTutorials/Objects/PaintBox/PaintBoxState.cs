@@ -6,7 +6,7 @@ namespace GlslTutorials
 	public class PaintBoxState
 	{
 		public int[] scoreInts = new int[6];
-		Vector3 ballLocation = new Vector3();
+		public Vector3 ballLocation = new Vector3();
 
 		public PaintBoxState ()
 		{
@@ -30,6 +30,11 @@ namespace GlslTutorials
 		public void UpdatePositions(Vector3 bl)
 		{
 			ballLocation = bl;
+		}
+
+		public Vector3 GetpBallLocation()
+		{
+			return ballLocation;
 		}
 	}
 }

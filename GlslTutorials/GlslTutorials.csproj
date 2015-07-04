@@ -253,6 +253,30 @@
     <Compile Include="Tutorials\Tut_PaintBoxSlave.cs" />
     <Compile Include="Movement\RemoteMovement.cs" />
     <Compile Include="Objects\PaintBox\PaintBoxState.cs" />
+    <Compile Include="Tutorials\Tut_Dragonfly.cs" />
+    <Compile Include="Creatures\Bug.cs" />
+    <Compile Include="Creatures\Dragonfly.cs" />
+    <Compile Include="Shapes\Triangle3d.cs" />
+    <Compile Include="Tutorials\Tut_Zoo.cs" />
+    <Compile Include="Creatures\Animal.cs" />
+    <Compile Include="Creatures\Cat.cs" />
+    <Compile Include="Creatures\Dog.cs" />
+    <Compile Include="Place\Exhibit.cs" />
+    <Compile Include="Place\Cage.cs" />
+    <Compile Include="Place\River.cs" />
+    <Compile Include="Place\Grass.cs" />
+    <Compile Include="Creatures\LadyBug3d.cs" />
+    <Compile Include="Creatures\FireFly3d.cs" />
+    <Compile Include="Creatures\DragonFly3d.cs" />
+    <Compile Include="Creatures\BugClass3d.cs" />
+    <Compile Include="Tutorials\Tut_ShadowMap.cs" />
+    <Compile Include="GL_Helpers\Glut.cs" />
+    <Compile Include="Tutorials\Tut_GlutTest.cs" />
+    <Compile Include="Tutorials\Tut_FBO_Test.cs" />
+    <Compile Include="Tutorials\Tut_15_ManyImages2.cs" />
+    <Compile Include="Tutorials\Tut_ShadowTexture.cs" />
+    <Compile Include="Tutorials\Tut_SCube.cs" />
+    <Compile Include="Tutorials\Tut_SCubeGLSL.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -299,6 +323,7 @@
     <Folder Include="XmlFilesForMeshes\SceneVersions\" />
     <Folder Include="Objects\Plane\" />
     <Folder Include="Objects\PaintBox\" />
+    <Folder Include="Place\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="XmlFilesForMeshes\unitplane.xml" />
@@ -352,5 +377,7 @@
     <None Include="Textures\PathfinderMap.jpg" />
     <None Include="Textures\Mars_MGS_colorhillshade_mola_1024.jpg" />
     <None Include="Textures\starmap.png" />
+    <None Include="Textures\grass.jpg" />
+    <None Include="Textures\water1.jpg" />
   </ItemGroup>
 </Project>

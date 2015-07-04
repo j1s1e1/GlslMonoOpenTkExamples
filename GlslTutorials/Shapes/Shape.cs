@@ -1,4 +1,5 @@
 using System;
+using System.Drawing;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 
@@ -151,6 +152,11 @@ namespace GlslTutorials
 			modelToWorld.Row3 += new Vector4(v, 0f); 
 		}
 
+		public virtual void SetOffset(float x, float y, float z)
+		{
+			SetOffset(new Vector3(x, y, z));
+		}
+
         public virtual void SetOffset (Vector3 offsetIn)
         {
 			modelToWorld.Row3 = new Vector4(offsetIn, 1.0f);
@@ -189,10 +195,32 @@ namespace GlslTutorials
             color[1] = green;
             color[2] = blue;
         }
+
+		public virtual void SetColor(Color colorIn)
+		{
+			color[0] = colorIn.R / 256f;
+			color[1] = colorIn.G / 256f;
+			color[2] = colorIn.B / 256f;
+			
+		}
 		
 		public virtual void SetColor(float[] new_color)
 		{
 			color = new_color;
+		}
+
+		public void LighterColor(float multiple)
+		{
+			color[0]  *= multiple;
+			color[1]  *= multiple;
+			color[2]  *= multiple;
+		}
+
+		public void DarkerColor(float multiple)
+		{
+			color[0]  *= multiple;
+			color[1]  *= multiple;
+			color[2]  *= multiple;
 		}
 
         public void SolidColor(int color)
@@ -362,7 +390,7 @@ namespace GlslTutorials
 
 		public static void RotateCamera(Vector3 focalPoint, Vector3 axis, float angleDeg)
 		{
-			Vector3 currentCameraPosition = new Vector3(worldToCamera.M41, worldToCamera.M42, worldToCamera.M43);
+			//Vector3 currentCameraPosition = new Vector3(worldToCamera.M41, worldToCamera.M42, worldToCamera.M43);
 		}
 
 		public static void SetCameraRotation(Quaternion q)
@@ -416,6 +444,13 @@ namespace GlslTutorials
 			worldToCamera.M33 = scale;
 		}
 
+		public static void SetScale(Vector3 scale)
+		{
+			worldToCamera.M11 = scale.X;
+			worldToCamera.M22 = scale.Y;
+			worldToCamera.M33 = scale.Z;
+		}
+
 		public void SetRotation(Matrix3 rotation)
 		{
 			modelToWorld.Row0 = new Vector4(rotation.Row0, modelToWorld.M14);
@@ -433,7 +468,7 @@ namespace GlslTutorials
 			worldToCamera = m;
 		}
 
-		public void SetLightPosition(Vector3 lightPosition)
+		public virtual void SetLightPosition(Vector3 lightPosition)
 		{
 			Programs.SetLightPosition(programNumber, lightPosition);
 		}

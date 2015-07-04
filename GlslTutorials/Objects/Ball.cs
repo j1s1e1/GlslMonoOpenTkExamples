@@ -154,8 +154,11 @@ namespace GlslTutorials
 		public void AddPaddle(CollisionObject paddle)
 		{
 			otherObjects.Add(paddle);
-			ElasticMovement em = (ElasticMovement) movement;
-			em.SetPaddles(otherObjects);
+			if (movement is ElasticMovement)
+			{
+				ElasticMovement em = (ElasticMovement) movement;
+				em.SetPaddles(otherObjects);
+			}
 		}
 
 		public void SetSpeed(Vector3 speedIn)

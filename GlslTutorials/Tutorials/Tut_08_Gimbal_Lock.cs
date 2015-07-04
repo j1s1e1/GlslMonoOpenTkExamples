@@ -43,12 +43,6 @@ namespace GlslTutorials
 	    };
 	
 	    static Mesh[] g_Gimbals = new Mesh[3];
-	    static String[] g_strGimbalNames =
-	    {
-	            "largegimbal.xml",
-	            "mediumgimbal.xml",
-	            "smallgimbal.xml",
-	    };
 	
 	    static bool g_bDrawGimbals = true;
 	
@@ -58,7 +52,6 @@ namespace GlslTutorials
 	            return;
 	
 	        {
-	            PushStack pushstack = new PushStack(currMatrix);
 	            switch(eAxis)
 	            {
 	                case GimbalAxis.GIMBAL_X_AXIS:
@@ -184,7 +177,6 @@ namespace GlslTutorials
 	
 	    }
 	
-	    static float STANDARD_ANGLE_INCREMENT = 11.25f;
 	    static float  SMALL_ANGLE_INCREMENT = 9.0f;
 	
 	    //Called whenever a key on the keyboard was pressed.

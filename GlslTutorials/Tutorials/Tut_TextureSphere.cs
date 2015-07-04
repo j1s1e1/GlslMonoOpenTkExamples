@@ -30,10 +30,6 @@ namespace GlslTutorials
 		private static int vertexCount;
 		private static int texCoordOffset;
 
-		bool rotatePlanet = false;
-		float rotateSpeed = 1f;
-		Vector3 axis = new Vector3(0f, 1f, 0f);
-		
 		static ProgramData LoadProgram(String strVertexShader, String strFragmentShader)
 		{
 			ProgramData data = new ProgramData();

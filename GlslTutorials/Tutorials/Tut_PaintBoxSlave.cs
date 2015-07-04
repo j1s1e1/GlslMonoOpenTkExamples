@@ -109,6 +109,7 @@ namespace GlslTutorials
 			paintBox = new PaintBox();
 			ball = new Ball(ballRadius);
 			ball.SetLimits(ballLimitLow, ballLimitHigh);
+			ball.SetSocketControl();
 			ballSpeed = new Vector3(
 				ballSpeedFactor + ballSpeedFactor * (float)random.NextDouble(),
 				ballSpeedFactor + ballSpeedFactor * (float)random.NextDouble(),

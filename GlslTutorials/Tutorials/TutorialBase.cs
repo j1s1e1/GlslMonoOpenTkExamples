@@ -226,17 +226,13 @@ namespace GlslTutorials
 		protected bool displayOptions = false;
 		bool updateCull = false;
 		bool updateDepth = false;
-		bool updateDepthMask = false;
 		bool updateAlpha = false;
-		bool updateCcw = false;
 		bool updateBlend = false;
 		bool blend = false;
-		bool ccw = false;
 		bool updateCullFace = false;
 		int cullFaceSelection = 0;
 		bool cull = true;
 		bool depth = true;
-		bool depthMask = true;
 		bool alpha = false;
 
 		bool callReshape = false;
@@ -266,9 +262,6 @@ namespace GlslTutorials
 				break;
 			case Keys.D:
 				updateDepth = true;
-				break;
-			case Keys.M:
-				updateDepthMask = true;
 				break;
 			case Keys.D1:
 				g_fzNear = 1f;

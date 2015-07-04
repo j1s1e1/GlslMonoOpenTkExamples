@@ -8,9 +8,6 @@ namespace GlslTutorials
 {
 	public class Scene
 	{
-		//One for the ground, and one for each of the 5 objects.
-		int MATERIAL_COUNT = 6;
-
 		Mesh m_pTerrainMesh;
 		Mesh m_pCubeMesh;
 		Mesh m_pTetraMesh;

@@ -668,6 +668,44 @@ namespace GlslTutorials
 			//"gl_Position = vec4(position, 1.0);" +
 			"}"; // projlight
 
+		public static String shadowMapPcf =
+		
+		"varying vec4 ShadowCoord;" +
+
+		"void main()" +
+		"{" +
+			"ShadowCoord= gl_TextureMatrix[7] * gl_Vertex;" +
+			"gl_Position = ftransform();" +
+			"gl_FrontColor = vec4(1.0, 0.0, 0.0, 1.0);" + // gl_Color;" +
+		"}";
+
+		public static String ShadowMap =
+			"varying vec4 ShadowCoord;" +
+			"void main()" +
+			"{" +
+				"ShadowCoord= gl_TextureMatrix[7] * gl_Vertex;" +
+				"gl_Position = ftransform();" +
+				"gl_FrontColor = gl_Color;" +
+			"}";
+
+		public static String sCube = 
+			"#version 120\n" +
+			"attribute vec4 position;" +
+
+			"uniform mat4 cameraToClipMatrix;" +
+			"uniform mat4 modelToCameraMatrix;" +
+			"uniform vec4 offset = vec4(0.0, 0.0, -2.0, 0.0);" +
+
+			"varying vec4 theColor;" +
+
+			"void main()" +
+			"{" +
+				"vec4 cameraPos = modelToCameraMatrix * position;" +
+				"gl_Position = cameraToClipMatrix * cameraPos;" +
+				"gl_Position = gl_Position + offset;" + 
+				//"gl_Position = cameraToClipMatrix * cameraPos;" +
+				"theColor = vec4(0.0, 1.0, 0.0, 1.0);" +
+			"}";
 		
 	}
 }

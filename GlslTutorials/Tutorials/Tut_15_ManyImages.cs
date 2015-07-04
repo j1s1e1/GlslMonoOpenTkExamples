@@ -24,7 +24,6 @@ namespace GlslTutorials
 
 		ProgramData g_program;
 
-		const int g_projectionBlockIndex = 0;
 		const int g_colorTexUnit = 0;
 
 		ProgramData LoadProgram(string vertexShader, string fragmentShader)
@@ -109,19 +108,7 @@ namespace GlslTutorials
 				buffer.Add(blue);
 			}
 		}
-
-		byte[] mipmapColors = new byte[]
-		{
-			0xFF, 0xFF, 0x00,
-			0xFF, 0x00, 0xFF,
-			0x00, 0xFF, 0xFF,
-			0xFF, 0x00, 0x00,
-			0x00, 0xFF, 0x00,
-			0x00, 0x00, 0xFF,
-			0x00, 0x00, 0x00,
-			0xFF, 0xFF, 0xFF,
-		};
-
+	
 		void LoadMipmapTexture()
 		{
 			try

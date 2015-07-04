@@ -11,12 +11,10 @@ namespace GlslTutorials
 	    float letter_offset;
 	    int current_letter;
 		
-		bool staticText = false;
 		bool reverseRotation = true;
 		
 		bool updateLock = false;
-    	bool waitingForUpdate = false;
-		
+
 	    private float[] SwapX(float[] input)
 	    {
 	        for (int i = 0; i < input.Length; i = i + 3)
@@ -187,7 +185,6 @@ namespace GlslTutorials
 	    public TextClass(String text, float scaleFactorIn, float letterOffsetIn, 
 		                 bool staticTextIn = false, bool reverseRotationIn = true) 
 		{
-			staticText = staticTextIn;
 			reverseRotation = reverseRotationIn;
 			text = text.ToUpper();
 	        current_letter = 0;
@@ -228,20 +225,9 @@ namespace GlslTutorials
 		{
 		 	Matrix4 mm = Rotate(modelToWorld, axis, angle);	
 			
-			Matrix4 wtc = worldToCamera;
-			if (staticText)
-			{
-				wtc = Matrix4.Identity;
-			}
-			
 			if (updateLock == false)
 	        {
 	            Programs.Draw(programNumber, vertexBufferObject, indexBufferObject, mm, indexData.Length, color);
-				waitingForUpdate = false;
-	        }
-	        else
-	        {
-	            waitingForUpdate = true;
 	        }
 	    }
 	}

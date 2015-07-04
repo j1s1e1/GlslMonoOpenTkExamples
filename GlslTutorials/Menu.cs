@@ -5,6 +5,20 @@ namespace GlslTutorials
 {
 	public enum TutorialsEnum
 	{
+		
+		Tut_SCubeGLSL,
+		Tut_SCube,
+		Tut_ShadowTexture,
+
+		Tut_GlutTest,
+
+		Tut_15_ManyImages2,
+		Tut_15_ManyImages,
+		Tut_FBO_Test,
+		Tut_ShadowMap,
+
+		Tut_Zoo,
+		Tut_Dragonfly,
 		Tut_PaintBox,
 		Tut_PaintBoxSlave,
 
@@ -42,8 +56,6 @@ namespace GlslTutorials
 
 		Tut_Tennis3D,
 		Tut_MeshTransforms,
-		Tut_17_Projected_Light,
-		Tut_17_DoubleProjection,
 		Tut_Tennis,
 
 		Tut_Texture,
@@ -54,8 +66,6 @@ namespace GlslTutorials
 		Tut_Quaternion,
 		Tut_Projected_Light_Test,
 		Tut_16_Gamma_Landscape,
-
-		Tut_15_ManyImages,
 
 		Tut_Spheres,
 
@@ -86,6 +96,9 @@ namespace GlslTutorials
 		Tut_12_Gamma_Correction,
 		Tut_12_HDR_Lighting,
 		Tut_14_Basic_Textures,
+
+		Tut_17_Projected_Light,
+		Tut_17_DoubleProjection,
 		Tut_CheckObjects,
 		Tut_RelativePositions,
 		Tut_MoveMeshItem,
@@ -139,6 +152,7 @@ namespace GlslTutorials
 				case TutorialsEnum.Tut_12_HDR_Lighting: currentTutorial = new Tut_12_HDR_Lighting(); break;
 				case TutorialsEnum.Tut_14_Basic_Textures: currentTutorial = new Tut_14_Basic_Textures(); break;
 				case TutorialsEnum.Tut_15_ManyImages: currentTutorial = new Tut_15_ManyImages(); break;
+				case TutorialsEnum.Tut_15_ManyImages2: currentTutorial = new Tut_15_ManyImages2(); break;
 				case TutorialsEnum.Tut_16_Gamma_Landscape: currentTutorial = new Tut_16_Gamma_Landscape(); break;
 				case TutorialsEnum.Tut_17_DoubleProjection: currentTutorial = new Tut_17_DoubleProjection(); break;
 				case TutorialsEnum.Tut_17_Projected_Light: currentTutorial = new Tut_17_Projected_Light(); break;
@@ -188,7 +202,14 @@ namespace GlslTutorials
 				case TutorialsEnum.Tut_Collisions: currentTutorial = new Tut_Collisions(); break;
 				case TutorialsEnum.Tut_TiltBall3D: currentTutorial = new Tut_TiltBall3D(); break;
 				case TutorialsEnum.Tut_PaintBoxSlave: currentTutorial = new Tut_PaintBoxSlave(); break;
-
+				case TutorialsEnum.Tut_Dragonfly: currentTutorial = new Tut_Dragonfly(); break;
+				case TutorialsEnum.Tut_Zoo: currentTutorial = new Tut_Zoo(); break;
+				case TutorialsEnum.Tut_ShadowMap: currentTutorial = new Tut_ShadowMap(); break;
+				case TutorialsEnum.Tut_ShadowTexture: currentTutorial = new Tut_ShadowTexture(); break;
+				case TutorialsEnum.Tut_GlutTest: currentTutorial = new Tut_GlutTest(); break;
+				case TutorialsEnum.Tut_FBO_Test: currentTutorial = new Tut_FBO_Test(); break;
+				case TutorialsEnum.Tut_SCube: currentTutorial = new Tut_SCube(); break;
+				case TutorialsEnum.Tut_SCubeGLSL: currentTutorial = new Tut_SCubeGLSL(); break;
 			}
 		}
 	}

@@ -14,9 +14,7 @@ namespace GlslTutorials
 		bool renderWithString = false;
 		List<string> renderStrings = new List<string>();
 		int renderString = 0;
-		Vector3 initialScale = new Vector3(50f, 50f, 50f);
 		Vector3 scaleFactor = new Vector3(10f, 10f, 10f);
-		Vector3 translateVector = new Vector3(0f, 0f, 0f);
 		Vector3 cameraSpaceProjLightPos= new Vector3(0.0f, 0.0f, 1.0f);
 		Vector4 ambientIntensity = new Vector4(0.1f, 0.1f, 0.1f, 1.0f);
 		Vector4 redLight = new Vector4(0.3f, 0.0f, 0.0f, 1.0f);
@@ -227,25 +225,7 @@ namespace GlslTutorials
 				90.0f/250.0f
 			);
 
-
-		static ViewData g_initLightView = new ViewData
-			(
-				new Vector3(0.0f, 0.0f, 20.0f),
-				new Quaternion(1.0f, 0.0f, 0.0f, 0.0f),
-				5.0f,
-				0.0f
-			);
-
-		static ViewScale g_initLightViewScale = new ViewScale
-			(
-				0.05f, 10.0f,
-				0.1f, 0.05f,
-				4.0f, 1.0f,
-				90.0f/250.0f
-			);
-
 		ViewPole g_viewPole = new ViewPole(g_initialView, g_initialViewScale, MouseButtons.MB_LEFT_BTN);
-		ViewPole g_lightViewPole = new ViewPole(g_initLightView, g_initLightViewScale, MouseButtons.MB_RIGHT_BTN, true);
 
 		Matrix4 cameraMatrix;
 
@@ -254,7 +234,6 @@ namespace GlslTutorials
 			ClearDisplay();
 
 			cameraMatrix = g_viewPole.CalcMatrix();
-			Matrix4 lightView = g_lightViewPole.CalcMatrix();
 
 			if (meshes[currentMesh] != null)
 			{

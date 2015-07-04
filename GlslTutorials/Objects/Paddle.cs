@@ -129,7 +129,7 @@ namespace GlslTutorials
 			movement.SetLimits(lowLimits, highLimits);
 		}
 		
-		public Vector3 GetOffset()
+		public override Vector3 GetOffset()
 		{
 			return body.GetOffset();
 		}

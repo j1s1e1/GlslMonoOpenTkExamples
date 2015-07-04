@@ -166,8 +166,6 @@ namespace GlslTutorials
 		
 		public void Face(Vector3 direction)
 		{
-			Vector3 axis = new Vector3();
-			float angle = 0;
 			RotateShapes(direction, 10f);
 		}
 	}

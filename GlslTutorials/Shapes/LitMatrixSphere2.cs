@@ -7,12 +7,15 @@ namespace GlslTutorials
 	public class LitMatrixSphere2 : Shape
 	{
 		float radius;
+		private int divideCount;
 		
-		public LitMatrixSphere2 (float radius_in)
+		public LitMatrixSphere2 (float radius_in, int divideCountIn = 4)
 		{
+			divideCount = divideCountIn;
 			radius = radius_in;
         	vertexCoords = GetCircleCoords(radius);
-        	vertexCount = vertexCoords.Length / COORDS_PER_VERTEX / 2;
+			COORDS_PER_VERTEX = 6;
+        	vertexCount = vertexCoords.Length / COORDS_PER_VERTEX;
 		
 			vertexData = vertexCoords;
 			SetupSimpleIndexBuffer();
@@ -31,7 +34,7 @@ namespace GlslTutorials
 		
 		private float[] GetCircleCoords(float radius) 
 		{
-	        float[] coords = Icosahedron.GetDividedTriangles(4);
+			float[] coords = Icosahedron.GetDividedTriangles(divideCount);
 	        float[] coords_with_normals = new float[2*coords.Length];
 	        int j = 0;
 	        for (int i = 0; i < coords.Length * 2; i++)
@@ -56,10 +59,10 @@ namespace GlslTutorials
 		
 	    private void DrawSub(int first_triangle, int last_triangle)
 	    {
-	        int newVertexCount = (last_triangle - first_triangle + 1) * 3 * 3 / COORDS_PER_VERTEX;
+			int newVertexCount = indexData.Length / 20 * (last_triangle - first_triangle + 1);
 
 			Programs.Draw(programNumber, vertexBufferObject, indexBufferObject, modelToWorld,
-			              indexData.Length, color);
+				newVertexCount, color);
 	    }
 	
 	    public override void Draw() {

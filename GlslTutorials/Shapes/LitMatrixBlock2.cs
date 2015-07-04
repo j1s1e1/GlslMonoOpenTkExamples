@@ -82,11 +82,7 @@ namespace GlslTutorials
 		
 		public override void Draw()
 		{
-	        // Add program to OpenGL environment
-	
-	        Matrix4 mm = Rotate(modelToWorld, axis, angle);
-			
-			Programs.Draw(programNumber, vertexBufferObject, indexBufferObject, modelToWorld, indexData.Length, color);
+	        Programs.Draw(programNumber, vertexBufferObject, indexBufferObject, modelToWorld, indexData.Length, color);
 		}
 	}
 }

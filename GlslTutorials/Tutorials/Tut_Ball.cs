@@ -22,7 +22,6 @@ namespace GlslTutorials
 		float newPerspectiveAngle = 150f;
 
 		float textureRotation = -90f;
-		float epsilon = 0.251f;
 
 		bool rotateWorld = false;
 		int ballProgram;

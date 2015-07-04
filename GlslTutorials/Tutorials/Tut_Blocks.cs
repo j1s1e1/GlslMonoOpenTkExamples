@@ -35,9 +35,7 @@ namespace GlslTutorials
 				
 			lmbs.Add(new LitMatrixBlock3(new Vector3(0.25f, 0.25f, 0.25f), Colors.GREEN_COLOR));	
 		}
-		
-		private float angle = 0;
-		
+
 		public override void display()
 	    {
 	        GL.ClearColor(0.0f, 0.0f, 0.0f, 0.0f);

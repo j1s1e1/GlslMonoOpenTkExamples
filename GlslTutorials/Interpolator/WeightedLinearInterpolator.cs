@@ -39,8 +39,6 @@ namespace GlslTutorials
 			float sectionAlpha = fAlpha - m_values[segment - 1].weight;
 			sectionAlpha /= m_values[segment].weight - m_values[segment - 1].weight;
 
-			float invSecAlpha = 1.0f - sectionAlpha;
-			
 			return LinearInterpolate(segment - 1, segment, sectionAlpha);
 		}
 		

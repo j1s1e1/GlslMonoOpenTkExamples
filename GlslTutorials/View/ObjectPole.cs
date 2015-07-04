@@ -18,16 +18,6 @@ namespace GlslTutorials
 		{
 			return MatrixStack.rightMultiply;
 		}
-	    private ObjectData initialPosition;
-	    private float rotateScale;
-	    private bool isDragging;
-			/*
-			private ViewPole.RotatingMode rotatingMode;
-			private Vec2 prevMousePos;
-			private Vec2 startDragMousePos;
-			private Quat startDragOrient;
-			private ViewPole viewPole;
-			*/
 	
 	    /**
 	     \brief Creates an object pole with a given initial position and orientation.
@@ -42,11 +32,9 @@ namespace GlslTutorials
 	    {
 			m_pView = LookatProvider;
 			m_po = initialData;
-			m_initialPo = initialData;
 			m_rotateScale = rotateScale;
 			m_actionButton = actionButton;
 			m_bIsDragging = false;
-	        initialPosition = initialData;
 	    }
 	
 	    ///Generates the local-to-world matrix for this object.
@@ -341,8 +329,7 @@ namespace GlslTutorials
 	
 	    ViewProvider m_pView;
 	    ObjectData m_po;
-	    ObjectData m_initialPo;
-	
+
 	    float m_rotateScale;
 	    MouseButtons m_actionButton;
 	

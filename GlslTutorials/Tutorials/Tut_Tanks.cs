@@ -18,12 +18,9 @@ namespace GlslTutorials
 		}
 		
 		float angle = 0;
-		Vector3 tsAxis = new Vector3(0.1f, 1f, 0f);
-		
+
 		private void Move()
 		{
-			float sin = (float) Math.Sin(angle);
-			float cos = (float) Math.Cos (angle);
 			angle += 0.02f;
 		}
 		

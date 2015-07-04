@@ -791,7 +791,7 @@ namespace GlslTutorials
 			"return (1.0 / ( 1.0 + Lgt.lightAttenuation * lightDistanceSqr));" +
 		"}";
 
-		private static String ComputeLighting =
+		public static String ComputeLighting =
 		"vec4 ComputeLighting(in vec4 diffuseColor, in PerLight lightData)" +
 		"{" +
 			"vec3 lightDir;" +
@@ -1347,7 +1347,7 @@ namespace GlslTutorials
 			//"gl_FragColor =  vec4(1.0, 1.0, 1.0, 1.0);" 
 		"}";
 
-		private static String PerLight = 
+		public static String PerLight = 
 		"struct PerLight" +
 		"{" +
 			"vec4 cameraSpaceLightPos;" +
@@ -1563,6 +1563,59 @@ namespace GlslTutorials
 
 			"gl_FragColor = accumLighting / Lgt.maxIntensity;" +
 		"}";
+
+		public static String shadowMapPcf =
+
+		"uniform sampler2DShadow ShadowMap;" +
+		"varying vec4 ShadowCoord;" +
+		"uniform float xPixelOffset ;" +
+		"uniform float yPixelOffset ;" +
+
+		"float lookup( vec2 offSet)" +
+		"{" +
+			"return shadow2DProj(ShadowMap, ShadowCoord + vec4(offSet.x * xPixelOffset * ShadowCoord.w, offSet.y * yPixelOffset * ShadowCoord.w, 0.05, 0.0) ).w;" +
+		"}" +
+
+		"void main()" +
+		"{" +
+			"float shadow;" +
+
+			"if (ShadowCoord.w > 1.0)" +
+			"{" +
+				"float x,y;" +
+				"for (y = -3.5 ; y <=3.5 ; y+=1.0)" +
+					"for (x = -3.5 ; x <=3.5 ; x+=1.0)" +
+						"shadow += lookup(vec2(x,y));" +
+				"shadow /= 64.0;" +
+			"}" +
+			"gl_FragColor =	(shadow+0.2) * vec4(1.0, 0.0, 0.0, 1.0);" + // gl_Color;" +
+			"gl_FragColor =	vec4(1.0, 0.0, 0.0, 1.0);" + 
+		"}";
+
+		public static String ShadowMap =
+			"uniform sampler2D ShadowMap;" +
+			"varying vec4 ShadowCoord;" +
+			"void main()" +
+			"{" +
+				"vec4 shadowCoordinateWdivide = ShadowCoord / ShadowCoord.w ;" +
+				"shadowCoordinateWdivide.z += 0.0005;" +
+				"float distanceFromLight = texture2D(ShadowMap,shadowCoordinateWdivide.st).z;" +
+				"float shadow = 1.0;" +
+				"if (ShadowCoord.w > 0.0)" +
+				"shadow = distanceFromLight < shadowCoordinateWdivide.z ? 0.5 : 1.0 ;" +
+				"gl_FragColor =	 shadow * gl_Color;" +
+			"}";
+
+		public static String sCube = 
+			"#version 120\n" +
+			"varying vec4 theColor;" +
+
+			"void main()" +
+			"{" +
+				"gl_FragColor = theColor;" +
+			"}";
+		
+
 	}
 }
 

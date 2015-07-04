@@ -11,9 +11,8 @@ namespace GlslTutorials
 {
 	public class LightEnv
 	{
-		float m_fLightAttenuation;
-		ConstVelLinearInterpolator<Vector3IDistance> LightInterpolator;
-		
+		public float m_fLightAttenuation;
+
 		TimedLinearInterpolator<Vector4IDistance> m_ambientInterpolator = new TimedLinearInterpolator<Vector4IDistance>();
 		TimedLinearInterpolator<Vector4IDistance> m_backgroundInterpolator = new TimedLinearInterpolator<Vector4IDistance>();
 		TimedLinearInterpolator<Vector4IDistance> m_sunlightInterpolator = new TimedLinearInterpolator<Vector4IDistance>();
@@ -28,10 +27,7 @@ namespace GlslTutorials
 		const int MAX_NUMBER_OF_LIGHTS = 4;
 		
 		public float first;
-		List<MaxIntensityData> MaxIntensityVector = new List<MaxIntensityData>();
 
-		List<LightData> LightVector = new List<LightData>();
-		
 		float GetValue(MaxIntensityData data) 
 		{
 			return data.GetFloat();
@@ -77,7 +73,7 @@ namespace GlslTutorials
 				docenvFilename = new XmlDocument();
 				docenvFilename.Load(envFilename);
 			}
-			catch(Exception ex)
+			catch
 			{
 				MessageBox.Show(envFilename + ": Parse error in light environment file.");
 				return;

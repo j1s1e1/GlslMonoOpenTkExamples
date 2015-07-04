@@ -50,10 +50,7 @@ namespace GlslTutorials
 		
 	    private void DrawSub(int first_triangle, int last_triangle)
 	    {
-	        int newVertexCount = (last_triangle - first_triangle + 1) * 3 * 3 / COORDS_PER_VERTEX;
-	        // Add program to OpenGL environment
-
-		 	Matrix4 mm = Rotate(modelToWorld, axis, angle);	
+	        Matrix4 mm = Rotate(modelToWorld, axis, angle);	
 			
 			Programs.Draw(programNumber, vertexBufferObject, indexBufferObject, mm, indexData.Length, color);
 	    }

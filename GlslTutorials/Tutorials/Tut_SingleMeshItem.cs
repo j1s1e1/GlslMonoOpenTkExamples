@@ -54,12 +54,8 @@ namespace GlslTutorials
 	    static ProgramData g_WhiteDiffuseColor;
 	    static ProgramData g_VertexDiffuseColor;
 	    static ProgramData g_WhiteAmbDiffuseColor;
-	    static ProgramData g_VertexAmbDiffuseColor;
-	
-	
 	    static ProgramData currentProgram;
 		
-		static Vector4 g_lightDirection = new Vector4(0.866f, 0.5f, 0.0f, 0.0f);
 		Vector3 dirToLight = new Vector3(0.5f, 0.5f, 1f);
 	
 	    ProgramData LoadProgram(String strVertexShader, String strFragmentShader)

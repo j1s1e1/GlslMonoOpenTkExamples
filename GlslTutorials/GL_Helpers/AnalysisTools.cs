@@ -145,6 +145,39 @@ namespace GlslTutorials
 			result.Append(CalculateMatrixEffects(Z45));
 			return result.ToString();
 		}
+
+		public static bool CompareMatrix4ToFloat(Matrix4 matrix, float[] floats)
+		{
+			Matrix4 floatToMatrix = new Matrix4(floats[0], floats[1], floats[2], floats[3],
+												floats[4], floats[5], floats[6], floats[7],
+												floats[8], floats[9], floats[10], floats[11],
+												floats[12], floats[13], floats[14], floats[15]);
+			Matrix4 result = matrix - floatToMatrix;
+			if (result == Matrix4.Zero)
+			{
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+		}
+
+		public static Matrix4 CreateFromFloats(float[] floats)
+		{
+			return  new Matrix4(floats[0], floats[1], floats[2], floats[3],
+				floats[4], floats[5], floats[6], floats[7],
+				floats[8], floats[9], floats[10], floats[11],
+				floats[12], floats[13], floats[14], floats[15]);
+		}
+
+		public static float[] CreateFromMatrix(Matrix4 m)
+		{
+			return  new float[]{m.M11, m.M12, m.M13, m.M14,
+								m.M21, m.M22, m.M23, m.M24,
+								m.M31, m.M32, m.M33, m.M34,
+								m.M41, m.M42, m.M43, m.M44};
+		}
 	}
 }
 

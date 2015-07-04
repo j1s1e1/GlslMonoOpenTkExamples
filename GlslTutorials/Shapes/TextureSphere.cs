@@ -33,7 +33,7 @@ namespace GlslTutorials
         	InitializeVertexBuffer();
 			
 			programNumber = Programs.AddProgram(VertexShaders.MatrixTexture, 
-              	FragmentShaders.MatrixTexture);
+              	FragmentShaders.MatrixTextureScale);
 			Programs.SetUniformTexture(programNumber, g_colorTexUnit);
 			textureInt = Programs.SetTexture(programNumber, texture, true);
 			
@@ -98,8 +98,8 @@ namespace GlslTutorials
 				textureCoordinates[vertex * 2 + 1] = (float)((latitude + Math.PI/2) / Math.PI);
 				if (textureCoordinates[vertex * 2] < 0) textureCoordinates[vertex * 2] = 0f;
 				if (textureCoordinates[vertex * 2] > 1) textureCoordinates[vertex * 2] = 1f;
-				if (textureCoordinates[vertex * 2 + 1] < 0) textureCoordinates[vertex * 2] = 0f;
-				if (textureCoordinates[vertex * 2 + 1] > 1) textureCoordinates[vertex * 2] = 1f;
+				if (textureCoordinates[vertex * 2 + 1] < 0) textureCoordinates[vertex * 2 + 1] = 0f;
+				if (textureCoordinates[vertex * 2 + 1] > 1) textureCoordinates[vertex * 2 + 1] = 1f;
 			}
 			// center all x coordinates in original 100%
 			for (int vertex = 0; vertex < vertexCount; vertex++)
@@ -160,11 +160,6 @@ namespace GlslTutorials
 		public void RotateAboutCenter(Vector3 axis, float angle)
 		{
 			RotateShape(center, axis, angle);
-		}
-
-		public override Vector3 GetOffset()
-		{
-			return new Vector3(modelToWorld.M41, modelToWorld.M42, modelToWorld.M43);
 		}
 	
 		public void SetLightScale(float f)

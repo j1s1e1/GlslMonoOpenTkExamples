@@ -71,7 +71,7 @@ namespace GlslTutorials
 			lightPosition = lightPosition * scale;
 		}
 
-		public void SetLightPosition(Vector3 v)
+		public override void SetLightPosition(Vector3 v)
 		{
 			lightPosition = v;
 		}

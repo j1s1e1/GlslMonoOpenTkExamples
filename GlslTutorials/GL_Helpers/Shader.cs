@@ -62,7 +62,7 @@ namespace GlslTutorials
 	
 	            // Get the link status.
 	            int[] linkStatus = new int[1];
-	            GL.GetProgram(programHandle, ProgramParameter.LinkStatus, linkStatus);
+				GL.GetProgram(programHandle, GetProgramParameterName.LinkStatus, linkStatus);
 	
 	            // If the link failed, delete the program.
 	            if (linkStatus[0] == 0)
@@ -104,7 +104,7 @@ namespace GlslTutorials
 	
 	            // Get the link status.
 	            int[] linkStatus = new int[1];
-	            GL.GetProgram(programHandle, ProgramParameter.LinkStatus, linkStatus);
+				GL.GetProgram(programHandle, GetProgramParameterName.LinkStatus, linkStatus);
 	
 	            // If the link failed, delete the program.
 	            if (linkStatus[0] == 0)
@@ -140,7 +140,7 @@ namespace GlslTutorials
 
 				// Get the link status.
 				int[] linkStatus = new int[1];
-				GL.GetProgram(programHandle, ProgramParameter.LinkStatus, linkStatus);
+				GL.GetProgram(programHandle, GetProgramParameterName.LinkStatus, linkStatus);
 
 				// If the link failed, delete the program.
 				if (linkStatus[0] == 0)

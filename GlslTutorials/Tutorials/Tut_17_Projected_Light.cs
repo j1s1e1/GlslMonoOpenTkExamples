@@ -13,10 +13,6 @@ namespace GlslTutorials
 		Vector3 translateVector = new Vector3(0f, 0f, 0f);
 		float scaleFactor = 0.02f;
 		static int NUMBER_OF_LIGHTS = 2;
-		public Tut_17_Projected_Light ()
-		{
-		}
-
 		const int g_projectionBlockIndex = 0;
 		const int g_lightBlockIndex = 1;
 		const int g_lightProjTexUnit = 3;
@@ -87,8 +83,6 @@ namespace GlslTutorials
 			}
 		}
 
-		////////////////////////////////
-		//View setup.
 		static ViewData g_initialView = new ViewData
 		(
 			new Vector3(0.0f, 0.0f, 10.0f),
@@ -167,12 +161,9 @@ namespace GlslTutorials
 
 		Mesh g_pAxesMesh;
 
-
 		void LoadAndSetupScene()
 		{
-
 			FrameworkScene pScene = new FrameworkScene("proj2d_scene.xml");
-
 			List<NodeRef> nodes = new List<NodeRef>();
 			nodes.Add(pScene.FindNode("cube"));
 			nodes.Add(pScene.FindNode("rightBar"));
@@ -232,7 +223,6 @@ namespace GlslTutorials
 
 		const int MAX_NUMBER_OF_LIGHTS = 4;
 
-		//Called after the window and OpenGL are initialized. Called exactly once, before the main loop.
 		protected override void init()
 		{
 			g_fzNear = 1.0f;

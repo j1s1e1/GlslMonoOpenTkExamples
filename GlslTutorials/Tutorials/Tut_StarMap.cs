@@ -31,7 +31,6 @@ namespace GlslTutorials
 		}
 
 		float perspectiveAngle = 90f;
-		float newPerspectiveAngle = 90f;
 
 		static private void SetGlobalMatrices()
 		{

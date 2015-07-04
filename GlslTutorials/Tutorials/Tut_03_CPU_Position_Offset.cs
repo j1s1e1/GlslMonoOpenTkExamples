@@ -27,8 +27,6 @@ namespace GlslTutorials
 
     	static short[] indexData = new short[]{ 0, 1, 2 };
 
-    	private static int POSITION_START = 0;
-
 	    void UpdateVertexBuffer(float[] data)
 	    {
 	        GL.BindBuffer(BufferTarget.ArrayBuffer, vertexBufferObject[0]);

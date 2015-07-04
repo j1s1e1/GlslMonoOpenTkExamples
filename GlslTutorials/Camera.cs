@@ -48,8 +48,6 @@ namespace GlslTutorials
 	
 	    public static Vector3 ResolveCamPosition()
 	    {
-	        MatrixStack tempMat;
-	
 	        float phi = (float)(Math.PI / 180 * g_sphereCamRelPos.X);
 	        float theta = (float)(Math.PI / 180 * g_sphereCamRelPos.Y + 90.0f);
 	

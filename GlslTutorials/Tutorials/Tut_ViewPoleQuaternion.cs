@@ -165,7 +165,6 @@ namespace GlslTutorials
 				modelMatrix.Translate(0.0f, 0.0f, 0f);
 
 				Matrix4 cameraMatrix = g_viewPole.CalcMatrix();
-				Matrix4 lightView = g_lightViewPole.CalcMatrix();
 
 				using (PushStack pushstack = new PushStack(modelMatrix)) 
 				{
@@ -240,12 +239,8 @@ namespace GlslTutorials
 			pm = persMatrix.Top();
 
 			SetGlobalMatrices(programs[currentProgram]);
-
 			GL.Viewport(0, 0, width, height);
-
 		}
-
-		float sqrt2over2 = (float) Math.Sqrt(2)/2f;
 
 		public override String keyboard(Keys keyCode, int x, int y)
 		{

@@ -108,10 +108,8 @@ namespace GlslTutorials
 			}
 		}
 		
-		bool loaded = false;
-        private void glControlLoad (object sender, EventArgs e)
+		private void glControlLoad (object sender, EventArgs e)
         {
-            loaded = true;
             GL.ClearColor (Color.SkyBlue);
         }
 
@@ -122,9 +120,7 @@ namespace GlslTutorials
 				currentTutorial.display();
 			}
         }
-		
-		 int x = 0;
-		
+
 		static TutorialBase currentTutorial;
 
         private void glControlKeyDown (object sender, KeyEventArgs e)

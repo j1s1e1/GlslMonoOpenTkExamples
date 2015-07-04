@@ -112,7 +112,6 @@ namespace GlslTutorials
 		public override void display()
 	    {
 			List<int> deadMissles = new List<int>();
-			List<int> deadAliens = new List<int>();
 			ClearDisplay();
 			ship.Draw();
 			anglehorizontal = anglehorizontal + 0.02f;

@@ -64,7 +64,6 @@ namespace GlslTutorials
 		static Mesh g_pCylinderMesh;
 		static Mesh g_pCubeTintMesh;
 		static Mesh g_pCubeColorMesh;
-		static Mesh g_pPlaneMesh;
 
 		//Called after the window and OpenGL are initialized. Called exactly once, before the main loop.
 		protected override void init()
@@ -79,7 +78,6 @@ namespace GlslTutorials
 				g_pCylinderMesh = new Mesh("unitcylindertint7.xml");
 				g_pCubeTintMesh = new Mesh("unitcubetint7.xml");
 				g_pCubeColorMesh = new Mesh("unitcubecolorworldscene.xml");
-				g_pPlaneMesh = new Mesh("unitplaneworldscene.xml");
 			}
 			catch (Exception ex)
 			{
@@ -326,7 +324,6 @@ namespace GlslTutorials
 				g_pCylinderMesh = null;
 				g_pCubeTintMesh = null;
 				g_pCubeColorMesh = null;
-				g_pPlaneMesh = null;
 				//timer.Enabled = false;
 				return "Escape";
 			case Keys.A:

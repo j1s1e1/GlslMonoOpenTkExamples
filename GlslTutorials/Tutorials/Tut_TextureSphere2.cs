@@ -156,11 +156,11 @@ namespace GlslTutorials
 					break;
 				case Keys.A:
 					setLightPosition = true;
-					lightPos.Add(new Vector3(0f, 0f, 1f));
+					lightPos = Vector3.Add(lightPos, new Vector3(0f, 0f, 1f));
 					break;
 				case Keys.B:
 					setLightPosition = true;
-					lightPos.Add(new Vector3(0f, 0f, -1f));
+					lightPos = Vector3.Add(lightPos, new Vector3(0f, 0f, -1f));
 					break;
 				case Keys.D:
 					scale *= 0.8f;

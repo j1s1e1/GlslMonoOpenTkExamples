@@ -16,16 +16,12 @@ namespace GlslTutorials
 		
 		public delegate void ForwardReceivedDataDelegate(byte[] data);
 		public ForwardReceivedDataDelegate ForwardReceivedData;
-		private Socket workSocket = null;
-	
+
 	    public void StartListening() {
-	        // Data buffer for incoming data.
-	        byte[] bytes = new Byte[1024];
-	
 	        // Establish the local endpoint for the socket.
 	        // The DNS name of the computer
 	        // running the listener is "host.contoso.com".
-	        IPHostEntry ipHostInfo = Dns.Resolve(Dns.GetHostName());
+			IPHostEntry ipHostInfo = Dns.GetHostEntry(Dns.GetHostName());
 	        IPAddress ipAddress = ipHostInfo.AddressList[0];
 	        IPEndPoint localEndPoint = new IPEndPoint(ipAddress, 2121);
 	

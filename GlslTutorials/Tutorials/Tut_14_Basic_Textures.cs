@@ -130,8 +130,6 @@ namespace GlslTutorials
 	        Framework.ForwardMouseWheel(g_viewPole, wheel, direction, x, y);
 	        Framework.ForwardMouseWheel(g_objtPole, wheel, direction, x, y);
 	    }
-		
-		static ProjectionBlock projData = new ProjectionBlock();
 
 		static Mesh g_pObjectMesh;
 		static Mesh g_pCubeMesh;

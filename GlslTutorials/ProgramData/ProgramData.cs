@@ -8,16 +8,17 @@ namespace GlslTutorials
 {
 	public class ProgramData
 	{
-        private int theProgram;
+		private int theProgram;
 		private int vertex_shader;
 		private int fragment_shader;
         private int positionAttribute;
         private int colorAttribute;
-        private int modelToCameraMatrixUnif;
+		private int modelToCameraMatrixUnif;
         private int modelToWorldMatrixUnif;
         private int worldToCameraMatrixUnif;
-        private int cameraToClipMatrixUnif;
+		private int cameraToClipMatrixUnif;
         private int baseColorUnif;
+		private int shadowMapUniform;
 
         private int normalModelToCameraMatrixUnif;
         private int dirToLightUnif;
@@ -37,10 +38,7 @@ namespace GlslTutorials
 		string vertexShader;
 		string fragmentShader;
 		
-		int BYTES_PER_FLOAT = 4;
-		int COORDS_PER_VERTEX = 3;
 		int POSITION_DATA_SIZE_IN_ELEMENTS = 3;
-		int COLOR_DATA_SIZE_IN_ELEMENTS = 4;	
 		int NORMAL_DATA_SIZE_IN_ELEMENTS = 3;
 		int NORMAL_START = 3 * 4; // POSITION_DATA_SIZE_IN_ELEMENTS * BYTES_PER_FLOAT;
 		int TEXTURE_DATA_SIZE_IN_ELEMENTS = 2;
@@ -105,6 +103,7 @@ namespace GlslTutorials
 			} 
 			colorTextureUnif = GL.GetUniformLocation(theProgram, "diffuseColorTex");
 			scaleUniform = GL.GetUniformLocation(theProgram, "scaleFactor");
+			shadowMapUniform = GL.GetUniformLocation(theProgram,"ShadowMap");
 	    }
 		
 		void CreateSampler()
@@ -356,6 +355,13 @@ namespace GlslTutorials
 			vertexStride = vertexStrideIn;
 		}
 
+		public void SetShadowMap(int shadowMap)
+		{
+			GL.UseProgram(theProgram);
+			GL.Uniform1(shadowMap, shadowMap);
+			GL.UseProgram(0);	
+		}
+
 		public int getVertexShader()
 		{
 			return vertex_shader;
@@ -387,8 +393,6 @@ namespace GlslTutorials
 		{
 			return GL.GetShaderInfoLog(shader);
 		}
-
-
 
 		private String getShaderSource(int shader)
 		{
@@ -466,6 +470,26 @@ namespace GlslTutorials
 		public int getFragmentShader()
 		{
 			return fragment_shader;
+		}
+
+		public int GetProgram()
+		{
+			return theProgram;
+		}
+
+		public int GetModelToCameraMatrixUnif()
+		{
+			return modelToCameraMatrixUnif;
+		}
+
+		public int GetCameraToClipMatrixUniform()
+		{
+			return cameraToClipMatrixUnif;
+		}
+
+		public int GetShadowMapUniform()
+		{
+			return shadowMapUniform;
 		}
 	}
 }

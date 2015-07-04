@@ -80,10 +80,9 @@ namespace GlslTutorials
 	            cmd.bIsIndexedCmd = true;
 	            try
 	            {
-	                String test = cmdElem.GetAttribute("prim-restart");
 	                cmd.primRestart = Int32.Parse(cmdElem.GetAttribute("prim-restart"));
 	            }
-	            catch (Exception ex)
+	            catch
 	            {
 	                cmd.primRestart = -1;
 	            }
@@ -257,8 +256,7 @@ namespace GlslTutorials
 	                    int bufferSize = 0;
 	
 	                    for (int iAttribIx = 0; iAttribIx < namedVao.Count; iAttribIx++) {
-	                        int iAttrib = namedVao[iAttribIx];
-	                        int iAttribOffset = -1;
+	                        int iAttrib = namedVao[iAttribIx];	                        
 	                        for (int iCount = 0; iCount < attribs.Count; iCount++) {
 	                            bufferSize = bufferSize + attribs[iCount].iSize * attribs[iCount].pAttribType.iNumBytes;
 	                            switch (iCount)
@@ -282,12 +280,7 @@ namespace GlslTutorials
 	                                    namedVaoData.normalStride = m_pData.normalSize * attribs[iCount].pAttribType.iNumBytes;
 	                                    break;
 	                            }
-	                            if (attribs[iCount].iAttribIx == iAttrib) {
-	                                iAttribOffset = iCount;
-	                                break;
-	                            }
 	                        }
-	                        // skip this use other buffer attribs.get(iAttribOffset).SetupAttributeArray(attribStartLocs.get(iAttribOffset));
 	                    }
 	
 	
@@ -374,7 +367,6 @@ namespace GlslTutorials
 	                }
 	            }
 	            if (sources_found) {
-	                String vao_name = vaoElem.GetAttribute("name");
 	                attributes.Add(vaoElem.GetAttribute("name"), source_attributes);
 	            } else {
 	                throw new Exception("No sources found for vao");

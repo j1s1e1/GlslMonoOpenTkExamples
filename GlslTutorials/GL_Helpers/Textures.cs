@@ -185,7 +185,7 @@ namespace GlslTutorials
 
 			GL.BindTexture(TextureTarget.Texture1D, texture);
 
-			GL.Begin(BeginMode.Quads);
+			GL.Begin(PrimitiveType.Quads);
 
 			//Bind texture coordinates to vertices in ccw order
 
@@ -222,7 +222,7 @@ namespace GlslTutorials
 
 			GL.BindTexture(TextureTarget.Texture2D, texture);
 
-			GL.Begin(BeginMode.Quads);
+			GL.Begin(PrimitiveType.Quads);
 
 			//Bind texture coordinates to vertices in ccw order
 

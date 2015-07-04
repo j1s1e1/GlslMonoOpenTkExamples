@@ -61,7 +61,7 @@ namespace GlslTutorials
 			GL.Uniform4(diffuseColorUnif, materialBlock.diffuseColor);
 			GL.Uniform4(specularColorUnif, materialBlock.specularColor);
 			GL.Uniform1(specularShininessUnif, materialBlock.specularShininess);
-			GL.UseProgram(programNumber);
+			GL.UseProgram(0);
 		}
 
 		public void UpdateInternal()
@@ -70,7 +70,7 @@ namespace GlslTutorials
 			GL.Uniform4(diffuseColorUnif, diffuseColor);
 			GL.Uniform4(specularColorUnif, specularColor);
 			GL.Uniform1(specularShininessUnif, specularShininess);
-			GL.UseProgram(programNumber);
+			GL.UseProgram(0);
 		}
 	}
 }

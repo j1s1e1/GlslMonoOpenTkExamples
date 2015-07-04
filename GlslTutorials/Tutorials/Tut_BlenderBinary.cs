@@ -15,8 +15,7 @@ namespace GlslTutorials
 		Blender blender;
 		Blender blender2;
 		Blender blender3;
-		Blender blender4;
-		
+
 		TextClass credit1;
 		TextClass credit2;
 		bool staticText = true;

@@ -410,7 +410,6 @@ namespace GlslTutorials
 		private static Vector3 targetPos = new Vector3(0.0f, 0.0f, 0.0f);
 		private static Quaternion orient = new Quaternion(0.909845f, 0.16043f, -0.376867f, -0.0664516f);
 		private static float rotateScale = (float)(90.0f / 250.0f);
-		private static ViewPole LookatProvider = g_viewPole;
 
 		public static ObjectData g_initialObjectData = new ObjectData(targetPos, orient);
 
