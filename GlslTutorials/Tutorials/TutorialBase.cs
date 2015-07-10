@@ -72,7 +72,7 @@ namespace GlslTutorials
 			timer = new Timer();
 			timer.Tick += TimerTick;
 			timer.Start();
-			timer.Interval = 10;
+			timer.Interval = 5;
 		}
 
 	    public StringBuilder Setup()

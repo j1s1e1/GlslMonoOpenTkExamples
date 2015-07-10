@@ -694,7 +694,7 @@ namespace GlslTutorials
 
 			"uniform mat4 cameraToClipMatrix;" +
 			"uniform mat4 modelToCameraMatrix;" +
-			"uniform vec4 offset = vec4(0.0, 0.0, -2.0, 0.0);" +
+			"uniform vec4 offset;" +
 
 			"void main()" +
 			"{" +

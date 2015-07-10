@@ -7,6 +7,7 @@ namespace GlslTutorials
 	public class TextureSphere : Shape
 	{
 		float radius;
+		float radiusVariation = 0f;
 		int TEXTURE_DATA_SIZE_IN_ELEMENTS = 2;
 		float[] textureCoordinates;
 		float[] vertexDataWithTextureCoordinates;
@@ -17,8 +18,14 @@ namespace GlslTutorials
 		float lightScale = 1.0f;
 		public static bool reverseNormals = false;
 
-		public TextureSphere(float radiusIn, string textureIn = "")
+		public TextureSphere(float radiusIn, string textureIn = "") : this(radiusIn, 0f, textureIn)
 		{
+			
+		}
+
+		public TextureSphere(float radiusIn,  float radiusVariationIn, string textureIn = "")
+		{
+			radiusVariation = radiusVariationIn;
 			radius = radiusIn;
 			if (textureIn != "") texture = textureIn;
         	vertexCoords = GetCircleCoords(1f);
@@ -61,7 +68,7 @@ namespace GlslTutorials
 	                case 0:
 	                case 1:
 	                case 2:
-	                    coords_with_normals[i] = coords[j] * radius;
+						coords_with_normals[i] = coords[j] * (radius + radiusVariation * (float)random.NextDouble());
 	                    j++;
 	                    break;
 	                case 3:  coords_with_normals[i] = coords[j-3]; break;

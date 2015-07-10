@@ -5,7 +5,10 @@ namespace GlslTutorials
 {
 	public enum TutorialsEnum
 	{
-		
+		Tut_Dither,
+		Tut_ColorTransform,
+		Tut_Horizon,
+		Tut_Dragonfly,
 		Tut_SCubeGLSL,
 		Tut_SCube,
 		Tut_ShadowTexture,
@@ -18,7 +21,7 @@ namespace GlslTutorials
 		Tut_ShadowMap,
 
 		Tut_Zoo,
-		Tut_Dragonfly,
+
 		Tut_PaintBox,
 		Tut_PaintBoxSlave,
 
@@ -34,7 +37,7 @@ namespace GlslTutorials
 		Tut_Orbit,
 		Tut_StarMap,
 		Tut_SolarSystem,
-		Tut_Horizon,
+
 		Tut_Plane,
 		Tut_Cans,
 		Tut_Throw,
@@ -210,6 +213,8 @@ namespace GlslTutorials
 				case TutorialsEnum.Tut_FBO_Test: currentTutorial = new Tut_FBO_Test(); break;
 				case TutorialsEnum.Tut_SCube: currentTutorial = new Tut_SCube(); break;
 				case TutorialsEnum.Tut_SCubeGLSL: currentTutorial = new Tut_SCubeGLSL(); break;
+				case TutorialsEnum.Tut_ColorTransform: currentTutorial = new Tut_ColorTransform(); break;
+				case TutorialsEnum.Tut_Dither: currentTutorial = new Tut_Dither(); break;
 			}
 		}
 	}

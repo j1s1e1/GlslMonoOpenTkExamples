@@ -7,6 +7,8 @@ namespace GlslTutorials
 		private void SetupGlControl()
 		{
 			this.GlControl = new OpenTK.GLControl();
+			this.GlControl.Context.SwapInterval = 1;
+			this.GlControl.Context.VSync = true;
 			this.GlControl.Location = new System.Drawing.Point(400, 50);
             this.GlControl.Size = new System.Drawing.Size (512, 512);
 			this.GlControl.MouseDown += new System.Windows.Forms.MouseEventHandler(glControlMouseDown);

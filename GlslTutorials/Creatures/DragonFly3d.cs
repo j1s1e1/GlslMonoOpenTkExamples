@@ -46,7 +46,7 @@ namespace GlslTutorials
 		public override void Draw()
         {
             x_step = 20;
-            if (direction == 1)
+            if (direction == 2)
             {
               x_step = -20;
             }

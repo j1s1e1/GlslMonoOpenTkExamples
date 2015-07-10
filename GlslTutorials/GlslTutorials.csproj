@@ -277,6 +277,9 @@
     <Compile Include="Tutorials\Tut_ShadowTexture.cs" />
     <Compile Include="Tutorials\Tut_SCube.cs" />
     <Compile Include="Tutorials\Tut_SCubeGLSL.cs" />
+    <Compile Include="Tutorials\Tut_ColorTransform.cs" />
+    <Compile Include="Tutorials\Tut_Dither.cs" />
+    <Compile Include="Tutorials\Dither_GameWindow.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -379,5 +382,6 @@
     <None Include="Textures\starmap.png" />
     <None Include="Textures\grass.jpg" />
     <None Include="Textures\water1.jpg" />
+    <None Include="Textures\colors.png" />
   </ItemGroup>
 </Project>

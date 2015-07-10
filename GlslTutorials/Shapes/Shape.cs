@@ -62,6 +62,8 @@ namespace GlslTutorials
 		protected string VertexShader = VertexShaders.PosOnlyWorldTransform_vert;
 		protected string FragmentShader = FragmentShaders.ColorUniform_frag;
 		protected int programNumber;
+
+		protected static Random random = new Random();
 		
 		public virtual void SetProgram(int newProgram)
 		{

@@ -11,7 +11,7 @@ namespace GlslTutorials
 
 		protected override void init()
 		{
-			planet = new TextureSphere(2f);
+			planet = new TextureSphere(2f, 0.0f);
 			planet.Move(new Vector3(0f, -2f, 1f));
 			SetupDepthAndCull();
 		}

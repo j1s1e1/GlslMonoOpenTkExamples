@@ -1614,6 +1614,20 @@ namespace GlslTutorials
 			"{" +
 				"gl_FragColor = baseColor;" +
 			"}";
+
+		public static String ColorSwapTexture =
+		"uniform sampler2D diffuseColorTex;" +
+		
+		"varying vec2 colorCoord;" +
+
+		"uniform vec4 COLOR_MASKS[ 16 ];" +
+
+		"void main()" +
+		"{" +
+			"vec4 tcolor = texture2D(diffuseColorTex, colorCoord);" +
+			"int green = int(tcolor.y * 16.0);" +
+			"gl_FragColor = COLOR_MASKS[green];" +
+		"}";
 		
 
 	}

@@ -9,10 +9,6 @@ namespace GlslTutorials
 {
 	public class Tut_Texture : TutorialBase
 	{
-		public Tut_Texture ()
-		{
-		}
-
 		TextureElement wood;
 		PaintWall paintWall;
 		TextureElement flashlight;
