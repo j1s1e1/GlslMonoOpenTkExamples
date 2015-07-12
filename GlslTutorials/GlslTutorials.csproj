@@ -280,6 +280,7 @@
     <Compile Include="Tutorials\Tut_ColorTransform.cs" />
     <Compile Include="Tutorials\Tut_Dither.cs" />
     <Compile Include="Tutorials\Dither_GameWindow.cs" />
+    <Compile Include="Textures\SampleTextures.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
