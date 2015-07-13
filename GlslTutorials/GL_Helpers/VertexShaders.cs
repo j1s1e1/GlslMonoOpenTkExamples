@@ -702,7 +702,66 @@ namespace GlslTutorials
 				"cameraPos = cameraPos + offset;" +
 				"gl_Position = cameraToClipMatrix * cameraPos;" +
 			"}";
-		
+
+		public static string flightControl =
+		"attribute vec4 position;" +
+
+		"uniform mat4 systemMovementMatrix;" +
+		"uniform mat4 cameraToClipMatrix;" +
+		"uniform mat4 worldToCameraMatrix;" +
+		"uniform mat4 modelToWorldMatrix;" +
+
+		"void main()" +
+		"{" +
+			"vec4 temp = modelToWorldMatrix *  position;" +
+			"temp = worldToCameraMatrix * temp;" +
+			"temp = cameraToClipMatrix * temp;" +
+			"gl_Position = systemMovementMatrix * temp;" +
+		" }";
+
+		public static string flightControl_lms =
+		"attribute vec4 position;" +
+		"attribute vec3 normal;" +
+		"uniform mat4 systemMovementMatrix;" +
+		"uniform mat4 cameraToClipMatrix;" +
+		"uniform mat4 worldToCameraMatrix;" +
+		"uniform mat4 modelToWorldMatrix;" +
+
+		"varying vec3 v_Normal;" +
+		"varying vec3 v_Position;" +
+		"void main()" +
+		"{" +
+			"vec4 temp = modelToWorldMatrix * position;" +
+			"temp = worldToCameraMatrix * temp;" +
+			"temp = cameraToClipMatrix * temp;" +
+			"temp = systemMovementMatrix * temp;" +
+			"v_Position = vec3(temp);" +
+			"v_Normal = normal;" +
+			"gl_Position = temp;" +
+		"}";
+
+		public static string spherical_lms =
+			"attribute vec4 position;" +
+			"attribute vec3 normal;" +
+			"uniform mat4 rotationMatrix;" +
+			"uniform mat4 systemMovementMatrix;" +
+			"uniform mat4 cameraToClipMatrix;" +
+			"uniform mat4 worldToCameraMatrix;" +
+			"uniform mat4 modelToWorldMatrix;" +
+
+			"varying vec3 v_Normal;" +
+			"varying vec3 v_Position;" +
+			"void main()" +
+			"{" +
+			"vec4 temp = modelToWorldMatrix * position;" +
+			"temp = worldToCameraMatrix * temp;" +
+			"temp = cameraToClipMatrix * temp;" +
+			"temp = systemMovementMatrix * temp;" +
+			"temp = rotationMatrix * temp;" +
+			"v_Position = vec3(temp);" +
+			"v_Normal = normal;" +
+			"gl_Position = temp;" +
+			"}";
 	}
 }
 

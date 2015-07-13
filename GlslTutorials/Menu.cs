@@ -5,11 +5,14 @@ namespace GlslTutorials
 {
 	public enum TutorialsEnum
 	{
+		Tut_SphericalCoordinates,
+		Tut_FlightControls,
+		Tut_SCubeGLSL,
 		Tut_Dither,
 		Tut_ColorTransform,
 		Tut_Horizon,
 		Tut_Dragonfly,
-		Tut_SCubeGLSL,
+
 		Tut_SCube,
 		Tut_ShadowTexture,
 
@@ -215,6 +218,9 @@ namespace GlslTutorials
 				case TutorialsEnum.Tut_SCubeGLSL: currentTutorial = new Tut_SCubeGLSL(); break;
 				case TutorialsEnum.Tut_ColorTransform: currentTutorial = new Tut_ColorTransform(); break;
 				case TutorialsEnum.Tut_Dither: currentTutorial = new Tut_Dither(); break;
+				case TutorialsEnum.Tut_FlightControls: currentTutorial = new Tut_FlightControls(); break;
+				case TutorialsEnum.Tut_SphericalCoordinates: currentTutorial = new Tut_SphericalCoordinates(); break;
+				
 			}
 		}
 	}

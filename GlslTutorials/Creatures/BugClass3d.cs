@@ -217,6 +217,16 @@ namespace GlslTutorials
             */
         }
 
+		public void SetAutoMove()
+		{
+			autoMove = true;
+		}
+
+		public void ClearAutoMove()
+		{
+			autoMove = false;
+		}
+
         public void Move()
         {
           if (alive)

@@ -49,16 +49,6 @@ namespace GlslTutorials
 			body[4].SetAngles(0, 0, -wingOffset * 10);
 			body[5].SetAngles(80, 0, wingOffset * 10);
 		}
-
-		public void SetAutoMove()
-		{
-			autoMove = true;
-		}
-
-		public void ClearAutoMove()
-		{
-			autoMove = false;
-		}
 		
 		public override void Draw()
 		{

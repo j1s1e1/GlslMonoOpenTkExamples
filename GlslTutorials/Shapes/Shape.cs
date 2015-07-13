@@ -80,6 +80,11 @@ namespace GlslTutorials
 	        worldToCamera = Matrix4.Identity;
 	    }
 
+		public static void ScaleWorldToCameraMatrix(float scaleFactor)
+		{
+			worldToCamera = Matrix4.Mult(Matrix4.Scale(new Vector3(scaleFactor, scaleFactor, scaleFactor)), worldToCamera);
+		}
+
 		public static void ResetCameraToClipMatrix()
 		{
 			cameraToClip = Matrix4.Identity;
@@ -437,7 +442,6 @@ namespace GlslTutorials
 		{
 			modelToWorld = Matrix4.Mult(modelToWorld, Matrix4.CreateScale(scale));
 		}
-
 
 		public static void SetScale(float scale)
 		{

@@ -10,7 +10,7 @@ namespace GlslTutorials
 	{
 		bool cubeLMB = true;
 		Matrix3 rotation;
-		bool rotateCube = true;
+		bool rotateCube = false;
 		bool drawGround = true;
 		bool drawBack = true;
 		bool shadowOffsetZero = false;
@@ -86,13 +86,20 @@ namespace GlslTutorials
 		LitMatrixBlock3 lmb3;
 
 		float lmb3Offset = -2;
+		float shadowOffset = -2f;
 		int offsetUnif;
 
 		LitMatrixBlock3 backLMB;
 		LitMatrixBlock3 groundLMB;
 
+		Matrix4 perspectiveFOV;
+
 		protected override void init()
 		{
+			float extra = -2.0f;
+			//groundPlane.Z = groundPlane.Z + extra;
+			//backPlane.Z = backPlane.Z + extra;
+			//lightPos.Z = lightPos.Z + extra;
 			sCubeProgram = Programs.AddProgram(VertexShaders.sCube, FragmentShaders.sCube);
 			lmb3 = new LitMatrixBlock3(new Vector3(1.0f, 1.0f, 1.0f), Colors.BLUE_COLOR);
 			lmb3.SetProgram(sCubeProgram);
@@ -113,7 +120,7 @@ namespace GlslTutorials
 			float[] projectionMatrixf = new float[16];
 			GL.GetFloat(GetPName.ProjectionMatrix, projectionMatrixf);
 
-			Matrix4 perspectiveFOV = Matrix4.CreatePerspectiveFieldOfView((float)(Math.PI/2), width/height, 1f, 3f);
+			perspectiveFOV = Matrix4.CreatePerspectiveFieldOfView((float)(Math.PI/2), width/height, 1f, 3f);
 			//Matrix4 perspectiveOffCenter = Matrix4.CreatePerspectiveOffCenter(-1.0f, 1.0f, -1.0f, 1.0f, 1f, 3f);
 
 			Shape.SetCameraToClipMatrix(perspectiveFOV);
@@ -267,12 +274,14 @@ namespace GlslTutorials
 		private void DrawGroundShadow(Matrix4 cubeXform)
 		{
 			Matrix4 shadowMat = myShadowMatrix(groundPlane, lightPos);
+			//Matrix4 scale = Matrix4.CreateScale(0.5f);
+			//Matrix4 cubeXformMatrix = Matrix4.Mult(scale, cubeXform);
 			Matrix4 modelToWorld = Matrix4.Mult(cubeXform, shadowMat);
 			if (cubeLMB)
 			{
 				lmb3.SetColor(Colors.SHADOW_COLOR);
 				lmb3.modelToWorld = modelToWorld;
-				SetOffset(0);
+				SetOffset(shadowOffset);
 				lmb3.Draw();
 				SetOffset(lmb3Offset);
 			}
@@ -294,9 +303,9 @@ namespace GlslTutorials
 			{
 				lmb3.SetColor(Colors.SHADOW_COLOR);
 				lmb3.modelToWorld = modelToWorld;
-				//SetOffset(lmb3Offset * -modelToWorld.M43);
+				SetOffset(shadowOffset);
 				lmb3.Draw();
-				//SetOffset(lmb3Offset);
+				SetOffset(lmb3Offset);
 			}
 			else
 			{
@@ -329,9 +338,9 @@ namespace GlslTutorials
 
 			GL.Disable(EnableCap.Blend);
 			if (rotateCube) tick++;
-//			if (tick >= 120) {
-//				tick = 0;
-//			}
+			if (tick >= 1200) {
+				tick = 0;
+			}
 		}
 
 
@@ -357,7 +366,7 @@ namespace GlslTutorials
 			setColor(color);
 
 			for (i = 0; i < 6; ++i) {
-				GL.Normal3(cube_normals[i]);
+				//GL.Normal3(cube_normals[i]);
 				GL.Begin(PrimitiveType.Polygon);
 				GL.Vertex4(cube_vertexes[i][0]);
 				GL.Vertex4(cube_vertexes[i][1]);
@@ -520,6 +529,7 @@ namespace GlslTutorials
 					result.AppendLine("rotation = " + rotation.ToString());
 					result.AppendLine("lmb3.modelToWorld = " + lmb3.modelToWorld.ToString());
 					result.AppendLine("matrixesAreDifferent = " + matrixesAreDifferent.ToString());
+					result.AppendLine("myShadowMatrix(backPlane, lightPos) = " + myShadowMatrix(backPlane, lightPos).ToString());
 					result.AppendLine(Programs.DumpShaders());
 					break;
 				case Keys.K:
@@ -544,6 +554,9 @@ namespace GlslTutorials
 						result.AppendLine("lmb3Offset = " + lmb3Offset);
 					}
 					break;
+				case Keys.Q:
+					tick += 10;
+					break;
 				case Keys.R:
 					if (rotateCube)
 					{ 
@@ -553,6 +566,11 @@ namespace GlslTutorials
 					{
 						rotateCube = true;
 					}
+					break;
+				case Keys.S:
+					shadowOffset += -0.1f;
+					if (shadowOffset < -4f) shadowOffset = 4f;
+					result.AppendLine("shadowOffset = " + shadowOffset.ToString());
 					break;
 				case Keys.Z:
 					if (shadowOffsetZero)

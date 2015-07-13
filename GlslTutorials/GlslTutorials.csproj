@@ -281,6 +281,8 @@
     <Compile Include="Tutorials\Tut_Dither.cs" />
     <Compile Include="Tutorials\Dither_GameWindow.cs" />
     <Compile Include="Textures\SampleTextures.cs" />
+    <Compile Include="Tutorials\Tut_FlightControls.cs" />
+    <Compile Include="Tutorials\Tut_SphericalCoordinates.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />

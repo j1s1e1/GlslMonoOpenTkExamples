@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Text;
+using System.Windows.Forms;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 
@@ -104,6 +106,8 @@ namespace GlslTutorials
 			new float[]{0.0f, 0.0f, 1.0f, 0.0f}
 		};
 
+		bool rotateCube = false;
+
 		protected override void init()
 		{
 			/* setup context */
@@ -158,9 +162,9 @@ namespace GlslTutorials
 			GL.PushMatrix();
 			GL.Translate(0.0, 0.2, 0.0);
 			GL.Scale(0.3, 0.3, 0.3);
-			GL.Rotate((360.0 / (30 * 1)) * tick, 1, 0, 0);
-			GL.Rotate((360.0 / (30 * 2)) * tick, 0, 1, 0);
-			GL.Rotate((360.0 / (30 * 4)) * tick, 0, 0, 1);
+			GL.Rotate((360.0 / (30 * 1)) * tick / 10.0, 1, 0, 0);
+			GL.Rotate((360.0 / (30 * 2)) * tick / 10.0, 0, 1, 0);
+			GL.Rotate((360.0 / (30 * 4)) * tick / 10.0, 0, 0, 1);
 			GL.Scale(1.0, 2.0, 1.0);
 			GL.GetFloat(GetPName.ModelviewMatrix, cubeXform);
 
@@ -190,8 +194,8 @@ namespace GlslTutorials
 			GL.DepthMask(true);
 
 			GL.Disable(EnableCap.Blend);
-			tick++;
-			if (tick >= 120) {
+			if (rotateCube) tick++;
+			if (tick >= 1200) {
 				tick = 0;
 			}
 		}
@@ -296,7 +300,7 @@ namespace GlslTutorials
 			}
 		}
 
-		void myShadowMatrix(float[] ground, float[] light)
+		float[][] myShadowMatrix(float[] ground, float[] light)
 		{
 			float dot;
 			float[][] shadowMat = new float[4][];
@@ -336,6 +340,42 @@ namespace GlslTutorials
 			Array.Copy(shadowMat[3], 0, singleArrayShadowMat, 12, 4);
 
 			GL.MultMatrix(singleArrayShadowMat);
+
+			return shadowMat;
+		}
+
+		public override String keyboard(Keys keyCode, int x, int y)
+		{
+			StringBuilder result = new StringBuilder();
+			result.AppendLine(keyCode.ToString());
+			if (displayOptions)
+			{
+				SetDisplayOptions(keyCode);
+			}
+			else {
+				switch (keyCode) {
+				case Keys.Enter:
+					displayOptions = true;
+					break;
+				case Keys.I:
+					result.AppendLine(AnalysisTools.CreateFromFloats(myShadowMatrix(backPlane, lightPos)).ToString());
+					break;
+				case Keys.Q:
+					tick += 10;
+					break;
+				case Keys.R:
+					if (rotateCube)
+					{ 
+						rotateCube = false;
+					}
+					else
+					{
+						rotateCube = true;
+					}
+					break;
+				}
+			}
+			return result.ToString();
 		}
 	}
 }

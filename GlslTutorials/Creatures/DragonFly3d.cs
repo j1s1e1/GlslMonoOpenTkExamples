@@ -1,5 +1,6 @@
 using System;
 using System.Drawing;
+using OpenTK;
 using OpenTK.Graphics.OpenGL;
 
 namespace GlslTutorials
@@ -114,6 +115,14 @@ namespace GlslTutorials
 				direction = 2;
 			}
 			x = wp + 256;
+		}
+
+		public void SetProgram(int program)
+		{
+			foreach(LitMatrixSphere2 l in body)
+			{
+				l.SetProgram(program);
+			}
 		}
 	}
 }

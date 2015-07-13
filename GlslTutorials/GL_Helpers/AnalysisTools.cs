@@ -163,6 +163,14 @@ namespace GlslTutorials
 			}
 		}
 
+		public static Matrix4 CreateFromFloats(float[][] floats)
+		{
+			return  new Matrix4(floats[0][0], floats[0][1], floats[0][2], floats[0][3],
+				floats[1][0], floats[1][1], floats[1][2], floats[1][3],
+				floats[2][0], floats[2][1], floats[2][2], floats[2][3],
+				floats[3][0], floats[3][1], floats[3][2], floats[3][3]);
+		}
+
 		public static Matrix4 CreateFromFloats(float[] floats)
 		{
 			return  new Matrix4(floats[0], floats[1], floats[2], floats[3],
