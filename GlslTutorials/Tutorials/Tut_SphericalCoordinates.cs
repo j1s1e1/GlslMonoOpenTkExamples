@@ -1,15 +1,17 @@
-﻿using OpenTK;
-using OpenTK.Graphics.OpenGL;
-using System;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
 using System.Windows.Forms;
+
+using OpenTK;
+using OpenTK.Graphics.OpenGL;
 
 namespace GlslTutorials
 {
 	public class Tut_SphericalCoordinates : TutorialBase
 	{
-		Dragonfly3d dragonFly;
+		List<Animal> animals;
 		float totalScale = 1.0f;
 		float minScale = 0.1f;
 		float maxScale = 10f;
@@ -18,59 +20,102 @@ namespace GlslTutorials
 		float theta = 0f;
 		float phi = 0f;
 
-		int systemMovementMatrixUnif;
-		int rotationMatrixUnif;
+		int sphericalProgram;
 
-		int dragonflyProgram;
-
-		Matrix4 dragonflyMatrix = Matrix4.Identity;
-		Matrix4 dragonflyScale = Matrix4.Identity;
-		Matrix4 dragonflyTranslation = Matrix4.Identity;
-		Matrix4 dragonflyRotation = Matrix4.Identity;
+		Matrix4 spericalTransform = Matrix4.Identity;
+		Matrix4 sphericalScale = Matrix4.Identity;
+		Matrix4 sphericalTranslation = Matrix4.Identity;
+		Matrix4 sphericalRotation = Matrix4.Identity;
 
 		Matrix4 rotationTheta = Matrix4.Identity;
 		Matrix4 rotationPhi = Matrix4.Identity;
 		Matrix4 rotationMatrix = Matrix4.Identity;
 
+		int currentAnimal = 0;
+		bool nextAnimal = false;
+		bool addAnimal = false;
+
+		enum animal_enum
+		{
+			DRAGONFLY,
+			LADYBUG,
+			FIREFLY,
+			NUM_ANIMALS,
+		}
+
+		private void SetupSphericalAnimal(Animal animal)
+		{
+			animal.ClearAutoMove();
+			animal.SetProgram(sphericalProgram);
+			animal.SetSystemMatrix(spericalTransform);
+			animal.SetRotationMatrix(rotationMatrix);
+		}
+
 		protected override void init()
 		{
-			dragonFly = new Dragonfly3d(0, 0, 0);
-			dragonFly.ClearAutoMove();
-			dragonflyProgram = Programs.AddProgram(VertexShaders.spherical_lms, FragmentShaders.lms_fragmentShaderCode);
-			dragonflyMatrix = Matrix4.CreateRotationY((float)Math.PI);
-			dragonflyMatrix = Matrix4.Identity;
-			SetSystemMatrix(dragonflyMatrix, dragonflyProgram);
-			dragonFly.SetProgram(dragonflyProgram);
-			dragonflyScale = Matrix4.CreateScale(0.25f);
-			dragonflyTranslation = Matrix4.CreateTranslation(r, 0.0f, 0.0f);
-			UpdateDragonflyMatrix();
-			systemMovementMatrixUnif = GL.GetUniformLocation(Programs.GetProgram(dragonflyProgram), "systemMovementMatrix");
-			rotationMatrixUnif = GL.GetUniformLocation(Programs.GetProgram(dragonflyProgram), "rotationMatrix");
-			SetRotationMatrix(rotationMatrix, dragonflyProgram);
-		}
+			
+			animals = new List<Animal>();
+			Animal animal = new Dragonfly3d();
 
-		private void SetSystemMatrix(Matrix4 matrix, int program)
-		{
-			GL.UseProgram(Programs.GetProgram(program));
-			GL.UniformMatrix4(systemMovementMatrixUnif, false, ref matrix);
-			GL.UseProgram(0);	
-		}
+			sphericalProgram = Programs.AddProgram(VertexShaders.spherical_lms, FragmentShaders.lms_fragmentShaderCode);
+			spericalTransform = Matrix4.CreateRotationY((float)Math.PI);
+			spericalTransform = Matrix4.Identity;
 
-		private void SetRotationMatrix(Matrix4 matrix, int program)
-		{
-			GL.UseProgram(Programs.GetProgram(program));
-			GL.UniformMatrix4(rotationMatrixUnif, false, ref matrix);
-			GL.UseProgram(0);	
+			sphericalScale = Matrix4.CreateScale(0.25f);
+			sphericalTranslation = Matrix4.CreateTranslation(r, 0.0f, 0.0f);
+			UpdateSphericalMatrix();
+			SetupSphericalAnimal(animal);
+			animals.Add(animal);
 		}
 
 		public override void display()
 		{
 			ClearDisplay();
-			dragonFly.Draw();
-			SetSystemMatrix(dragonflyMatrix, dragonflyProgram);
-			SetRotationMatrix(rotationMatrix, dragonflyProgram);
+			float separationAngle = 360 / animals.Count;
+			foreach (Animal a in animals)
+			{
+				a.Draw();
+				a.SetSystemMatrix(spericalTransform);
+				a.SetRotationMatrix(rotationMatrix);
+				ChangeTheta(separationAngle);
+			}
+			if (nextAnimal)
+			{				
+				nextAnimal = false;
+				animals = new List<Animal>();
+				IncrementAnimal();
+				AddAnimal();
+			}
+			if (addAnimal)
+			{
+				addAnimal = false;
+				IncrementAnimal();
+				AddAnimal();
+			}
 		}
 
+		private void IncrementAnimal()
+		{
+			currentAnimal++;
+			if (currentAnimal >= (int)animal_enum.NUM_ANIMALS)
+			{
+				currentAnimal = 0;
+			}
+		}
+
+		private void AddAnimal()
+		{
+			Animal animal;
+			switch(currentAnimal)
+			{
+			case (int)animal_enum.DRAGONFLY: animal = new Dragonfly3d(); break;
+			case (int)animal_enum.LADYBUG: animal = new LadyBug3d(); break;
+			case (int)animal_enum.FIREFLY: animal = new FireFly3d(); break;	
+			default: animal = new Dragonfly3d(); break;
+			}
+			SetupSphericalAnimal(animal);
+			animals.Add(animal);
+		}
 
 		public void SetScale(float scale) {
 			if ((totalScale * scale) > minScale)
@@ -82,24 +127,24 @@ namespace GlslTutorials
 			}
 		}
 
-		private void UpdateDragonflyMatrix()
+		private void UpdateSphericalMatrix()
 		{
-			dragonflyMatrix = Matrix4.Mult(dragonflyTranslation, dragonflyScale);
-			dragonflyMatrix = Matrix4.Mult(dragonflyRotation, dragonflyMatrix);
+			spericalTransform = Matrix4.Mult(sphericalTranslation, sphericalScale);
+			spericalTransform = Matrix4.Mult(sphericalRotation, spericalTransform);
 		}
 
 		private void Rotate(Vector3 rotationAxis, float angle)
 		{
 			Matrix4 rotation = Matrix4.CreateFromAxisAngle(rotationAxis, (float)Math.PI / 180.0f * angle);
-			dragonflyRotation = Matrix4.Mult(rotation, dragonflyRotation);
-			UpdateDragonflyMatrix();
+			sphericalRotation = Matrix4.Mult(rotation, sphericalRotation);
+			UpdateSphericalMatrix();
 		}
 
 		private void Translate(Vector3 translation)
 		{
 			Matrix4 translationMatrix = Matrix4.CreateTranslation(translation);
-			dragonflyTranslation = Matrix4.Mult(translationMatrix, dragonflyTranslation);
-			UpdateDragonflyMatrix();
+			sphericalTranslation = Matrix4.Mult(translationMatrix, sphericalTranslation);
+			UpdateSphericalMatrix();
 		}
 
 		public void receiveMessage(String message)
@@ -137,8 +182,8 @@ namespace GlslTutorials
 		{
 			r = r + rChange;
 			Matrix4 translationMatrix = Matrix4.CreateTranslation(rChange, 0f, 0f);
-			dragonflyTranslation = Matrix4.Mult(translationMatrix, dragonflyTranslation);
-			UpdateDragonflyMatrix();
+			sphericalTranslation = Matrix4.Mult(translationMatrix, sphericalTranslation);
+			UpdateSphericalMatrix();
 		}
 
 		private void ChangeTheta(float thetaChange)
@@ -163,6 +208,7 @@ namespace GlslTutorials
 			StringBuilder result = new StringBuilder();
 			switch (keyCode)
 			{
+			case Keys.A: addAnimal = true; break;
 			case Keys.D1: ChangeRadius(0.05f); break;
 			case Keys.D2: ChangeRadius(-0.05f); break;
 			case Keys.D3: ChangeTheta(5f); break;
@@ -170,7 +216,7 @@ namespace GlslTutorials
 			case Keys.D5: ChangePhi(5f); break;
 			case Keys.D6: ChangePhi(-5f); break;
 			case Keys.I:
-				result.AppendLine("dragonflyMatrix = " + dragonflyMatrix.ToString());
+				result.AppendLine("dragonflyMatrix = " + spericalTransform.ToString());
 				result.AppendLine("rotationMatrix = " + rotationMatrix.ToString());
 				break;
 			case Keys.NumPad8: Translate(new Vector3(0f, 0.05f, 0f)); break;
@@ -182,6 +228,9 @@ namespace GlslTutorials
 			case Keys.D8: Rotate(Vector3.UnitY, -5f); break;
 			case Keys.D9: Rotate(Vector3.UnitX, 5f); break;
 			case Keys.D0: Rotate(Vector3.UnitX, -5f); break;
+			case Keys.N:
+				nextAnimal = true;
+				break;
 
 			}
 			return result.ToString();

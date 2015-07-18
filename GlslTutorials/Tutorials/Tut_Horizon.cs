@@ -9,10 +9,12 @@ namespace GlslTutorials
 	{
 		TextureSphere planet;
 
+		Vector3 offset = new Vector3(0f, -2f, 1f);
+
 		protected override void init()
 		{
 			planet = new TextureSphere(2f, 0.0f);
-			planet.Move(new Vector3(0f, -2f, 1f));
+			planet.Move(offset);
 			SetupDepthAndCull();
 		}
 
@@ -34,6 +36,15 @@ namespace GlslTutorials
 				switch (keyCode) {
 				case Keys.Enter:
 					displayOptions = true;
+					break;
+				case Keys.D1:
+					Shape.RotateWorld(-offset, Vector3.UnitX, 1f);
+					break;
+				case Keys.D2:
+					Shape.RotateWorld(-offset, Vector3.UnitY, 1f);
+					break;
+				case Keys.D3:
+					Shape.RotateWorld(-offset, Vector3.UnitZ, 1f);
 					break;
 				case Keys.D4:
 					planet.RotateAboutCenter(Vector3.UnitX, 5f);

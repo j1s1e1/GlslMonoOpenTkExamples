@@ -48,6 +48,17 @@ namespace GlslTutorials
 				Move();
 			}
 		}
+
+		public override void SetProgram(int program)
+		{
+			base.SetProgram(program);
+			sphere.SetProgram(program);
+
+			foreach(LitMatrixSphere2 w in wings)
+			{
+				w.SetProgram(program);
+			}
+		}
 	}
 }
 

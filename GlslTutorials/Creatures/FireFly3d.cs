@@ -86,6 +86,14 @@ namespace GlslTutorials
 			}
 		}
      
+		public override void SetProgram(int program)
+		{
+			base.SetProgram(program);
+			foreach(LitMatrixSphere2 l in body)
+			{
+				l.SetProgram(program);
+			}
+		}
 	}
 }
 

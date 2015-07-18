@@ -1,18 +1,14 @@
 using System;
 using System.Drawing;
+using OpenTK;
 using OpenTK.Graphics.OpenGL;
 
 namespace GlslTutorials
 {
 	public class BugClass3d : Animal
 	{   
-		public enum bug_move_option_enum
-		{
-			NONE = 0,
-			LADYBUG = 1,
-			FIREFLY = 2,
-
-		}
+		protected Vector3 lastPosition = new Vector3();
+		protected Vector3 position = new Vector3();
         protected float x;
 		protected float y;
 		protected float z;
@@ -24,7 +20,8 @@ namespace GlslTutorials
         static protected Random random = new Random();
 
 		protected float scale = 0.005f;
-		protected bool autoMove = true;
+
+		Movement movement;
 
         public BugClass3d (int x_in, int y_in, int z_in)
         {
@@ -32,6 +29,11 @@ namespace GlslTutorials
             y = y_in;
             z = z_in;
             alive = true;
+			lastPosition = new Vector3(x, y, z);
+			position = lastPosition;
+			Vector3 speed = new Vector3(scale, scale, scale);
+
+			movement = new BugMovement2D(speed);
         } 
         
         private void DrawBug()
@@ -45,67 +47,8 @@ namespace GlslTutorials
                 DrawBug();
             }
         }
-
-        int move_count = 0;
+			
         protected int direction = 0;
-
-        private void SI_Move()
-        {
-            switch (move_count)
-            {
-                case   0:
-                    direction = 1;
-                    break;
-                case  50:
-                    direction = 3;
-                    break;
-                case  60:
-                    direction = 2;
-                    break;
-                case  160:
-                    direction = 3;
-                    break;
-                case  170:
-                    direction = 1;
-                    break;
-                case  270:
-                    direction = 3;
-                    break;
-                case  280:
-                    direction = 2;
-                    break;
-                case  380:
-                    direction = 3;
-                    break;
-                case  390:
-                    direction = 0;
-                    break;
-            }
-            if (direction == 1)
-            {
-                x = x - speed;
-            }
-            if (direction == 2)
-            {
-				x = x + speed;
-            }
-            if (direction == 3)
-            {
-				y = y - speed;
-            }
-            if (direction == 4)
-            {
-				y = y + speed;
-            }
-            move_count++;
-        }
-
-        int repeat_count = 0;
-        int repeat_limit = 50;
-        float x_low = -1;
-		float x_high = 1;
-		float y_low = -1;
-		float y_high = 1;
 
         private void ChaseCheck()
         {
@@ -142,46 +85,20 @@ namespace GlslTutorials
             */
         }
 
-        float speed = 1;
-
-        private void Random_Move ()
+        private void Random_Move()
         {
-            speed = scale;
-            if (repeat_count < repeat_limit)
-            {
-                repeat_count++;
-                ChaseCheck();
-            }
-            else
-            {
-                direction = random.Next(5);
-                repeat_count = random.Next(repeat_limit/2);
-            }
-            if (direction == 1)
-            {
-                x = x - speed;
-                if (x < x_low) repeat_count = repeat_limit;
-            }
-            if (direction == 2)
-            {
-                x = x + speed;
-                if (x > x_high) repeat_count = repeat_limit;
-            }
-            if (direction == 3)
-            {
-                y = y - speed;
-                if (y < y_low) repeat_count = repeat_limit;
-            }
-            if (direction == 4)
-            {
-                y = y + speed;
-                if (y > y_high) repeat_count = repeat_limit;
-            }
-            move_count++;
+			lastPosition = position;
+			position = movement.NewOffset(position);
+			x = position.X;
+			y = position.Y; 
+			z = position.Z;
+			if (movement is BugMovement2D)
+			{
+				direction = ((BugMovement2D)movement).GetDirection();
+			}
+            ChaseCheck();
         }
-
-        public bug_move_option_enum bug_move_option = bug_move_option_enum.LADYBUG;
-
+			
         public static int player_x;
         public static int player_y;
 
@@ -217,31 +134,12 @@ namespace GlslTutorials
             */
         }
 
-		public void SetAutoMove()
-		{
-			autoMove = true;
-		}
-
-		public void ClearAutoMove()
-		{
-			autoMove = false;
-		}
-
         public void Move()
         {
           if (alive)
           {
-            switch(bug_move_option)
-            {
-              case bug_move_option_enum.LADYBUG:
-              Player_Hit ();
-              Random_Move ();
-              break;
-              default:
               Player_Hit();
               Random_Move();
-              break;
-            }
           }
         }
     }

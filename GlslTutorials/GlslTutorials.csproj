@@ -283,6 +283,8 @@
     <Compile Include="Textures\SampleTextures.cs" />
     <Compile Include="Tutorials\Tut_FlightControls.cs" />
     <Compile Include="Tutorials\Tut_SphericalCoordinates.cs" />
+    <Compile Include="Tutorials\Tut_Swarm.cs" />
+    <Compile Include="Movement\BugMovement2D.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />

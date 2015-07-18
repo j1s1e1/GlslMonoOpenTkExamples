@@ -10,6 +10,11 @@ namespace GlslTutorials
 		LitMatrixSphere2 body;
 		LitMatrixBlock2 leftTread;
 		LitMatrixBlock2 rightTread;
+
+		LitMatrixSphere2 bullet;
+		Vector3 bulletDirection = new Vector3();
+		int shotCount = 0;
+
 		float radius = 0.05f;
 		static Random random = new Random();
 		Movement movement = new RandomMovement();
@@ -25,6 +30,8 @@ namespace GlslTutorials
 			leftTread.SetOffset(new Vector3(-radius, 0f, 0f));
 			rightTread = new LitMatrixBlock2(new Vector3(radius/5, 2 * radius, 2 * radius), Colors.RED_COLOR);
 			rightTread.SetOffset(new Vector3(-radius, 0f, 0f));
+			bullet = new LitMatrixSphere2(0.01f);
+			bullet.SetColor(Colors.FLASH_COLOR);
 			float xOffset = random.Next(20)/10f - 1f;
 			float yOffset = random.Next(20)/10f - 1f;
 			float zOffset = random.Next(10)/10f - 0.5f;
@@ -67,6 +74,12 @@ namespace GlslTutorials
 			body.Draw();
 			leftTread.Draw();
 			rightTread.Draw();
+			if (shotCount > 0)
+			{
+				bullet.Draw();
+				bullet.SetOffset(Vector3.Add(bullet.GetOffset(), bulletDirection));
+				shotCount--;
+			}
 			if (frameCount < framesPerMove)
 			{
 				frameCount++;
@@ -113,6 +126,13 @@ namespace GlslTutorials
 		{
 			movement = new SocketMovement();
 		}		
+
+		private void Shoot()
+		{
+			shotCount = 100;
+			bullet.SetOffset(body.GetOffset());
+			bulletDirection = new Vector3(0f, 0.005f, 0f);
+		}
 		
 		public void keyboard(Keys keyCode)
 		{
@@ -120,6 +140,10 @@ namespace GlslTutorials
 			{
 				KeyboardMovement keyboardMovement = (KeyboardMovement) movement;
 				keyboardMovement.keyboard(keyCode);
+			}
+			if (keyCode == Keys.NumPad5)
+			{
+				Shoot();
 			}
 		}
 	}

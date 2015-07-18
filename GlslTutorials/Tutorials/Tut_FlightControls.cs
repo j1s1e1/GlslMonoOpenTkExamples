@@ -10,8 +10,6 @@ namespace GlslTutorials
 	public class Tut_FlightControls : TutorialBase
 	{
 		Dragonfly3d dragonFly;
-		//Vector3 initialScale = new Vector3(0.1f, 0.1f, 0.1f);
-		//Vector3 currentScale = new Vector3(0.1f, 0.1f, 0.1f);
 		float totalScale = 1.0f;
 		float minScale = 0.1f;
 		float maxScale = 10f;

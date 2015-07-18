@@ -5,13 +5,19 @@ namespace GlslTutorials
 {
 	public enum TutorialsEnum
 	{
+		Tut_Swarm,
 		Tut_SphericalCoordinates,
+
+		Tut_Dragonfly,
+		Tut_Zoo,
+
+		Tut_Tanks,
+
 		Tut_FlightControls,
 		Tut_SCubeGLSL,
 		Tut_Dither,
 		Tut_ColorTransform,
 		Tut_Horizon,
-		Tut_Dragonfly,
 
 		Tut_SCube,
 		Tut_ShadowTexture,
@@ -22,8 +28,6 @@ namespace GlslTutorials
 		Tut_15_ManyImages,
 		Tut_FBO_Test,
 		Tut_ShadowMap,
-
-		Tut_Zoo,
 
 		Tut_PaintBox,
 		Tut_PaintBoxSlave,
@@ -47,9 +51,6 @@ namespace GlslTutorials
 		Tut_Marbles,
 
 		Tut_PaintBox2,
-
-
-		Tut_Tanks,
 
 		Tut_RotationTest,
 		Tut_RotateTexture,
@@ -220,7 +221,7 @@ namespace GlslTutorials
 				case TutorialsEnum.Tut_Dither: currentTutorial = new Tut_Dither(); break;
 				case TutorialsEnum.Tut_FlightControls: currentTutorial = new Tut_FlightControls(); break;
 				case TutorialsEnum.Tut_SphericalCoordinates: currentTutorial = new Tut_SphericalCoordinates(); break;
-				
+				case TutorialsEnum.Tut_Swarm: currentTutorial = new Tut_Swarm(); break;
 			}
 		}
 	}

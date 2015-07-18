@@ -18,7 +18,7 @@ namespace GlslTutorials
 		public static float[] BLACK_COLOR = new float[]{0f, 0f, 0f, 1f};
 		public static float[] MAGENTA_COLOR = new float[]{1f, 0f, 1f, 1f};
 		public static float[] GREY_COLOR = new float[]{0.8f, 0.8f, 0.8f, 1.0f};
-
+		public static float[] FLASH_COLOR = new float[]{0x32/256f, 0xF9/256f, 0xB2/256f, 1.0f};
 		public static float[] SHADOW_COLOR = new float[]{0f, 0f, 0f, 0.6f};
 
 		public static float[] DarkOliveGreen = new float[]{0f, 1f, 0f, 1f};
