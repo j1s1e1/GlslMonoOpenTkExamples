@@ -754,10 +754,10 @@ namespace GlslTutorials
 			"void main()" +
 			"{" +
 			"vec4 temp = modelToWorldMatrix * position;" +
-			"temp = worldToCameraMatrix * temp;" +
 			"temp = cameraToClipMatrix * temp;" +
 			"temp = systemMovementMatrix * temp;" +
 			"temp = rotationMatrix * temp;" +
+			"temp = worldToCameraMatrix * temp;" +
 			"v_Position = vec3(temp);" +
 			"v_Normal = normal;" +
 			"gl_Position = temp;" +

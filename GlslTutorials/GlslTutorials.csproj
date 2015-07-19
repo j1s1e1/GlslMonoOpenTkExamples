@@ -285,6 +285,7 @@
     <Compile Include="Tutorials\Tut_SphericalCoordinates.cs" />
     <Compile Include="Tutorials\Tut_Swarm.cs" />
     <Compile Include="Movement\BugMovement2D.cs" />
+    <Compile Include="Movement\SphericalMovement.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />

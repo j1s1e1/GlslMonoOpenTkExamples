@@ -35,6 +35,10 @@ namespace GlslTutorials
 		bool nextAnimal = false;
 		bool addAnimal = false;
 
+		bool rotateWorld = false;
+		float worldRotationAngle = 5f;
+		Vector3 worldRotationAxis = new Vector3(0f, 1f, 0.5f);
+
 		enum animal_enum
 		{
 			DRAGONFLY,
@@ -66,18 +70,27 @@ namespace GlslTutorials
 			UpdateSphericalMatrix();
 			SetupSphericalAnimal(animal);
 			animals.Add(animal);
+			for (int i = 0; i < 12; i++)
+			{
+				IncrementAnimal();
+				AddAnimal();
+			}
 		}
 
 		public override void display()
 		{
 			ClearDisplay();
-			float separationAngle = 360 / animals.Count;
+			float thetaOffset = 0f;
+			float phiOffset = 0f;
+			float thetaStep = 180 / animals.Count;
 			foreach (Animal a in animals)
 			{
 				a.Draw();
 				a.SetSystemMatrix(spericalTransform);
 				a.SetRotationMatrix(rotationMatrix);
-				ChangeTheta(separationAngle);
+				SetThetaPhiOffset(thetaOffset, phiOffset);
+				thetaOffset = thetaOffset + thetaStep;
+				phiOffset = phiOffset + thetaStep * 2f;
 			}
 			if (nextAnimal)
 			{				
@@ -91,6 +104,10 @@ namespace GlslTutorials
 				addAnimal = false;
 				IncrementAnimal();
 				AddAnimal();
+			}
+			if (rotateWorld)
+			{
+				Shape.RotateWorld(worldRotationAxis, worldRotationAngle);
 			}
 		}
 
@@ -195,6 +212,25 @@ namespace GlslTutorials
 			rotationMatrix = Matrix4.Mult(rotationTheta, rotationPhi);
 		}
 
+		private void SetThetaOffset(float thetaoffset)
+		{
+			float thetaOffset = theta +  (float)Math.PI / 180.0f * thetaoffset;
+			rotationTheta = Matrix4.CreateRotationY(thetaOffset);		
+			rotationPhi = Matrix4.CreateFromAxisAngle(
+				new Vector3((float)Math.Sin(thetaOffset), 0f, (float)Math.Cos(thetaOffset)), phi);	
+			rotationMatrix = Matrix4.Mult(rotationTheta, rotationPhi);
+		}
+
+		private void SetThetaPhiOffset(float thetaOffset, float phiOffset)
+		{
+			thetaOffset = theta + (float)Math.PI / 180.0f * thetaOffset;
+			phiOffset = phi + (float)Math.PI / 180.0f * phiOffset;
+			rotationTheta = Matrix4.CreateRotationY(thetaOffset);		
+			rotationPhi = Matrix4.CreateFromAxisAngle(
+				new Vector3((float)Math.Sin(thetaOffset), 0f, (float)Math.Cos(thetaOffset)), phiOffset);	
+			rotationMatrix = Matrix4.Mult(rotationTheta, rotationPhi);
+		}
+			
 		private void ChangePhi(float phiChange)
 		{
 			phi = phi +  (float)Math.PI / 180.0f * phiChange;
@@ -218,6 +254,7 @@ namespace GlslTutorials
 			case Keys.I:
 				result.AppendLine("dragonflyMatrix = " + spericalTransform.ToString());
 				result.AppendLine("rotationMatrix = " + rotationMatrix.ToString());
+				result.AppendLine("worldToCamera = " + Shape.worldToCamera.ToString());
 				break;
 			case Keys.NumPad8: Translate(new Vector3(0f, 0.05f, 0f)); break;
 			case Keys.NumPad2: Translate(new Vector3(0f, -0.05f, 0f)); break;
@@ -228,10 +265,17 @@ namespace GlslTutorials
 			case Keys.D8: Rotate(Vector3.UnitY, -5f); break;
 			case Keys.D9: Rotate(Vector3.UnitX, 5f); break;
 			case Keys.D0: Rotate(Vector3.UnitX, -5f); break;
-			case Keys.N:
-				nextAnimal = true;
+			case Keys.N: nextAnimal = true; break;
+			case Keys.R:
+				if (rotateWorld)
+				{
+					rotateWorld = false;
+				}
+				else
+				{
+					rotateWorld = true;
+				}
 				break;
-
 			}
 			return result.ToString();
 		}

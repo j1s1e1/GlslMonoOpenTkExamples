@@ -26,25 +26,65 @@ namespace GlslTutorials
 		float theta = 0f;
 		float phi = 0f;
 
+		float thetaStep = 15f;
+		float phiStep = 45f;
+
 		Vector3 offset = new Vector3(0f, -2f, 1f);
+
+		bool rotateWorld = true;
+		float worldRotationAngle = 1f;
+		Vector3 worldRotationAxis = new Vector3(0f, 1f, 0.5f);
+
+		int currentAnimal = 0;
+
+		enum animal_enum
+		{
+			DRAGONFLY,
+			LADYBUG,
+			FIREFLY,
+			NUM_ANIMALS,
+		}
 
 		protected override void init()
 		{
 			sphericalProgram = Programs.AddProgram(VertexShaders.spherical_lms, FragmentShaders.lms_fragmentShaderCode);
 
 			planet = new TextureSphere(2f, 0.0f);
-			//planet.Move(offset);
 			Shape.MoveWorld(offset);
 			SetupDepthAndCull();
 
 			sphericalScale = Matrix4.CreateScale(0.25f);
-			sphericalTranslation = Matrix4.CreateTranslation(r, 0f, 0f);  // -8 due to scale
+			sphericalTranslation = Matrix4.CreateTranslation(r, -8f, 4f);  // -8 due to scale
 
 			animals = new List<Animal>();
-			for (int i = 0; i < 100; i++)
+			for (int i = 0; i < 200; i++)
 			{
-				AddDragonfly();
+				AddAnimal();
+				IncrementAnimal();
 			}
+		}
+
+		private void IncrementAnimal()
+		{
+			currentAnimal++;
+			if (currentAnimal >= (int)animal_enum.NUM_ANIMALS)
+			{
+				currentAnimal = 0;
+			}
+		}
+
+		private void AddAnimal()
+		{
+			Animal animal;
+			switch(currentAnimal)
+			{
+			case (int)animal_enum.DRAGONFLY: animal = new Dragonfly3d(); break;
+			case (int)animal_enum.LADYBUG: animal = new LadyBug3d(); break;
+			case (int)animal_enum.FIREFLY: animal = new FireFly3d(); break;	
+			default: animal = new Dragonfly3d(); break;
+			}
+			SetupSphericalAnimal(animal);
+			animals.Add(animal);
 		}
 
 		private void SetupSphericalAnimal(Animal animal)
@@ -65,15 +105,22 @@ namespace GlslTutorials
 		public override void display()
 		{
 			ClearDisplay();
+			float thetaOffset = 0f;
+			float phiOffset = 0f;
 			planet.Draw();
 			foreach (Animal a in animals)
 			{
-				ChangePhi(3.6f);
-				ChangeTheta(1.8f);
-				UpdateSphericalMatrix();
 				a.SetSystemMatrix(spericalTransform);
 				a.SetRotationMatrix(rotationMatrix);
 				a.Draw();
+				SetThetaPhiOffset(thetaOffset, phiOffset);
+				thetaOffset = thetaOffset + thetaStep;
+				phiOffset = phiOffset + phiStep;
+				UpdateSphericalMatrix();
+			}
+			if (rotateWorld)
+			{
+				Shape.RotateWorld(-offset, worldRotationAxis, worldRotationAngle);
 			}
 		}
 
@@ -149,8 +196,32 @@ namespace GlslTutorials
 					result.AppendLine(AnalysisTools.CalculateMatrixEffects(planet.modelToWorld));
 					break;
 				case Keys.P:
+					phiStep += 5f;
+					if(phiStep > 90f)
+					{
+						phiStep = 5f;
+					}
+					result.AppendLine("phiStep " + phiStep.ToString());
 					break;
 				case Keys.R:
+					if (rotateWorld)
+					{
+						rotateWorld = false;
+						result.AppendLine("rotateWorld = false");
+					}
+					else
+					{
+						rotateWorld = true;
+						result.AppendLine("rotateWorld = true");
+					}
+					break;
+				case Keys.T:
+					thetaStep += 5f;
+					if(thetaStep > 90f)
+					{
+						thetaStep = 5f;
+					}
+					result.AppendLine("thetaStep " + thetaStep.ToString());
 					break;
 				}
 			}
@@ -199,6 +270,16 @@ namespace GlslTutorials
 			phi = phi +  (float)Math.PI / 180.0f * phiChange;
 			rotationPhi = Matrix4.CreateFromAxisAngle(
 				new Vector3((float)Math.Sin(theta), 0f, (float)Math.Cos(theta)), phi);				
+			rotationMatrix = Matrix4.Mult(rotationTheta, rotationPhi);
+		}
+
+		private void SetThetaPhiOffset(float thetaOffset, float phiOffset)
+		{
+			thetaOffset = theta + (float)Math.PI / 180.0f * thetaOffset;
+			phiOffset = phi + (float)Math.PI / 180.0f * phiOffset;
+			rotationTheta = Matrix4.CreateRotationY(thetaOffset);		
+			rotationPhi = Matrix4.CreateFromAxisAngle(
+				new Vector3((float)Math.Sin(thetaOffset), 0f, (float)Math.Cos(thetaOffset)), phiOffset);	
 			rotationMatrix = Matrix4.Mult(rotationTheta, rotationPhi);
 		}
 	}

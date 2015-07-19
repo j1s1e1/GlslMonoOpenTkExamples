@@ -6,13 +6,14 @@ namespace GlslTutorials
 {
 	public class Animal
 	{
-		int programNumber = -1;
-		int theProgram = -1;
+		protected int programNumber = -1;
+		protected int theProgram = -1;
 		int systemMovementMatrixUnif = -1;
 		int rotationMatrixUnif = -1;
 		LitMatrixSphere2 s;
 
 		protected bool autoMove = true;
+		protected Movement movement;
 
 		public Animal ()
 		{
@@ -24,11 +25,15 @@ namespace GlslTutorials
 			s.Move(v);
 		}
 
-
 		public virtual void Draw()
 		{
 			s.Draw();
 		}      
+
+		public virtual int GetProgram()
+		{
+			return programNumber;
+		}
 
 		public virtual void SetProgram(int program)
 		{
@@ -62,6 +67,16 @@ namespace GlslTutorials
 		public void ClearAutoMove()
 		{
 			autoMove = false;
+		}
+
+		public void SetSphericalMovement(int programNumber, float thetaStep = 1f, float phiStep = 1f)
+		{
+			movement = new SphericalMovement(programNumber, thetaStep, phiStep);
+		}
+
+		public string GetMovementInfo()
+		{
+			return movement.MovementInfo();
 		}
 	}
 }

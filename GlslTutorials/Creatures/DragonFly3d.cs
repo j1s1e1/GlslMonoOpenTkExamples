@@ -32,6 +32,8 @@ namespace GlslTutorials
 			body[5].SetColor(Color.LimeGreen);
 			
 			SetOffsets();
+			programNumber = body[0].GetProgram();
+			theProgram = Programs.GetProgram(programNumber);
 		}
 		
 		private void SetOffsets()

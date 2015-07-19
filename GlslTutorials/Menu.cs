@@ -5,10 +5,11 @@ namespace GlslTutorials
 {
 	public enum TutorialsEnum
 	{
+		Tut_Dragonfly,
 		Tut_Swarm,
 		Tut_SphericalCoordinates,
 
-		Tut_Dragonfly,
+
 		Tut_Zoo,
 
 		Tut_Tanks,

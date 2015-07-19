@@ -20,8 +20,7 @@ namespace GlslTutorials
         static protected Random random = new Random();
 
 		protected float scale = 0.005f;
-
-		Movement movement;
+		protected Vector3 speed;
 
         public BugClass3d (int x_in, int y_in, int z_in)
         {
@@ -31,7 +30,7 @@ namespace GlslTutorials
             alive = true;
 			lastPosition = new Vector3(x, y, z);
 			position = lastPosition;
-			Vector3 speed = new Vector3(scale, scale, scale);
+			speed = new Vector3(scale, scale, scale);
 
 			movement = new BugMovement2D(speed);
         } 
@@ -142,6 +141,11 @@ namespace GlslTutorials
               Random_Move();
           }
         }
+
+		public void SetBug2DMovement()
+		{
+			movement = new BugMovement2D(speed);
+		}
     }
 }
 

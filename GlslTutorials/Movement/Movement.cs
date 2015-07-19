@@ -23,6 +23,8 @@ namespace GlslTutorials
 		
 		protected Vector3 speed = new Vector3(0f, 0f, 0f);
 		protected Vector3 currentPosition = new Vector3(0f, 0f, 0f);
+
+		protected Matrix4 systemMatrix = Matrix4.Identity;
 		
 		virtual public Vector3 NewOffset(Vector3 oldOffset)
 		{
@@ -72,6 +74,16 @@ namespace GlslTutorials
 			Vector3 low = new Vector3(xLimitLow, yLimitLow, zLimitLow);
 			Vector3 high = new Vector3(xLimitHigh, yLimitHigh, zLimitHigh);
 			return low.ToString() + " " + high.ToString();
+		}
+
+		public Matrix4 GetSystemMatrix()
+		{
+			return systemMatrix;
+		}
+
+		public virtual string MovementInfo()
+		{
+			return "Position = " + currentPosition.ToString();
 		}
 	}
 }

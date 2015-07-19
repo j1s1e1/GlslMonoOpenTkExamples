@@ -53,6 +53,7 @@ namespace GlslTutorials
 				if (oldOffset.Y > y_high) repeat_count = repeat_limit;
 			}
 			move_count++;
+			currentPosition = oldOffset;
 			return oldOffset;
 		}
 
