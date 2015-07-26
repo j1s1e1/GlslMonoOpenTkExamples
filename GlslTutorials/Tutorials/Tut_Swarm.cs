@@ -37,6 +37,10 @@ namespace GlslTutorials
 
 		int currentAnimal = 0;
 
+		Random random = new Random();
+
+		bool spherical = false;
+
 		enum animal_enum
 		{
 			DRAGONFLY,
@@ -110,13 +114,13 @@ namespace GlslTutorials
 			planet.Draw();
 			foreach (Animal a in animals)
 			{
-				a.SetSystemMatrix(spericalTransform);
-				a.SetRotationMatrix(rotationMatrix);
+				if (spherical == false) a.SetSystemMatrix(spericalTransform);
+				if (spherical == false) a.SetRotationMatrix(rotationMatrix);
 				a.Draw();
-				SetThetaPhiOffset(thetaOffset, phiOffset);
-				thetaOffset = thetaOffset + thetaStep;
-				phiOffset = phiOffset + phiStep;
-				UpdateSphericalMatrix();
+				if (spherical == false) SetThetaPhiOffset(thetaOffset, phiOffset);
+				if (spherical == false) thetaOffset = thetaOffset + thetaStep;
+				if (spherical == false) phiOffset = phiOffset + phiStep;
+				if (spherical == false) UpdateSphericalMatrix();
 			}
 			if (rotateWorld)
 			{
@@ -213,6 +217,20 @@ namespace GlslTutorials
 					{
 						rotateWorld = true;
 						result.AppendLine("rotateWorld = true");
+					}
+					break;
+				case Keys.S:
+					spherical = true;
+					foreach (Animal a in animals)
+					{						
+						float phiSpeed = (random.Next(20) - 10)/10f;
+						float thetaSpeed = (random.Next(20) - 10)/10f;
+						a.SetProgram(sphericalProgram);
+						a.SetSphericalMovement(sphericalProgram, phiSpeed, thetaSpeed);
+						//a.ChangeRadius(13f);
+						a.Translate(new Vector3(0f, -8f, 4f));
+						//a.Translate(new Vector3(0f, 8f, -4f));
+						a.SetAutoMove();
 					}
 					break;
 				case Keys.T:

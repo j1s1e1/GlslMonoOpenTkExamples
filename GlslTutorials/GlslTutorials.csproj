@@ -286,6 +286,14 @@
     <Compile Include="Tutorials\Tut_Swarm.cs" />
     <Compile Include="Movement\BugMovement2D.cs" />
     <Compile Include="Movement\SphericalMovement.cs" />
+    <Compile Include="Tutorials\Tut_Skeleton.cs" />
+    <Compile Include="BodyParts\Bone.cs" />
+    <Compile Include="Shapes\Pyramid4.cs" />
+    <Compile Include="Shapes\Octahedron.cs" />
+    <Compile Include="Tutorials\Tut_Foot.cs" />
+    <Compile Include="Tutorials\Tut_Hand.cs" />
+    <Compile Include="Creatures\Scorpion.cs" />
+    <Compile Include="BodyParts\Leg.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -333,6 +341,7 @@
     <Folder Include="Objects\Plane\" />
     <Folder Include="Objects\PaintBox\" />
     <Folder Include="Place\" />
+    <Folder Include="BodyParts\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="XmlFilesForMeshes\unitplane.xml" />

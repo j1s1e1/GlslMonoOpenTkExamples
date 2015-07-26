@@ -38,12 +38,12 @@ namespace GlslTutorials
 		
 		private void SetOffsets()
 		{
-			body[0].SetOffset(x, y, z);
-			body[1].SetOffset(x + x_offset, y + y_direction, z);
-			body[2].SetOffset(x + 2 * x_offset, y + 2 * y_direction, z);
-			body[3].SetOffset(x + 3 * x_offset, y + 3 * y_direction, z);
-			body[4].SetOffset(x + 4 * x_offset, y + 4 * y_direction, z);
-			body[5].SetOffset(x + x_offset, y + y_direction + wing_offset, z);
+			body[0].SetOffset(position);
+			body[1].SetOffset(position + new Vector3(+ x_offset, + y_direction, 0f));
+			body[2].SetOffset(position + new Vector3(+ 2 * x_offset, + 2 * y_direction, 0f));
+			body[3].SetOffset(position + new Vector3(+ 3 * x_offset, + 3 * y_direction, 0f));
+			body[4].SetOffset(position + new Vector3(+ 4 * x_offset, + 4 * y_direction, 0f));
+			body[5].SetOffset(position + new Vector3(+ x_offset, + y_direction + wing_offset, 0f));
 		}
 		
 		public override void Draw()
@@ -91,16 +91,16 @@ namespace GlslTutorials
 			switch (key) {
 			case System.Windows.Forms.Keys.NumPad8:
 				{
-					if (y < 500) {
-						y += 2;
+					if (position.Y < 500) {
+						position.Y += 2;
 						y_direction = -5;
 					}
 					break;
 				}
 			case System.Windows.Forms.Keys.NumPad2:
 				{
-					if (y > 12) {
-						y -= 2;
+					if (position.Y > 12) {
+						position.Y -= 2;
 						y_direction = 5;
 					}
 					break;
@@ -110,13 +110,13 @@ namespace GlslTutorials
 		
 	    public void NewWorldPosition(int wp)
 		{
-			if (wp > x - 256) {
+			if (wp > position.X - 256) {
 				direction = 1;
 			}
-			if (wp < x - 256) {
+			if (wp < position.X - 256) {
 				direction = 2;
 			}
-			x = wp + 256;
+			position.X = wp + 256;
 		}
 
 		public override void SetProgram(int program)

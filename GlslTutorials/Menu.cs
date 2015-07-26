@@ -5,12 +5,13 @@ namespace GlslTutorials
 {
 	public enum TutorialsEnum
 	{
+
+		Tut_Zoo,
+		Tut_Hand,
+		Tut_Skeleton,
 		Tut_Dragonfly,
 		Tut_Swarm,
 		Tut_SphericalCoordinates,
-
-
-		Tut_Zoo,
 
 		Tut_Tanks,
 
@@ -223,6 +224,8 @@ namespace GlslTutorials
 				case TutorialsEnum.Tut_FlightControls: currentTutorial = new Tut_FlightControls(); break;
 				case TutorialsEnum.Tut_SphericalCoordinates: currentTutorial = new Tut_SphericalCoordinates(); break;
 				case TutorialsEnum.Tut_Swarm: currentTutorial = new Tut_Swarm(); break;
+				case TutorialsEnum.Tut_Skeleton: currentTutorial = new Tut_Skeleton(); break;
+				case TutorialsEnum.Tut_Hand: currentTutorial = new Tut_Hand(); break;
 			}
 		}
 	}

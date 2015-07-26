@@ -7,16 +7,17 @@ namespace GlslTutorials
 {
 	public class BugClass3d : Animal
 	{   
-		protected Vector3 lastPosition = new Vector3();
-		protected Vector3 position = new Vector3();
-        protected float x;
-		protected float y;
-		protected float z;
 		protected int wing_step = 0;  
 		protected float wing_angle = 0;
         public int size = 25;
         public Color color = Color.Red;
         bool alive;
+		protected int direction = 0;
+		public static int player_x;
+		public static int player_y;
+
+		public static int player_distance = 10;
+
         static protected Random random = new Random();
 
 		protected float scale = 0.005f;
@@ -24,12 +25,11 @@ namespace GlslTutorials
 
         public BugClass3d (int x_in, int y_in, int z_in)
         {
-            x = x_in;
-            y = y_in;
-            z = z_in;
+			position.X = x_in;
+			position.Y = y_in;
+			position.Z = z_in;
             alive = true;
-			lastPosition = new Vector3(x, y, z);
-			position = lastPosition;
+			lastPosition = position;
 			speed = new Vector3(scale, scale, scale);
 
 			movement = new BugMovement2D(speed);
@@ -46,8 +46,6 @@ namespace GlslTutorials
                 DrawBug();
             }
         }
-			
-        protected int direction = 0;
 
         private void ChaseCheck()
         {
@@ -88,20 +86,12 @@ namespace GlslTutorials
         {
 			lastPosition = position;
 			position = movement.NewOffset(position);
-			x = position.X;
-			y = position.Y; 
-			z = position.Z;
 			if (movement is BugMovement2D)
 			{
 				direction = ((BugMovement2D)movement).GetDirection();
 			}
             ChaseCheck();
         }
-			
-        public static int player_x;
-        public static int player_y;
-
-        public static int player_distance = 10;
 
         private void Player_Hit()
         {

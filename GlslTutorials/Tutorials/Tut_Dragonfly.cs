@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Text;
 using System.Windows.Forms;
+using OpenTK;
 
 namespace GlslTutorials
 {
@@ -46,8 +47,21 @@ namespace GlslTutorials
 				dragonfly.SetProgram(dragonflyProgram);
 				dragonfly.SetBug2DMovement();
 				break;
+			case Keys.C:
+				dragonfly.ChangeRadius(0.1f);
+				break;
 			case Keys.I:
 				result.AppendLine(dragonfly.GetMovementInfo());
+				break;
+			case Keys.O:
+				dragonfly.Translate(new Vector3(0.2f, 0.2f, 0.2f));
+				break;
+			case Keys.P:
+				dragonfly.Translate(new Vector3(-0.2f, -0.2f, -0.2f));
+				break;
+			case Keys.R:
+				dragonfly.SetProgram(sphericalProgram);
+				dragonfly.SetSphericalMovement(sphericalProgram, 0.5f, 1f);
 				break;
 			case Keys.S:
 				dragonfly.SetProgram(sphericalProgram);

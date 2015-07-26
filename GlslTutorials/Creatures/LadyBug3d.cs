@@ -1,5 +1,6 @@
 using System;
 using System.Drawing;
+using OpenTK;
 using OpenTK.Graphics.OpenGL;
 
 namespace GlslTutorials
@@ -24,9 +25,9 @@ namespace GlslTutorials
 		
 		private void SetOffsets()
 		{
-			sphere.SetOffset(x, y, z);
-			wings[0].SetOffset(x, y - wing_angle, z);
-			wings[1].SetOffset(x, y + wing_angle, z);
+			sphere.SetOffset(position);
+			wings[0].SetOffset(position + new Vector3(0f, - wing_angle, 0f));
+			wings[1].SetOffset(position + new Vector3(0f, + wing_angle, 0f));
 			wings[0].SetAngles(0, 0, -wing_angle * 10);
 			wings[1].SetAngles(80, 0, wing_angle * 10);
 		}

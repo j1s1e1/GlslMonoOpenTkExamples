@@ -1,5 +1,6 @@
 using System;
 using System.Drawing;
+using OpenTK;
 using OpenTK.Graphics.OpenGL;
 
 namespace GlslTutorials
@@ -38,13 +39,13 @@ namespace GlslTutorials
 		
 		private void SetOffsets()
 		{
-			body[0].SetOffset(x - sizef - scale * 1, y, z);
-			body[1].SetOffset(x, y, z);
-			body[2].SetOffset(x + sizef, y, z);
-			body[3].SetOffset(x + 2 * sizef, y, z);
-			body[4].SetOffset(x + sizef - wingOffset, y - wingOffset, z);
-			body[5].SetOffset(x + sizef - wingOffset, y + wingOffset , z);
-			body[6].SetOffset(x + 2 * sizef, y, z);
+			body[0].SetOffset(position + new Vector3(- sizef - scale * 1, 0f, 0f));
+			body[1].SetOffset(position);
+			body[2].SetOffset(position + new Vector3(+ sizef, 0f, 0f));
+			body[3].SetOffset(position + new Vector3(+ 2 * sizef, 0f, 0f));
+			body[4].SetOffset(position + new Vector3(+ sizef - wingOffset, - wingOffset, 0f));
+			body[5].SetOffset(position + new Vector3(+ sizef - wingOffset, + wingOffset , 0f));
+			body[6].SetOffset(position + new Vector3(+ 2 * sizef, 0f, 0f));
 			
 			body[4].SetAngles(0, 0, -wingOffset * 10);
 			body[5].SetAngles(80, 0, wingOffset * 10);

@@ -85,6 +85,10 @@ namespace GlslTutorials
 		{
 			return "Position = " + currentPosition.ToString();
 		}
+
+		public virtual void Translate(Vector3 offset)
+		{
+		}
 	}
 }
 

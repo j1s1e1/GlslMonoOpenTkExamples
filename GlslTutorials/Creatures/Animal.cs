@@ -6,6 +6,9 @@ namespace GlslTutorials
 {
 	public class Animal
 	{
+		protected Vector3 lastPosition = new Vector3();
+		protected Vector3 position = new Vector3();
+		
 		protected int programNumber = -1;
 		protected int theProgram = -1;
 		int systemMovementMatrixUnif = -1;
@@ -59,6 +62,11 @@ namespace GlslTutorials
 			GL.UseProgram(0);	
 		}
 
+		public bool GetAutoMove()
+		{
+			return autoMove;
+		}
+
 		public void SetAutoMove()
 		{
 			autoMove = true;
@@ -77,6 +85,19 @@ namespace GlslTutorials
 		public string GetMovementInfo()
 		{
 			return movement.MovementInfo();
+		}
+
+		public void Translate(Vector3 offset)
+		{
+			movement.Translate(offset);
+		}
+
+		public void ChangeRadius(float radiusChange)
+		{
+			if (movement is SphericalMovement)
+			{
+				((SphericalMovement)movement).ChangeRadius(radiusChange);
+			}
 		}
 	}
 }

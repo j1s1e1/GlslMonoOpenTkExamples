@@ -11,8 +11,12 @@ namespace GlslTutorials
 	{
 		List<Animal> animals;
 		Exhibit exhibit;
+		int sphericalProgram;
+		float yRotation = 0;
+
 		protected override void init()
 		{
+			sphericalProgram = Programs.AddProgram(VertexShaders.spherical_lms, FragmentShaders.lms_fragmentShaderCode);
 			animals = new List<Animal>();
 			animals.Add(new Animal());
 			exhibit = new Exhibit();
@@ -36,6 +40,7 @@ namespace GlslTutorials
 			DRAGONFLY,
 			LADYBUG,
 			FIREFLY,
+			SCORPION,
 			NUMBER_ANIMALS,
 		}
 
@@ -102,6 +107,7 @@ namespace GlslTutorials
 				case AnimalsEnum.DRAGONFLY: animals.Add(new Dragonfly3d()); break;
 				case AnimalsEnum.LADYBUG: animals.Add(new LadyBug3d()); break;	
 				case AnimalsEnum.FIREFLY: animals.Add(new FireFly3d()); break;	
+				case AnimalsEnum.SCORPION: animals.Add(new Scorpion()); break;	
 				}
 				break;
 			case Keys.N:
@@ -116,6 +122,7 @@ namespace GlslTutorials
 				case AnimalsEnum.DRAGONFLY: animals.Add(new Dragonfly3d()); break;
 				case AnimalsEnum.LADYBUG: animals.Add(new LadyBug3d()); break;	
 				case AnimalsEnum.FIREFLY: animals.Add(new FireFly3d()); break;	
+				case AnimalsEnum.SCORPION: animals.Add(new Scorpion()); break;
 				}
 				break;
 			case Keys.E:
@@ -138,6 +145,30 @@ namespace GlslTutorials
 				else
 				{
 					moveExhibit = true;
+				}
+				break;
+			case Keys.S:
+				foreach (Animal animal in animals)
+				{
+					animal.SetProgram(sphericalProgram);
+					animal.SetSphericalMovement(sphericalProgram, 1f, 0f);
+				}
+				break;
+			case Keys.R:
+				yRotation += 5f;
+				Shape.SetWorldToCameraRotation(0f, yRotation, 0f);
+				break;
+			case Keys.T:
+				foreach (Animal animal in animals)
+				{
+					if (animal.GetAutoMove())
+					{
+						animal.ClearAutoMove();
+					}
+					else
+					{
+						animal.SetAutoMove();
+					}
 				}
 				break;
 			}   
