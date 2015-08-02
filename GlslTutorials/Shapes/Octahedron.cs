@@ -45,6 +45,28 @@ namespace GlslTutorials
 			0f, BOTTOM_EXTENT, 0f,
 		};
 
+		static new float[] vertexData;
+		static new short[] indexData;
+		static new int[] vertexBufferObject = new int[1];
+		static new int[] indexBufferObject = new int[1];
+		static bool vertexDateCreated = false;
+
+		static new void InitializeVertexBuffer()
+		{
+			GL.GenBuffers(1, vertexBufferObject);
+			GL.GenBuffers(1, indexBufferObject);
+
+			GL.BindBuffer(BufferTarget.ElementArrayBuffer, indexBufferObject[0]);
+			GL.BufferData(BufferTarget.ElementArrayBuffer, (IntPtr)(indexData.Length * BYTES_PER_SHORT), 
+				indexData, BufferUsageHint.StaticDraw);
+			GL.BindBuffer(BufferTarget.ElementArrayBuffer, 0);
+
+			GL.BindBuffer(BufferTarget.ArrayBuffer, vertexBufferObject[0]);
+			GL.BufferData(BufferTarget.ArrayBuffer, (IntPtr)(vertexData.Length * BYTES_PER_FLOAT), 
+				vertexData, BufferUsageHint.StaticDraw);
+			GL.BindBuffer(BufferTarget.ArrayBuffer, 0);  
+		}
+
 		public Octahedron (Vector3 sizeIn, float[] colorIn)
 		{
 			size = sizeIn;
@@ -55,15 +77,19 @@ namespace GlslTutorials
 
 			programNumber = Programs.AddProgram(VertexShader, FragmentShader);
 
-			vertexCount = 3 * 8;
-			vertexStride = 3 * 4; // no color for now
-			// fill in index data
-			indexData = lmbIndexData;
+			if (vertexDateCreated == false)
+			{
+				vertexDateCreated = true;
+				vertexCount = 3 * 8;
+				vertexStride = 3 * 4; // no color for now
+				// fill in index data
+				indexData = lmbIndexData;
 
-			// fill in vertex data
-			vertexData = lmbVertexData; //  GetVertexData();
+				// fill in vertex data
+				vertexData = lmbVertexData; //  GetVertexData();
 
-			InitializeVertexBuffer();
+				InitializeVertexBuffer();
+			}
 		}
 
 		~Octahedron()
@@ -86,7 +112,7 @@ namespace GlslTutorials
 
 		public override void Draw()
 		{
-			Programs.Draw(programNumber, vertexBufferObject, indexBufferObject, modelToWorld, indexData.Length, color);
+			Programs.Draw(programNumber, vertexBufferObject[0], indexBufferObject[0], modelToWorld, indexData.Length, color);
 		}
 	}
 }

@@ -11,11 +11,6 @@ namespace GlslTutorials
 		int repeat_count = 0;
 		int repeat_limit = 50;
 
-		float x_low = -1;
-		float x_high = 1;
-		float y_low = -1;
-		float y_high = 1;
-
 		public BugMovement2D(Vector3 speedIn)
 		{
 			speed = speedIn;
@@ -35,22 +30,22 @@ namespace GlslTutorials
 			if (direction == 1)
 			{
 				oldOffset.X = oldOffset.X - speed.X;
-				if (oldOffset.X < x_low) repeat_count = repeat_limit;
+				if (oldOffset.X < xLimitLow) repeat_count = repeat_limit;
 			}
 			if (direction == 2)
 			{
 				oldOffset.X = oldOffset.X + speed.X;
-				if (oldOffset.X > x_high) repeat_count = repeat_limit;
+				if (oldOffset.X > xLimitHigh) repeat_count = repeat_limit;
 			}
 			if (direction == 3)
 			{
 				oldOffset.Y = oldOffset.Y - speed.Y;
-				if (oldOffset.Y < y_low) repeat_count = repeat_limit;
+				if (oldOffset.Y < yLimitLow) repeat_count = repeat_limit;
 			}
 			if (direction == 4)
 			{
 				oldOffset.Y = oldOffset.Y + speed.Y;
-				if (oldOffset.Y > y_high) repeat_count = repeat_limit;
+				if (oldOffset.Y > yLimitHigh) repeat_count = repeat_limit;
 			}
 			move_count++;
 			currentPosition = oldOffset;

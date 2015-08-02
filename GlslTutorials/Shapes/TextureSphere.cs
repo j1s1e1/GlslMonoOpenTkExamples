@@ -178,7 +178,7 @@ namespace GlslTutorials
 		{
 			Programs.SetUniformScale(programNumber, lightScale);
 			Programs.SetTexture(programNumber, textureInt);
-			Programs.Draw(programNumber, vertexBufferObject, indexBufferObject, modelToWorld, indexData.Length, color);
+			Programs.Draw(programNumber, vertexBufferObject[0], indexBufferObject[0], modelToWorld, indexData.Length, color);
 	    }
 	}
 }

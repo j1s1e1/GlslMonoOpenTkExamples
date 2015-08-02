@@ -46,6 +46,7 @@ namespace GlslTutorials
 			DRAGONFLY,
 			LADYBUG,
 			FIREFLY,
+			SCORPION,
 			NUM_ANIMALS,
 		}
 
@@ -61,7 +62,7 @@ namespace GlslTutorials
 			sphericalTranslation = Matrix4.CreateTranslation(r, -8f, 4f);  // -8 due to scale
 
 			animals = new List<Animal>();
-			for (int i = 0; i < 200; i++)
+			for (int i = 0; i < 100; i++)
 			{
 				AddAnimal();
 				IncrementAnimal();
@@ -85,6 +86,7 @@ namespace GlslTutorials
 			case (int)animal_enum.DRAGONFLY: animal = new Dragonfly3d(); break;
 			case (int)animal_enum.LADYBUG: animal = new LadyBug3d(); break;
 			case (int)animal_enum.FIREFLY: animal = new FireFly3d(); break;	
+			case (int)animal_enum.SCORPION: animal = new Scorpion(); break;	
 			default: animal = new Dragonfly3d(); break;
 			}
 			SetupSphericalAnimal(animal);
@@ -97,13 +99,6 @@ namespace GlslTutorials
 			animal.SetProgram(sphericalProgram);
 			animal.SetSystemMatrix(spericalTransform);
 			animal.SetRotationMatrix(rotationMatrix);
-		}
-
-		private void AddDragonfly()
-		{
-			Dragonfly3d dragonFly = new Dragonfly3d(0, 0, 0);
-			SetupSphericalAnimal(dragonFly);
-			animals.Add(dragonFly);
 		}
 
 		public override void display()

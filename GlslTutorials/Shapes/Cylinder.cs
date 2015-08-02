@@ -73,7 +73,7 @@ namespace GlslTutorials
 
 		public override void Draw()
 		{
-			Programs.Draw(programNumber, vertexBufferObject, indexBufferObject, modelToWorld,
+			Programs.Draw(programNumber, vertexBufferObject[0], indexBufferObject[0], modelToWorld,
 				indexData.Length, color);
 		}
 	}

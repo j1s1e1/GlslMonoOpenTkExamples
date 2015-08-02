@@ -9,6 +9,11 @@ namespace GlslTutorials
 		List<Bone> bones;
 
 		int crawlCountOffset = 0;
+
+		static Leg()
+		{
+			SetCrawlRotations();
+		}
 		
 		public Leg (int boneCount)
 		{
@@ -45,6 +50,14 @@ namespace GlslTutorials
 			}
 		}
 
+		public void RotateAngles(Matrix4[] rotations)
+		{
+			for (int i = 0; i < bones.Count; i++)
+			{
+				if (i < rotations.Length) bones[i].Rotate(rotations[i]);
+			}
+		}
+
 		public void Draw()
 		{
 			foreach (Bone b in bones)
@@ -66,35 +79,35 @@ namespace GlslTutorials
 			crawlCountOffset = crawlCountOffsetIn;
 		}
 
+		static Matrix4[][] crawlRotations;
+
+		private static Matrix4[] CreateRotationsX(float[] anglesDeg)
+		{
+			Matrix4[] result = new Matrix4[anglesDeg.Length];
+			for (int i = 0; i < result.Length; i++)
+			{
+				result[i] = Matrix4.CreateRotationX((float)Math.PI / 180.0f * anglesDeg[i]);
+			}
+			return result;
+		}
+
+		private static void SetCrawlRotations()
+		{
+			crawlRotations = new Matrix4[8][];
+			crawlRotations[0] = CreateRotationsX(new float[]{2f, 2f, 0f});
+			crawlRotations[1] = CreateRotationsX(new float[]{3f, 3f, 0f});
+			crawlRotations[2] = CreateRotationsX(new float[]{-2f, -2f, 0f});
+			crawlRotations[3] = CreateRotationsX(new float[]{-3f, -3f, 0f});
+			crawlRotations[4] = CreateRotationsX(new float[]{0f, 0f, 0f});
+			crawlRotations[5] = CreateRotationsX(new float[]{0f, 0f, 0f});
+			crawlRotations[6] = CreateRotationsX(new float[]{0f, 0f, 0f});
+			crawlRotations[7] = CreateRotationsX(new float[]{0f, 0f, 0f});
+
+		}
+
 		public void Crawl(int crawlCount)
 		{
-			switch ((crawlCount + crawlCountOffset) % 8)
-			{
-			case 0:	
-				RotateAngles(new Vector3[]{Vector3.UnitX, Vector3.UnitX, Vector3.UnitX}, new float[]{2f, 2f, 0f}); 
-				break;
-			case 1:	
-				RotateAngles(new Vector3[]{Vector3.UnitX, Vector3.UnitX, Vector3.UnitX}, new float[]{3f, 3f, 0f}); 
-				break;
-			case 2:	
-				RotateAngles(new Vector3[]{Vector3.UnitX, Vector3.UnitX, Vector3.UnitX}, new float[]{-2f, -2f, 0f}); 
-				break;
-			case 3:	
-				RotateAngles(new Vector3[]{Vector3.UnitX, Vector3.UnitX, Vector3.UnitX}, new float[]{-3f, -3f, 0f}); 
-				break;
-			case 4:	
-				RotateAngles(new Vector3[]{Vector3.UnitX, Vector3.UnitX, Vector3.UnitX}, new float[]{0f, 0f, 0f}); 
-				break;
-			case 5:	
-				RotateAngles(new Vector3[]{Vector3.UnitX, Vector3.UnitX, Vector3.UnitX}, new float[]{0f, 0f, 0f}); 
-				break;
-			case 6:	
-				RotateAngles(new Vector3[]{Vector3.UnitX, Vector3.UnitX, Vector3.UnitX}, new float[]{0f, 0f, 0f}); 
-				break;
-			case 7:	
-				RotateAngles(new Vector3[]{Vector3.UnitX, Vector3.UnitX, Vector3.UnitX}, new float[]{0f, 0f, 0f}); 
-				break;
-			}
+			RotateAngles(crawlRotations[(crawlCount + crawlCountOffset) % 8]);
 		}
 	}
 }

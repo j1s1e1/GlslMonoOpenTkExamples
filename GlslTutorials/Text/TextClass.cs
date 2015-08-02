@@ -227,7 +227,7 @@ namespace GlslTutorials
 			
 			if (updateLock == false)
 	        {
-	            Programs.Draw(programNumber, vertexBufferObject, indexBufferObject, mm, indexData.Length, color);
+	            Programs.Draw(programNumber, vertexBufferObject[0], indexBufferObject[0], mm, indexData.Length, color);
 	        }
 	    }
 	}

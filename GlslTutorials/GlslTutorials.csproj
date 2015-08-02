@@ -294,6 +294,7 @@
     <Compile Include="Tutorials\Tut_Hand.cs" />
     <Compile Include="Creatures\Scorpion.cs" />
     <Compile Include="BodyParts\Leg.cs" />
+    <Compile Include="Movement\BugMovement3D.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />

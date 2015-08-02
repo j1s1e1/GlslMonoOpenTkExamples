@@ -95,7 +95,7 @@ namespace GlslTutorials
 			mm = Matrix4.Mult(mm, Matrix4.CreateScale(scale));
 			Programs.SetUniformTexture(programNumber, texUnit);
 			Programs.SetTexture(programNumber, texture);
-			Programs.Draw(programNumber, vertexBufferObject, indexBufferObject, mm, indexData.Length, color);
+			Programs.Draw(programNumber, vertexBufferObject[0], indexBufferObject[0], mm, indexData.Length, color);
 		}
 			
 	}

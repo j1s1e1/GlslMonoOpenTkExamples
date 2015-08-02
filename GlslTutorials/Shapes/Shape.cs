@@ -9,10 +9,7 @@ namespace GlslTutorials
 	{
 		protected static int BYTES_PER_FLOAT = 4;
 	    protected static int BYTES_PER_SHORT = 2;
-		
- 		public static float global_x_offset = 0;
-        public static float global_y_offset = 0;
-        public static float global_z_offset = 0;
+
         public static float global_x_rotate = 0;
         public static float global_y_rotate = 0;
         public static float global_z_rotate = 0;
@@ -433,6 +430,13 @@ namespace GlslTutorials
 		{
 			Matrix4 rotation = Matrix4.CreateFromAxisAngle(rotationAxis, (float)Math.PI / 180.0f * angleDeg);
 			//rotation.Row3 = rotation.Row3 - new Vector4(offset, 0);
+			modelToWorld.Row3 = modelToWorld.Row3 - new Vector4(offset, 0);
+			modelToWorld = Matrix4.Mult(modelToWorld, rotation);
+			modelToWorld.Row3 = modelToWorld.Row3 + new Vector4(offset, 0);
+		}
+
+		public void RotateShape(Vector3 offset, Matrix4 rotation)
+		{
 			modelToWorld.Row3 = modelToWorld.Row3 - new Vector4(offset, 0);
 			modelToWorld = Matrix4.Mult(modelToWorld, rotation);
 			modelToWorld.Row3 = modelToWorld.Row3 + new Vector4(offset, 0);

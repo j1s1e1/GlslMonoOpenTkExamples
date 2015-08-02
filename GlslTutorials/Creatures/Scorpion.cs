@@ -47,7 +47,8 @@ namespace GlslTutorials
 			body = new LitMatrixSphere2(0.1f);
 			body.Scale(new Vector3(2.0f, 0.55f, 1.0f));
 			body.Move(new Vector3(0f, 0.1f, 0.5f));
-
+			movement = new BugMovement3D(new Vector3(0.02f, 0.02f, 0.02f));
+			movement.SetLimits(new Vector3(-0.6f, -0.6f, -0.6f), new Vector3(0.6f, -0.4f, 0.6f));
 		}
 
 		public override void Draw()

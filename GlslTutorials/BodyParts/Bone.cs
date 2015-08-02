@@ -35,11 +35,29 @@ namespace GlslTutorials
 
 		public void Rotate(Vector3 axis, float angleDeg)
 		{
+			Matrix4 rotation = Matrix4.CreateFromAxisAngle(axis, (float)Math.PI / 180.0f * angleDeg);
 			foreach(Shape s in shapes)
 			{
-				s.RotateShape(sphere1position, axis, angleDeg);
+				s.RotateShape(sphere1position, rotation);
 			}
-			Matrix4 rotation = Matrix4.CreateFromAxisAngle(axis, (float)Math.PI / 180.0f * angleDeg);
+			sphere2position = sphere2position - sphere1position;
+			sphere2position = Vector3.TransformVector(sphere2position, rotation);
+			sphere2position = sphere2position + sphere1position;
+			if (children.Count != 0)
+			{
+				foreach (Bone child in children)
+				{
+					child.Move(Vector3.Subtract(sphere2position, child.GetSphere1Position()));
+				}
+			}
+		}
+
+		public void Rotate(Matrix4 rotation)
+		{
+			foreach(Shape s in shapes)
+			{
+				s.RotateShape(sphere1position, rotation);
+			}
 			sphere2position = sphere2position - sphere1position;
 			sphere2position = Vector3.TransformVector(sphere2position, rotation);
 			sphere2position = sphere2position + sphere1position;
@@ -113,6 +131,11 @@ namespace GlslTutorials
 			result.AppendLine("sphere1position = " + sphere1position.ToString());
 			result.AppendLine("sphere2position = " + sphere2position.ToString());
 			return result.ToString();
+		}
+
+		public Bone GetParent()
+		{
+			return parent;
 		}
 
 		public void SetProgram(int program)

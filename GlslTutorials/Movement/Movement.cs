@@ -22,6 +22,7 @@ namespace GlslTutorials
 		protected float maxZmovement = 0.1f;
 		
 		protected Vector3 speed = new Vector3(0f, 0f, 0f);
+		protected Vector3 speedLimit = new Vector3(0.05f, 0.05f, 0.05f);
 		protected Vector3 currentPosition = new Vector3(0f, 0f, 0f);
 
 		protected Matrix4 systemMatrix = Matrix4.Identity;

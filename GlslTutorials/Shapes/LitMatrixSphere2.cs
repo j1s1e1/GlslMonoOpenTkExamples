@@ -8,19 +8,55 @@ namespace GlslTutorials
 	{
 		float radius;
 		private int divideCount;
+
+		static new float[] vertexData;
+		static new short[] indexData;
+		static new int[] vertexBufferObject = new int[]{-1, -1, -1, -1, -1, -1, -1, -1, -1, -1};
+		static new int[] indexBufferObject = new int[10];
+		static new int COORDS_PER_VERTEX = 3;
+
+		static void InitializeVertexBuffer(int divideCount)
+		{
+			GL.GenBuffers(1, out vertexBufferObject[divideCount]);
+			GL.GenBuffers(1, out indexBufferObject[divideCount]);
+
+			GL.BindBuffer(BufferTarget.ElementArrayBuffer, indexBufferObject[divideCount]);
+			GL.BufferData(BufferTarget.ElementArrayBuffer, (IntPtr)(indexData.Length * BYTES_PER_SHORT), 
+				indexData, BufferUsageHint.StaticDraw);
+			GL.BindBuffer(BufferTarget.ElementArrayBuffer, 0);
+
+			GL.BindBuffer(BufferTarget.ArrayBuffer, vertexBufferObject[divideCount]);
+			GL.BufferData(BufferTarget.ArrayBuffer, (IntPtr)(vertexData.Length * BYTES_PER_FLOAT), 
+				vertexData, BufferUsageHint.StaticDraw);
+			GL.BindBuffer(BufferTarget.ArrayBuffer, 0);  
+		}
+
+		static new void SetupSimpleIndexBuffer()
+		{
+			indexData = new short[vertexData.Length/COORDS_PER_VERTEX];
+			for (short i = 0; i < indexData.Length; i++)
+			{
+				indexData[i] = i;
+			}
+		}
 		
-		public LitMatrixSphere2 (float radius_in, int divideCountIn = 4)
+		public LitMatrixSphere2 (float radius_in, int divideCountIn = 1)
 		{
 			divideCount = divideCountIn;
 			radius = radius_in;
-        	vertexCoords = GetCircleCoords(radius);
-			COORDS_PER_VERTEX = 6;
-        	vertexCount = vertexCoords.Length / COORDS_PER_VERTEX;
-		
-			vertexData = vertexCoords;
-			SetupSimpleIndexBuffer();
+			Scale(new Vector3(radius, radius, radius));
+
+			if (vertexBufferObject[divideCount] == -1)
+			{
+				vertexCoords = GetCircleCoords(1.0f);
+				COORDS_PER_VERTEX = 6;
+	        	vertexCount = vertexCoords.Length / COORDS_PER_VERTEX;
 			
-        	InitializeVertexBuffer();
+				vertexData = vertexCoords;
+				SetupSimpleIndexBuffer();
+				
+				InitializeVertexBuffer(divideCount);
+			}
 			
 			programNumber = Programs.AddProgram(VertexShaders.lms_vertexShaderCode, 
               	FragmentShaders.lms_fragmentShaderCode);
@@ -61,7 +97,7 @@ namespace GlslTutorials
 	    {
 			int newVertexCount = indexData.Length / 20 * (last_triangle - first_triangle + 1);
 
-			Programs.Draw(programNumber, vertexBufferObject, indexBufferObject, modelToWorld,
+			Programs.Draw(programNumber, vertexBufferObject[divideCount], indexBufferObject[divideCount], modelToWorld,
 				newVertexCount, color);
 	    }
 	
