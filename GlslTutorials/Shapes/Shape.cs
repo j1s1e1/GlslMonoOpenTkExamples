@@ -205,7 +205,6 @@ namespace GlslTutorials
 			color[0] = colorIn.R / 256f;
 			color[1] = colorIn.G / 256f;
 			color[2] = colorIn.B / 256f;
-			
 		}
 		
 		public virtual void SetColor(float[] new_color)

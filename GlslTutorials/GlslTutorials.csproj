@@ -301,6 +301,7 @@
     <Compile Include="Creatures\Butterfly.cs" />
     <Compile Include="Objects\Plane\PlaneWing.cs" />
     <Compile Include="BodyParts\Wing.cs" />
+    <Compile Include="Place\Dandelions.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -412,5 +413,11 @@
     <None Include="Textures\Butterfly\moth1.png" />
     <None Include="Textures\Butterfly\swallowtail.png" />
     <None Include="Textures\Butterfly\swallowtail256.png" />
+    <None Include="Blender\dandelion.bin" />
+    <None Include="Blender\dandelion.obj" />
+    <None Include="Blender\grassonly.obj" />
+    <None Include="Textures\Butterfly\butterfly3.png" />
+    <None Include="Textures\Butterfly\dragonfly1.png" />
+    <None Include="Textures\Butterfly\greenbutterfly.png" />
   </ItemGroup>
 </Project>

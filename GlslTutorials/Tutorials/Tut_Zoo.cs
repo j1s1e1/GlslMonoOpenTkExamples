@@ -15,14 +15,18 @@ namespace GlslTutorials
 		int sphericalTextureProgram;
 		float yRotation = 0;
 		bool autoMove = true;
+		bool autoRotate = true;
 
 		protected override void init()
 		{
 			sphericalProgram = Programs.AddProgram(VertexShaders.spherical_lms, FragmentShaders.lms_fragmentShaderCode);
 			sphericalTextureProgram = Programs.AddProgram(VertexShaders.SphericalMatrixTexture, FragmentShaders.MatrixTextureTest);
 			animals = new List<Animal>();
-			animals.Add(new Butterfly());
-			exhibit = new Exhibit();
+			for (int i = 0; i< 20; i++)
+			{
+				animals.Add(new Butterfly());
+			}
+			exhibit = new Dandelions();
 			GL.Enable(EnableCap.DepthTest);
 		}
 
@@ -33,6 +37,11 @@ namespace GlslTutorials
 			foreach(Animal a in animals)
 			{
 				a.Draw();
+			}
+			if (autoRotate)
+			{
+				yRotation += 0.1f;
+				Shape.SetWorldToCameraRotation(0f, yRotation, 0f);
 			}
 		}
 
@@ -52,6 +61,7 @@ namespace GlslTutorials
 		{
 			DEFAULT,
 			CAGE,
+			DANDELION,
 			GRASS,
 			RIVER,
 			NUMBER_EXHIBITS,
@@ -144,6 +154,7 @@ namespace GlslTutorials
 				case ExhibitsEnum.CAGE: exhibit = new Cage(); break;
 				case ExhibitsEnum.GRASS: exhibit = new Grass(); break;
 				case ExhibitsEnum.RIVER: exhibit = new River(); break;
+				case ExhibitsEnum.DANDELION: exhibit = new Dandelions(); break;
 				}
 				break;
 			case Keys.M:
@@ -207,6 +218,16 @@ namespace GlslTutorials
 					{
 						animal.ClearAutoMove();
 					}
+				}
+				break;
+			case Keys.V:
+				if (autoRotate)
+				{
+					autoRotate = false;
+				}
+				else
+				{
+					autoRotate = true;
 				}
 				break;
 			case Keys.Add:

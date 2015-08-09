@@ -9,6 +9,8 @@ namespace GlslTutorials
 	{
 		Wing[] wings;
 		int rotateCount = 0;
+		int rotateAngle = 0;
+		int rotateDirection = 1;
 
 		enum wingTextureEnum
 		{
@@ -53,7 +55,9 @@ namespace GlslTutorials
 			wings[1].SetRotationAxis(-Vector3.UnitY);
 			wings[1].Scale(new Vector3(scale/10f, scale/10f, scale/10f));
 			movement = new BugMovement3D(new Vector3(0.02f, 0.02f, 0.02f));
-			movement.SetLimits(new Vector3(-0.6f, -0.6f, -0.6f), new Vector3(0.6f, -0.4f, 0.6f));
+			movement.SetLimits(new Vector3(-0.6f, -0.6f, -0.6f), new Vector3(0.6f, 0.6f, 0.6f));
+			wings[0].Rotate(Vector3.UnitX, 270f);
+			wings[1].Rotate(Vector3.UnitX, 270f);
 		}
 
 		public void SetFlapEnable(bool flapEnable)
@@ -81,7 +85,13 @@ namespace GlslTutorials
 					w.Move(Vector3.Subtract(position, lastPosition));
 					if ((rotateCount % (18 * 1)) == 0)
 					{
-						w.Rotate(Vector3.UnitX, 1f);
+						rotateAngle++;
+						if(rotateAngle > 135)
+						{
+							rotateAngle = 0;
+							rotateDirection = -rotateDirection;
+						}
+						w.Rotate(Vector3.UnitX, rotateDirection);
 					}
 				}
 				Move();

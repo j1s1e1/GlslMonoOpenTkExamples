@@ -104,9 +104,7 @@ namespace GlslTutorials
 		
 		public override void Draw()
 		{
-			Matrix4 mm = Rotate(modelToWorld, axis, angle);
-			
-			Programs.Draw(programNumber, vertexBufferObject[0], indexBufferObject[0], mm, indexData.Length, color);
+			Programs.Draw(programNumber, vertexBufferObject[0], indexBufferObject[0], modelToWorld, indexData.Length, color);
 		}
 		
 		public List<byte> GetBinaryBlenderObject()
