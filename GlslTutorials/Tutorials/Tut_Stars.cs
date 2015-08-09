@@ -6,7 +6,7 @@ namespace GlslTutorials
 	public class Tut_Stars : TutorialBase
 	{
 		List<Star> stars;
-		int count = 100;
+		int count = 1000;
 		protected override void init ()
 		{
 			stars = new List<Star>();

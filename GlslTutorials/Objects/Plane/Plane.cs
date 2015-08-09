@@ -7,8 +7,8 @@ namespace GlslTutorials
 	{
 		LitMatrixBlock3 body;
 		LitMatrixBlock3 tail;
-		Wing rightWing;
-		Wing leftWing;
+		PlaneWing rightWing;
+		PlaneWing leftWing;
 		Vector3 offset = new Vector3(0f, 0f, 0f);
 
 		public Plane ()
@@ -16,10 +16,10 @@ namespace GlslTutorials
 			body = new LitMatrixBlock3(new Vector3(0.1f, 0.1f, 0.6f), Colors.GREEN_COLOR);
 			tail = new LitMatrixBlock3(new Vector3(0.1f, 0.1f, 0.1f), Colors.GREEN_COLOR);
 			tail.Move(new Vector3(0f, 0.05f, -0.25f));
-			rightWing = new Wing();
+			rightWing = new PlaneWing();
 			rightWing.Move(new Vector3(0.05f, 0f, 0f));
 
-			leftWing = new Wing();
+			leftWing = new PlaneWing();
 			leftWing.RotateShape(new Vector3(0f, 0f, 1f), 180f);
 			leftWing.Move(new Vector3(-0.05f, 0f, 0f));
 		}

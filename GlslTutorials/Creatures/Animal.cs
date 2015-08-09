@@ -82,6 +82,14 @@ namespace GlslTutorials
 			movement = new SphericalMovement(programNumber, thetaStep, phiStep);
 		}
 
+		public void ChangeSphericalRadius(float rChange)
+		{
+			if (movement is SphericalMovement)
+			{
+				((SphericalMovement)movement).ChangeRadius(rChange);
+			}
+		}
+
 		public string GetMovementInfo()
 		{
 			return movement.MovementInfo();

@@ -241,7 +241,6 @@
     <Compile Include="Objects\Can.cs" />
     <Compile Include="Tutorials\Tut_Plane.cs" />
     <Compile Include="Objects\Plane\Plane.cs" />
-    <Compile Include="Objects\Plane\Wing.cs" />
     <Compile Include="Objects\Planet.cs" />
     <Compile Include="Tutorials\Tut_Orbit.cs" />
     <Compile Include="Tutorials\Tut_StarMap.cs" />
@@ -267,7 +266,9 @@
     <Compile Include="Place\Grass.cs" />
     <Compile Include="Creatures\LadyBug3d.cs" />
     <Compile Include="Creatures\FireFly3d.cs" />
-    <Compile Include="Creatures\DragonFly3d.cs" />
+    <Compile Include="Creatures\DragonFly3d.cs">
+      <DependentUpon>Scorpion.cs</DependentUpon>
+    </Compile>
     <Compile Include="Creatures\BugClass3d.cs" />
     <Compile Include="Tutorials\Tut_ShadowMap.cs" />
     <Compile Include="GL_Helpers\Glut.cs" />
@@ -295,6 +296,11 @@
     <Compile Include="Creatures\Scorpion.cs" />
     <Compile Include="BodyParts\Leg.cs" />
     <Compile Include="Movement\BugMovement3D.cs" />
+    <Compile Include="Shapes\TextureHeightSphere.cs" />
+    <Compile Include="Tutorials\Tut_3D_Texture.cs" />
+    <Compile Include="Creatures\Butterfly.cs" />
+    <Compile Include="Objects\Plane\PlaneWing.cs" />
+    <Compile Include="BodyParts\Wing.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -343,6 +349,7 @@
     <Folder Include="Objects\PaintBox\" />
     <Folder Include="Place\" />
     <Folder Include="BodyParts\" />
+    <Folder Include="Textures\Butterfly\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="XmlFilesForMeshes\unitplane.xml" />
@@ -399,5 +406,11 @@
     <None Include="Textures\grass.jpg" />
     <None Include="Textures\water1.jpg" />
     <None Include="Textures\colors.png" />
+    <None Include="Textures\heightmap.bmp" />
+    <None Include="Textures\Butterfly\butterfly2.png" />
+    <None Include="Textures\Butterfly\monarch.png" />
+    <None Include="Textures\Butterfly\moth1.png" />
+    <None Include="Textures\Butterfly\swallowtail.png" />
+    <None Include="Textures\Butterfly\swallowtail256.png" />
   </ItemGroup>
 </Project>

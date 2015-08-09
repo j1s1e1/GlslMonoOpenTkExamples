@@ -12,13 +12,15 @@ namespace GlslTutorials
 		List<Animal> animals;
 		Exhibit exhibit;
 		int sphericalProgram;
+		int sphericalTextureProgram;
 		float yRotation = 0;
 
 		protected override void init()
 		{
 			sphericalProgram = Programs.AddProgram(VertexShaders.spherical_lms, FragmentShaders.lms_fragmentShaderCode);
+			sphericalTextureProgram = Programs.AddProgram(VertexShaders.SphericalMatrixTexture, FragmentShaders.MatrixTextureTest);
 			animals = new List<Animal>();
-			animals.Add(new Animal());
+			animals.Add(new Butterfly());
 			exhibit = new Exhibit();
 			GL.Enable(EnableCap.DepthTest);
 		}
@@ -41,6 +43,7 @@ namespace GlslTutorials
 			LADYBUG,
 			FIREFLY,
 			SCORPION,
+			BUTTERFLY,
 			NUMBER_ANIMALS,
 		}
 
@@ -53,7 +56,7 @@ namespace GlslTutorials
 			NUMBER_EXHIBITS,
 		}
 
-		AnimalsEnum currentAnimal = AnimalsEnum.CAT;
+		AnimalsEnum currentAnimal = AnimalsEnum.BUTTERFLY;
 
 		ExhibitsEnum currentExhibit = ExhibitsEnum.DEFAULT;
 
@@ -108,7 +111,11 @@ namespace GlslTutorials
 				case AnimalsEnum.LADYBUG: animals.Add(new LadyBug3d()); break;	
 				case AnimalsEnum.FIREFLY: animals.Add(new FireFly3d()); break;	
 				case AnimalsEnum.SCORPION: animals.Add(new Scorpion()); break;	
+				case AnimalsEnum.BUTTERFLY: animals.Add(new Butterfly()); break;	
 				}
+				break;
+			case Keys.I:
+				result.Append(Programs.DumpShaders());
 				break;
 			case Keys.N:
 				int a = (int)currentAnimal + 1;
@@ -123,6 +130,7 @@ namespace GlslTutorials
 				case AnimalsEnum.LADYBUG: animals.Add(new LadyBug3d()); break;	
 				case AnimalsEnum.FIREFLY: animals.Add(new FireFly3d()); break;	
 				case AnimalsEnum.SCORPION: animals.Add(new Scorpion()); break;
+				case AnimalsEnum.BUTTERFLY: animals.Add(new Butterfly()); break;
 				}
 				break;
 			case Keys.E:
@@ -150,8 +158,16 @@ namespace GlslTutorials
 			case Keys.S:
 				foreach (Animal animal in animals)
 				{
-					animal.SetProgram(sphericalProgram);
-					animal.SetSphericalMovement(sphericalProgram, 1f, 0f);
+					if (animal is Butterfly)
+					{
+						animal.SetProgram(sphericalTextureProgram);
+						animal.SetSphericalMovement(sphericalTextureProgram, 1f, 0f);
+					}
+					else
+					{
+						animal.SetProgram(sphericalProgram);
+						animal.SetSphericalMovement(sphericalProgram, 1f, 0f);
+					}
 				}
 				break;
 			case Keys.R:
@@ -169,6 +185,18 @@ namespace GlslTutorials
 					{
 						animal.SetAutoMove();
 					}
+				}
+				break;
+			case Keys.Add:
+				foreach (Animal animal in animals)
+				{
+					animal.ChangeRadius(0.1f);
+				}
+				break;
+			case Keys.Subtract:
+				foreach (Animal animal in animals)
+				{
+					animal.ChangeRadius(-0.1f);
 				}
 				break;
 			}   

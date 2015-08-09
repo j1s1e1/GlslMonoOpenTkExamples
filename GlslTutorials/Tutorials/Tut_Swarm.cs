@@ -12,6 +12,7 @@ namespace GlslTutorials
 		List<Animal> animals;
 
 		int sphericalProgram;
+		int sphericalTextureProgram;
 
 		Matrix4 spericalTransform = Matrix4.Identity;
 		Matrix4 sphericalScale = Matrix4.Identity;
@@ -47,12 +48,14 @@ namespace GlslTutorials
 			LADYBUG,
 			FIREFLY,
 			SCORPION,
+			BUTTERFLY,
 			NUM_ANIMALS,
 		}
 
 		protected override void init()
 		{
 			sphericalProgram = Programs.AddProgram(VertexShaders.spherical_lms, FragmentShaders.lms_fragmentShaderCode);
+			sphericalTextureProgram = Programs.AddProgram(VertexShaders.SphericalMatrixTexture, FragmentShaders.MatrixTextureTest);
 
 			planet = new TextureSphere(2f, 0.0f);
 			Shape.MoveWorld(offset);
@@ -87,6 +90,7 @@ namespace GlslTutorials
 			case (int)animal_enum.LADYBUG: animal = new LadyBug3d(); break;
 			case (int)animal_enum.FIREFLY: animal = new FireFly3d(); break;	
 			case (int)animal_enum.SCORPION: animal = new Scorpion(); break;	
+			case (int)animal_enum.BUTTERFLY: animal = new Butterfly(); break;	
 			default: animal = new Dragonfly3d(); break;
 			}
 			SetupSphericalAnimal(animal);
@@ -96,7 +100,14 @@ namespace GlslTutorials
 		private void SetupSphericalAnimal(Animal animal)
 		{
 			animal.ClearAutoMove();
-			animal.SetProgram(sphericalProgram);
+			if (animal is Butterfly)
+			{
+				animal.SetProgram(sphericalTextureProgram);
+			}
+			else
+			{
+				animal.SetProgram(sphericalProgram);
+			}
 			animal.SetSystemMatrix(spericalTransform);
 			animal.SetRotationMatrix(rotationMatrix);
 		}
@@ -220,7 +231,14 @@ namespace GlslTutorials
 					{						
 						float phiSpeed = (random.Next(20) - 10)/10f;
 						float thetaSpeed = (random.Next(20) - 10)/10f;
-						a.SetProgram(sphericalProgram);
+						if (a is Butterfly)
+						{
+							a.SetProgram(sphericalTextureProgram);
+						}
+						else
+						{
+							a.SetProgram(sphericalProgram);
+						}
 						a.SetSphericalMovement(sphericalProgram, phiSpeed, thetaSpeed);
 						//a.ChangeRadius(13f);
 						a.Translate(new Vector3(0f, -8f, 4f));

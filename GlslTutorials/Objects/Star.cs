@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using OpenTK;
 
 namespace GlslTutorials
@@ -13,7 +14,14 @@ namespace GlslTutorials
 
 		public Star ()
 		{
-			body = new LitMatrixSphere2(0.05f);
+			body = new LitMatrixSphere2(0.01f);
+			int color = random.Next(3);
+			switch (color)
+			{
+			case 0: body.SetColor(Color.DarkRed); break;
+			case 1: body.SetColor(Color.BlueViolet); break;
+			case 2: body.SetColor(Color.LightGoldenrodYellow); break;
+			}
 			float x = (float)random.NextDouble() - 0.5f;
 			float y = (float)random.NextDouble() - 0.5f;
 			float z = (float)random.NextDouble()/2f;

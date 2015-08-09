@@ -461,6 +461,11 @@ namespace GlslTutorials
 			worldToCamera.M33 = scale.Z;
 		}
 
+		public void SetRotation(Vector3 axis, float angleDeg)
+		{
+			SetRotation(Matrix3.CreateFromAxisAngle(axis, (float)Math.PI / 180f * angleDeg));
+		}
+
 		public void SetRotation(Matrix3 rotation)
 		{
 			modelToWorld.Row0 = new Vector4(rotation.Row0, modelToWorld.M14);

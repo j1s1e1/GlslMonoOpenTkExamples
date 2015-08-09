@@ -3,10 +3,10 @@ using OpenTK;
 
 namespace GlslTutorials
 {
-	public class Wing
+	public class PlaneWing
 	{
 		LitMatrixBlock3 lmb;
-		public Wing ()
+		public PlaneWing()
 		{
 			lmb = new LitMatrixBlock3(new Vector3(0.4f, 0.05f, 0.15f), Colors.GREEN_COLOR);
 		}

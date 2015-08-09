@@ -5,8 +5,14 @@ namespace GlslTutorials
 {
 	public enum TutorialsEnum
 	{
-
 		Tut_Zoo,
+		Tut_Plane,
+
+		Tut_SolarSystem,
+		Tut_Stars,
+		Tut_Spheres,
+		Tut_Horizon,
+
 		Tut_Hand,
 		Tut_Skeleton,
 		Tut_Dragonfly,
@@ -19,7 +25,6 @@ namespace GlslTutorials
 		Tut_SCubeGLSL,
 		Tut_Dither,
 		Tut_ColorTransform,
-		Tut_Horizon,
 
 		Tut_SCube,
 		Tut_ShadowTexture,
@@ -45,9 +50,7 @@ namespace GlslTutorials
 
 		Tut_Orbit,
 		Tut_StarMap,
-		Tut_SolarSystem,
 
-		Tut_Plane,
 		Tut_Cans,
 		Tut_Throw,
 		Tut_Marbles,
@@ -58,7 +61,6 @@ namespace GlslTutorials
 		Tut_RotateTexture,
 
 		Tut_Buildings,
-		Tut_Stars,
 
 		Tut_TexturePerspective,
 		Tut_WireFramePerspective,
@@ -75,8 +77,6 @@ namespace GlslTutorials
 		Tut_Quaternion,
 		Tut_Projected_Light_Test,
 		Tut_16_Gamma_Landscape,
-
-		Tut_Spheres,
 
 		Tut_ShaderTexture,
 		

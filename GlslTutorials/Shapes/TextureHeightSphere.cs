@@ -6,7 +6,7 @@ using OpenTK.Graphics.OpenGL;
 
 namespace GlslTutorials
 {
-	public class TextureSphere : Shape
+	public class TextureHeightSphere : Shape
 	{
 		float radius;
 		float radiusVariation = 0f;
@@ -20,14 +20,13 @@ namespace GlslTutorials
 		float lightScale = 1.0f;
 		public static bool reverseNormals = false;
 
-		public TextureSphere(float radiusIn, string textureIn = "") : this(radiusIn, 0f, textureIn)
-		{
-			
-		}
+		Color[] colors;
+		float[] heightFactors;
 
-		public TextureSphere(float radiusIn,  float radiusVariationIn, string textureIn = "")
+		public TextureHeightSphere(float radiusIn, Color[] colorsIn, float[] heightFactorsIn, string textureIn = "")
 		{
-			radiusVariation = radiusVariationIn;
+			colors = colorsIn;
+			heightFactors = heightFactorsIn;
 			radius = radiusIn;
 			if (textureIn != "") texture = textureIn;
         	vertexCoords = GetCircleCoords(1f);
@@ -94,6 +93,8 @@ namespace GlslTutorials
 		
 		private void CalculateTextureCoordinates()
 		{
+			string textureFilesDirectory = GlsTutorialsClass.ProjectDirectory + @"/Textures";
+			Bitmap heightMapBitmap = new Bitmap(textureFilesDirectory + "/" + texture);
 			textureCoordinates = new float[vertexCount * TEXTURE_DATA_SIZE_IN_ELEMENTS];
 			for (int vertex = 0; vertex < vertexCount; vertex++)
 			{
@@ -109,6 +110,12 @@ namespace GlslTutorials
 				if (textureCoordinates[vertex * 2] > 1) textureCoordinates[vertex * 2] = 1f;
 				if (textureCoordinates[vertex * 2 + 1] < 0) textureCoordinates[vertex * 2 + 1] = 0f;
 				if (textureCoordinates[vertex * 2 + 1] > 1) textureCoordinates[vertex * 2 + 1] = 1f;
+				// Adjust height
+				int xPixel = (int)(textureCoordinates[vertex * 2] * heightMapBitmap.Width + heightMapBitmap.Width) % heightMapBitmap.Width;
+				int yPixel = (int)(textureCoordinates[vertex * 2 + 1] * heightMapBitmap.Height + heightMapBitmap.Height) % heightMapBitmap.Height;
+				Color color = heightMapBitmap.GetPixel(xPixel, yPixel);
+				vertexData[vertex * 6 + 2] *= GetHeightFactor(color);
+
 			}
 			// center all x coordinates in original 100%
 			for (int vertex = 0; vertex < vertexCount; vertex++)
@@ -153,6 +160,23 @@ namespace GlslTutorials
 			           2);
 			}
 			vertexData = vertexDataWithTextureCoordinates;
+		}
+
+		private float GetHeightFactor(Color color)
+		{
+			float result = 1.0f;
+			for (int colorMatch = 0; colorMatch < colors.Length; colorMatch++)
+			{
+				double distance = 	Math.Pow(color.R - colors[colorMatch].R, 2) + 
+					Math.Pow(color.G - colors[colorMatch].G, 2) +
+					Math.Pow(color.B - colors[colorMatch].B, 2);
+				if (distance < 10)
+				{
+					result = result * heightFactors[colorMatch];
+					break;
+				}
+			}
+			return result;
 		}
 
 		public void AdjustHeights(string heightMap, Color[] colors, float[] heightFactors)

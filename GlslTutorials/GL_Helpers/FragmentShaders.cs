@@ -752,6 +752,42 @@ namespace GlslTutorials
 			"gl_FragColor = vec4(diffuse * textureColor.xyz, textureColor.w);" +
 		"}";
 
+		public static String MatrixNoAlphaScale =
+		"uniform vec3 lightPos;" +       	// The position of the light in eye space.
+
+		"uniform sampler2D diffuseColorTex;" +
+		"uniform float scaleFactor;" +
+
+		"varying vec3 v_Position;" +		// This will be passed into the fragment shader.
+		"varying vec3 v_Normal;" +         	// Interpolated normal for this fragment.
+		"varying vec2 colorCoord;" +
+
+		"void main()" +
+		"{" +
+			// Will be used for attenuation.
+			"float distance = length(lightPos - v_Position);" +
+
+			// Get a lighting direction vector from the light to the vertex.
+			"vec3 lightVector = normalize(lightPos - v_Position);" +
+
+			// Calculate the dot product of the light vector and vertex normal. If the normal and light vector are
+			// pointing in the same direction then it will get max illumination.
+			"float diffuse = max(dot(v_Normal, lightVector), 1.0);" +
+
+			// Add attenuation." +
+			"diffuse = diffuse * (scaleFactor / distance);" +
+
+			// Add ambient lighting"
+			"diffuse = diffuse + 0.2;" +
+
+			"vec4 textureColor = texture2D(diffuseColorTex, colorCoord);" +
+
+			"if (textureColor.w == 0.0) discard;" +
+
+			// Multiply the color by the diffuse illumination level and texture value to get final output color."
+			"gl_FragColor = vec4(diffuse * textureColor.xyz, textureColor.w);" +
+		"}";
+
 		private static String MaterialStructureUniform =
 		"struct Material" +
 		"{" +
@@ -1629,6 +1665,15 @@ namespace GlslTutorials
 			"gl_FragColor = COLOR_MASKS[green];" +
 		"}";
 		
+		public static String MatrixTextureTest =
+			"uniform sampler2D diffuseColorTex;" +
+			"varying vec2 colorCoord;" +
+
+			"void main()" +
+			"{" +
+				"vec4 textureColor = texture2D(diffuseColorTex, colorCoord);" +
+				"gl_FragColor = vec4(textureColor);" +
+			"}";
 
 	}
 }

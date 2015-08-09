@@ -1,12 +1,16 @@
 ﻿<Properties StartupItem="GlslTutorials/GlslTutorials.csproj" GitUserInfo="UsingMD">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="GlslTutorials/Shapes/LitMatrixSphere2.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="GlslTutorials/Creatures/Butterfly.cs">
     <Files>
-      <File FileName="GlslTutorials/Tutorials/Tut_Swarm.cs" Line="86" Column="61" />
-      <File FileName="GlslTutorials/BodyParts/Bone.cs" Line="19" Column="35" />
-      <File FileName="GlslTutorials/Shapes/Shape.cs" Line="49" Column="9" />
-      <File FileName="GlslTutorials/Shapes/LitMatrixSphere2.cs" Line="42" Column="4" />
-      <File FileName="GlslTutorials/Creatures/DragonFly3d.cs" Line="17" Column="3" />
+      <File FileName="GlslTutorials/Creatures/Butterfly.cs" Line="56" Column="4" />
+      <File FileName="GlslTutorials/Tutorials/Tut_Zoo.cs" Line="1" Column="1" />
+      <File FileName="GlslTutorials/Objects/Plane/Plane.cs" Line="1" Column="1" />
+      <File FileName="GlslTutorials/Objects/Plane/PlaneWing.cs" Line="1" Column="1" />
+      <File FileName="GlslTutorials/Tutorials/Tut_Plane.cs" Line="9" Column="24" />
+      <File FileName="GlslTutorials/Menu.cs" Line="9" Column="13" />
+      <File FileName="GlslTutorials/BodyParts/Wing.cs" Line="28" Column="3" />
+      <File FileName="GlslTutorials/Shapes/Shape.cs" Line="464" Column="3" />
+      <File FileName="GlslTutorials/Tutorials/Tut_RotateTexture.cs" Line="110" Column="22" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
@@ -23,6 +27,8 @@
       <Breakpoint file="/home/jamie/repos/CSharp/GlslTutorials/GlslTutorials/Scene/SceneImpl.cs" line="53" column="1" />
       <Breakpoint file="/home/jamie/repos/CSharp/GlslTutorials/GlslTutorials/Scene/SceneImpl.cs" line="54" column="1" />
       <Breakpoint file="/home/jamie/repos/CSharp/GlslTutorials/GlslTutorials/Shapes/Octahedron.cs" line="91" column="1" />
+      <Breakpoint file="/home/jamie/repos/CSharp/GlslTutorials/GlslTutorials/Tutorials/Tut_Horizon.cs" line="136" column="1" />
+      <Breakpoint file="/home/jamie/repos/CSharp/GlslTutorials/GlslTutorials/Tutorials/Tut_Horizon.cs" line="140" column="1" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
