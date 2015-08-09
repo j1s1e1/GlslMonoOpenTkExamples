@@ -8,6 +8,7 @@ namespace GlslTutorials
 	public class Butterfly : BugClass3d
 	{
 		Wing[] wings;
+		int rotateCount = 0;
 
 		enum wingTextureEnum
 		{
@@ -44,11 +45,12 @@ namespace GlslTutorials
 			wings[0] = new Wing(wingTextureString);
 			wings[0].Rotate(Vector3.UnitZ, 180f);
 			wings[0].Scale(new Vector3(scale/10f, scale/10f, scale/10f));
-			wings[0].SetFlapAngle(-flapAngle);
+			wings[0].SetFlapAngle(flapAngle);
 			wings[1] = new Wing(wingTextureString);
 			wings[1].Rotate(Vector3.UnitZ, 180f);
 			wings[1].Rotate(Vector3.UnitY, 180f);
 			wings[1].SetFlapAngle(-flapAngle);
+			wings[1].SetRotationAxis(-Vector3.UnitY);
 			wings[1].Scale(new Vector3(scale/10f, scale/10f, scale/10f));
 			movement = new BugMovement3D(new Vector3(0.02f, 0.02f, 0.02f));
 			movement.SetLimits(new Vector3(-0.6f, -0.6f, -0.6f), new Vector3(0.6f, -0.4f, 0.6f));
@@ -71,13 +73,16 @@ namespace GlslTutorials
 			{
 				w.Draw();
 			}
-			//GL.Disable(EnableCap.AlphaTest);
-			//GL.Enable(EnableCap.CullFace);
 			if (autoMove)
 			{
+				rotateCount++;
 				foreach (Wing w in wings)
 				{
 					w.Move(Vector3.Subtract(position, lastPosition));
+					if ((rotateCount % (18 * 1)) == 0)
+					{
+						w.Rotate(Vector3.UnitX, 1f);
+					}
 				}
 				Move();
 			}

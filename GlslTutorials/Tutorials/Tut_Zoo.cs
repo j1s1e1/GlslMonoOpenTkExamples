@@ -14,6 +14,7 @@ namespace GlslTutorials
 		int sphericalProgram;
 		int sphericalTextureProgram;
 		float yRotation = 0;
+		bool autoMove = true;
 
 		protected override void init()
 		{
@@ -184,6 +185,27 @@ namespace GlslTutorials
 					else
 					{
 						animal.SetAutoMove();
+					}
+				}
+				break;
+			case Keys.U:
+				if (autoMove)
+				{
+					autoMove = false;
+				}
+				else
+				{
+					autoMove = true;
+				}
+				foreach (Animal animal in animals)
+				{
+					if (autoMove)
+					{
+						animal.SetAutoMove();
+					}
+					else
+					{
+						animal.ClearAutoMove();
 					}
 				}
 				break;
